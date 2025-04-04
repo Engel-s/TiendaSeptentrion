@@ -37,10 +37,10 @@ namespace formstienda.capa_de_presentación
 
         private void label1_Click(object sender, EventArgs e)
         {
-            menu menu = new menu();
-            menu.Show();
-            
-            
+            if (PanelContenedor.Controls.Count > 0)
+                PanelContenedor.Controls.RemoveAt(0);
+
+
         }
 
         private void PanelContenedor_Paint(object sender, PaintEventArgs e)
