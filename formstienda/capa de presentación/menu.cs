@@ -37,8 +37,11 @@ namespace formstienda.capa_de_presentación
 
         private void label1_Click(object sender, EventArgs e)
         {
+            lblfecha.Visible = true;
+            lblhora.Visible = true;
             if (PanelContenedor.Controls.Count > 0)
                 PanelContenedor.Controls.RemoveAt(0);
+          
 
 
         }
@@ -56,6 +59,8 @@ namespace formstienda.capa_de_presentación
         }
         public void AbrirformInPanel(Form formHijo)
         {
+            lblfecha.Visible = false;
+            lblhora.Visible = false;
             if (PanelContenedor.Controls.Count > 0)
                 PanelContenedor.Controls.RemoveAt(0); // Elimina el formulario previo
 
@@ -67,6 +72,7 @@ namespace formstienda.capa_de_presentación
             PanelContenedor.Tag = formHijo;
 
             formHijo.Show(); // Muestra el formulario
+            
         }
 
         private void iconButton1_Click(object sender, EventArgs e)
@@ -194,6 +200,16 @@ namespace formstienda.capa_de_presentación
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        public void lblfecha_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public void lblhora_Click(object sender, EventArgs e)
         {
 
         }
