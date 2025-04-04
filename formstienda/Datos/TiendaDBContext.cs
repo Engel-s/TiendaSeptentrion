@@ -235,6 +235,7 @@ public partial class TiendaDBContext : DbContext
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
             entity.Property(e => e.IdCliente).HasColumnName("Id_cliente");
             entity.Property(e => e.IdVenta).HasColumnName("Id_Venta");
+            entity.Property(e => e.CantidadDevueltaDevolucion).HasColumnName("Cantidad_Devuelta_Devolucion");
             entity.Property(e => e.DescripcionDevolucion)
                 .HasMaxLength(500)
                 .IsUnicode(false)
