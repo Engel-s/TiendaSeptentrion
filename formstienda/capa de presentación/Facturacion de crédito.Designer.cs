@@ -67,9 +67,10 @@
             label1.AutoSize = true;
             label1.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(281, 118);
+            label1.Location = new Point(351, 148);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(145, 22);
+            label1.Size = new Size(175, 28);
             label1.TabIndex = 0;
             label1.Text = "Buscar cliente:";
             // 
@@ -77,10 +78,10 @@
             // 
             pictureBox1.Anchor = AnchorStyles.Top;
             pictureBox1.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
-            pictureBox1.Location = new Point(663, 103);
-            pictureBox1.Margin = new Padding(3, 2, 3, 2);
+            pictureBox1.Location = new Point(829, 129);
+            pictureBox1.Margin = new Padding(4, 2, 4, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(47, 40);
+            pictureBox1.Size = new Size(59, 50);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 37;
             pictureBox1.TabStop = false;
@@ -88,10 +89,10 @@
             // textBox1
             // 
             textBox1.Anchor = AnchorStyles.Top;
-            textBox1.Location = new Point(470, 116);
-            textBox1.Margin = new Padding(3, 2, 3, 2);
+            textBox1.Location = new Point(588, 145);
+            textBox1.Margin = new Padding(4, 2, 4, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(165, 27);
+            textBox1.Size = new Size(205, 31);
             textBox1.TabIndex = 38;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
@@ -99,10 +100,10 @@
             // 
             pictureBox2.Anchor = AnchorStyles.Top;
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(89, 65);
-            pictureBox2.Margin = new Padding(3, 2, 3, 2);
+            pictureBox2.Location = new Point(111, 81);
+            pictureBox2.Margin = new Padding(4, 2, 4, 2);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(112, 93);
+            pictureBox2.Size = new Size(140, 116);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 39;
             pictureBox2.TabStop = false;
@@ -114,12 +115,12 @@
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5 });
-            dataGridView1.Location = new Point(28, 174);
-            dataGridView1.Margin = new Padding(3, 2, 3, 2);
+            dataGridView1.Location = new Point(35, 218);
+            dataGridView1.Margin = new Padding(4, 2, 4, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 28;
-            dataGridView1.Size = new Size(1001, 402);
+            dataGridView1.Size = new Size(1251, 502);
             dataGridView1.TabIndex = 41;
             // 
             // Column1
@@ -158,9 +159,10 @@
             label3.AutoSize = true;
             label3.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(45, 651);
+            label3.Location = new Point(56, 814);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(105, 22);
+            label3.Size = new Size(122, 28);
             label3.TabIndex = 42;
             label3.Text = "Córdobas:";
             // 
@@ -170,9 +172,10 @@
             label4.AutoSize = true;
             label4.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(-1, 596);
+            label4.Location = new Point(1, 748);
+            label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(149, 22);
+            label4.Size = new Size(177, 28);
             label4.TabIndex = 43;
             label4.Text = "Total abonado:";
             // 
@@ -182,28 +185,29 @@
             label5.AutoSize = true;
             label5.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(417, 651);
+            label5.Location = new Point(521, 814);
+            label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
-            label5.Size = new Size(90, 22);
+            label5.Size = new Size(106, 28);
             label5.TabIndex = 44;
             label5.Text = "Dólares:";
             // 
             // textBox2
             // 
             textBox2.Anchor = AnchorStyles.Bottom;
-            textBox2.Location = new Point(220, 598);
-            textBox2.Margin = new Padding(3, 2, 3, 2);
+            textBox2.Location = new Point(275, 748);
+            textBox2.Margin = new Padding(4, 2, 4, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(147, 27);
+            textBox2.Size = new Size(183, 31);
             textBox2.TabIndex = 45;
             // 
             // textBox3
             // 
             textBox3.Anchor = AnchorStyles.Bottom;
-            textBox3.Location = new Point(221, 651);
-            textBox3.Margin = new Padding(3, 2, 3, 2);
+            textBox3.Location = new Point(276, 814);
+            textBox3.Margin = new Padding(4, 2, 4, 2);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(147, 27);
+            textBox3.Size = new Size(183, 31);
             textBox3.TabIndex = 46;
             // 
             // button2
@@ -213,10 +217,10 @@
             button2.FlatStyle = FlatStyle.Popup;
             button2.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button2.ForeColor = Color.Black;
-            button2.Location = new Point(271, 733);
-            button2.Margin = new Padding(3, 2, 3, 2);
+            button2.Location = new Point(339, 916);
+            button2.Margin = new Padding(4, 2, 4, 2);
             button2.Name = "button2";
-            button2.Size = new Size(141, 42);
+            button2.Size = new Size(176, 52);
             button2.TabIndex = 48;
             button2.Text = "Guardar";
             button2.UseVisualStyleBackColor = false;
@@ -227,29 +231,30 @@
             label6.AutoSize = true;
             label6.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label6.ForeColor = Color.Black;
-            label6.Location = new Point(733, 651);
+            label6.Location = new Point(916, 814);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(91, 22);
+            label6.Size = new Size(104, 28);
             label6.TabIndex = 49;
             label6.Text = "Cambio:";
             // 
             // textBox4
             // 
             textBox4.Anchor = AnchorStyles.Bottom;
-            textBox4.Location = new Point(542, 651);
-            textBox4.Margin = new Padding(3, 2, 3, 2);
+            textBox4.Location = new Point(678, 814);
+            textBox4.Margin = new Padding(4, 2, 4, 2);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(147, 27);
+            textBox4.Size = new Size(183, 31);
             textBox4.TabIndex = 47;
             // 
             // textBox5
             // 
             textBox5.Anchor = AnchorStyles.Bottom;
-            textBox5.Location = new Point(867, 653);
-            textBox5.Margin = new Padding(3, 2, 3, 2);
+            textBox5.Location = new Point(1084, 816);
+            textBox5.Margin = new Padding(4, 2, 4, 2);
             textBox5.Name = "textBox5";
             textBox5.ReadOnly = true;
-            textBox5.Size = new Size(147, 27);
+            textBox5.Size = new Size(183, 31);
             textBox5.TabIndex = 50;
             // 
             // button1
@@ -259,10 +264,10 @@
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.Black;
-            button1.Location = new Point(62, 731);
-            button1.Margin = new Padding(3, 2, 3, 2);
+            button1.Location = new Point(78, 914);
+            button1.Margin = new Padding(4, 2, 4, 2);
             button1.Name = "button1";
-            button1.Size = new Size(141, 42);
+            button1.Size = new Size(176, 52);
             button1.TabIndex = 51;
             button1.Text = "Cancelar";
             button1.UseVisualStyleBackColor = false;
@@ -271,10 +276,10 @@
             // 
             pictureBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(227, 733);
-            pictureBox4.Margin = new Padding(3, 2, 3, 2);
+            pictureBox4.Location = new Point(284, 916);
+            pictureBox4.Margin = new Padding(4, 2, 4, 2);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(31, 42);
+            pictureBox4.Size = new Size(39, 52);
             pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox4.TabIndex = 52;
             pictureBox4.TabStop = false;
@@ -283,10 +288,10 @@
             // 
             pictureBox3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             pictureBox3.Image = Properties.Resources.prohibido;
-            pictureBox3.Location = new Point(11, 736);
-            pictureBox3.Margin = new Padding(3, 5, 3, 5);
+            pictureBox3.Location = new Point(14, 920);
+            pictureBox3.Margin = new Padding(4, 6, 4, 6);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(45, 35);
+            pictureBox3.Size = new Size(56, 44);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 53;
             pictureBox3.TabStop = false;
@@ -298,10 +303,10 @@
             button3.FlatStyle = FlatStyle.Popup;
             button3.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button3.ForeColor = Color.Black;
-            button3.Location = new Point(894, 744);
-            button3.Margin = new Padding(3, 2, 3, 2);
+            button3.Location = new Point(1118, 930);
+            button3.Margin = new Padding(4, 2, 4, 2);
             button3.Name = "button3";
-            button3.Size = new Size(119, 40);
+            button3.Size = new Size(149, 50);
             button3.TabIndex = 54;
             button3.Text = "Salir";
             button3.UseVisualStyleBackColor = false;
@@ -311,19 +316,19 @@
             // 
             pictureBox6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(857, 742);
-            pictureBox6.Margin = new Padding(3, 2, 3, 2);
+            pictureBox6.Location = new Point(1071, 928);
+            pictureBox6.Margin = new Padding(4, 2, 4, 2);
             pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(31, 42);
+            pictureBox6.Size = new Size(39, 52);
             pictureBox6.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox6.TabIndex = 55;
             pictureBox6.TabStop = false;
             // 
             // Facturacion_de_crédito
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1045, 793);
+            ClientSize = new Size(1306, 991);
             Controls.Add(pictureBox6);
             Controls.Add(button3);
             Controls.Add(pictureBox3);
@@ -345,7 +350,7 @@
             Controls.Add(label1);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(3, 2, 3, 2);
+            Margin = new Padding(4, 2, 4, 2);
             Name = "Facturacion_de_crédito";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Facturacion_de_crédito";
