@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace formstienda.Datos;
 
-public partial class TiendaDBContext : DbContext
+public partial class DbTiendaSeptentrionContext : DbContext
 {
-    public TiendaDBContext()
+    public DbTiendaSeptentrionContext()
     {
     }
 
-    public TiendaDBContext(DbContextOptions<TiendaDBContext> options)
+    public DbTiendaSeptentrionContext(DbContextOptions<DbTiendaSeptentrionContext> options)
         : base(options)
     {
     }
@@ -49,7 +49,7 @@ public partial class TiendaDBContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=ENGELS-DELL5480\\SQLEXPRESS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=Ryuuga-Noxus\\SQLEXPRESS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
