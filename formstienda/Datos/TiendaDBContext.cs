@@ -464,6 +464,10 @@ public partial class TiendaDBContext : DbContext
                 .HasMaxLength(8)
                 .IsUnicode(false)
                 .HasColumnName("Telefono_Usuario");
+            entity.Property(e => e.UsuarioLogueo)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Usuario_Logueo");
         });
 
         modelBuilder.Entity<Ventum>(entity =>
