@@ -35,7 +35,7 @@
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
             label1 = new Label();
-            txtusername = new TextBox();
+            txtrecuperar = new TextBox();
             label3 = new Label();
             linkLabel1 = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -46,10 +46,10 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(435, 314);
-            pictureBox2.Margin = new Padding(3, 2, 3, 2);
+            pictureBox2.Location = new Point(544, 392);
+            pictureBox2.Margin = new Padding(4, 2, 4, 2);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(31, 31);
+            pictureBox2.Size = new Size(39, 39);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 28;
             pictureBox2.TabStop = false;
@@ -59,9 +59,10 @@
             label2.AutoSize = true;
             label2.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(327, 236);
+            label2.Location = new Point(409, 295);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(62, 20);
+            label2.Size = new Size(77, 22);
             label2.TabIndex = 26;
             label2.Text = "Correo";
             // 
@@ -75,10 +76,10 @@
             btnIniciarSesion.FlatStyle = FlatStyle.Popup;
             btnIniciarSesion.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnIniciarSesion.ForeColor = Color.Black;
-            btnIniciarSesion.Location = new Point(472, 314);
-            btnIniciarSesion.Margin = new Padding(3, 2, 3, 2);
+            btnIniciarSesion.Location = new Point(590, 392);
+            btnIniciarSesion.Margin = new Padding(4, 2, 4, 2);
             btnIniciarSesion.Name = "btnIniciarSesion";
-            btnIniciarSesion.Size = new Size(143, 46);
+            btnIniciarSesion.Size = new Size(179, 58);
             btnIniciarSesion.TabIndex = 23;
             btnIniciarSesion.Text = "Recuperar";
             btnIniciarSesion.UseVisualStyleBackColor = false;
@@ -90,18 +91,18 @@
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(3, 2, 3, 2);
+            panel1.Margin = new Padding(4, 2, 4, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(251, 510);
+            panel1.Size = new Size(314, 638);
             panel1.TabIndex = 20;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.logo_actualizado_removebg_preview;
-            pictureBox1.Location = new Point(-113, 59);
-            pictureBox1.Margin = new Padding(3, 2, 3, 2);
+            pictureBox1.Location = new Point(-141, 74);
+            pictureBox1.Margin = new Padding(4, 2, 4, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(464, 374);
+            pictureBox1.Size = new Size(580, 468);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -112,35 +113,37 @@
             label1.AutoSize = true;
             label1.Font = new Font("Calisto MT", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(337, 70);
+            label1.Location = new Point(421, 88);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(399, 46);
+            label1.Size = new Size(484, 54);
             label1.TabIndex = 18;
             label1.Text = "Recuperar contraseña";
             label1.TextAlign = ContentAlignment.TopCenter;
             label1.Click += label1_Click;
             // 
-            // txtusername
+            // txtrecuperar
             // 
-            txtusername.BackColor = Color.White;
-            txtusername.BorderStyle = BorderStyle.FixedSingle;
-            txtusername.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtusername.ForeColor = Color.Black;
-            txtusername.Location = new Point(419, 236);
-            txtusername.Margin = new Padding(3, 2, 3, 2);
-            txtusername.Multiline = true;
-            txtusername.Name = "txtusername";
-            txtusername.Size = new Size(320, 37);
-            txtusername.TabIndex = 21;
+            txtrecuperar.BackColor = Color.White;
+            txtrecuperar.BorderStyle = BorderStyle.FixedSingle;
+            txtrecuperar.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtrecuperar.ForeColor = Color.Black;
+            txtrecuperar.Location = new Point(524, 295);
+            txtrecuperar.Margin = new Padding(4, 2, 4, 2);
+            txtrecuperar.Multiline = true;
+            txtrecuperar.Name = "txtrecuperar";
+            txtrecuperar.Size = new Size(400, 46);
+            txtrecuperar.TabIndex = 21;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(310, 170);
+            label3.Location = new Point(388, 212);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(377, 20);
+            label3.Size = new Size(476, 22);
             label3.TabIndex = 29;
             label3.Text = "Por favor ingresar el correo asociado a su usuario.";
             // 
@@ -153,9 +156,10 @@
             linkLabel1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             linkLabel1.ForeColor = Color.Black;
             linkLabel1.LinkColor = Color.Black;
-            linkLabel1.Location = new Point(430, 390);
+            linkLabel1.Location = new Point(538, 488);
+            linkLabel1.Margin = new Padding(4, 0, 4, 0);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(231, 25);
+            linkLabel1.Size = new Size(276, 29);
             linkLabel1.TabIndex = 19;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "¿Desea iniciar sesión?";
@@ -164,19 +168,19 @@
             // 
             // Recuperarcontraseña
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(855, 510);
+            ClientSize = new Size(1069, 638);
             Controls.Add(label3);
             Controls.Add(pictureBox2);
             Controls.Add(label2);
             Controls.Add(btnIniciarSesion);
-            Controls.Add(txtusername);
+            Controls.Add(txtrecuperar);
             Controls.Add(panel1);
             Controls.Add(linkLabel1);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(3, 4, 3, 4);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Recuperarcontraseña";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form5";
@@ -196,7 +200,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtusername;
+        private System.Windows.Forms.TextBox txtrecuperar;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel linkLabel1;
     }

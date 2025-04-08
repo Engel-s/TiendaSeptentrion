@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.ApplicationServices;
+using formstienda.Acceso_Datos.Sqlserver;
 
 namespace formstienda
 {
@@ -24,9 +26,21 @@ namespace formstienda
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-            Login form1 = new Login();
-            form1.Show();
-            this.Close();
+            string correoUsuario = txtrecuperar.Text; // Capturamos el correo ingresado por el usuario
+
+            // Validamos que el campo no esté vacío
+            if (string.IsNullOrEmpty(correoUsuario))
+            {
+                MessageBox.Show("Por favor, ingresa tu correo electrónico.");
+                return;
+            }
+
+            // Llamamos al método para recuperar la contraseña
+            Datosusuario datosUsuario = new Datosusuario();
+            string mensaje = datosUsuario.recoverpassword(correoUsuario);
+
+            // Mostramos el resultado al usuario
+            MessageBox.Show(mensaje);
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
