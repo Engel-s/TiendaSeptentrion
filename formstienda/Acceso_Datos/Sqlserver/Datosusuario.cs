@@ -1,4 +1,4 @@
-﻿using formstienda.Datos;
+﻿//using formstienda.Datos;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;

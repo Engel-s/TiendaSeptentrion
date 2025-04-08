@@ -100,7 +100,7 @@ namespace formstienda
             {
                 if (txtpassword.Text != "")
                 {
-                    using (var context = new TiendaDBContext())
+                    using (var context = new DbTiendaSeptentrionContext())
                     {
                         var usuarioValido = context.Usuarios
                             .FirstOrDefault(u => u.NombreUsuario == usuario && u.ContraseñaUsuario == contraseña);
