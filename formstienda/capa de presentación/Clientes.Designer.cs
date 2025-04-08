@@ -194,7 +194,7 @@
             btnregistrar.TabIndex = 66;
             btnregistrar.Text = "Registrar";
             btnregistrar.UseVisualStyleBackColor = false;
-            btnregistrar.Click += btnregistrar_Click;
+         
             // 
             // txtcedula
             // 

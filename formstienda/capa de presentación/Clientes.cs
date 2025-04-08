@@ -71,12 +71,12 @@ namespace formstienda.capa_de_presentación
         {
             var cliente = new Cliente();
             {
-               //no esta en uso la tabla/verificar si esta en uso 
-                NombreCliente = txtnombrecliente.Text;
-                Apellid = txtapellidocliente.Text;
-                DireccionCliente = txtdireccion.Text;
-                ColillaInssCliente = txtcolillainss;
-                TelefonoCliente = txttelefonocliente.Text;
+               ////no esta en uso la tabla/verificar si esta en uso 
+               // NombreCliente = txtnombrecliente.Text;
+               // Apellid = txtapellidocliente.Text;
+               // DireccionCliente = txtdireccion.Text;
+               // ColillaInssCliente = txtcolillainss;
+               // TelefonoCliente = txttelefonocliente.Text;
             }
             ;
             var clienteExistente = clienteServicio.Listaclientes().FirstOrDefault(p => p.TelefonoCliente == cliente.TelefonoCliente);
