@@ -19,7 +19,7 @@ namespace formstienda
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrEmpty(textBox2.Text))
+            if (!string.IsNullOrEmpty(txtMontoApertura.Text) && !string.IsNullOrEmpty(txtTasaCambio.Text))
             {
                 this.Close();
             }
@@ -33,6 +33,11 @@ namespace formstienda
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Apertura_Caja_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
