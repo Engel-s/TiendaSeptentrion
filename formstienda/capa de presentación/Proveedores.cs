@@ -98,7 +98,7 @@ namespace formstienda
                     CorreoProveedor = textCorreo.Text
                 }
                  db.Proveedor(nuevo);
-                var listaProveedores = db.proveedor.ToList();
+                var listaProveedores = db.Proveedor.ToList();
                 db.SaveChanges();
             }
             catch (Exception ex)
