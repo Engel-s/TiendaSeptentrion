@@ -23,6 +23,9 @@ namespace formstienda
             {
                 this.Close();
             }
+            
+            Factura factura = new Factura();
+            factura.Show();
         }
 
         private void label3_Click(object sender, EventArgs e)
