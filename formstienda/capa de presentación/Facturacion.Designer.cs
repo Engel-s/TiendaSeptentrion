@@ -206,7 +206,7 @@
             label17.AutoSize = true;
             label17.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label17.ForeColor = Color.Black;
-            label17.Location = new Point(1115, 288);
+            label17.Location = new Point(1099, 288);
             label17.Margin = new Padding(2, 0, 2, 0);
             label17.Name = "label17";
             label17.Size = new Size(153, 22);
@@ -370,7 +370,7 @@
             // 
             // txtcantidad
             // 
-            txtcantidad.Location = new Point(869, 376);
+            txtcantidad.Location = new Point(880, 376);
             txtcantidad.Margin = new Padding(2, 6, 2, 6);
             txtcantidad.Name = "txtcantidad";
             txtcantidad.Size = new Size(149, 31);
