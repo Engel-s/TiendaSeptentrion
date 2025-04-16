@@ -44,9 +44,9 @@
             txtcedula = new RichTextBox();
             label8 = new Label();
             label1 = new Label();
-            radioButton1 = new RadioButton();
-            radioButton2 = new RadioButton();
-            label9 = new Label();
+            rbsi = new RadioButton();
+            rbno = new RadioButton();
+            lblcolilla = new Label();
             txtcolillainss = new TextBox();
             label5 = new Label();
             txtapellidocliente = new TextBox();
@@ -194,7 +194,7 @@
             btnregistrar.TabIndex = 66;
             btnregistrar.Text = "Registrar";
             btnregistrar.UseVisualStyleBackColor = false;
-         
+            btnregistrar.Click += btnregistrar_Click;
             // 
             // txtcedula
             // 
@@ -221,54 +221,56 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label1.Location = new Point(14, 366);
+            label1.Location = new Point(14, 323);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(134, 20);
             label1.TabIndex = 71;
             label1.Text = "Sujeto a crédito: ";
             // 
-            // radioButton1
+            // rbsi
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            radioButton1.Location = new Point(174, 368);
-            radioButton1.Margin = new Padding(2, 3, 2, 3);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(44, 24);
-            radioButton1.TabIndex = 72;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Si";
-            radioButton1.UseVisualStyleBackColor = true;
+            rbsi.AutoSize = true;
+            rbsi.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            rbsi.Location = new Point(174, 325);
+            rbsi.Margin = new Padding(2, 3, 2, 3);
+            rbsi.Name = "rbsi";
+            rbsi.Size = new Size(44, 24);
+            rbsi.TabIndex = 72;
+            rbsi.Text = "Si";
+            rbsi.UseVisualStyleBackColor = true;
+            rbsi.CheckedChanged += radioButton1_CheckedChanged;
             // 
-            // radioButton2
+            // rbno
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            radioButton2.Location = new Point(230, 366);
-            radioButton2.Margin = new Padding(2, 3, 2, 3);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(53, 24);
-            radioButton2.TabIndex = 73;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "No";
-            radioButton2.UseVisualStyleBackColor = true;
+            rbno.AutoSize = true;
+            rbno.Checked = true;
+            rbno.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            rbno.Location = new Point(230, 323);
+            rbno.Margin = new Padding(2, 3, 2, 3);
+            rbno.Name = "rbno";
+            rbno.Size = new Size(53, 24);
+            rbno.TabIndex = 73;
+            rbno.TabStop = true;
+            rbno.Text = "No";
+            rbno.UseVisualStyleBackColor = true;
+            rbno.CheckedChanged += radioButton2_CheckedChanged;
             // 
-            // label9
+            // lblcolilla
             // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label9.Location = new Point(14, 310);
-            label9.Margin = new Padding(2, 0, 2, 0);
-            label9.Name = "label9";
-            label9.Size = new Size(109, 20);
-            label9.TabIndex = 74;
-            label9.Text = "Colilla INSS: ";
+            lblcolilla.AutoSize = true;
+            lblcolilla.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            lblcolilla.Location = new Point(14, 378);
+            lblcolilla.Margin = new Padding(2, 0, 2, 0);
+            lblcolilla.Name = "lblcolilla";
+            lblcolilla.Size = new Size(109, 20);
+            lblcolilla.TabIndex = 74;
+            lblcolilla.Text = "Colilla INSS: ";
             // 
             // txtcolillainss
             // 
             txtcolillainss.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtcolillainss.Location = new Point(140, 310);
+            txtcolillainss.Location = new Point(140, 378);
             txtcolillainss.Margin = new Padding(2, 3, 2, 3);
             txtcolillainss.Name = "txtcolillainss";
             txtcolillainss.Size = new Size(214, 27);
@@ -325,9 +327,9 @@
             Controls.Add(txtapellidocliente);
             Controls.Add(label5);
             Controls.Add(txtcolillainss);
-            Controls.Add(label9);
-            Controls.Add(radioButton2);
-            Controls.Add(radioButton1);
+            Controls.Add(lblcolilla);
+            Controls.Add(rbno);
+            Controls.Add(rbsi);
             Controls.Add(label1);
             Controls.Add(label8);
             Controls.Add(txtcedula);
@@ -374,9 +376,9 @@
         private System.Windows.Forms.RichTextBox txtcedula;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.RadioButton rbsi;
+        private System.Windows.Forms.RadioButton rbno;
+        private System.Windows.Forms.Label lblcolilla;
         private System.Windows.Forms.TextBox txtcolillainss;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtapellidocliente;

@@ -64,7 +64,7 @@ namespace formstienda.capa_de_negocios
                     var cliente = _contexto.Clientes.Find(IdCliente);
                     if (cliente == null)
                     {
-                        Console.WriteLine("usuario no encontrado");
+                        Console.WriteLine("Cliente no encontrado");
                         return false;
 
                     }

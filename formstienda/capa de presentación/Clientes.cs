@@ -18,6 +18,7 @@ namespace formstienda.capa_de_presentación
     {
         private ClienteServicio? clienteServicio;
         private BindingList<Cliente>? Listacliente;
+        
         public Clientes()
         {
             InitializeComponent();
@@ -52,6 +53,7 @@ namespace formstienda.capa_de_presentación
         private void Clientes_Load(object sender, EventArgs e)
         {
             cargarclientes();
+
         }
         private void cargarclientes()
         {
@@ -69,30 +71,52 @@ namespace formstienda.capa_de_presentación
 
         private void btnregistrar_Click(object sender, EventArgs e, string telefonoCliente)
         {
-            var cliente = new Cliente();
-            {
-               ////no esta en uso la tabla/verificar si esta en uso 
-               // NombreCliente = txtnombrecliente.Text;
-               // Apellid = txtapellidocliente.Text;
-               // DireccionCliente = txtdireccion.Text;
-               // ColillaInssCliente = txtcolillainss;
-               // TelefonoCliente = txttelefonocliente.Text;
-            }
-            ;
-            var clienteExistente = clienteServicio.Listaclientes().FirstOrDefault(p => p.TelefonoCliente == cliente.TelefonoCliente);
-            if (clienteExistente == null)
-            {
-                MessageBox.Show("Este cliente ya esta registrado, agregue otro numero");
-                return;
-            }
-            clienteServicio.Agregarcliente(clienteExistente);
-            Listacliente.Add(cliente);
-            MessageBox.Show("Cliente registrado correctamente");
+            // validar si ya existe el usuario
+
         }
 
         private void Clientes_Load_1(object sender, EventArgs e)
         {
             cargarclientes();
+            lblcolilla.Visible = false;
+            txtcolillainss.Visible = false;
+        }
+
+        private void btnregistrar_Click(object sender, EventArgs e)
+        {
+            
+            var cliente = new Cliente
+            {
+                NombreCliente = txtnombrecliente.Text,
+                ApellidoCliente = txtapellidocliente.Text,
+                DireccionCliente = txtdireccion.Text,
+                CedulaCliente = txtcedula.Text,
+                ColillaInssCliente = txtcolillainss.Text,
+                SujetoCredito = rbsi.Checked ? (bool?)true : (bool?)false,
+                TelefonoCliente = txttelefonocliente.Text
+            };
+            var clienteExistente = clienteServicio?.Listaclientes()
+                                                  .FirstOrDefault(p => p.TelefonoCliente == cliente.TelefonoCliente);
+            if (clienteExistente != null)
+            {
+                MessageBox.Show("Este cliente ya existe, agregue otro telefono");
+                return;
+            }
+            clienteServicio?.Agregarcliente(cliente);
+            Listacliente?.Add(cliente);
+            MessageBox.Show("Cliente agregado correctamente");
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            lblcolilla.Visible = true;
+            txtcolillainss.Visible = true;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            lblcolilla.Visible = false;
+            txtcolillainss.Visible = false; 
         }
     }
 }
