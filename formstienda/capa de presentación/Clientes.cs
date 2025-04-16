@@ -8,7 +8,7 @@ namespace formstienda.capa_de_presentación
     {
         private ClienteServicio? clienteServicio;
         private BindingList<Cliente>? Listacliente;
-        
+
         public Clientes()
         {
             InitializeComponent();
@@ -74,7 +74,7 @@ namespace formstienda.capa_de_presentación
 
         private void btnregistrar_Click(object sender, EventArgs e)
         {
-            
+
             var cliente = new Cliente
             {
                 NombreCliente = txtnombrecliente.Text,
@@ -106,7 +106,7 @@ namespace formstienda.capa_de_presentación
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             lblcolilla.Visible = false;
-            txtcolillainss.Visible = false; 
+            txtcolillainss.Visible = false;
         }
     }
 }
