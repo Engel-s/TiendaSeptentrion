@@ -1,5 +1,4 @@
 ﻿using formstienda.capa_de_negocios;
-using formstienda.Datos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

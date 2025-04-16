@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using formstienda;
 using formstienda.capa_de_presentación;
+using formstienda.Datos;
 
 namespace formstienda
 {
@@ -92,25 +93,37 @@ namespace formstienda
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-            UserManager usermanager = UserManager.Instance; // Instancia de UserManager
-            string username = txtusername.Text; // capturan datos
-            string password = txtpassword.Text; // capturan datos
+            string usuario = txtusername.Text;
+            string contraseña = txtpassword.Text;
 
-            usuarios userLog = usermanager.UserLog(username, password); // llaman al metodo pendejo que no daba
-
-            if (userLog != null)
+            if (txtusername.Text != "")
             {
-                menu form = new menu();
-                form.Show();
-                Apertura_Caja apertura = new Apertura_Caja();
-                apertura.Show();
+                if (txtpassword.Text != "")
+                {
+                    using (var context = new DbTiendaSeptentrionContext())
+                    {
+                        var usuarioValido = context.Usuarios
+                            .FirstOrDefault(u => u.NombreUsuario == usuario && u.ContraseñaUsuario == contraseña);
 
-                this.Hide();
+                        if (usuarioValido != null)
+                        {
+                            // Usuario válido para abrir el formulario de menú
+                            menu form = new menu();
+                            form.Show();
+                            Apertura_Caja apertura = new Apertura_Caja();
+                            apertura.Show();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            // Usuario o contraseña incorrectos
+                            MessageBox.Show("Usuario o contraseña incorrectos");
+                        }
+                    }
+                }
+                else MessageBox.Show("Ingrese contraseña");
             }
-            else
-            {
-                MessageBox.Show("Usuario inexistente o incorrecto");// esas alertas seguro las cambio
-            }
+            else MessageBox.Show("Ingrese usuario");
 
         }
 
