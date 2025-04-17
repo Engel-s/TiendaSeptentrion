@@ -96,7 +96,14 @@ namespace formstienda
             string username = txtusername.Text; // capturan datos
             string password = txtpassword.Text; // capturan datos
 
-            usuarios userLog = usermanager.UserLog(username, password); // llaman al metodo pendejo que no daba
+            if (txtusername.Text != "")
+            {
+                if (txtpassword.Text != "")
+                {
+                    using (var context = new DbTiendaSeptentrionContext())
+                    {
+                        var usuarioValido = context.Usuarios
+                            .FirstOrDefault(u => u.UsuarioLogueo == usuario && u.ContraseñaUsuario == contraseña);
 
             if (userLog != null)
             {
