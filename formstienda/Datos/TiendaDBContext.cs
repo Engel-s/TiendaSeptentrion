@@ -49,7 +49,7 @@ public partial class TiendaDBContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=ENGELS-DELL5480\\SQLEXPRESS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -235,7 +235,6 @@ public partial class TiendaDBContext : DbContext
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
             entity.Property(e => e.IdCliente).HasColumnName("Id_cliente");
             entity.Property(e => e.IdVenta).HasColumnName("Id_Venta");
-            entity.Property(e => e.CantidadDevueltaDevolucion).HasColumnName("Cantidad_Devuelta_Devolucion");
             entity.Property(e => e.DescripcionDevolucion)
                 .HasMaxLength(500)
                 .IsUnicode(false)
@@ -366,10 +365,10 @@ public partial class TiendaDBContext : DbContext
             entity.Property(e => e.IdCategoria).HasColumnName("Id_Categoria");
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
             entity.Property(e => e.EstadoProducto).HasColumnName("Estado_Producto");
-            entity.Property(e => e.ModeloProducto)
+            entity.Property(e => e.NombreProducto)
                 .HasMaxLength(200)
                 .IsUnicode(false)
-                .HasColumnName("Modelo_Producto");
+                .HasColumnName("Nombre_Producto");
             entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
 
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Productos)
@@ -442,14 +441,12 @@ public partial class TiendaDBContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Apellido_Usuario");
             entity.Property(e => e.ContraseñaUsuario)
-                .HasMaxLength(10)
+                .HasMaxLength(100)
                 .IsUnicode(false)
-                .IsFixedLength()
                 .HasColumnName("Contraseña_Usuario");
             entity.Property(e => e.CorreoUsuario)
-                .HasMaxLength(10)
+                .HasMaxLength(50)
                 .IsUnicode(false)
-                .IsFixedLength()
                 .HasColumnName("Correo_Usuario");
             entity.Property(e => e.EstadoUsuario).HasColumnName("Estado_Usuario");
             entity.Property(e => e.NombreUsuario)
@@ -464,6 +461,10 @@ public partial class TiendaDBContext : DbContext
                 .HasMaxLength(8)
                 .IsUnicode(false)
                 .HasColumnName("Telefono_Usuario");
+            entity.Property(e => e.UsuarioLogueo)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("Usuario_Logueo");
         });
 
         modelBuilder.Entity<Ventum>(entity =>

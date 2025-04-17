@@ -11,11 +11,13 @@ using System.Runtime.InteropServices;
 using formstienda;
 using formstienda.capa_de_presentación;
 using formstienda.Datos;
+using formstienda.capa_de_negocios;
 
 namespace formstienda
 {
     public partial class Login : Form
     {
+        private AuthServicio _authServicio;
         public Login()
         {
             InitializeComponent();
@@ -68,7 +70,7 @@ namespace formstienda
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            _authServicio = new AuthServicio();
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -93,17 +95,40 @@ namespace formstienda
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-            string usuario = txtusername.Text;
-            string contraseña = txtpassword.Text;
+            string nombreusuario = txtusername.Text.Trim();
+            string contraseña = txtpassword.Text.Trim();
 
-            if (txtusername.Text != "")
+            if (string.IsNullOrEmpty(nombreusuario) || string.IsNullOrEmpty(contraseña))
+            {
+                MessageBox.Show("El nombre de usuario o la contrasena son nulas");
+                return;
+            }
+
+            var usuario = _authServicio.Validar_Credenciales(nombreusuario, contraseña);
+            if (usuario == null)
+            {
+                MessageBox.Show("Credenciales no validas");
+                txtusername.Clear();
+                txtpassword.Clear();
+                return;
+            }
+
+            MessageBox.Show($"Bienvenido {usuario.NombreUsuario} al sistema");
+            this.Hide();
+            menu form = new menu(usuario.RolUsuario);
+            form.Show();
+            Apertura_Caja apertura = new Apertura_Caja();
+            apertura.Show();
+            this.Hide();
+
+            /*if (txtusername.Text != "")
             {
                 if (txtpassword.Text != "")
                 {
                     using (var context = new TiendaDBContext())
                     {
                         var usuarioValido = context.Usuarios
-                            .FirstOrDefault(u => u.NombreUsuario == usuario && u.ContraseñaUsuario == contraseña);
+                            .FirstOrDefault(u => u.UsuarioLogueo == usuario && u.ContraseñaUsuario == contraseña);
 
                         if (usuarioValido != null)
                         {
@@ -123,7 +148,7 @@ namespace formstienda
                 }
                 else MessageBox.Show("Ingrese contraseña");
             }
-            else MessageBox.Show("Ingrese usuario");
+            else MessageBox.Show("Ingrese usuario");*/
 
         }
 
