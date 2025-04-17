@@ -97,25 +97,13 @@ namespace formstienda
             string contraseña = txtpassword.Text;
 
             if (txtusername.Text != "")
-<<<<<<< HEAD
-            {
-                if (txtpassword.Text != "")
-                {
-                    using (var context = new DBTiendaSeptentrionContext())
-                    {
-                        var usuarioValido = context.Usuarios
-                            .FirstOrDefault(u => u.UsuarioLogueo == usuario && u.ContraseñaUsuario == contraseña);
-
-            if (userLog != null)
-=======
->>>>>>> desarrollo
             {
                 if (txtpassword.Text != "")
                 {
                     using (var context = new DbTiendaSeptentrionContext())
                     {
                         var usuarioValido = context.Usuarios
-                            .FirstOrDefault(u => u.NombreUsuario == usuario && u.ContraseñaUsuario == contraseña);
+                            .FirstOrDefault(u => u.UsuarioLogueo == usuario && u.ContraseñaUsuario == contraseña);
 
                         if (usuarioValido != null)
                         {
