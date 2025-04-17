@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace formstienda.capa_de_negocios
 {
-    public class UsuarioServicio
+   public class UsuarioServicio
     {
         //listar usuarios
         public List <Usuario> Listausuarios()
