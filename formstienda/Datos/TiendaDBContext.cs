@@ -365,10 +365,10 @@ public partial class TiendaDBContext : DbContext
             entity.Property(e => e.IdCategoria).HasColumnName("Id_Categoria");
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
             entity.Property(e => e.EstadoProducto).HasColumnName("Estado_Producto");
-            entity.Property(e => e.ModeloProducto)
+            entity.Property(e => e.NombreProducto)
                 .HasMaxLength(200)
                 .IsUnicode(false)
-                .HasColumnName("Modelo_Producto");
+                .HasColumnName("Nombre_Producto");
             entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
 
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Productos)
@@ -441,14 +441,12 @@ public partial class TiendaDBContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Apellido_Usuario");
             entity.Property(e => e.ContraseñaUsuario)
-                .HasMaxLength(10)
+                .HasMaxLength(100)
                 .IsUnicode(false)
-                .IsFixedLength()
                 .HasColumnName("Contraseña_Usuario");
             entity.Property(e => e.CorreoUsuario)
-                .HasMaxLength(10)
+                .HasMaxLength(50)
                 .IsUnicode(false)
-                .IsFixedLength()
                 .HasColumnName("Correo_Usuario");
             entity.Property(e => e.EstadoUsuario).HasColumnName("Estado_Usuario");
             entity.Property(e => e.NombreUsuario)
@@ -463,6 +461,10 @@ public partial class TiendaDBContext : DbContext
                 .HasMaxLength(8)
                 .IsUnicode(false)
                 .HasColumnName("Telefono_Usuario");
+            entity.Property(e => e.UsuarioLogueo)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("Usuario_Logueo");
         });
 
         modelBuilder.Entity<Ventum>(entity =>

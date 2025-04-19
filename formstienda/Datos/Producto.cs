@@ -11,7 +11,7 @@ public partial class Producto
 
     public int IdMarca { get; set; }
 
-    public string ModeloProducto { get; set; } = null!;
+    public string NombreProducto { get; set; } = null!;
 
     public double PrecioVenta { get; set; }
 
