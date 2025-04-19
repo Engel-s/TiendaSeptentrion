@@ -56,7 +56,7 @@ namespace formstienda
                 UsuarioLogueo = cbrolusuario.Text + txtnombreusuario.Text,
                 TelefonoUsuario = txttelefonousuario.Text
             };
-            var usuarioExistente = usuarioServicio.Listausuarios()
+            var usuarioExistente = usuarioServicio?.Listausuarios()
                                                   .FirstOrDefault(p => p.CorreoUsuario == usuario.CorreoUsuario);
             if (usuarioExistente != null)
             {
@@ -135,15 +135,15 @@ namespace formstienda
                 }
                 else if (DGUSUARIOS.SelectedRows.Count == 1)
                 {
-                    var usuarioSeleccionado = (Usuario)DGUSUARIOS.SelectedRows[0] .DataBoundItem;
-                    if (usuarioSeleccionado==null )
+                    var usuarioSeleccionado = (Usuario)DGUSUARIOS.SelectedRows[0].DataBoundItem;
+                    if (usuarioSeleccionado == null)
                     {
                         MessageBox.Show("No hay mas usuarios seleccionados");
                     }
                     else
                     {
                         var confirmacion = MessageBox.Show("Esta seguro_?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (confirmacion == DialogResult.Yes) 
+                        if (confirmacion == DialogResult.Yes)
                         {
                             usuarioServicio.Eliminarusuario(usuarioSeleccionado.IdUsuario);
                             Listausuarios.Remove(usuarioSeleccionado);
@@ -154,8 +154,35 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-                
+
             }
+        }
+
+        private void DGUSUARIOS_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            int IdUsuario = (int)DGUSUARIOS.Rows[e.RowIndex].Cells["IdUsuario"].Value;
+            //validacion 
+            if (string.IsNullOrEmpty(DGUSUARIOS.Rows[e.RowIndex].Cells["NombreUsuario"].Value?.ToString()))
+            {
+                MessageBox.Show("El nombre no puede estar vacio o ser nulo");
+                    return; 
+            }
+            var usuarioEditado = new Usuario
+            {
+                IdUsuario = IdUsuario,
+                NombreUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["NombreUsuario"].Value?.ToString() ?? "",
+                CorreoUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["CorreoUsuario"].Value?.ToString() ?? "",
+                ApellidoUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["ApellidoUsuario"].Value?.ToString() ?? "",
+                ContraseñaUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["ContraseñaUsuario"].Value?.ToString() ?? "",
+                TelefonoUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["TelefonoUsuario"].Value?.ToString() ?? "",
+                RolUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["RolUsuario"].Value?.ToString() ?? "",
+                EstadoUsuario = (DGUSUARIOS.Rows[e.RowIndex].Cells["RolUsuario"].Value?.ToString() == "1"),
+
+            };
+            if (usuarioServicio.Actualizarusuario(usuarioEditado))
+                MessageBox.Show("Usuario actualizado correctamente");
+            else
+                MessageBox.Show("No se pudo actualizar el usuario");
         }
     }
 

@@ -81,6 +81,41 @@ namespace formstienda.capa_de_negocios
             }
         }
         //actualizar usuarios
+        public bool Actualizarusuario(Usuario usuario)
+        {
+            try
+            {
+                using (var _contexto = new DbTiendaSeptentrionContext())
+                {
+                    var usuarioExistente = _contexto.Usuarios.Find(usuario.IdUsuario);
+                    if (usuarioExistente == null)
+                    {
+                        Console.WriteLine($"Error:No se encontro el proveedor con ID(usuario.IdUsuario).");
+                        return false;
+
+                    }
+                    usuarioExistente.NombreUsuario=usuario.NombreUsuario;
+                    usuarioExistente.ApellidoUsuario=usuario.ApellidoUsuario;
+                    usuarioExistente.CorreoUsuario=usuario.CorreoUsuario;
+                    usuarioExistente.RolUsuario=usuario.RolUsuario;
+                    usuarioExistente.EstadoUsuario=usuario.EstadoUsuario;
+                    usuarioExistente.ContraseñaUsuario=usuario.ContraseñaUsuario;
+                    _contexto.Usuarios.Update(usuarioExistente);
+                    _contexto .SaveChanges();
+                    return true;
+                }
+                
+
+
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+                
+        }
+
 
     }
 }
