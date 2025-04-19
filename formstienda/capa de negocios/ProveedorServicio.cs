@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using formstienda.Datos;
+using Microsoft.EntityFrameworkCore;
+
+namespace formstienda.capa_de_negocios
+{
+    public class ProveedorServicio
+    {
+        //Listar proveedor
+
+        public List<Proveedor> ListarProveedores()
+        {
+            //validar con try-catch
+            try
+            {
+                //Abrir context
+                using (var contexto = new TiendaDBContext())
+                {
+                    //SELECT * FROM Proveedores
+                    return contexto.Proveedors.ToList();
+                }
+            }
+            catch(Exception ex)  
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Proveedor>();
+            }
+        }
+        //Agregar proveedor
+
+        public bool AgregarProveedor(Proveedor proveedor)
+        {
+            if (proveedor == null)
+            {
+                Console.WriteLine("El proveedor no puede ser nulo");
+                return false;
+            }
+            try
+            {
+                using (var contexto = new TiendaDBContext())
+                {
+                    contexto.Proveedors.Add(proveedor);
+                    contexto.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        //Eliminar proveedor
+
+        //Actualizar proveedor
+    }
+}

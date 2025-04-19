@@ -8,23 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.TextFormatting;
-using formstienda.Models;
+using formstienda.Datos;
 using Microsoft.EntityFrameworkCore;
-using AppGestorEF.Data;
+
 
 namespace formstienda
 {
     public partial class Proveedores : Form
     {
-        private Proveedores? Proveedor;
-        private BindingList<Proveedores>? listaproveedores;
+        /*private Proveedores? Proveedor;
+        private BindingList<Proveedores>? listaproveedores;*/
         public Proveedores()
         {
             InitializeComponent();
         }
 
 
-        DbContext db = new DbContext();
+
+        //DbContext db = new DbContext();
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -78,7 +79,7 @@ namespace formstienda
         
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            string texto = txtEstado.Text.ToLower();
+            /*string texto = txtEstado.Text.ToLower();
             bool estado = texto switch
             {
                 "activo" => true,
@@ -104,7 +105,7 @@ namespace formstienda
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
+            }*/
         }
     }
 }
