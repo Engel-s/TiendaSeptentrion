@@ -32,9 +32,9 @@
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            button1 = new Button();
+            txtapertura = new TextBox();
+            txttasadecambio = new TextBox();
+            btnabrircaja = new Button();
             button2 = new Button();
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
@@ -90,36 +90,36 @@
             panel1.Size = new Size(343, 51);
             panel1.TabIndex = 3;
             // 
-            // textBox1
+            // txtapertura
             // 
-            textBox1.Location = new Point(70, 95);
-            textBox1.Margin = new Padding(4, 5, 4, 5);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(216, 27);
-            textBox1.TabIndex = 4;
+            txtapertura.Location = new Point(70, 95);
+            txtapertura.Margin = new Padding(4, 5, 4, 5);
+            txtapertura.Name = "txtapertura";
+            txtapertura.Size = new Size(216, 27);
+            txtapertura.TabIndex = 4;
             // 
-            // textBox2
+            // txttasadecambio
             // 
-            textBox2.Location = new Point(70, 158);
-            textBox2.Margin = new Padding(4, 5, 4, 5);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(216, 27);
-            textBox2.TabIndex = 5;
+            txttasadecambio.Location = new Point(70, 158);
+            txttasadecambio.Margin = new Padding(4, 5, 4, 5);
+            txttasadecambio.Name = "txttasadecambio";
+            txttasadecambio.Size = new Size(216, 27);
+            txttasadecambio.TabIndex = 5;
             // 
-            // button1
+            // btnabrircaja
             // 
-            button1.BackColor = Color.FromArgb(3, 171, 229);
-            button1.FlatAppearance.BorderColor = Color.FromArgb(3, 171, 229);
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(17, 215);
-            button1.Margin = new Padding(4, 5, 4, 5);
-            button1.Name = "button1";
-            button1.Size = new Size(123, 45);
-            button1.TabIndex = 6;
-            button1.Text = "Abrir caja";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            btnabrircaja.BackColor = Color.FromArgb(3, 171, 229);
+            btnabrircaja.FlatAppearance.BorderColor = Color.FromArgb(3, 171, 229);
+            btnabrircaja.FlatStyle = FlatStyle.Popup;
+            btnabrircaja.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnabrircaja.Location = new Point(17, 215);
+            btnabrircaja.Margin = new Padding(4, 5, 4, 5);
+            btnabrircaja.Name = "btnabrircaja";
+            btnabrircaja.Size = new Size(123, 45);
+            btnabrircaja.TabIndex = 6;
+            btnabrircaja.Text = "Abrir caja";
+            btnabrircaja.UseVisualStyleBackColor = false;
+            btnabrircaja.Click += btnabrircaja_Click;
             // 
             // button2
             // 
@@ -166,9 +166,9 @@
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
             Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(btnabrircaja);
+            Controls.Add(txttasadecambio);
+            Controls.Add(txtapertura);
             Controls.Add(panel1);
             Controls.Add(label3);
             Controls.Add(label1);
@@ -194,9 +194,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtapertura;
+        private System.Windows.Forms.TextBox txttasadecambio;
+        private System.Windows.Forms.Button btnabrircaja;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;

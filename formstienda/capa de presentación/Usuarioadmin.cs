@@ -16,13 +16,13 @@ namespace formstienda
 {
     public partial class Usuarioadmin : Form
     {
-        private UserManager userManager;
+        //private UserManager userManager;
         private UsuarioServicio? usuarioServicio;
         private BindingList<Usuario>? Listausuarios;
         public Usuarioadmin()
         {
             InitializeComponent();
-            userManager = UserManager.Instance;
+            //userManager = UserManager.Instance;
 
         }
 
