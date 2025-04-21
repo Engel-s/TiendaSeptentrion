@@ -31,6 +31,13 @@ namespace formstienda
         {
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            label14 = new Label();
+            comboBox9 = new ComboBox();
+            label13 = new Label();
+            comboBox5 = new ComboBox();
+            label10 = new Label();
+            label21 = new Label();
+            comboBox4 = new ComboBox();
             comboBox6 = new ComboBox();
             button12 = new Button();
             DGPRODUCTOS = new DataGridView();
@@ -61,39 +68,28 @@ namespace formstienda
             label2 = new Label();
             label1 = new Label();
             tabPage2 = new TabPage();
-            comboBox7 = new ComboBox();
+            cbcategoria = new ComboBox();
             button11 = new Button();
-            dataGridView2 = new DataGridView();
-            Column9 = new DataGridViewTextBoxColumn();
-            Column10 = new DataGridViewTextBoxColumn();
+            DGCATEGORIA = new DataGridView();
             button4 = new Button();
-            button3 = new Button();
+            btnguardacarac = new Button();
             label12 = new Label();
             label11 = new Label();
             tabPage3 = new TabPage();
-            comboBox8 = new ComboBox();
+            cbmarca = new ComboBox();
             button10 = new Button();
-            dataGridView3 = new DataGridView();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            DGMARCA = new DataGridView();
             button5 = new Button();
-            button6 = new Button();
+            btnguardarmarca = new Button();
             label15 = new Label();
             label16 = new Label();
-            comboBox4 = new ComboBox();
-            label21 = new Label();
-            label10 = new Label();
-            comboBox5 = new ComboBox();
-            label13 = new Label();
-            comboBox9 = new ComboBox();
-            label14 = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DGPRODUCTOS).BeginInit();
             tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DGCATEGORIA).BeginInit();
             tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DGMARCA).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -105,7 +101,7 @@ namespace formstienda
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tabControl1.Location = new Point(-2, 51);
-            tabControl1.Margin = new Padding(2, 2, 2, 2);
+            tabControl1.Margin = new Padding(2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(1394, 816);
@@ -143,21 +139,95 @@ namespace formstienda
             tabPage1.Controls.Add(label2);
             tabPage1.Controls.Add(label1);
             tabPage1.Location = new Point(4, 31);
-            tabPage1.Margin = new Padding(2, 2, 2, 2);
+            tabPage1.Margin = new Padding(2);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(2, 2, 2, 2);
+            tabPage1.Padding = new Padding(2);
             tabPage1.Size = new Size(1386, 781);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Productos";
             tabPage1.UseVisualStyleBackColor = true;
             tabPage1.Click += tabPage1_Click;
             // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label14.Location = new Point(18, 191);
+            label14.Margin = new Padding(2, 0, 2, 0);
+            label14.Name = "label14";
+            label14.Size = new Size(165, 22);
+            label14.TabIndex = 162;
+            label14.Text = "Buscar producto:";
+            // 
+            // comboBox9
+            // 
+            comboBox9.FormattingEnabled = true;
+            comboBox9.Location = new Point(115, 216);
+            comboBox9.Margin = new Padding(2, 3, 2, 3);
+            comboBox9.Name = "comboBox9";
+            comboBox9.Size = new Size(172, 30);
+            comboBox9.TabIndex = 161;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label13.ForeColor = Color.Black;
+            label13.Location = new Point(18, 221);
+            label13.Margin = new Padding(2, 0, 2, 0);
+            label13.Name = "label13";
+            label13.Size = new Size(83, 20);
+            label13.TabIndex = 160;
+            label13.Text = "Producto:";
+            // 
+            // comboBox5
+            // 
+            comboBox5.FormattingEnabled = true;
+            comboBox5.Location = new Point(392, 216);
+            comboBox5.Margin = new Padding(2, 3, 2, 3);
+            comboBox5.Name = "comboBox5";
+            comboBox5.Size = new Size(172, 30);
+            comboBox5.TabIndex = 159;
+            // 
+            // label10
+            // 
+            label10.Anchor = AnchorStyles.Top;
+            label10.AutoSize = true;
+            label10.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.Location = new Point(314, 221);
+            label10.Margin = new Padding(2, 0, 2, 0);
+            label10.Name = "label10";
+            label10.Size = new Size(63, 20);
+            label10.TabIndex = 158;
+            label10.Text = "Marca:";
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label21.ForeColor = Color.Black;
+            label21.Location = new Point(589, 221);
+            label21.Margin = new Padding(2, 0, 2, 0);
+            label21.Name = "label21";
+            label21.Size = new Size(88, 20);
+            label21.TabIndex = 157;
+            label21.Text = "Categoría:";
+            // 
+            // comboBox4
+            // 
+            comboBox4.FormattingEnabled = true;
+            comboBox4.Location = new Point(696, 216);
+            comboBox4.Margin = new Padding(2, 3, 2, 3);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(172, 30);
+            comboBox4.TabIndex = 153;
+            // 
             // comboBox6
             // 
             comboBox6.Anchor = AnchorStyles.Top;
             comboBox6.FormattingEnabled = true;
             comboBox6.Location = new Point(242, 70);
-            comboBox6.Margin = new Padding(2, 2, 2, 2);
+            comboBox6.Margin = new Padding(2);
             comboBox6.Name = "comboBox6";
             comboBox6.Size = new Size(206, 30);
             comboBox6.TabIndex = 40;
@@ -168,7 +238,7 @@ namespace formstienda
             button12.BackColor = Color.FromArgb(3, 171, 229);
             button12.FlatStyle = FlatStyle.Popup;
             button12.Location = new Point(1238, 716);
-            button12.Margin = new Padding(2, 2, 2, 2);
+            button12.Margin = new Padding(2);
             button12.Name = "button12";
             button12.Size = new Size(126, 46);
             button12.TabIndex = 39;
@@ -183,7 +253,7 @@ namespace formstienda
             DGPRODUCTOS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DGPRODUCTOS.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5, Columm6, Column6, Column7 });
             DGPRODUCTOS.Location = new Point(18, 257);
-            DGPRODUCTOS.Margin = new Padding(2, 2, 2, 2);
+            DGPRODUCTOS.Margin = new Padding(2);
             DGPRODUCTOS.Name = "DGPRODUCTOS";
             DGPRODUCTOS.RowHeadersWidth = 51;
             DGPRODUCTOS.RowTemplate.Height = 24;
@@ -270,7 +340,7 @@ namespace formstienda
             button2.BackColor = Color.FromArgb(3, 171, 229);
             button2.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button2.Location = new Point(1238, 151);
-            button2.Margin = new Padding(2, 2, 2, 2);
+            button2.Margin = new Padding(2);
             button2.Name = "button2";
             button2.Size = new Size(126, 55);
             button2.TabIndex = 18;
@@ -283,7 +353,7 @@ namespace formstienda
             button1.BackColor = Color.FromArgb(3, 171, 229);
             button1.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.Location = new Point(1094, 152);
-            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(126, 54);
             button1.TabIndex = 17;
@@ -296,7 +366,7 @@ namespace formstienda
             comboBox3.FormattingEnabled = true;
             comboBox3.Items.AddRange(new object[] { "Activo", "Inactivo" });
             comboBox3.Location = new Point(938, 133);
-            comboBox3.Margin = new Padding(2, 2, 2, 2);
+            comboBox3.Margin = new Padding(2);
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(114, 30);
             comboBox3.TabIndex = 16;
@@ -317,7 +387,7 @@ namespace formstienda
             // 
             textBox5.Anchor = AnchorStyles.Top;
             textBox5.Location = new Point(702, 136);
-            textBox5.Margin = new Padding(2, 2, 2, 2);
+            textBox5.Margin = new Padding(2);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(110, 31);
             textBox5.TabIndex = 14;
@@ -338,7 +408,7 @@ namespace formstienda
             // 
             textBox4.Anchor = AnchorStyles.Top;
             textBox4.Location = new Point(418, 130);
-            textBox4.Margin = new Padding(2, 2, 2, 2);
+            textBox4.Margin = new Padding(2);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(74, 31);
             textBox4.TabIndex = 12;
@@ -360,7 +430,7 @@ namespace formstienda
             // 
             textBox3.Anchor = AnchorStyles.Top;
             textBox3.Location = new Point(173, 131);
-            textBox3.Margin = new Padding(2, 2, 2, 2);
+            textBox3.Margin = new Padding(2);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(74, 31);
             textBox3.TabIndex = 10;
@@ -381,7 +451,7 @@ namespace formstienda
             comboBox2.Anchor = AnchorStyles.Top;
             comboBox2.FormattingEnabled = true;
             comboBox2.Location = new Point(1172, 76);
-            comboBox2.Margin = new Padding(2, 2, 2, 2);
+            comboBox2.Margin = new Padding(2);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(142, 30);
             comboBox2.TabIndex = 8;
@@ -403,7 +473,7 @@ namespace formstienda
             comboBox1.Anchor = AnchorStyles.Top;
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(938, 70);
-            comboBox1.Margin = new Padding(2, 2, 2, 2);
+            comboBox1.Margin = new Padding(2);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(114, 30);
             comboBox1.TabIndex = 6;
@@ -436,7 +506,7 @@ namespace formstienda
             // 
             textBox1.Anchor = AnchorStyles.Top;
             textBox1.Location = new Point(583, 70);
-            textBox1.Margin = new Padding(2, 2, 2, 2);
+            textBox1.Margin = new Padding(2);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(118, 31);
             textBox1.TabIndex = 2;
@@ -466,30 +536,30 @@ namespace formstienda
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(comboBox7);
+            tabPage2.Controls.Add(cbcategoria);
             tabPage2.Controls.Add(button11);
-            tabPage2.Controls.Add(dataGridView2);
+            tabPage2.Controls.Add(DGCATEGORIA);
             tabPage2.Controls.Add(button4);
-            tabPage2.Controls.Add(button3);
+            tabPage2.Controls.Add(btnguardacarac);
             tabPage2.Controls.Add(label12);
             tabPage2.Controls.Add(label11);
             tabPage2.Location = new Point(4, 31);
-            tabPage2.Margin = new Padding(2, 2, 2, 2);
+            tabPage2.Margin = new Padding(2);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(2, 2, 2, 2);
+            tabPage2.Padding = new Padding(2);
             tabPage2.Size = new Size(1386, 781);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Categoría";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // comboBox7
+            // cbcategoria
             // 
-            comboBox7.FormattingEnabled = true;
-            comboBox7.Location = new Point(242, 66);
-            comboBox7.Margin = new Padding(2, 2, 2, 2);
-            comboBox7.Name = "comboBox7";
-            comboBox7.Size = new Size(298, 30);
-            comboBox7.TabIndex = 40;
+            cbcategoria.FormattingEnabled = true;
+            cbcategoria.Location = new Point(242, 66);
+            cbcategoria.Margin = new Padding(2);
+            cbcategoria.Name = "cbcategoria";
+            cbcategoria.Size = new Size(298, 30);
+            cbcategoria.TabIndex = 40;
             // 
             // button11
             // 
@@ -498,7 +568,7 @@ namespace formstienda
             button11.FlatStyle = FlatStyle.Popup;
             button11.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button11.Location = new Point(14, 705);
-            button11.Margin = new Padding(2, 2, 2, 2);
+            button11.Margin = new Padding(2);
             button11.Name = "button11";
             button11.Size = new Size(110, 57);
             button11.TabIndex = 39;
@@ -506,55 +576,45 @@ namespace formstienda
             button11.UseVisualStyleBackColor = false;
             button11.Click += button11_Click;
             // 
-            // dataGridView2
+            // DGCATEGORIA
             // 
-            dataGridView2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column9, Column10 });
-            dataGridView2.Location = new Point(14, 182);
-            dataGridView2.Margin = new Padding(2, 2, 2, 2);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.RowHeadersWidth = 51;
-            dataGridView2.RowTemplate.Height = 24;
-            dataGridView2.Size = new Size(1282, 526);
-            dataGridView2.TabIndex = 20;
-            // 
-            // Column9
-            // 
-            Column9.HeaderText = "Categorías";
-            Column9.MinimumWidth = 6;
-            Column9.Name = "Column9";
-            // 
-            // Column10
-            // 
-            Column10.HeaderText = "Editar";
-            Column10.MinimumWidth = 6;
-            Column10.Name = "Column10";
+            DGCATEGORIA.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            DGCATEGORIA.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DGCATEGORIA.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGCATEGORIA.Location = new Point(14, 182);
+            DGCATEGORIA.Margin = new Padding(2);
+            DGCATEGORIA.Name = "DGCATEGORIA";
+            DGCATEGORIA.RowHeadersWidth = 51;
+            DGCATEGORIA.RowTemplate.Height = 24;
+            DGCATEGORIA.Size = new Size(1282, 526);
+            DGCATEGORIA.TabIndex = 20;
+            DGCATEGORIA.CellContentClick += DGCATEGORIA_CellContentClick;
+            DGCATEGORIA.CellEndEdit += DGCATEGORIA_CellEndEdit;
             // 
             // button4
             // 
             button4.BackColor = Color.FromArgb(3, 171, 229);
             button4.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button4.Location = new Point(739, 65);
-            button4.Margin = new Padding(2, 2, 2, 2);
+            button4.Margin = new Padding(2);
             button4.Name = "button4";
             button4.Size = new Size(112, 62);
             button4.TabIndex = 19;
             button4.Text = "Cancelar";
             button4.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnguardacarac
             // 
-            button3.BackColor = Color.FromArgb(3, 171, 229);
-            button3.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(585, 65);
-            button3.Margin = new Padding(2, 2, 2, 2);
-            button3.Name = "button3";
-            button3.Size = new Size(110, 62);
-            button3.TabIndex = 18;
-            button3.Text = "Guardar";
-            button3.UseVisualStyleBackColor = false;
+            btnguardacarac.BackColor = Color.FromArgb(3, 171, 229);
+            btnguardacarac.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnguardacarac.Location = new Point(585, 65);
+            btnguardacarac.Margin = new Padding(2);
+            btnguardacarac.Name = "btnguardacarac";
+            btnguardacarac.Size = new Size(110, 62);
+            btnguardacarac.TabIndex = 18;
+            btnguardacarac.Text = "Guardar";
+            btnguardacarac.UseVisualStyleBackColor = false;
+            btnguardacarac.Click += btnguardacarac_Click;
             // 
             // label12
             // 
@@ -580,15 +640,15 @@ namespace formstienda
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(comboBox8);
+            tabPage3.Controls.Add(cbmarca);
             tabPage3.Controls.Add(button10);
-            tabPage3.Controls.Add(dataGridView3);
+            tabPage3.Controls.Add(DGMARCA);
             tabPage3.Controls.Add(button5);
-            tabPage3.Controls.Add(button6);
+            tabPage3.Controls.Add(btnguardarmarca);
             tabPage3.Controls.Add(label15);
             tabPage3.Controls.Add(label16);
             tabPage3.Location = new Point(4, 31);
-            tabPage3.Margin = new Padding(2, 2, 2, 2);
+            tabPage3.Margin = new Padding(2);
             tabPage3.Name = "tabPage3";
             tabPage3.Size = new Size(1386, 781);
             tabPage3.TabIndex = 3;
@@ -596,15 +656,15 @@ namespace formstienda
             tabPage3.UseVisualStyleBackColor = true;
             tabPage3.UseWaitCursor = true;
             // 
-            // comboBox8
+            // cbmarca
             // 
-            comboBox8.FormattingEnabled = true;
-            comboBox8.Location = new Point(226, 63);
-            comboBox8.Margin = new Padding(2, 2, 2, 2);
-            comboBox8.Name = "comboBox8";
-            comboBox8.Size = new Size(282, 30);
-            comboBox8.TabIndex = 40;
-            comboBox8.UseWaitCursor = true;
+            cbmarca.FormattingEnabled = true;
+            cbmarca.Location = new Point(226, 63);
+            cbmarca.Margin = new Padding(2);
+            cbmarca.Name = "cbmarca";
+            cbmarca.Size = new Size(282, 30);
+            cbmarca.TabIndex = 40;
+            cbmarca.UseWaitCursor = true;
             // 
             // button10
             // 
@@ -613,7 +673,7 @@ namespace formstienda
             button10.FlatStyle = FlatStyle.Popup;
             button10.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button10.Location = new Point(14, 704);
-            button10.Margin = new Padding(2, 2, 2, 2);
+            button10.Margin = new Padding(2);
             button10.Name = "button10";
             button10.Size = new Size(103, 57);
             button10.TabIndex = 39;
@@ -622,39 +682,27 @@ namespace formstienda
             button10.UseWaitCursor = true;
             button10.Click += button10_Click;
             // 
-            // dataGridView3
+            // DGMARCA
             // 
-            dataGridView3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView3.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2 });
-            dataGridView3.Location = new Point(14, 182);
-            dataGridView3.Margin = new Padding(2, 2, 2, 2);
-            dataGridView3.Name = "dataGridView3";
-            dataGridView3.RowHeadersWidth = 51;
-            dataGridView3.RowTemplate.Height = 24;
-            dataGridView3.Size = new Size(1282, 535);
-            dataGridView3.TabIndex = 28;
-            dataGridView3.UseWaitCursor = true;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.HeaderText = "Marcas";
-            dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.HeaderText = "Editar";
-            dataGridViewTextBoxColumn2.MinimumWidth = 6;
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            DGMARCA.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            DGMARCA.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DGMARCA.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGMARCA.Location = new Point(14, 182);
+            DGMARCA.Margin = new Padding(2);
+            DGMARCA.Name = "DGMARCA";
+            DGMARCA.RowHeadersWidth = 51;
+            DGMARCA.RowTemplate.Height = 24;
+            DGMARCA.Size = new Size(1282, 535);
+            DGMARCA.TabIndex = 28;
+            DGMARCA.UseWaitCursor = true;
+            DGMARCA.CellEndEdit += DGMARCA_CellEndEdit;
             // 
             // button5
             // 
             button5.BackColor = Color.FromArgb(3, 171, 229);
             button5.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button5.Location = new Point(750, 63);
-            button5.Margin = new Padding(2, 2, 2, 2);
+            button5.Margin = new Padding(2);
             button5.Name = "button5";
             button5.Size = new Size(130, 57);
             button5.TabIndex = 27;
@@ -662,19 +710,19 @@ namespace formstienda
             button5.UseVisualStyleBackColor = false;
             button5.UseWaitCursor = true;
             // 
-            // button6
+            // btnguardarmarca
             // 
-            button6.BackColor = Color.FromArgb(3, 171, 229);
-            button6.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button6.Location = new Point(590, 63);
-            button6.Margin = new Padding(2, 2, 2, 2);
-            button6.Name = "button6";
-            button6.Size = new Size(125, 57);
-            button6.TabIndex = 26;
-            button6.Text = "Guardar";
-            button6.UseVisualStyleBackColor = false;
-            button6.UseWaitCursor = true;
-            button6.Click += button6_Click;
+            btnguardarmarca.BackColor = Color.FromArgb(3, 171, 229);
+            btnguardarmarca.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnguardarmarca.Location = new Point(590, 63);
+            btnguardarmarca.Margin = new Padding(2);
+            btnguardarmarca.Name = "btnguardarmarca";
+            btnguardarmarca.Size = new Size(125, 57);
+            btnguardarmarca.TabIndex = 26;
+            btnguardarmarca.Text = "Guardar";
+            btnguardarmarca.UseVisualStyleBackColor = false;
+            btnguardarmarca.UseWaitCursor = true;
+            btnguardarmarca.Click += btnguardarmarca_Click_1;
             // 
             // label15
             // 
@@ -700,80 +748,6 @@ namespace formstienda
             label16.Text = "Nueva Marca:";
             label16.UseWaitCursor = true;
             // 
-            // comboBox4
-            // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(696, 216);
-            comboBox4.Margin = new Padding(2, 3, 2, 3);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(172, 30);
-            comboBox4.TabIndex = 153;
-            // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label21.ForeColor = Color.Black;
-            label21.Location = new Point(589, 221);
-            label21.Margin = new Padding(2, 0, 2, 0);
-            label21.Name = "label21";
-            label21.Size = new Size(88, 20);
-            label21.TabIndex = 157;
-            label21.Text = "Categoría:";
-            // 
-            // label10
-            // 
-            label10.Anchor = AnchorStyles.Top;
-            label10.AutoSize = true;
-            label10.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(314, 221);
-            label10.Margin = new Padding(2, 0, 2, 0);
-            label10.Name = "label10";
-            label10.Size = new Size(63, 20);
-            label10.TabIndex = 158;
-            label10.Text = "Marca:";
-            // 
-            // comboBox5
-            // 
-            comboBox5.FormattingEnabled = true;
-            comboBox5.Location = new Point(392, 216);
-            comboBox5.Margin = new Padding(2, 3, 2, 3);
-            comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(172, 30);
-            comboBox5.TabIndex = 159;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.ForeColor = Color.Black;
-            label13.Location = new Point(18, 221);
-            label13.Margin = new Padding(2, 0, 2, 0);
-            label13.Name = "label13";
-            label13.Size = new Size(83, 20);
-            label13.TabIndex = 160;
-            label13.Text = "Producto:";
-            // 
-            // comboBox9
-            // 
-            comboBox9.FormattingEnabled = true;
-            comboBox9.Location = new Point(115, 216);
-            comboBox9.Margin = new Padding(2, 3, 2, 3);
-            comboBox9.Name = "comboBox9";
-            comboBox9.Size = new Size(172, 30);
-            comboBox9.TabIndex = 161;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.Location = new Point(18, 191);
-            label14.Margin = new Padding(2, 0, 2, 0);
-            label14.Name = "label14";
-            label14.Size = new Size(165, 22);
-            label14.TabIndex = 162;
-            label14.Text = "Buscar producto:";
-            // 
             // FormProductos
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -783,7 +757,7 @@ namespace formstienda
             Controls.Add(tabControl1);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "FormProductos";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Productos";
@@ -794,10 +768,10 @@ namespace formstienda
             ((System.ComponentModel.ISupportInitialize)DGPRODUCTOS).EndInit();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DGCATEGORIA).EndInit();
             tabPage3.ResumeLayout(false);
             tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DGMARCA).EndInit();
             ResumeLayout(false);
 
         }
@@ -828,25 +802,21 @@ namespace formstienda
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnguardacarac;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridView DGCATEGORIA;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.DataGridView dataGridView3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridView DGMARCA;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnguardarmarca;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.ComboBox comboBox6;
-        private System.Windows.Forms.ComboBox comboBox7;
-        private System.Windows.Forms.ComboBox comboBox8;
+        private System.Windows.Forms.ComboBox cbcategoria;
+        private System.Windows.Forms.ComboBox cbmarca;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
