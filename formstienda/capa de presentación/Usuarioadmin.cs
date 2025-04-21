@@ -175,7 +175,7 @@ namespace formstienda
                 ContraseñaUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["ContraseñaUsuario"].Value?.ToString() ?? "",
                 TelefonoUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["TelefonoUsuario"].Value?.ToString() ?? "",
                 RolUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["RolUsuario"].Value?.ToString() ?? "",
-                //EstadoUsuario = (DGUSUARIOS.Rows[e.RowIndex].Cells["RolUsuario"].Value?.ToString() == "1"),
+                EstadoUsuario = (DGUSUARIOS.Rows[e.RowIndex].Cells["RolUsuario"].Value?.ToString() == "1"),
 
             };
             if (usuarioServicio.Actualizarusuario(usuarioEditado))
