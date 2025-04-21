@@ -29,6 +29,7 @@ namespace formstienda
         {
             var apertura = new AperturaCaja
             {
+<<<<<<< HEAD
                 FechaApertura = DateTime.Now,
                 HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
 
@@ -70,6 +71,13 @@ namespace formstienda
             MessageBox.Show("Tasa de cambio registrada correctamente.");
 
 
+=======
+                this.Close();
+            }
+            
+            Factura factura = new Factura();
+            factura.Show();
+>>>>>>> 1f2e5bec682de1805f35839ad7f13f14a537c755
         }
 
         private void label3_Click(object sender, EventArgs e)
