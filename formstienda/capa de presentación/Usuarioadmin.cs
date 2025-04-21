@@ -53,7 +53,8 @@ namespace formstienda
                 ContraseñaUsuario = txtpassword.Text,
                 RolUsuario = cbrolusuario.Text,
                 UsuarioLogueo = cbrolusuario.Text + txtnombreusuario.Text,
-                TelefonoUsuario = txttelefonousuario.Text
+                TelefonoUsuario = txttelefonousuario.Text,
+                EstadoUsuario = cbestadousuario.Text == "Activo" ? true : false,
             };
             var usuarioExistente = usuarioServicio?.Listausuarios()
                                                   .FirstOrDefault(p => p.CorreoUsuario == usuario.CorreoUsuario);
@@ -62,8 +63,8 @@ namespace formstienda
                 MessageBox.Show("Este usuario ya existe, agregue otro correo");
                 return;
             }
-            usuarioServicio.AgregarUsuario(usuario);
-            Listausuarios.Add(usuario);
+            usuarioServicio?.AgregarUsuario(usuario);
+            Listausuarios?.Add(usuario);
             MessageBox.Show("Usuario agregado correctamente");
         }
 
@@ -144,8 +145,8 @@ namespace formstienda
                         var confirmacion = MessageBox.Show("Esta seguro_?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (confirmacion == DialogResult.Yes)
                         {
-                            usuarioServicio.Eliminarusuario(usuarioSeleccionado.IdUsuario);
-                            Listausuarios.Remove(usuarioSeleccionado);
+                            usuarioServicio?.Eliminarusuario(usuarioSeleccionado.IdUsuario);
+                            Listausuarios?.Remove(usuarioSeleccionado);
 
                         }
                     }
@@ -175,7 +176,7 @@ namespace formstienda
                 ContraseñaUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["ContraseñaUsuario"].Value?.ToString() ?? "",
                 TelefonoUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["TelefonoUsuario"].Value?.ToString() ?? "",
                 RolUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["RolUsuario"].Value?.ToString() ?? "",
-                EstadoUsuario = (DGUSUARIOS.Rows[e.RowIndex].Cells["RolUsuario"].Value?.ToString() == "1"),
+                EstadoUsuario = (DGUSUARIOS.Rows[e.RowIndex].Cells["EstadoUsuario"].Value?.ToString() == "1"),
 
             };
             if (usuarioServicio.Actualizarusuario(usuarioEditado))
