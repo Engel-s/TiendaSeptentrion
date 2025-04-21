@@ -27,7 +27,14 @@ namespace formstienda.capa_de_negocios
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                string errorMessage = ex.Message;
+
+                if (ex.InnerException != null)
+                {
+                    errorMessage += "\n\nInner Exception:\n" + ex.InnerException.Message;
+                }
+
+                MessageBox.Show(errorMessage, "Error al registrar fondo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }

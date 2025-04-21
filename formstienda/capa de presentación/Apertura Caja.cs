@@ -16,18 +16,24 @@ namespace formstienda
     {
         private AperturaServicio? aperturaServicio;
         private TasaServicio? tasaServicio;
+        //private BindingList<Tasadecambio>? Listatasacambios;
+
         public Apertura_Caja()
         {
             InitializeComponent();
+            aperturaServicio = new AperturaServicio();
+            tasaServicio = new TasaServicio();
         }
 
         private void btnabrircaja_Click(object sender, EventArgs e)
         {
             var apertura = new AperturaCaja
             {
-                FechaApertura = DateOnly.FromDateTime(DateTime.Today),
+                FechaApertura = DateTime.Now,
+                HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
 
-                MontoApertura = double.Parse(txtapertura.Text),
+                MontoApertura = decimal.Parse(txtapertura.Text),
+                EstadoApertura = "Abierta",
 
             };
 
@@ -43,11 +49,11 @@ namespace formstienda
             aperturaServicio?.Agregarfondo(apertura);
             //ListaAperturas?.Add(apertura);
             MessageBox.Show("Apertura de caja registrada correctamente.");
-            var tasa = new TasaDeCambio
+            var tasadecambio = new TasaDeCambio
             {
-                FechaCambio = DateOnly.FromDateTime(DateTime.Today),
-                ValorCambio = double.Parse(txttasadecambio.Text),
-                
+                FechaCambio = DateTime.Now,
+                ValorCambio = decimal.Parse(txttasadecambio.Text),
+
             };
 
             // Validar si ya existe una tasa registrada hoy
@@ -59,8 +65,8 @@ namespace formstienda
             //    return;
             //}
 
-            tasaServicio?.IngresarTasa(tasa);
-            //Listatasas?.Add(tasa);
+            tasaServicio?.AgregarTasa(tasadecambio);
+            //Listatasacambios?.Add(tasadecambio);
             MessageBox.Show("Tasa de cambio registrada correctamente.");
 
 
