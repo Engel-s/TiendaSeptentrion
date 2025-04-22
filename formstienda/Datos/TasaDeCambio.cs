@@ -7,7 +7,7 @@ public partial class TasaDeCambio
 {
     public int IdTasaCambio { get; set; }
 
-    public DateOnly FechaCambio { get; set; }
+    public DateTime FechaCambio { get; set; }
 
-    public double ValorCambio { get; set; }
+    public decimal ValorCambio { get; set; }
 }

@@ -80,5 +80,40 @@ namespace formstienda.capa_de_negocios
                 return false;
             }
         }
+        public bool Actualizarcliente(Cliente cliente)
+        {
+            try
+            {
+                using (var _contexto = new DbTiendaSeptentrionContext())
+                {
+                    var clienteExistente = _contexto.Clientes.Find(cliente.IdCliente);
+                    if (clienteExistente == null)
+                    {
+                        Console.WriteLine($"Error:No se encontro el cliente con ID(cliente.IdCliente).");
+                        return false;
+
+                    }
+                    clienteExistente.NombreCliente = cliente.NombreCliente;
+                    clienteExistente.ApellidoCliente = cliente.ApellidoCliente;
+                    clienteExistente.CedulaCliente = cliente.CedulaCliente;
+                    clienteExistente.TelefonoCliente = cliente.TelefonoCliente;
+                    clienteExistente.ColillaInssCliente = cliente.ColillaInssCliente;
+                    clienteExistente.DireccionCliente = cliente.DireccionCliente;
+                    clienteExistente.SujetoCredito= cliente.SujetoCredito;
+                    _contexto.Clientes.Update(clienteExistente);
+                    _contexto.SaveChanges();
+                    return true;
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+
+        }
     }
 }

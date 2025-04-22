@@ -108,5 +108,33 @@ namespace formstienda.capa_de_presentación
             lblcolilla.Visible = false;
             txtcolillainss.Visible = false;
         }
+
+        private void DGCLIENTES_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            int IdCliente = (int)DGCLIENTES.Rows[e.RowIndex].Cells["IdCliente"].Value;
+            //validacion 
+            if (string.IsNullOrEmpty(DGCLIENTES.Rows[e.RowIndex].Cells["NombreCliente"].Value?.ToString()))
+            {
+                MessageBox.Show("El nombre no puede estar vacio o ser nulo");
+                return;
+            }
+            var clienteEditado = new Cliente
+            {
+                IdCliente = IdCliente,
+                NombreCliente = DGCLIENTES.Rows[e.RowIndex].Cells["NombreCliente"].Value?.ToString() ?? "",
+                ApellidoCliente = DGCLIENTES.Rows[e.RowIndex].Cells["ApellidoCliente"].Value?.ToString() ?? "",
+                TelefonoCliente = DGCLIENTES.Rows[e.RowIndex].Cells["TelefonoCliente"].Value?.ToString() ?? "",
+                DireccionCliente = DGCLIENTES.Rows[e.RowIndex].Cells["DireccionCliente"].Value?.ToString() ?? "",
+                CedulaCliente = DGCLIENTES.Rows[e.RowIndex].Cells["CedulaCliente"].Value?.ToString() ?? "",
+                ColillaInssCliente = DGCLIENTES.Rows[e.RowIndex].Cells["ColillaInssCliente"].Value?.ToString() ?? "",
+                SujetoCredito = Convert.ToBoolean(DGCLIENTES.Rows[e.RowIndex].Cells["SujetoCredito"].Value),
+
+
+            };
+            if (clienteServicio.Actualizarcliente(clienteEditado))
+                MessageBox.Show("Cliente actualizado correctamente");
+            else
+                MessageBox.Show("No se pudo actualizar al cliente");
+        }
     }
 }

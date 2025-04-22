@@ -49,7 +49,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=Ryuuga-Noxus\\SQLEXPRESS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=RYUUGA-NOXUS\\SQLEXPRESS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,11 +66,13 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("Estado_Apertura");
-            entity.Property(e => e.FechaApertura).HasColumnName("Fecha_Apertura");
-            entity.Property(e => e.HoraApertura)
+            entity.Property(e => e.FechaApertura)
                 .HasColumnType("datetime")
-                .HasColumnName("Hora_Apertura");
-            entity.Property(e => e.MontoApertura).HasColumnName("Monto_Apertura");
+                .HasColumnName("Fecha_Apertura");
+            entity.Property(e => e.HoraApertura).HasColumnName("Hora_Apertura");
+            entity.Property(e => e.MontoApertura)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("Monto_Apertura");
         });
 
         modelBuilder.Entity<ArqueoCaja>(entity =>
@@ -421,11 +423,15 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasName("PK17")
                 .IsClustered(false);
 
-            entity.ToTable("Tasa de cambio");
+            entity.ToTable("Tasa de Cambio");
 
-            entity.Property(e => e.IdTasaCambio).HasColumnName("Id_Tasa_Cambio");
-            entity.Property(e => e.FechaCambio).HasColumnName("Fecha_Cambio");
-            entity.Property(e => e.ValorCambio).HasColumnName("Valor_Cambio");
+            entity.Property(e => e.IdTasaCambio).HasColumnName("Id_Tasa_cambio");
+            entity.Property(e => e.FechaCambio)
+                .HasColumnType("datetime")
+                .HasColumnName("Fecha_cambio");
+            entity.Property(e => e.ValorCambio)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("Valor_cambio");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
@@ -447,9 +453,8 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("Contraseña_Usuario");
             entity.Property(e => e.CorreoUsuario)
-                .HasMaxLength(10)
+                .HasMaxLength(50)
                 .IsUnicode(false)
-                .IsFixedLength()
                 .HasColumnName("Correo_Usuario");
             entity.Property(e => e.EstadoUsuario).HasColumnName("Estado_Usuario");
             entity.Property(e => e.NombreUsuario)
@@ -461,7 +466,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Rol_Usuario");
             entity.Property(e => e.TelefonoUsuario)
-                .HasMaxLength(8)
+                .HasMaxLength(9)
                 .IsUnicode(false)
                 .HasColumnName("Telefono_Usuario");
             entity.Property(e => e.UsuarioLogueo)

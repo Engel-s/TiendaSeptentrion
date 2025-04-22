@@ -317,6 +317,7 @@
             DGCLIENTES.RowTemplate.Height = 28;
             DGCLIENTES.Size = new Size(666, 353);
             DGCLIENTES.TabIndex = 13;
+            DGCLIENTES.CellEndEdit += DGCLIENTES_CellEndEdit;
             // 
             // Clientes
             // 
