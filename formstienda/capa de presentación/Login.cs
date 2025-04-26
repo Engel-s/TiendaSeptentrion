@@ -113,6 +113,12 @@ namespace formstienda
                 return;
             }
 
+            if(usuario.EstadoUsuario == false)
+            {
+                MessageBox.Show($"El usuario {usuario.NombreUsuario} esta inactivo, activelo nuevamente o ingrese con otro usuario");
+                return;
+            }
+
             MessageBox.Show($"Bienvenido {usuario.NombreUsuario} al sistema");
             this.Hide();
             menu form = new menu(usuario.RolUsuario);
@@ -120,35 +126,6 @@ namespace formstienda
             Apertura_Caja apertura = new Apertura_Caja();
             apertura.Show();
             this.Hide();
-
-            /*if (txtusername.Text != "")
-            {
-                if (txtpassword.Text != "")
-                {
-                    using (var context = new TiendaDBContext())
-                    {
-                        var usuarioValido = context.Usuarios
-                            .FirstOrDefault(u => u.UsuarioLogueo == usuario && u.ContraseñaUsuario == contraseña);
-
-                        if (usuarioValido != null)
-                        {
-                            // Usuario válido para abrir el formulario de menú
-                            menu form = new menu();
-                            form.Show();
-                            Apertura_Caja apertura = new Apertura_Caja();
-                            apertura.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            // Usuario o contraseña incorrectos
-                            MessageBox.Show("Usuario o contraseña incorrectos");
-                        }
-                    }
-                }
-                else MessageBox.Show("Ingrese contraseña");
-            }
-            else MessageBox.Show("Ingrese usuario");*/
 
         }
 

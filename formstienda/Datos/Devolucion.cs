@@ -25,5 +25,7 @@ public partial class Devolucion
 
     public double MontoDevolucion { get; set; }
 
+    public int CantidadDevueltaDevolucion { get; set; }
+
     public virtual DetalleDeVentum DetalleDeVentum { get; set; } = null!;
 }

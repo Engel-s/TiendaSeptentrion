@@ -11,11 +11,15 @@ public partial class Producto
 
     public int IdMarca { get; set; }
 
-    public string NombreProducto { get; set; } = null!;
+    public string ModeloProducto { get; set; } = null!;
 
     public double PrecioVenta { get; set; }
 
     public bool EstadoProducto { get; set; }
+
+    public int StockActual { get; set; }
+
+    public int StockMinimo { get; set; }
 
     public virtual ICollection<Compra> Compras { get; set; } = new List<Compra>();
 

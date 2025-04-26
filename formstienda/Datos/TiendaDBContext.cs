@@ -66,11 +66,13 @@ public partial class TiendaDBContext : DbContext
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("Estado_Apertura");
-            entity.Property(e => e.FechaApertura).HasColumnName("Fecha_Apertura");
-            entity.Property(e => e.HoraApertura)
+            entity.Property(e => e.FechaApertura)
                 .HasColumnType("datetime")
-                .HasColumnName("Hora_Apertura");
-            entity.Property(e => e.MontoApertura).HasColumnName("Monto_Apertura");
+                .HasColumnName("Fecha_Apertura");
+            entity.Property(e => e.HoraApertura).HasColumnName("Hora_Apertura");
+            entity.Property(e => e.MontoApertura)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("Monto_Apertura");
         });
 
         modelBuilder.Entity<ArqueoCaja>(entity =>
@@ -235,6 +237,7 @@ public partial class TiendaDBContext : DbContext
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
             entity.Property(e => e.IdCliente).HasColumnName("Id_cliente");
             entity.Property(e => e.IdVenta).HasColumnName("Id_Venta");
+            entity.Property(e => e.CantidadDevueltaDevolucion).HasColumnName("Cantidad_Devuelta_Devolucion");
             entity.Property(e => e.DescripcionDevolucion)
                 .HasMaxLength(500)
                 .IsUnicode(false)
@@ -300,7 +303,6 @@ public partial class TiendaDBContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Motivo_Salida");
-            entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
 
             entity.HasOne(d => d.Producto).WithMany(p => p.Inventarios)
                 .HasForeignKey(d => new { d.IdProducto, d.IdCategoria, d.IdMarca })
@@ -365,11 +367,13 @@ public partial class TiendaDBContext : DbContext
             entity.Property(e => e.IdCategoria).HasColumnName("Id_Categoria");
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
             entity.Property(e => e.EstadoProducto).HasColumnName("Estado_Producto");
-            entity.Property(e => e.NombreProducto)
+            entity.Property(e => e.ModeloProducto)
                 .HasMaxLength(200)
                 .IsUnicode(false)
-                .HasColumnName("Nombre_Producto");
+                .HasColumnName("Modelo_Producto");
             entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
+            entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
+            entity.Property(e => e.StockMinimo).HasColumnName("Stock_Minimo");
 
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Productos)
                 .HasForeignKey(d => d.IdCategoria)
@@ -420,11 +424,15 @@ public partial class TiendaDBContext : DbContext
                 .HasName("PK17")
                 .IsClustered(false);
 
-            entity.ToTable("Tasa de cambio");
+            entity.ToTable("Tasa de Cambio");
 
-            entity.Property(e => e.IdTasaCambio).HasColumnName("Id_Tasa_Cambio");
-            entity.Property(e => e.FechaCambio).HasColumnName("Fecha_Cambio");
-            entity.Property(e => e.ValorCambio).HasColumnName("Valor_Cambio");
+            entity.Property(e => e.IdTasaCambio).HasColumnName("Id_Tasa_cambio");
+            entity.Property(e => e.FechaCambio)
+                .HasColumnType("datetime")
+                .HasColumnName("Fecha_cambio");
+            entity.Property(e => e.ValorCambio)
+                .HasColumnType("decimal(18, 5)")
+                .HasColumnName("Valor_cambio");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
@@ -441,8 +449,9 @@ public partial class TiendaDBContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Apellido_Usuario");
             entity.Property(e => e.ContraseñaUsuario)
-                .HasMaxLength(100)
+                .HasMaxLength(10)
                 .IsUnicode(false)
+                .IsFixedLength()
                 .HasColumnName("Contraseña_Usuario");
             entity.Property(e => e.CorreoUsuario)
                 .HasMaxLength(50)
@@ -458,11 +467,11 @@ public partial class TiendaDBContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Rol_Usuario");
             entity.Property(e => e.TelefonoUsuario)
-                .HasMaxLength(8)
+                .HasMaxLength(9)
                 .IsUnicode(false)
                 .HasColumnName("Telefono_Usuario");
             entity.Property(e => e.UsuarioLogueo)
-                .HasMaxLength(100)
+                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Usuario_Logueo");
         });
