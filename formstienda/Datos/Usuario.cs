@@ -20,9 +20,15 @@ public partial class Usuario
     public string RolUsuario { get; set; } = null!;
 
     public bool? EstadoUsuario { get; set; }
+<<<<<<< HEAD
+=======
 
     public string UsuarioLogueo { get; set; } = null!;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d25b44a56df6453a6106d9619f5573ed3d7b80b2
+>>>>>>> b010f4a8a85e19fa2f9bf5429bc3252f6dd76b95
 
     public string UsuarioLogueo { get; set; } = null!;
 =======

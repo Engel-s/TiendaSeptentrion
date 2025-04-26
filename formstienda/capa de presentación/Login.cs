@@ -106,7 +106,7 @@ namespace formstienda
                     using (var context = new DbTiendaSeptentrionContext())
                     {
                         var usuarioValido = context.Usuarios
-                            .FirstOrDefault(u => u.NombreUsuario == usuario && u.ContraseñaUsuario == contraseña);
+                            .FirstOrDefault(u => u.UsuarioLogueo == usuario && u.ContraseñaUsuario == contraseña);
 
                         if (usuarioValido != null)
                         {
