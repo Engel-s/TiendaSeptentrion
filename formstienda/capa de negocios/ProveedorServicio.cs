@@ -54,8 +54,6 @@ namespace formstienda.capa_de_negocios
                 return false;
             }
         }
-        //Eliminar proveedor
-
 
         //Actualizar proveedor
         public bool ActualizarProveedor(Proveedor proveedor)

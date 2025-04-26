@@ -27,7 +27,14 @@ namespace formstienda
         }
 
 
-
+        private void limpiarcampos()
+        {
+            txtNombre_proveedor.Clear();
+            txtApellido_proveedores.Clear();
+            txtCodigo_ruc.Clear();
+            txtTelefono.Clear();
+            txtCorreo.Clear();
+        }
         //DbContext db = new DbContext();
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -102,6 +109,7 @@ namespace formstienda
                 ApellidoProveedor = txtApellido_proveedores.Text,
                 TelefonoProveedor = txtTelefono.Text,
                 CorreoProveedor = txtCorreo.Text,
+                EstadoProveedor = cmbestado.Text == "Activo" ? true : false,
 
             };
 
@@ -118,6 +126,8 @@ namespace formstienda
             proveedorServicio.AgregarProveedor(proveedor);
             listaProveedores.Add(proveedor);
             MessageBox.Show("Proveedor agregado correctamente.");
+
+            limpiarcampos();
         }
 
         private void dtgproveedores_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -152,6 +162,7 @@ namespace formstienda
                 ApellidoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["ApellidoProveedor"].Value.ToString() ?? "",
                 TelefonoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["TelefonoProveedor"].Value.ToString() ?? "",
                 CorreoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["CorreoProveedor"].Value.ToString() ?? "",
+                EstadoProveedor = Convert.ToBoolean(dtgproveedores.Rows[e.RowIndex].Cells["EstadoProveedor"].Value),
 
             };
 
