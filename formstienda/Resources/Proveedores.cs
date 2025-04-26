@@ -12,7 +12,7 @@ namespace formstienda.Resources
             //validar si la lsita es 
             try
             {
-                using (var _contexto = new TiendaDBContext())
+                using (var _contexto = new DbTiendaSeptentrionContext())
                 {
                     return _contexto.Proveedors.ToList();
                 }
@@ -23,9 +23,6 @@ namespace formstienda.Resources
                 Console.WriteLine(ex.Message);
                 return new List<Proveedor>();
             }
-
-
-
         }
     }
 }

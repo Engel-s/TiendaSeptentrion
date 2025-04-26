@@ -136,7 +136,7 @@ namespace formstienda
             //Validar existencias del proveedor
             var proveedorExistente = proveedorServicio.ListarProveedores()
                 .FirstOrDefault(p => p.CodigoRuc == proveedor.CodigoRuc
-                || p.TelefonoProveedor == proveedor.TelefonoProveedor);
+                || p.TelefonoProveedor == proveedor.TelefonoProveedor || p.CorreoProveedor == proveedor.CorreoProveedor);
 
             if (proveedorExistente != null)
             {
@@ -149,6 +149,11 @@ namespace formstienda
                 if (proveedorExistente.TelefonoProveedor == proveedor.TelefonoProveedor)
                 {
                     MessageBox.Show("Este proveedor ya existe, verifique el numero de telefono");
+                    return;
+                }
+                if (proveedorExistente.CorreoProveedor == proveedor.CorreoProveedor)
+                {
+                    MessageBox.Show("Este proveedor ya existe, verifique el correo electronico");
                     return;
                 }
             }
@@ -169,6 +174,12 @@ namespace formstienda
         private void dtgproveedores_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             int idProveedor = (int)dtgproveedores.Rows[e.RowIndex].Cells["IdProveedor"].Value;
+
+            if (string.IsNullOrEmpty(dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value?.ToString()))
+            {
+                MessageBox.Show("El codigo ruc no puede estar vacio");
+                return;
+            }
 
             if (string.IsNullOrEmpty(dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString()))
             {

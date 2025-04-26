@@ -100,35 +100,8 @@ namespace formstienda
 
             if (string.IsNullOrEmpty(nombreusuario) || string.IsNullOrEmpty(contraseña))
             {
-<<<<<<< HEAD
-                if (txtpassword.Text != "")
-                {
-                    using (var context = new DbTiendaSeptentrionContext())
-                    {
-                        var usuarioValido = context.Usuarios
-                            .FirstOrDefault(u => u.UsuarioLogueo == usuario && u.ContraseñaUsuario == contraseña);
-
-                        if (usuarioValido != null)
-                        {
-                            // Usuario válido para abrir el formulario de menú
-                            menu form = new menu();
-                            form.Show();
-                            Apertura_Caja apertura = new Apertura_Caja();
-                            apertura.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            // Usuario o contraseña incorrectos
-                            MessageBox.Show("Usuario o contraseña incorrectos");
-                        }
-                    }
-                }
-                else MessageBox.Show("Ingrese contraseña");
-=======
                 MessageBox.Show("El nombre de usuario o la contrasena son nulas");
                 return;
->>>>>>> login
             }
 
             var usuario = _authServicio.Validar_Credenciales(nombreusuario, contraseña);

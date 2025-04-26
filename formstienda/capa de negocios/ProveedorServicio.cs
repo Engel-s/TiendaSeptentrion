@@ -18,7 +18,7 @@ namespace formstienda.capa_de_negocios
             try
             {
                 //Abrir context
-                using (var contexto = new TiendaDBContext())
+                using (var contexto = new DbTiendaSeptentrionContext())
                 {
                     //SELECT * FROM Proveedores
                     return contexto.Proveedors.ToList();
@@ -41,7 +41,7 @@ namespace formstienda.capa_de_negocios
             }
             try
             {
-                using (var contexto = new TiendaDBContext())
+                using (var contexto = new DbTiendaSeptentrionContext())
                 {
                     contexto.Proveedors.Add(proveedor);
                     contexto.SaveChanges();
@@ -60,7 +60,7 @@ namespace formstienda.capa_de_negocios
         {
             try
             {
-                using (var contexto = new TiendaDBContext())
+                using (var contexto = new DbTiendaSeptentrionContext())
                 {
                     var proveedorExistente = contexto.Proveedors.Find(proveedor.IdProveedor);
                     if (proveedorExistente == null)
