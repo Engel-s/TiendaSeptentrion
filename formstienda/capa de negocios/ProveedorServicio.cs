@@ -72,7 +72,7 @@ namespace formstienda.capa_de_negocios
                     //Asignar valores actualizados
                     proveedorExistente.NombreProveedor = proveedor.NombreProveedor;
                     proveedorExistente.ApellidoProveedor = proveedor.ApellidoProveedor;
-                    proveedorExistente.CorreoProveedor = proveedor.NombreProveedor;
+                    proveedorExistente.CorreoProveedor = proveedor.CorreoProveedor;
                     proveedorExistente.TelefonoProveedor = proveedor.TelefonoProveedor;
                     proveedorExistente.CodigoRuc = proveedor.CodigoRuc;
                     proveedorExistente.EstadoProveedor = proveedor.EstadoProveedor;

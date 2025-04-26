@@ -315,6 +315,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Proveedores";
             Load += Proveedores_Load;
+            KeyPress += Proveedores_KeyPress;
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)dtgproveedores).EndInit();

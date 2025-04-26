@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.TextFormatting;
+using System.Windows.Navigation;
 using formstienda.capa_de_negocios;
 using formstienda.Datos;
 using Microsoft.EntityFrameworkCore;
@@ -88,6 +89,7 @@ namespace formstienda
         {
             //cuando se cargue el formulario se ejecuta esto
             CargarProveedores();
+            cmbestado.SelectedItem = "Activo";
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -102,6 +104,8 @@ namespace formstienda
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+
+
             var proveedor = new Proveedor
             {
                 CodigoRuc = txtCodigo_ruc.Text,
@@ -110,16 +114,43 @@ namespace formstienda
                 TelefonoProveedor = txtTelefono.Text,
                 CorreoProveedor = txtCorreo.Text,
                 EstadoProveedor = cmbestado.Text == "Activo" ? true : false,
-
             };
+
+            if (txtNombre_proveedor.Text == "")
+            {
+                MessageBox.Show("Ingrese el nombre del proveedor");
+                return;
+            }
+
+            if (txtApellido_proveedores.Text == "")
+            {
+                MessageBox.Show("Ingrese el apellido del proveedor");
+                return;
+            }
+            if (txtTelefono.Text == "")
+            {
+                MessageBox.Show("Ingrese el numero telefonico del proveedor");
+                return;
+            }
 
             //Validar existencias del proveedor
             var proveedorExistente = proveedorServicio.ListarProveedores()
-                .FirstOrDefault(p => p.CorreoProveedor == proveedor.CorreoProveedor);
+                .FirstOrDefault(p => p.CodigoRuc == proveedor.CodigoRuc
+                || p.TelefonoProveedor == proveedor.TelefonoProveedor);
+
             if (proveedorExistente != null)
             {
-                MessageBox.Show("Este proveedor ya existe, agregue un correo diferente");
-                return;
+                if (proveedorExistente.CodigoRuc == proveedor.CodigoRuc)
+                {
+                    MessageBox.Show("Este proveedor ya existe, verifique el codigo ruc");
+                    return;
+                }
+
+                if (proveedorExistente.TelefonoProveedor == proveedor.TelefonoProveedor)
+                {
+                    MessageBox.Show("Este proveedor ya existe, verifique el numero de telefono");
+                    return;
+                }
             }
 
             //conectando con el servicio
@@ -138,7 +169,6 @@ namespace formstienda
         private void dtgproveedores_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             int idProveedor = (int)dtgproveedores.Rows[e.RowIndex].Cells["IdProveedor"].Value;
-
 
             if (string.IsNullOrEmpty(dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString()))
             {
@@ -161,7 +191,7 @@ namespace formstienda
                 NombreProveedor = dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString() ?? "",
                 ApellidoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["ApellidoProveedor"].Value.ToString() ?? "",
                 TelefonoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["TelefonoProveedor"].Value.ToString() ?? "",
-                CorreoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["CorreoProveedor"].Value.ToString() ?? "",
+                CorreoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["CorreoProveedor"].Value?.ToString() ?? "",
                 EstadoProveedor = Convert.ToBoolean(dtgproveedores.Rows[e.RowIndex].Cells["EstadoProveedor"].Value),
 
             };
@@ -173,6 +203,15 @@ namespace formstienda
             else
                 MessageBox.Show("No se pudo actualizar el proveedor");
 
+        }
+
+        private void Proveedores_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo números y control keys como backspace
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Cancelar la tecla
+            }
         }
     }
 }
