@@ -22,8 +22,4 @@ public partial class Compra
     public double PrecioCompra { get; set; }
 
     public int CantidadCompra { get; set; }
-
-    public virtual Proveedor IdProveedorNavigation { get; set; } = null!;
-
-    public virtual Producto Producto { get; set; } = null!;
 }

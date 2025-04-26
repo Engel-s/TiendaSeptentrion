@@ -13,13 +13,9 @@ public partial class Inventario
 
     public int IdMarca { get; set; }
 
-    public int StockActual { get; set; }
-
     public int CantidadSalir { get; set; }
 
     public string MotivoSalida { get; set; } = null!;
 
     public string DescripcionSalida { get; set; } = null!;
-
-    public virtual Producto Producto { get; set; } = null!;
 }

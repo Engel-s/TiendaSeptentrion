@@ -36,6 +36,4 @@ public partial class DetalleDeVentum
     public virtual Ventum IdVentaNavigation { get; set; } = null!;
 
     public virtual ICollection<PagoDeCredito> PagoDeCreditos { get; set; } = new List<PagoDeCredito>();
-
-    public virtual Producto Producto { get; set; } = null!;
 }

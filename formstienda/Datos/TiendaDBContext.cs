@@ -168,16 +168,6 @@ public partial class TiendaDBContext : DbContext
             entity.Property(e => e.FechaCompra).HasColumnName("Fecha_Compra");
             entity.Property(e => e.NoFacturaCompra).HasColumnName("No_Factura_Compra");
             entity.Property(e => e.PrecioCompra).HasColumnName("Precio_Compra");
-
-            entity.HasOne(d => d.IdProveedorNavigation).WithMany(p => p.Compras)
-                .HasForeignKey(d => d.IdProveedor)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("RefProveedor3");
-
-            entity.HasOne(d => d.Producto).WithMany(p => p.Compras)
-                .HasForeignKey(d => new { d.IdProducto, d.IdCategoria, d.IdMarca })
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("RefProducto20");
         });
 
         modelBuilder.Entity<DetalleDeVentum>(entity =>
@@ -211,11 +201,6 @@ public partial class TiendaDBContext : DbContext
                 .HasForeignKey(d => d.IdVenta)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("RefVenta19");
-
-            entity.HasOne(d => d.Producto).WithMany(p => p.DetalleDeVenta)
-                .HasForeignKey(d => new { d.IdProducto, d.IdCategoria, d.IdMarca })
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("RefProducto6");
         });
 
         modelBuilder.Entity<Devolucion>(entity =>
@@ -300,12 +285,6 @@ public partial class TiendaDBContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Motivo_Salida");
-            entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
-
-            entity.HasOne(d => d.Producto).WithMany(p => p.Inventarios)
-                .HasForeignKey(d => new { d.IdProducto, d.IdCategoria, d.IdMarca })
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("RefProducto22");
         });
 
         modelBuilder.Entity<Marca>(entity =>
@@ -353,23 +332,24 @@ public partial class TiendaDBContext : DbContext
 
         modelBuilder.Entity<Producto>(entity =>
         {
-            entity.HasKey(e => new { e.IdProducto, e.IdCategoria, e.IdMarca })
-                .HasName("PK4")
-                .IsClustered(false);
+            entity.HasKey(e => e.CodigoProducto);
 
             entity.ToTable("Producto");
 
-            entity.Property(e => e.IdProducto)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("Id_Producto");
+            entity.Property(e => e.CodigoProducto)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Codigo_Producto");
+            entity.Property(e => e.EstadoProducto).HasColumnName("Estado_Producto");
             entity.Property(e => e.IdCategoria).HasColumnName("Id_Categoria");
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
-            entity.Property(e => e.EstadoProducto).HasColumnName("Estado_Producto");
             entity.Property(e => e.NombreProducto)
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("Nombre_Producto");
             entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
+            entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
+            entity.Property(e => e.StockMinimo).HasColumnName("Stock_Minimo");
 
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Productos)
                 .HasForeignKey(d => d.IdCategoria)
@@ -384,21 +364,18 @@ public partial class TiendaDBContext : DbContext
 
         modelBuilder.Entity<Proveedor>(entity =>
         {
-            entity.HasKey(e => e.IdProveedor)
-                .HasName("PK3")
-                .IsClustered(false);
+            entity.HasKey(e => e.CodigoRuc);
 
             entity.ToTable("Proveedor");
 
-            entity.Property(e => e.IdProveedor).HasColumnName("Id_Proveedor");
-            entity.Property(e => e.ApellidoProveedor)
-                .HasMaxLength(500)
-                .IsUnicode(false)
-                .HasColumnName("Apellido_Proveedor");
             entity.Property(e => e.CodigoRuc)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Codigo_Ruc");
+            entity.Property(e => e.ApellidoProveedor)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("Apellido_Proveedor");
             entity.Property(e => e.CorreoProveedor)
                 .HasMaxLength(200)
                 .IsUnicode(false)
