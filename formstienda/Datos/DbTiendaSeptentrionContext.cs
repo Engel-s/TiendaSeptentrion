@@ -50,10 +50,14 @@ public partial class DbTiendaSeptentrionContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
 <<<<<<< HEAD:formstienda/Datos/DbTiendaSeptentrionContext.cs
+<<<<<<< HEAD:formstienda/Datos/DbTiendaSeptentrionContext.cs
         => optionsBuilder.UseSqlServer("Server=ENGELS-DELL5480\\SQLEXPRESS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
 =======
         => optionsBuilder.UseSqlServer("Server=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 >>>>>>> login:formstienda/Datos/TiendaDBContext.cs
+=======
+        => optionsBuilder.UseSqlServer("Server=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+>>>>>>> proveedores:formstienda/Datos/TiendaDBContext.cs
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
