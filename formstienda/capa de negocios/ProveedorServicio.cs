@@ -62,7 +62,7 @@ namespace formstienda.capa_de_negocios
             {
                 using (var contexto = new TiendaDBContext())
                 {
-                    var proveedorExistente = contexto.Proveedors.Find(proveedor.CodigoRuc);
+                    var proveedorExistente = contexto.Proveedors.Find(proveedor.IdProveedor);
                     if (proveedorExistente == null)
                     {
                         Console.WriteLine("Proveedor no encontrado");

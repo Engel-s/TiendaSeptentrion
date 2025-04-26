@@ -137,7 +137,7 @@ namespace formstienda
 
         private void dtgproveedores_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            string idProveedor = (string)dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value;
+            int idProveedor = (int)dtgproveedores.Rows[e.RowIndex].Cells["IdProveedor"].Value;
 
 
             if (string.IsNullOrEmpty(dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString()))
@@ -156,6 +156,7 @@ namespace formstienda
 
             var proveedorEditado = new Proveedor
             {
+                IdProveedor = idProveedor,
                 CodigoRuc = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value?.ToString() ?? "",
                 NombreProveedor = dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString() ?? "",
                 ApellidoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["ApellidoProveedor"].Value.ToString() ?? "",

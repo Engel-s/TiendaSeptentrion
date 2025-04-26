@@ -18,4 +18,6 @@ public partial class Inventario
     public string MotivoSalida { get; set; } = null!;
 
     public string DescripcionSalida { get; set; } = null!;
+
+    public virtual Producto Producto { get; set; } = null!;
 }
