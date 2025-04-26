@@ -84,10 +84,10 @@
             MenuVertical.Controls.Add(btnmantenimiento);
             MenuVertical.Controls.Add(btnacercade);
             MenuVertical.Dock = DockStyle.Left;
-            MenuVertical.Location = new Point(0, 44);
-            MenuVertical.Margin = new Padding(4, 5, 4, 5);
+            MenuVertical.Location = new Point(0, 35);
+            MenuVertical.Margin = new Padding(3, 4, 3, 4);
             MenuVertical.Name = "MenuVertical";
-            MenuVertical.Size = new Size(299, 1062);
+            MenuVertical.Size = new Size(239, 847);
             MenuVertical.TabIndex = 1;
             MenuVertical.Paint += MenuVertical_Paint;
             // 
@@ -96,10 +96,10 @@
             panel3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel3.Controls.Add(label2);
             panel3.Controls.Add(iconPictureBox1);
-            panel3.Location = new Point(4, 5);
-            panel3.Margin = new Padding(4, 5, 4, 5);
+            panel3.Location = new Point(3, 4);
+            panel3.Margin = new Padding(3, 4, 3, 4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(314, 85);
+            panel3.Size = new Size(251, 68);
             panel3.TabIndex = 1;
             panel3.Paint += panel3_Paint;
             // 
@@ -107,11 +107,10 @@
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
-            label2.Location = new Point(114, 16);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            label2.Location = new Point(91, 13);
             label2.Name = "label2";
-            label2.Size = new Size(131, 28);
+            label2.Size = new Size(109, 25);
             label2.TabIndex = 0;
             label2.Text = "USUARIO";
             label2.Click += label2_Click;
@@ -122,11 +121,11 @@
             iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.User;
             iconPictureBox1.IconColor = Color.White;
             iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconPictureBox1.IconSize = 54;
-            iconPictureBox1.Location = new Point(22, 16);
-            iconPictureBox1.Margin = new Padding(4, 5, 4, 5);
+            iconPictureBox1.IconSize = 43;
+            iconPictureBox1.Location = new Point(18, 13);
+            iconPictureBox1.Margin = new Padding(3, 4, 3, 4);
             iconPictureBox1.Name = "iconPictureBox1";
-            iconPictureBox1.Size = new Size(84, 54);
+            iconPictureBox1.Size = new Size(67, 43);
             iconPictureBox1.TabIndex = 0;
             iconPictureBox1.TabStop = false;
             iconPictureBox1.Click += iconPictureBox1_Click;
@@ -136,18 +135,18 @@
             btncompras.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btncompras.FlatAppearance.BorderColor = SystemColors.Window;
             btncompras.FlatStyle = FlatStyle.Flat;
-            btncompras.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btncompras.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btncompras.ForeColor = Color.White;
             btncompras.IconChar = FontAwesome.Sharp.IconChar.ShoppingBasket;
             btncompras.IconColor = Color.BlanchedAlmond;
             btncompras.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btncompras.IconSize = 40;
             btncompras.ImageAlign = ContentAlignment.MiddleLeft;
-            btncompras.Location = new Point(4, 100);
-            btncompras.Margin = new Padding(4, 5, 4, 5);
+            btncompras.Location = new Point(3, 80);
+            btncompras.Margin = new Padding(3, 4, 3, 4);
             btncompras.Name = "btncompras";
-            btncompras.Padding = new Padding(50, 0, 0, 0);
-            btncompras.Size = new Size(288, 75);
+            btncompras.Padding = new Padding(40, 0, 0, 0);
+            btncompras.Size = new Size(230, 60);
             btncompras.TabIndex = 1;
             btncompras.Text = "Compras";
             btncompras.TextAlign = ContentAlignment.MiddleLeft;
@@ -159,18 +158,18 @@
             // 
             btnventas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnventas.FlatStyle = FlatStyle.Flat;
-            btnventas.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnventas.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnventas.ForeColor = Color.White;
             btnventas.IconChar = FontAwesome.Sharp.IconChar.Store;
             btnventas.IconColor = Color.BlanchedAlmond;
             btnventas.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnventas.IconSize = 40;
             btnventas.ImageAlign = ContentAlignment.MiddleLeft;
-            btnventas.Location = new Point(4, 185);
-            btnventas.Margin = new Padding(4, 5, 4, 5);
+            btnventas.Location = new Point(3, 148);
+            btnventas.Margin = new Padding(3, 4, 3, 4);
             btnventas.Name = "btnventas";
-            btnventas.Padding = new Padding(50, 0, 0, 0);
-            btnventas.Size = new Size(288, 75);
+            btnventas.Padding = new Padding(40, 0, 0, 0);
+            btnventas.Size = new Size(230, 60);
             btnventas.TabIndex = 2;
             btnventas.Text = "Ventas";
             btnventas.TextAlign = ContentAlignment.MiddleLeft;
@@ -182,18 +181,18 @@
             // 
             btndevoluciones.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btndevoluciones.FlatStyle = FlatStyle.Flat;
-            btndevoluciones.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btndevoluciones.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btndevoluciones.ForeColor = Color.White;
             btndevoluciones.IconChar = FontAwesome.Sharp.IconChar.TentArrowTurnLeft;
             btndevoluciones.IconColor = Color.BlanchedAlmond;
             btndevoluciones.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btndevoluciones.IconSize = 40;
             btndevoluciones.ImageAlign = ContentAlignment.MiddleLeft;
-            btndevoluciones.Location = new Point(4, 270);
-            btndevoluciones.Margin = new Padding(4, 5, 4, 5);
+            btndevoluciones.Location = new Point(3, 216);
+            btndevoluciones.Margin = new Padding(3, 4, 3, 4);
             btndevoluciones.Name = "btndevoluciones";
-            btndevoluciones.Padding = new Padding(50, 0, 0, 0);
-            btndevoluciones.Size = new Size(288, 75);
+            btndevoluciones.Padding = new Padding(40, 0, 0, 0);
+            btndevoluciones.Size = new Size(230, 60);
             btndevoluciones.TabIndex = 3;
             btndevoluciones.Text = "Devoluciones";
             btndevoluciones.TextAlign = ContentAlignment.MiddleLeft;
@@ -205,18 +204,18 @@
             // 
             btncreditos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btncreditos.FlatStyle = FlatStyle.Flat;
-            btncreditos.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btncreditos.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btncreditos.ForeColor = Color.White;
             btncreditos.IconChar = FontAwesome.Sharp.IconChar.SackDollar;
             btncreditos.IconColor = Color.BlanchedAlmond;
             btncreditos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btncreditos.IconSize = 40;
             btncreditos.ImageAlign = ContentAlignment.MiddleLeft;
-            btncreditos.Location = new Point(4, 355);
-            btncreditos.Margin = new Padding(4, 5, 4, 5);
+            btncreditos.Location = new Point(3, 284);
+            btncreditos.Margin = new Padding(3, 4, 3, 4);
             btncreditos.Name = "btncreditos";
-            btncreditos.Padding = new Padding(50, 0, 0, 0);
-            btncreditos.Size = new Size(288, 75);
+            btncreditos.Padding = new Padding(40, 0, 0, 0);
+            btncreditos.Size = new Size(230, 60);
             btncreditos.TabIndex = 5;
             btncreditos.Text = "Créditos";
             btncreditos.TextAlign = ContentAlignment.MiddleLeft;
@@ -228,18 +227,18 @@
             // 
             btnproductos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnproductos.FlatStyle = FlatStyle.Flat;
-            btnproductos.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnproductos.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnproductos.ForeColor = Color.White;
             btnproductos.IconChar = FontAwesome.Sharp.IconChar.ProductHunt;
             btnproductos.IconColor = Color.BlanchedAlmond;
             btnproductos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnproductos.IconSize = 40;
             btnproductos.ImageAlign = ContentAlignment.MiddleLeft;
-            btnproductos.Location = new Point(4, 440);
-            btnproductos.Margin = new Padding(4, 5, 4, 5);
+            btnproductos.Location = new Point(3, 352);
+            btnproductos.Margin = new Padding(3, 4, 3, 4);
             btnproductos.Name = "btnproductos";
-            btnproductos.Padding = new Padding(50, 0, 0, 0);
-            btnproductos.Size = new Size(288, 75);
+            btnproductos.Padding = new Padding(40, 0, 0, 0);
+            btnproductos.Size = new Size(230, 60);
             btnproductos.TabIndex = 6;
             btnproductos.Text = "Productos";
             btnproductos.TextAlign = ContentAlignment.MiddleLeft;
@@ -251,18 +250,18 @@
             // 
             btnsalidasinventario.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnsalidasinventario.FlatStyle = FlatStyle.Flat;
-            btnsalidasinventario.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnsalidasinventario.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnsalidasinventario.ForeColor = Color.White;
             btnsalidasinventario.IconChar = FontAwesome.Sharp.IconChar.StoreAltSlash;
             btnsalidasinventario.IconColor = Color.BlanchedAlmond;
             btnsalidasinventario.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnsalidasinventario.IconSize = 40;
             btnsalidasinventario.ImageAlign = ContentAlignment.MiddleLeft;
-            btnsalidasinventario.Location = new Point(4, 525);
-            btnsalidasinventario.Margin = new Padding(4, 5, 4, 5);
+            btnsalidasinventario.Location = new Point(3, 420);
+            btnsalidasinventario.Margin = new Padding(3, 4, 3, 4);
             btnsalidasinventario.Name = "btnsalidasinventario";
-            btnsalidasinventario.Padding = new Padding(50, 0, 0, 0);
-            btnsalidasinventario.Size = new Size(288, 75);
+            btnsalidasinventario.Padding = new Padding(40, 0, 0, 0);
+            btnsalidasinventario.Size = new Size(230, 60);
             btnsalidasinventario.TabIndex = 4;
             btnsalidasinventario.Text = "Otras salidas de inventario";
             btnsalidasinventario.TextAlign = ContentAlignment.MiddleLeft;
@@ -274,18 +273,18 @@
             // 
             btnclientes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnclientes.FlatStyle = FlatStyle.Flat;
-            btnclientes.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnclientes.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnclientes.ForeColor = Color.White;
             btnclientes.IconChar = FontAwesome.Sharp.IconChar.PeopleGroup;
             btnclientes.IconColor = Color.BlanchedAlmond;
             btnclientes.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnclientes.IconSize = 40;
             btnclientes.ImageAlign = ContentAlignment.MiddleLeft;
-            btnclientes.Location = new Point(4, 610);
-            btnclientes.Margin = new Padding(4, 5, 4, 5);
+            btnclientes.Location = new Point(3, 488);
+            btnclientes.Margin = new Padding(3, 4, 3, 4);
             btnclientes.Name = "btnclientes";
-            btnclientes.Padding = new Padding(50, 0, 0, 0);
-            btnclientes.Size = new Size(288, 75);
+            btnclientes.Padding = new Padding(40, 0, 0, 0);
+            btnclientes.Size = new Size(230, 60);
             btnclientes.TabIndex = 7;
             btnclientes.Text = "Clientes";
             btnclientes.TextAlign = ContentAlignment.MiddleLeft;
@@ -297,18 +296,18 @@
             // 
             btnproveedores.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnproveedores.FlatStyle = FlatStyle.Flat;
-            btnproveedores.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnproveedores.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnproveedores.ForeColor = Color.White;
             btnproveedores.IconChar = FontAwesome.Sharp.IconChar.PeopleLine;
             btnproveedores.IconColor = Color.BlanchedAlmond;
             btnproveedores.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnproveedores.IconSize = 40;
             btnproveedores.ImageAlign = ContentAlignment.MiddleLeft;
-            btnproveedores.Location = new Point(4, 695);
-            btnproveedores.Margin = new Padding(4, 5, 4, 5);
+            btnproveedores.Location = new Point(3, 556);
+            btnproveedores.Margin = new Padding(3, 4, 3, 4);
             btnproveedores.Name = "btnproveedores";
-            btnproveedores.Padding = new Padding(50, 0, 0, 0);
-            btnproveedores.Size = new Size(288, 75);
+            btnproveedores.Padding = new Padding(40, 0, 0, 0);
+            btnproveedores.Size = new Size(230, 60);
             btnproveedores.TabIndex = 8;
             btnproveedores.Text = "Proveedores";
             btnproveedores.TextAlign = ContentAlignment.MiddleLeft;
@@ -320,18 +319,18 @@
             // 
             btnusuarios.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnusuarios.FlatStyle = FlatStyle.Flat;
-            btnusuarios.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnusuarios.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnusuarios.ForeColor = Color.White;
             btnusuarios.IconChar = FontAwesome.Sharp.IconChar.PersonCircleCheck;
             btnusuarios.IconColor = Color.BlanchedAlmond;
             btnusuarios.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnusuarios.IconSize = 40;
             btnusuarios.ImageAlign = ContentAlignment.MiddleLeft;
-            btnusuarios.Location = new Point(4, 780);
-            btnusuarios.Margin = new Padding(4, 5, 4, 5);
+            btnusuarios.Location = new Point(3, 624);
+            btnusuarios.Margin = new Padding(3, 4, 3, 4);
             btnusuarios.Name = "btnusuarios";
-            btnusuarios.Padding = new Padding(50, 0, 0, 0);
-            btnusuarios.Size = new Size(288, 75);
+            btnusuarios.Padding = new Padding(40, 0, 0, 0);
+            btnusuarios.Size = new Size(230, 60);
             btnusuarios.TabIndex = 9;
             btnusuarios.Text = "Usuarios";
             btnusuarios.TextAlign = ContentAlignment.MiddleLeft;
@@ -343,18 +342,18 @@
             // 
             btnarqueo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnarqueo.FlatStyle = FlatStyle.Flat;
-            btnarqueo.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnarqueo.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnarqueo.ForeColor = Color.White;
             btnarqueo.IconChar = FontAwesome.Sharp.IconChar.PiggyBank;
             btnarqueo.IconColor = Color.BlanchedAlmond;
             btnarqueo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnarqueo.IconSize = 40;
             btnarqueo.ImageAlign = ContentAlignment.MiddleLeft;
-            btnarqueo.Location = new Point(4, 865);
-            btnarqueo.Margin = new Padding(4, 5, 4, 5);
+            btnarqueo.Location = new Point(3, 692);
+            btnarqueo.Margin = new Padding(3, 4, 3, 4);
             btnarqueo.Name = "btnarqueo";
-            btnarqueo.Padding = new Padding(50, 0, 0, 0);
-            btnarqueo.Size = new Size(288, 75);
+            btnarqueo.Padding = new Padding(40, 0, 0, 0);
+            btnarqueo.Size = new Size(230, 60);
             btnarqueo.TabIndex = 10;
             btnarqueo.Text = "Arqueo de caja";
             btnarqueo.TextAlign = ContentAlignment.MiddleLeft;
@@ -366,18 +365,18 @@
             // 
             btninformes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btninformes.FlatStyle = FlatStyle.Flat;
-            btninformes.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btninformes.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btninformes.ForeColor = Color.White;
             btninformes.IconChar = FontAwesome.Sharp.IconChar.FileZipper;
             btninformes.IconColor = Color.BlanchedAlmond;
             btninformes.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btninformes.IconSize = 40;
             btninformes.ImageAlign = ContentAlignment.MiddleLeft;
-            btninformes.Location = new Point(4, 950);
-            btninformes.Margin = new Padding(4, 5, 4, 5);
+            btninformes.Location = new Point(3, 760);
+            btninformes.Margin = new Padding(3, 4, 3, 4);
             btninformes.Name = "btninformes";
-            btninformes.Padding = new Padding(50, 0, 0, 0);
-            btninformes.Size = new Size(288, 75);
+            btninformes.Padding = new Padding(40, 0, 0, 0);
+            btninformes.Size = new Size(230, 60);
             btninformes.TabIndex = 11;
             btninformes.Text = "Informes";
             btninformes.TextAlign = ContentAlignment.MiddleLeft;
@@ -389,18 +388,18 @@
             // 
             btnmantenimiento.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnmantenimiento.FlatStyle = FlatStyle.Flat;
-            btnmantenimiento.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnmantenimiento.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnmantenimiento.ForeColor = Color.White;
             btnmantenimiento.IconChar = FontAwesome.Sharp.IconChar.Tools;
             btnmantenimiento.IconColor = Color.BlanchedAlmond;
             btnmantenimiento.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnmantenimiento.IconSize = 40;
             btnmantenimiento.ImageAlign = ContentAlignment.MiddleLeft;
-            btnmantenimiento.Location = new Point(4, 1035);
-            btnmantenimiento.Margin = new Padding(4, 5, 4, 5);
+            btnmantenimiento.Location = new Point(3, 828);
+            btnmantenimiento.Margin = new Padding(3, 4, 3, 4);
             btnmantenimiento.Name = "btnmantenimiento";
-            btnmantenimiento.Padding = new Padding(50, 0, 0, 0);
-            btnmantenimiento.Size = new Size(288, 75);
+            btnmantenimiento.Padding = new Padding(40, 0, 0, 0);
+            btnmantenimiento.Size = new Size(230, 60);
             btnmantenimiento.TabIndex = 12;
             btnmantenimiento.Text = "Mantenimiento";
             btnmantenimiento.TextAlign = ContentAlignment.MiddleLeft;
@@ -412,18 +411,18 @@
             // 
             btnacercade.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnacercade.FlatStyle = FlatStyle.Flat;
-            btnacercade.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnacercade.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnacercade.ForeColor = Color.White;
             btnacercade.IconChar = FontAwesome.Sharp.IconChar.Uncharted;
             btnacercade.IconColor = Color.BlanchedAlmond;
             btnacercade.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnacercade.IconSize = 40;
             btnacercade.ImageAlign = ContentAlignment.MiddleLeft;
-            btnacercade.Location = new Point(4, 1120);
-            btnacercade.Margin = new Padding(4, 5, 4, 5);
+            btnacercade.Location = new Point(3, 896);
+            btnacercade.Margin = new Padding(3, 4, 3, 4);
             btnacercade.Name = "btnacercade";
-            btnacercade.Padding = new Padding(50, 0, 0, 0);
-            btnacercade.Size = new Size(288, 75);
+            btnacercade.Padding = new Padding(40, 0, 0, 0);
+            btnacercade.Size = new Size(230, 60);
             btnacercade.TabIndex = 13;
             btnacercade.Text = "Acerca de";
             btnacercade.TextAlign = ContentAlignment.MiddleLeft;
@@ -439,9 +438,9 @@
             panel2.Controls.Add(btnminimizar);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
-            panel2.Margin = new Padding(4, 5, 4, 5);
+            panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1946, 44);
+            panel2.Size = new Size(1554, 35);
             panel2.TabIndex = 3;
             panel2.Paint += panel2_Paint;
             // 
@@ -454,11 +453,11 @@
             Salir.IconChar = FontAwesome.Sharp.IconChar.X;
             Salir.IconColor = Color.Black;
             Salir.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            Salir.IconSize = 35;
-            Salir.Location = new Point(1881, 4);
-            Salir.Margin = new Padding(4, 5, 4, 5);
+            Salir.IconSize = 28;
+            Salir.Location = new Point(1502, 3);
+            Salir.Margin = new Padding(3, 4, 3, 4);
             Salir.Name = "Salir";
-            Salir.Size = new Size(38, 35);
+            Salir.Size = new Size(30, 28);
             Salir.SizeMode = PictureBoxSizeMode.Zoom;
             Salir.TabIndex = 0;
             Salir.TabStop = false;
@@ -473,11 +472,11 @@
             maximizar.IconChar = FontAwesome.Sharp.IconChar.Square;
             maximizar.IconColor = Color.Black;
             maximizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            maximizar.IconSize = 39;
-            maximizar.Location = new Point(1814, 2);
-            maximizar.Margin = new Padding(4, 5, 4, 5);
+            maximizar.IconSize = 31;
+            maximizar.Location = new Point(1448, 2);
+            maximizar.Margin = new Padding(3, 4, 3, 4);
             maximizar.Name = "maximizar";
-            maximizar.Size = new Size(61, 39);
+            maximizar.Size = new Size(49, 31);
             maximizar.SizeMode = PictureBoxSizeMode.Zoom;
             maximizar.TabIndex = 0;
             maximizar.TabStop = false;
@@ -486,12 +485,11 @@
             // lblpantallainfo
             // 
             lblpantallainfo.BackColor = Color.FromArgb(0, 122, 204);
-            lblpantallainfo.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
+            lblpantallainfo.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             lblpantallainfo.ForeColor = Color.White;
             lblpantallainfo.Location = new Point(0, 0);
-            lblpantallainfo.Margin = new Padding(4, 0, 4, 0);
             lblpantallainfo.Name = "lblpantallainfo";
-            lblpantallainfo.Size = new Size(299, 44);
+            lblpantallainfo.Size = new Size(239, 35);
             lblpantallainfo.TabIndex = 0;
             lblpantallainfo.Text = "MENÚ PRINCIPAL";
             lblpantallainfo.TextAlign = ContentAlignment.MiddleCenter;
@@ -501,10 +499,10 @@
             // 
             btnminimizar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnminimizar.Image = (Image)resources.GetObject("btnminimizar.Image");
-            btnminimizar.Location = new Point(1750, 2);
-            btnminimizar.Margin = new Padding(4, 2, 4, 2);
+            btnminimizar.Location = new Point(1397, 2);
+            btnminimizar.Margin = new Padding(3, 2, 3, 2);
             btnminimizar.Name = "btnminimizar";
-            btnminimizar.Size = new Size(50, 35);
+            btnminimizar.Size = new Size(40, 28);
             btnminimizar.SizeMode = PictureBoxSizeMode.StretchImage;
             btnminimizar.TabIndex = 15;
             btnminimizar.TabStop = false;
@@ -515,10 +513,10 @@
             PanelContenedor.Controls.Add(lblhora);
             PanelContenedor.Controls.Add(lblfecha);
             PanelContenedor.Dock = DockStyle.Fill;
-            PanelContenedor.Location = new Point(299, 44);
-            PanelContenedor.Margin = new Padding(4, 5, 4, 5);
+            PanelContenedor.Location = new Point(239, 35);
+            PanelContenedor.Margin = new Padding(3, 4, 3, 4);
             PanelContenedor.Name = "PanelContenedor";
-            PanelContenedor.Size = new Size(1647, 1062);
+            PanelContenedor.Size = new Size(1315, 847);
             PanelContenedor.TabIndex = 2;
             PanelContenedor.Paint += PanelContenedor_Paint;
             // 
@@ -526,12 +524,11 @@
             // 
             lblhora.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblhora.AutoSize = true;
-            lblhora.Font = new Font("Calisto MT", 29F, FontStyle.Bold);
+            lblhora.Font = new Font("Microsoft Sans Serif", 29F, FontStyle.Bold);
             lblhora.ForeColor = Color.Black;
-            lblhora.Location = new Point(1358, 948);
-            lblhora.Margin = new Padding(4, 0, 4, 0);
+            lblhora.Location = new Point(1083, 755);
             lblhora.Name = "lblhora";
-            lblhora.Size = new Size(180, 65);
+            lblhora.Size = new Size(163, 57);
             lblhora.TabIndex = 2;
             lblhora.Text = "label1";
             lblhora.TextAlign = ContentAlignment.BottomRight;
@@ -540,15 +537,15 @@
             // 
             lblfecha.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lblfecha.AutoSize = true;
-            lblfecha.Font = new Font("Calisto MT", 29F, FontStyle.Bold);
+            lblfecha.Font = new Font("Microsoft Sans Serif", 29F, FontStyle.Bold);
             lblfecha.ForeColor = Color.Black;
-            lblfecha.Location = new Point(20, 972);
-            lblfecha.Margin = new Padding(4, 0, 4, 0);
+            lblfecha.Location = new Point(16, 775);
             lblfecha.Name = "lblfecha";
-            lblfecha.Size = new Size(180, 65);
+            lblfecha.Size = new Size(163, 57);
             lblfecha.TabIndex = 1;
             lblfecha.Text = "label1";
             lblfecha.TextAlign = ContentAlignment.BottomLeft;
+            lblfecha.Click += lblfecha_Click;
             // 
             // timerhora
             // 
@@ -557,15 +554,15 @@
             // 
             // menu
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1946, 1106);
+            ClientSize = new Size(1554, 882);
             Controls.Add(PanelContenedor);
             Controls.Add(MenuVertical);
             Controls.Add(panel2);
             ForeColor = Color.White;
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(4, 5, 4, 5);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "menu";
             Text = "Menu_Inicio";
             Load += Menu_Inicio_Load;

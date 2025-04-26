@@ -19,7 +19,9 @@ public partial class Usuario
 
     public string RolUsuario { get; set; } = null!;
 
-    public bool EstadoUsuario { get; set; }
+    public bool? EstadoUsuario { get; set; }
+
+    public string UsuarioLogueo { get; set; } = null!;
 
     public string UsuarioLogueo { get; set; } = null!;
 
