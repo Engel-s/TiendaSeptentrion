@@ -12,9 +12,40 @@ namespace formstienda.capa_de_presentación
 {
     public partial class menu : Form
     {
-        public menu()
+        public menu(string EsAdmin)
         {
             InitializeComponent();
+
+            if (EsAdmin == "Administrador")
+            {
+                btncompras.Visible = true;
+                btnventas.Visible = true;
+                btndevoluciones.Visible = true;
+                btncreditos.Visible = true;
+                btnproductos.Visible = true;
+                btnsalidasinventario.Visible = true;
+                btnclientes.Visible = true;
+                btnproveedores.Visible = true;
+                btnusuarios.Visible = true;
+                btnarqueo.Visible = true;
+                btninformes.Visible = true;
+                btnacercade.Visible = true;
+            }
+            else
+            {
+                btncompras.Visible = true;
+                btnventas.Visible = true;
+                btndevoluciones.Visible = true;
+                btncreditos.Visible = true;
+                btnproductos.Visible = true;
+                btnsalidasinventario.Visible = true;
+                btnclientes.Visible = true;
+                btnproveedores.Visible = false;
+                btnusuarios.Visible = false;
+                btnarqueo.Visible = true;
+                btninformes.Visible = false;
+                btnacercade.Visible = true;
+            }
         }
 
         private void Menu_Inicio_Load(object sender, EventArgs e)
@@ -37,10 +68,7 @@ namespace formstienda.capa_de_presentación
 
         private void label1_Click(object sender, EventArgs e)
         {
-            menu menu = new menu();
-            menu.Show();
-            
-            
+
         }
 
         private void PanelContenedor_Paint(object sender, PaintEventArgs e)
@@ -194,6 +222,11 @@ namespace formstienda.capa_de_presentación
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblfecha_Click(object sender, EventArgs e)
         {
 
         }
