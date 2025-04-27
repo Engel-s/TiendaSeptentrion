@@ -33,7 +33,12 @@ namespace formstienda
         {
             Login form = new Login();
             form.Show();
-            this.Close ();
+            this.Close();
+        }
+
+        private void Recuperarcontraseña_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

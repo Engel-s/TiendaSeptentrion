@@ -5,6 +5,25 @@ namespace formstienda.Datos;
 
 public partial class Usuario
 {
+    public bool EnviarCodigoRecuperacion(string email)
+    {
+        using (var contexto = new BdUsuarioContex())
+        {
+            var usuario = contexto.Usuarios
+                .FirstOrDefault( u => u.Email == email);
+            if (usuario = null)
+                return false;
+
+            var token = Guid.NewGuid().ToString();
+            usuario.TokenRecuperacion = token;
+            usuario.FechaHoraRecuperacion = DateTime.Now.AddMinutes(10);
+
+            contexto.Usuarios.Update(usuario);
+
+            contexto.SaveChange();
+
+        }
+    }
     public int IdUsuario { get; set; }
 
     public string NombreUsuario { get; set; } = null!;
@@ -23,3 +42,5 @@ public partial class Usuario
 
     public virtual ICollection<ArqueoCaja> ArqueoCajas { get; set; } = new List<ArqueoCaja>();
 }
+
+
