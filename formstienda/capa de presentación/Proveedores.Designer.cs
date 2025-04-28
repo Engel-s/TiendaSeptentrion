@@ -82,7 +82,6 @@
             // 
             // pictureBox4
             // 
-            pictureBox4.Anchor = AnchorStyles.Bottom;
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
             pictureBox4.Location = new Point(24, 317);
             pictureBox4.Margin = new Padding(3, 2, 3, 2);
@@ -111,7 +110,6 @@
             // 
             // btnGuardar
             // 
-            btnGuardar.Anchor = AnchorStyles.Bottom;
             btnGuardar.BackColor = Color.FromArgb(3, 171, 229);
             btnGuardar.Cursor = Cursors.Hand;
             btnGuardar.FlatStyle = FlatStyle.Popup;

@@ -1,8 +1,4 @@
 ﻿using formstienda.capa_de_negocios;
-<<<<<<< HEAD
-=======
-using formstienda.Datos;
->>>>>>> productos
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

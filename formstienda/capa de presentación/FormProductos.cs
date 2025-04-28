@@ -509,8 +509,13 @@ namespace formstienda
         private void DGPRODUCTOS_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         }
-               
+
         private void FormProductos_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox9_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
