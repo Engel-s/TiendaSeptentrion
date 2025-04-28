@@ -49,12 +49,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-<<<<<<< HEAD
-        => optionsBuilder.UseSqlServer("Server=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
-=======
         => optionsBuilder.UseSqlServer("Server=RYUUGA-NOXUS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
-
->>>>>>> 4e35e25324d54dae31a32013dac737d22e0b0b1d
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -308,6 +303,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Motivo_Salida");
+            entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
 
             entity.HasOne(d => d.Producto).WithMany(p => p.Inventarios)
                 .HasForeignKey(d => new { d.IdProducto, d.IdCategoria, d.IdMarca })
@@ -377,8 +373,6 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Modelo_Producto");
             entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
-            entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
-            entity.Property(e => e.StockMinimo).HasColumnName("Stock_Minimo");
 
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Productos)
                 .HasForeignKey(d => d.IdCategoria)

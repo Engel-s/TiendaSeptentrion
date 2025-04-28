@@ -13,6 +13,8 @@ public partial class Inventario
 
     public int IdMarca { get; set; }
 
+    public int StockActual { get; set; }
+
     public int CantidadSalir { get; set; }
 
     public string MotivoSalida { get; set; } = null!;

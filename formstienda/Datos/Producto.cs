@@ -17,10 +17,6 @@ public partial class Producto
 
     public bool EstadoProducto { get; set; }
 
-    public int StockActual { get; set; }
-
-    public int StockMinimo { get; set; }
-
     public virtual ICollection<Compra> Compras { get; set; } = new List<Compra>();
 
     public virtual ICollection<DetalleDeVentum> DetalleDeVenta { get; set; } = new List<DetalleDeVentum>();
