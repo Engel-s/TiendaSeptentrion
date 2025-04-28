@@ -35,9 +35,11 @@
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
             label1 = new Label();
-            txtusername = new TextBox();
+            txtCorreoRecuperacion = new TextBox();
             label3 = new Label();
             linkLabel1 = new LinkLabel();
+            btnCambarContraseña = new Button();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -122,25 +124,26 @@
             label1.TextAlign = ContentAlignment.TopCenter;
             label1.Click += label1_Click;
             // 
-            // txtusername
+            // txtCorreoRecuperacion
             // 
-            txtusername.BackColor = Color.White;
-            txtusername.BorderStyle = BorderStyle.FixedSingle;
-            txtusername.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtusername.ForeColor = Color.Black;
-            txtusername.Location = new Point(524, 295);
-            txtusername.Margin = new Padding(4, 2, 4, 2);
-            txtusername.Multiline = true;
-            txtusername.Name = "txtusername";
-            txtusername.Size = new Size(400, 46);
-            txtusername.TabIndex = 21;
+            txtCorreoRecuperacion.BackColor = Color.White;
+            txtCorreoRecuperacion.BorderStyle = BorderStyle.FixedSingle;
+            txtCorreoRecuperacion.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtCorreoRecuperacion.ForeColor = Color.Black;
+            txtCorreoRecuperacion.Location = new Point(524, 295);
+            txtCorreoRecuperacion.Margin = new Padding(4, 2, 4, 2);
+            txtCorreoRecuperacion.Multiline = true;
+            txtCorreoRecuperacion.Name = "txtCorreoRecuperacion";
+            txtCorreoRecuperacion.Size = new Size(400, 46);
+            txtCorreoRecuperacion.TabIndex = 21;
+            txtCorreoRecuperacion.TextChanged += txtCorreoRecuperacion_TextChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(388, 212);
+            label3.Location = new Point(407, 212);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(496, 25);
@@ -166,16 +169,50 @@
             linkLabel1.VisitedLinkColor = Color.Black;
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
+            // btnCambarContraseña
+            // 
+            btnCambarContraseña.BackColor = Color.White;
+            btnCambarContraseña.BackgroundImageLayout = ImageLayout.Zoom;
+            btnCambarContraseña.FlatAppearance.BorderSize = 0;
+            btnCambarContraseña.FlatAppearance.MouseDownBackColor = Color.White;
+            btnCambarContraseña.FlatAppearance.MouseOverBackColor = Color.White;
+            btnCambarContraseña.FlatStyle = FlatStyle.Popup;
+            btnCambarContraseña.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCambarContraseña.ForeColor = Color.Black;
+            btnCambarContraseña.Location = new Point(560, 580);
+            btnCambarContraseña.Margin = new Padding(4, 2, 4, 2);
+            btnCambarContraseña.Name = "button1";
+            btnCambarContraseña.Size = new Size(224, 37);
+            btnCambarContraseña.TabIndex = 30;
+            btnCambarContraseña.Text = "Cambiar contraseña ";
+            btnCambarContraseña.UseVisualStyleBackColor = false;
+            btnCambarContraseña.Click += button1_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Gray;
+            label4.Location = new Point(487, 542);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(387, 25);
+            label4.TabIndex = 31;
+            label4.Text = "Ingrese token para cambiar contraseña";
+            label4.Click += label4_Click;
+            // 
             // Recuperarcontraseña
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1069, 638);
+            Controls.Add(label4);
+            Controls.Add(btnCambarContraseña);
             Controls.Add(label3);
             Controls.Add(pictureBox2);
             Controls.Add(label2);
             Controls.Add(btnIniciarSesion);
-            Controls.Add(txtusername);
+            Controls.Add(txtCorreoRecuperacion);
             Controls.Add(panel1);
             Controls.Add(linkLabel1);
             Controls.Add(label1);
@@ -201,8 +238,10 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtusername;
+        private System.Windows.Forms.TextBox txtCorreoRecuperacion;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private Button btnCambarContraseña;
+        private Label label4;
     }
 }

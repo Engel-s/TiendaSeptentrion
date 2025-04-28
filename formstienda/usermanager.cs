@@ -1,15 +1,126 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using formstienda.Datos;
+using System.Windows.Automation;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Identity.Client;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+using Microsoft.EntityFrameworkCore;
 
 namespace formstienda
 {
-    public  class UserManager
+    public class UserManager
     {
-        private static UserManager _instance;
+        public bool EnviarCodigoRecuperacion(string email)
+        {
+            using (var contexto = new TiendaDBContext())
+            {
+                var usuario = contexto.Usuarios.FirstOrDefault(
+                    u => u.CorreoUsuario == email
+                    );
+                if (usuario == null)
+                    return false;
+
+                var token = Guid.NewGuid().ToString();
+                usuario.TokenRecuperacion = token;
+                usuario.FechaHoraRecuperacion = DateTime.Now.AddMinutes(10);
+
+                contexto.Usuarios.Update(usuario);
+
+                contexto.SaveChanges();
+
+                MessageBox.Show($"Se ha guardado el token {token} en BD");
+
+                return EnviarCorreo(email, token);
+            }
+
+        }
+
+
+
+        public bool EnviarCorreo(string correodestino, string token)
+        {
+            try
+            {
+                var correoserver = "isaac_zomber@zohomail.com";
+
+                var stmp = new SmtpClient("smtp.zoho.com")
+                {
+                    Port = 587,
+                    //poner correo de zoho. engell o elking//
+                    Credentials = new NetworkCredential(correoserver, "9MfnbmDKxk1Q"),
+                    EnableSsl = true,
+
+                };
+                string asuntoCorreo = "Recuperacion Contraseña";
+                string cuerpoCorreo = $" Tu codigo de recuperación: {token}";
+
+                var mensajeCorreo = new MailMessage
+                {
+                    From = new MailAddress(correoserver),
+                    Subject = asuntoCorreo,
+                    Body = cuerpoCorreo,
+                    IsBodyHtml = false
+                };
+                mensajeCorreo.To.Add(correodestino);
+                stmp.Send(mensajeCorreo);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return false;
+
+            }
+
+        }
+
+
+
+        public bool cambiarcontraseña(string correo, string token, string nuevacontraseña)
+        {
+            using (var contexto = new TiendaDBContext())
+            {
+                var usuario = contexto.Usuarios.FirstOrDefault
+                    (
+                        u => u.CorreoUsuario == correo && 
+                        u.TokenRecuperacion == token
+                    );
+
+                if (usuario == null)
+                
+                    return false;
+
+                    bool realizarcambios = usuario.FechaHoraRecuperacion > DateTime.Now;
+
+                    if (realizarcambios)
+                    {
+                        usuario.ContraseñaUsuario = nuevacontraseña;
+                        usuario.TokenRecuperacion = null;
+                        usuario.FechaHoraRecuperacion = null;
+
+                        contexto.Usuarios.Update(usuario);
+
+                        contexto.SaveChanges();
+                        return true;
+                    }
+                    else 
+                        return false;
+                
+            }
+        }
+        
+
+
+        public static UserManager _instance;
         public static UserManager Instance
         {
             get
@@ -26,7 +137,7 @@ namespace formstienda
         public List<usuarios> Usuarios { get; set; }
 
         // Constructor privado para el patrón Singleton
-        private UserManager()
+        public UserManager()
         {
             Usuarios = new List<usuarios>
             {
@@ -65,5 +176,6 @@ namespace formstienda
             }
             return user;
         }
-    }
+
+    } 
 }
