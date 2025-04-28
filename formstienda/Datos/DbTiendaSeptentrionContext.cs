@@ -49,7 +49,11 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+<<<<<<< HEAD
         => optionsBuilder.UseSqlServer("Server=RYUUGA-NOXUS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+=======
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-I4VC35H;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+>>>>>>> productos
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,6 +70,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("Estado_Apertura");
+<<<<<<< HEAD
             entity.Property(e => e.FechaApertura)
                 .HasColumnType("datetime")
                 .HasColumnName("Fecha_Apertura");
@@ -73,6 +78,13 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.MontoApertura)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("Monto_Apertura");
+=======
+            entity.Property(e => e.FechaApertura).HasColumnName("Fecha_Apertura");
+            entity.Property(e => e.HoraApertura)
+                .HasColumnType("datetime")
+                .HasColumnName("Hora_Apertura");
+            entity.Property(e => e.MontoApertura).HasColumnName("Monto_Apertura");
+>>>>>>> productos
         });
 
         modelBuilder.Entity<ArqueoCaja>(entity =>
@@ -237,7 +249,10 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
             entity.Property(e => e.IdCliente).HasColumnName("Id_cliente");
             entity.Property(e => e.IdVenta).HasColumnName("Id_Venta");
+<<<<<<< HEAD
             entity.Property(e => e.CantidadDevueltaDevolucion).HasColumnName("Cantidad_Devuelta_Devolucion");
+=======
+>>>>>>> productos
             entity.Property(e => e.DescripcionDevolucion)
                 .HasMaxLength(500)
                 .IsUnicode(false)
@@ -303,7 +318,10 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Motivo_Salida");
+<<<<<<< HEAD
             entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
+=======
+>>>>>>> productos
 
             entity.HasOne(d => d.Producto).WithMany(p => p.Inventarios)
                 .HasForeignKey(d => new { d.IdProducto, d.IdCategoria, d.IdMarca })
@@ -367,12 +385,25 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasColumnName("Id_Producto");
             entity.Property(e => e.IdCategoria).HasColumnName("Id_Categoria");
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
+<<<<<<< HEAD
+=======
+            entity.Property(e => e.CodigoProducto)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("0")
+                .HasColumnName("Codigo_Producto");
+>>>>>>> productos
             entity.Property(e => e.EstadoProducto).HasColumnName("Estado_Producto");
             entity.Property(e => e.ModeloProducto)
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("Modelo_Producto");
             entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
+<<<<<<< HEAD
+=======
+            entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
+            entity.Property(e => e.StockMinimo).HasColumnName("Stock_Minimo");
+>>>>>>> productos
 
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Productos)
                 .HasForeignKey(d => d.IdCategoria)
@@ -423,6 +454,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasName("PK17")
                 .IsClustered(false);
 
+<<<<<<< HEAD
             entity.ToTable("Tasa de Cambio");
 
             entity.Property(e => e.IdTasaCambio).HasColumnName("Id_Tasa_cambio");
@@ -432,6 +464,13 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.ValorCambio)
                 .HasColumnType("decimal(18, 5)")
                 .HasColumnName("Valor_cambio");
+=======
+            entity.ToTable("Tasa de cambio");
+
+            entity.Property(e => e.IdTasaCambio).HasColumnName("Id_Tasa_Cambio");
+            entity.Property(e => e.FechaCambio).HasColumnName("Fecha_Cambio");
+            entity.Property(e => e.ValorCambio).HasColumnName("Valor_Cambio");
+>>>>>>> productos
         });
 
         modelBuilder.Entity<Usuario>(entity =>
@@ -453,8 +492,14 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("Contraseña_Usuario");
             entity.Property(e => e.CorreoUsuario)
+<<<<<<< HEAD
                 .HasMaxLength(50)
                 .IsUnicode(false)
+=======
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .IsFixedLength()
+>>>>>>> productos
                 .HasColumnName("Correo_Usuario");
             entity.Property(e => e.EstadoUsuario).HasColumnName("Estado_Usuario");
             entity.Property(e => e.NombreUsuario)
@@ -466,11 +511,19 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Rol_Usuario");
             entity.Property(e => e.TelefonoUsuario)
+<<<<<<< HEAD
                 .HasMaxLength(9)
                 .IsUnicode(false)
                 .HasColumnName("Telefono_Usuario");
             entity.Property(e => e.UsuarioLogueo)
                 .HasMaxLength(50)
+=======
+                .HasMaxLength(8)
+                .IsUnicode(false)
+                .HasColumnName("Telefono_Usuario");
+            entity.Property(e => e.UsuarioLogueo)
+                .HasMaxLength(500)
+>>>>>>> productos
                 .IsUnicode(false)
                 .HasColumnName("Usuario_Logueo");
         });

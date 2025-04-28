@@ -16,13 +16,21 @@ namespace formstienda
 {
     public partial class Usuarioadmin : Form
     {
+<<<<<<< HEAD
         //private UserManager userManager;
+=======
+        private UserManager userManager;
+>>>>>>> productos
         private UsuarioServicio? usuarioServicio;
         private BindingList<Usuario>? Listausuarios;
         public Usuarioadmin()
         {
             InitializeComponent();
+<<<<<<< HEAD
            
+=======
+            userManager = UserManager.Instance;
+>>>>>>> productos
 
         }
 
@@ -54,18 +62,29 @@ namespace formstienda
                 ContraseñaUsuario = txtpassword.Text,
                 RolUsuario = cbrolusuario.Text,
                 UsuarioLogueo = cbrolusuario.Text + txtnombreusuario.Text,
+<<<<<<< HEAD
                 TelefonoUsuario = txttelefonousuario.Text,
                 EstadoUsuario = cbestadousuario.Text == "Activo" ? true : false,
             };
             var usuarioExistente = usuarioServicio?.Listausuarios()
+=======
+                TelefonoUsuario = txttelefonousuario.Text
+            };
+            var usuarioExistente = usuarioServicio.Listausuarios()
+>>>>>>> productos
                                                   .FirstOrDefault(p => p.CorreoUsuario == usuario.CorreoUsuario);
             if (usuarioExistente != null)
             {
                 MessageBox.Show("Este usuario ya existe, agregue otro correo");
                 return;
             }
+<<<<<<< HEAD
             usuarioServicio?.AgregarUsuario(usuario);
             Listausuarios?.Add(usuario);
+=======
+            usuarioServicio.AgregarUsuario(usuario);
+            Listausuarios.Add(usuario);
+>>>>>>> productos
             MessageBox.Show("Usuario agregado correctamente");
         }
 
@@ -136,18 +155,30 @@ namespace formstienda
                 }
                 else if (DGUSUARIOS.SelectedRows.Count == 1)
                 {
+<<<<<<< HEAD
                     var usuarioSeleccionado = (Usuario)DGUSUARIOS.SelectedRows[0].DataBoundItem;
                     if (usuarioSeleccionado == null)
+=======
+                    var usuarioSeleccionado = (Usuario)DGUSUARIOS.SelectedRows[0] .DataBoundItem;
+                    if (usuarioSeleccionado==null )
+>>>>>>> productos
                     {
                         MessageBox.Show("No hay mas usuarios seleccionados");
                     }
                     else
                     {
                         var confirmacion = MessageBox.Show("Esta seguro_?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+<<<<<<< HEAD
                         if (confirmacion == DialogResult.Yes)
                         {
                             usuarioServicio?.Eliminarusuario(usuarioSeleccionado.IdUsuario);
                             Listausuarios?.Remove(usuarioSeleccionado);
+=======
+                        if (confirmacion == DialogResult.Yes) 
+                        {
+                            usuarioServicio.Eliminarusuario(usuarioSeleccionado.IdUsuario);
+                            Listausuarios.Remove(usuarioSeleccionado);
+>>>>>>> productos
 
                         }
                     }
@@ -155,6 +186,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
+<<<<<<< HEAD
 
             }
         }
@@ -188,4 +220,10 @@ namespace formstienda
         }
     }
 
+=======
+                
+            }
+        }
+    }
+>>>>>>> productos
 }

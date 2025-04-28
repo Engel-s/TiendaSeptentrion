@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace formstienda.capa_de_negocios
 {
+<<<<<<< HEAD
     
+=======
+>>>>>>> productos
     public class ClienteServicio
     {
         //listar usuarios
@@ -82,5 +85,8 @@ namespace formstienda.capa_de_negocios
             }
         }
     }
+<<<<<<< HEAD
     
+=======
+>>>>>>> productos
 }

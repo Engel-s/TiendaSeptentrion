@@ -8,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace formstienda.capa_de_negocios
 {
+<<<<<<< HEAD
    public class UsuarioServicio
+=======
+    public class UsuarioServicio
+>>>>>>> productos
     {
         //listar usuarios
         public List <Usuario> Listausuarios()
@@ -30,13 +34,20 @@ namespace formstienda.capa_de_negocios
         }
 
         //agregar usuarios
+<<<<<<< HEAD
         public bool AgregarUsuario(Usuario usuario)
         {
             if (usuario == null)
+=======
+        public bool AgregarUsuario(Usuario usuario) 
+        {
+            if (usuario == null) 
+>>>>>>> productos
             {
                 MessageBox.Show("Rellenar los campos correctamente.");
                 return false;
             }
+<<<<<<< HEAD
 
             try
             {
@@ -55,11 +66,20 @@ namespace formstienda.capa_de_negocios
                     _context.Usuarios.Add(usuario);
                     _context.SaveChanges();
                     MessageBox.Show("Usuario agregado correctamente.");
+=======
+            try
+            {
+                using (var _context = new DbTiendaSeptentrionContext()) 
+                {
+                    _context.Usuarios.Add (usuario);
+                    _context.SaveChanges(); 
+>>>>>>> productos
                     return true;
                 }
             }
             catch (Exception ex)
             {
+<<<<<<< HEAD
                 string errorMessage = ex.Message;
 
                 if (ex.InnerException != null)
@@ -73,6 +93,13 @@ namespace formstienda.capa_de_negocios
 
         }
 
+=======
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        
+>>>>>>> productos
         //eliminar usuarios
         public bool Eliminarusuario(int IdUsuario)
         {
@@ -101,6 +128,7 @@ namespace formstienda.capa_de_negocios
             }
         }
         //actualizar usuarios
+<<<<<<< HEAD
         public bool Actualizarusuario(Usuario usuario)
         {
             try
@@ -136,6 +164,8 @@ namespace formstienda.capa_de_negocios
                 
         }
 
+=======
+>>>>>>> productos
 
     }
 }
