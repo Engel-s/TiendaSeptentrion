@@ -25,7 +25,7 @@ namespace formstienda
 
         }
 
-        private void btnIniciarSesion_Click(object sender, EventArgs e)
+       /* private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
             correo = txtCorreoRecuperacion.Text.Trim();
             var usuariovariable = new UserManager();
@@ -43,7 +43,7 @@ namespace formstienda
                 form1.Show();
                 this.Close();
             }
-        }
+        }*/
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

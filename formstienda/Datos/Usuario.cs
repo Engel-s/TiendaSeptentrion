@@ -19,13 +19,13 @@ public partial class Usuario
 
     public string RolUsuario { get; set; } = null!;
 
-    public bool? EstadoUsuario { get; set; }
+    public bool EstadoUsuario { get; set; }
 
     public string UsuarioLogueo { get; set; } = null!;
 
-    public string? TokenRecuperacion { get; set; }
+    public DateTime? FechaRecuperacion { get; set; }
 
-    public DateTime? FechaHoraRecuperacion { get; set; }
+    public string? TokenRecuperacion { get; set; }
 
     public virtual ICollection<ArqueoCaja> ArqueoCajas { get; set; } = new List<ArqueoCaja>();
 }

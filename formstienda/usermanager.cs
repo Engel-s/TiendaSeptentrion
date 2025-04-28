@@ -18,7 +18,7 @@ namespace formstienda
 {
     public class UserManager
     {
-        public bool EnviarCodigoRecuperacion(string email)
+        /*public bool EnviarCodigoRecuperacion(string email)
         {
             using (var contexto = new TiendaDBContext())
             {
@@ -41,7 +41,7 @@ namespace formstienda
                 return EnviarCorreo(email, token);
             }
 
-        }
+        }*/
 
 
 
@@ -85,7 +85,7 @@ namespace formstienda
 
 
 
-        public bool cambiarcontraseña(string correo, string token, string nuevacontraseña)
+       /* public bool cambiarcontraseña(string correo, string token, string nuevacontraseña)
         {
             using (var contexto = new TiendaDBContext())
             {
@@ -116,7 +116,7 @@ namespace formstienda
                         return false;
                 
             }
-        }
+        }*/
         
 
 

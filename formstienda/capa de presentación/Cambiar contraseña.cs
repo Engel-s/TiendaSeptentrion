@@ -19,7 +19,7 @@ namespace formstienda.capa_de_presentación
             _correo = correo;
         }
 
-        private void btnCambiar_Contraseña_Click(object sender, EventArgs e)
+       /* private void btnCambiar_Contraseña_Click(object sender, EventArgs e)
         {
             string tokenRecupeacion = txtCambiarContraseña.Text.Trim();
             string NuevaContraseña = txtContraseñaNueva.Text.Trim();
@@ -38,6 +38,6 @@ namespace formstienda.capa_de_presentación
             {
                 MessageBox.Show("Hubo un error no se puede cambiar la contraseña");
             }
-        }
+        }*/
     }
 }

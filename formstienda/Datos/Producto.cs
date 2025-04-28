@@ -21,6 +21,8 @@ public partial class Producto
 
     public int StockMinimo { get; set; }
 
+    public string CodigoProducto { get; set; } = null!;
+
     public virtual ICollection<Compra> Compras { get; set; } = new List<Compra>();
 
     public virtual ICollection<DetalleDeVentum> DetalleDeVenta { get; set; } = new List<DetalleDeVentum>();

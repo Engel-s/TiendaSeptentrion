@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace formstienda.Datos;
 
-public partial class TiendaDBContext : DbContext
+public partial class DbTiendaSeptentrionContext : DbContext
 {
-    public TiendaDBContext()
+    public DbTiendaSeptentrionContext()
     {
     }
 
-    public TiendaDBContext(DbContextOptions<TiendaDBContext> options)
+    public DbTiendaSeptentrionContext(DbContextOptions<DbTiendaSeptentrionContext> options)
         : base(options)
     {
     }
@@ -49,7 +49,7 @@ public partial class TiendaDBContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-AFO51VI\\SQLEXPRESS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -366,6 +366,10 @@ public partial class TiendaDBContext : DbContext
                 .HasColumnName("Id_Producto");
             entity.Property(e => e.IdCategoria).HasColumnName("Id_Categoria");
             entity.Property(e => e.IdMarca).HasColumnName("Id_Marca");
+            entity.Property(e => e.CodigoProducto)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Codigo_Producto");
             entity.Property(e => e.EstadoProducto).HasColumnName("Estado_Producto");
             entity.Property(e => e.ModeloProducto)
                 .HasMaxLength(200)
@@ -458,7 +462,9 @@ public partial class TiendaDBContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Correo_Usuario");
             entity.Property(e => e.EstadoUsuario).HasColumnName("Estado_Usuario");
-            entity.Property(e => e.FechaHoraRecuperacion).HasColumnType("datetime");
+            entity.Property(e => e.FechaRecuperacion)
+                .HasColumnType("datetime")
+                .HasColumnName("Fecha_Recuperacion");
             entity.Property(e => e.NombreUsuario)
                 .HasMaxLength(500)
                 .IsUnicode(false)
@@ -472,8 +478,9 @@ public partial class TiendaDBContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Telefono_Usuario");
             entity.Property(e => e.TokenRecuperacion)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("Token_Recuperacion");
             entity.Property(e => e.UsuarioLogueo)
                 .HasMaxLength(50)
                 .IsUnicode(false)

@@ -85,7 +85,7 @@
             btnIniciarSesion.TabIndex = 23;
             btnIniciarSesion.Text = "Recuperar";
             btnIniciarSesion.UseVisualStyleBackColor = false;
-            btnIniciarSesion.Click += btnIniciarSesion_Click;
+            //btnIniciarSesion.Click += btnIniciarSesion_Click;
             // 
             // panel1
             // 

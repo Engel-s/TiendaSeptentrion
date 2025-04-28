@@ -43,7 +43,7 @@
             btnCambiar_Contraseña.TabIndex = 0;
             btnCambiar_Contraseña.Text = "Cambiar contraseña";
             btnCambiar_Contraseña.UseVisualStyleBackColor = true;
-            btnCambiar_Contraseña.Click += btnCambiar_Contraseña_Click;
+           // btnCambiar_Contraseña.Click += btnCambiar_Contraseña_Click;
             // 
             // label1
             // 
