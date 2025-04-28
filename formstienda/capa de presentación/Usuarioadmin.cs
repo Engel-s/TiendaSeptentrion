@@ -16,20 +16,13 @@ namespace formstienda
 {
     public partial class Usuarioadmin : Form
     {
-<<<<<<< HEAD
-=======
         //private UserManager userManager;
->>>>>>> aperturacaja
         private UsuarioServicio? usuarioServicio;
         private BindingList<Usuario>? Listausuarios;
         public Usuarioadmin()
         {
             InitializeComponent();
-<<<<<<< HEAD
            
-=======
-            //userManager = UserManager.Instance;
->>>>>>> aperturacaja
 
         }
 

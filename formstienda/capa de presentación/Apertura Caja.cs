@@ -25,64 +25,53 @@ namespace formstienda
             tasaServicio = new TasaServicio();
         }
 
-        private void btnabrircaja_Click(object sender, EventArgs e)
-        {
-<<<<<<< HEAD
-            if (!string.IsNullOrEmpty(txtMontoApertura.Text) && !string.IsNullOrEmpty(txtTasaCambio.Text))
-=======
-            var apertura = new AperturaCaja
->>>>>>> aperturacaja
-            {
-<<<<<<< HEAD
-                FechaApertura = DateTime.Now,
-                HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
+        //private void btnabrircaja_Click(object sender, EventArgs e)
+        //{
+        //    var apertura = new AperturaCaja
+        //    {
+        //        FechaApertura = DateTime.Now,
+        //        HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
 
-                MontoApertura = decimal.Parse(txtapertura.Text),
-                EstadoApertura = "Abierta",
+        //        MontoApertura = decimal.Parse(txtMontoApertura.Text),
+        //        EstadoApertura = "Abierta",
 
-            };
+        //    }
+        //    ;
 
-            // Validar si ya hay una apertura hoy
-            //var aperturaExistente = aperturaServicio?.ListaAperturas()
-            //                                        .FirstOrDefault(a => a.FechaApertura.Date == DateTime.Today);
-            //if (aperturaExistente != null)
-            //{
-            //    MessageBox.Show("Ya se realizó una apertura hoy.");
-            //    return;
-            //}
+        //    // Validar si ya hay una apertura hoy
+        //    //var aperturaExistente = aperturaServicio?.ListaAperturas()
+        //    //                                        .FirstOrDefault(a => a.FechaApertura.Date == DateTime.Today);
+        //    //if (aperturaExistente != null)
+        //    //{
+        //    //    MessageBox.Show("Ya se realizó una apertura hoy.");
+        //    //    return;
+        //    //}
 
-            aperturaServicio?.Agregarfondo(apertura);
-            //ListaAperturas?.Add(apertura);
-            MessageBox.Show("Apertura de caja registrada correctamente.");
-            var tasadecambio = new TasaDeCambio
-            {
-                FechaCambio = DateTime.Now,
-                ValorCambio = decimal.Parse(txttasadecambio.Text),
+        //    aperturaServicio?.Agregarfondo(apertura);
+        //    //ListaAperturas?.Add(apertura);
+        //    MessageBox.Show("Apertura de caja registrada correctamente.");
+        //    var tasadecambio = new TasaDeCambio
+        //    {
+        //        FechaCambio = DateTime.Now,
+        //        ValorCambio = decimal.Parse(txtTasaCambio.Text),
 
-            };
+        //    };
 
-            // Validar si ya existe una tasa registrada hoy
-            //var tasaExistente = tasaServicio?.Listatasas()
-            //                                .FirstOrDefault(t => t.FechaCambio == tasa.FechaCambio);
-            //if (tasaExistente != null)
-            //{
-            //    MessageBox.Show("Ya hay una tasa registrada para hoy.");
-            //    return;
-            //}
+        //    // Validar si ya existe una tasa registrada hoy
+        //    //var tasaExistente = tasaServicio?.Listatasas()
+        //    //                                .FirstOrDefault(t => t.FechaCambio == tasa.FechaCambio);
+        //    //if (tasaExistente != null)
+        //    //{
+        //    //    MessageBox.Show("Ya hay una tasa registrada para hoy.");
+        //    //    return;
+        //    //}
 
-            tasaServicio?.AgregarTasa(tasadecambio);
-            //Listatasacambios?.Add(tasadecambio);
-            MessageBox.Show("Tasa de cambio registrada correctamente.");
+        //    tasaServicio?.AgregarTasa(tasadecambio);
+        //    //Listatasacambios?.Add(tasadecambio);
+        //    MessageBox.Show("Tasa de cambio registrada correctamente.");
 
 
-=======
-                this.Close();
-            }
-            
-            Factura factura = new Factura();
-            factura.Show();
->>>>>>> 1f2e5bec682de1805f35839ad7f13f14a537c755
-        }
+        //}
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -97,6 +86,52 @@ namespace formstienda
         private void Apertura_Caja_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAbrirCaja_Click_1(object sender, EventArgs e)
+        {
+            var apertura = new AperturaCaja
+            {
+                FechaApertura = DateTime.Now,
+                HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
+
+                MontoApertura = decimal.Parse(txtMontoApertura.Text),
+                EstadoApertura = "Abierta",
+
+            }
+    ;
+
+           // Validar si ya hay una apertura hoy
+           //var aperturaExistente = aperturaServicio?.ListaAperturas()
+           //                                        .FirstOrDefault(a => a.FechaApertura.Date == DateTime.Today);
+           // if (aperturaExistente != null)
+           // {
+           //     MessageBox.Show("Ya se realizó una apertura hoy.");
+           //     return;
+           // }
+
+            aperturaServicio?.Agregarfondo(apertura);
+            //ListaAperturas?.Add(apertura);
+            MessageBox.Show("Apertura de caja registrada correctamente.");
+            var tasadecambio = new TasaDeCambio
+            {
+                FechaCambio = DateTime.Now,
+                ValorCambio = decimal.Parse(txtTasaCambio.Text),
+
+            };
+
+            //Validar si ya existe una tasa registrada hoy
+            //var tasaExistente = tasaServicio?.Listatasas()
+            //                                .FirstOrDefault(t => t.FechaCambio == tasa.FechaCambio);
+            //if (tasaExistente != null)
+            //{
+            //    MessageBox.Show("Ya hay una tasa registrada para hoy.");
+            //    return;
+            //}
+
+            tasaServicio?.AgregarTasa(tasadecambio);
+            //Listatasacambios?.Add(tasadecambio);
+            MessageBox.Show("Tasa de cambio registrada correctamente.");
         }
     }
 }
