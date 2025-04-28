@@ -53,7 +53,7 @@ namespace formstienda.capa_de_negocios
                     // If not, add the new user
                     _context.TasaDeCambios.Add(tasadecambio);
                     _context.SaveChanges();
-                    MessageBox.Show("Usuario agregado correctamente.");
+                    MessageBox.Show("Tasa de cambio agregada correctamente.");
                     return true;
                 }
             }
@@ -66,7 +66,7 @@ namespace formstienda.capa_de_negocios
                     errorMessage += "\n\nInner Exception:\n" + ex.InnerException.Message;
                 }
 
-                MessageBox.Show(errorMessage, "Error al guardar usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(errorMessage, "Error al guardar la tasa de cambio", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
