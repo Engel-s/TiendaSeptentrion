@@ -11,6 +11,8 @@ public partial class Usuario
 
     public string ApellidoUsuario { get; set; } = null!;
 
+    public string UsuarioLogueo { get; set; } = null!;
+
     public string ContraseñaUsuario { get; set; } = null!;
 
     public string CorreoUsuario { get; set; } = null!;
