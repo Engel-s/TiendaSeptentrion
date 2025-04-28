@@ -32,10 +32,7 @@
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
-            txtMontoApertura = new TextBox();
-            txtTasaCambio = new TextBox();
-            btnAbrirCaja = new Button();
-            btnCancelar = new Button();
+ 
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
             panel1.SuspendLayout();
@@ -90,51 +87,10 @@
             panel1.Size = new Size(429, 64);
             panel1.TabIndex = 3;
             // 
-            // txtMontoApertura
+            // txtapertura
+
             // 
-            txtMontoApertura.Location = new Point(88, 119);
-            txtMontoApertura.Margin = new Padding(5, 6, 5, 6);
-            txtMontoApertura.Name = "txtMontoApertura";
-            txtMontoApertura.Size = new Size(269, 31);
-            txtMontoApertura.TabIndex = 4;
-            // 
-            // txtTasaCambio
-            // 
-            txtTasaCambio.Location = new Point(88, 198);
-            txtTasaCambio.Margin = new Padding(5, 6, 5, 6);
-            txtTasaCambio.Name = "txtTasaCambio";
-            txtTasaCambio.Size = new Size(269, 31);
-            txtTasaCambio.TabIndex = 5;
-            // 
-            // btnAbrirCaja
-            // 
-            btnAbrirCaja.BackColor = Color.FromArgb(3, 171, 229);
-            btnAbrirCaja.FlatAppearance.BorderColor = Color.FromArgb(3, 171, 229);
-            btnAbrirCaja.FlatStyle = FlatStyle.Popup;
-            btnAbrirCaja.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAbrirCaja.Location = new Point(21, 269);
-            btnAbrirCaja.Margin = new Padding(5, 6, 5, 6);
-            btnAbrirCaja.Name = "btnAbrirCaja";
-            btnAbrirCaja.Size = new Size(154, 56);
-            btnAbrirCaja.TabIndex = 6;
-            btnAbrirCaja.Text = "Abrir caja";
-            btnAbrirCaja.UseVisualStyleBackColor = false;
-            btnAbrirCaja.Click += button1_Click;
-            // 
-            // btnCancelar
-            // 
-            btnCancelar.BackColor = Color.FromArgb(3, 171, 229);
-            btnCancelar.FlatAppearance.BorderColor = Color.FromArgb(3, 171, 229);
-            btnCancelar.FlatStyle = FlatStyle.Popup;
-            btnCancelar.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancelar.Location = new Point(248, 269);
-            btnCancelar.Margin = new Padding(5, 6, 5, 6);
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(159, 56);
-            btnCancelar.TabIndex = 7;
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.UseVisualStyleBackColor = false;
-            btnCancelar.Click += button2_Click;
+         
             // 
             // pictureBox2
             // 
@@ -165,10 +121,10 @@
             ClientSize = new Size(429, 424);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
-            Controls.Add(btnCancelar);
-            Controls.Add(btnAbrirCaja);
-            Controls.Add(txtTasaCambio);
-            Controls.Add(txtMontoApertura);
+            Controls.Add(button2);
+            Controls.Add(btnabrircaja);
+            Controls.Add(txttasadecambio);
+            Controls.Add(txtapertura);
             Controls.Add(panel1);
             Controls.Add(label3);
             Controls.Add(label1);
@@ -195,10 +151,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox txtMontoApertura;
-        private System.Windows.Forms.TextBox txtTasaCambio;
-        private System.Windows.Forms.Button btnAbrirCaja;
-        private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.TextBox txtapertura;
+        private System.Windows.Forms.TextBox txttasadecambio;
+        private System.Windows.Forms.Button btnabrircaja;
+        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
     }

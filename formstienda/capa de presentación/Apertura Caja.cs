@@ -1,4 +1,6 @@
-﻿using System;
+﻿using formstienda.capa_de_negocios;
+using formstienda.Datos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,17 +14,74 @@ namespace formstienda
 {
     public partial class Apertura_Caja : Form
     {
+        private AperturaServicio? aperturaServicio;
+        private TasaServicio? tasaServicio;
+        //private BindingList<Tasadecambio>? Listatasacambios;
+
         public Apertura_Caja()
         {
             InitializeComponent();
+            aperturaServicio = new AperturaServicio();
+            tasaServicio = new TasaServicio();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnabrircaja_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             if (!string.IsNullOrEmpty(txtMontoApertura.Text) && !string.IsNullOrEmpty(txtTasaCambio.Text))
+=======
+            var apertura = new AperturaCaja
+>>>>>>> aperturacaja
             {
+<<<<<<< HEAD
+                FechaApertura = DateTime.Now,
+                HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
+
+                MontoApertura = decimal.Parse(txtapertura.Text),
+                EstadoApertura = "Abierta",
+
+            };
+
+            // Validar si ya hay una apertura hoy
+            //var aperturaExistente = aperturaServicio?.ListaAperturas()
+            //                                        .FirstOrDefault(a => a.FechaApertura.Date == DateTime.Today);
+            //if (aperturaExistente != null)
+            //{
+            //    MessageBox.Show("Ya se realizó una apertura hoy.");
+            //    return;
+            //}
+
+            aperturaServicio?.Agregarfondo(apertura);
+            //ListaAperturas?.Add(apertura);
+            MessageBox.Show("Apertura de caja registrada correctamente.");
+            var tasadecambio = new TasaDeCambio
+            {
+                FechaCambio = DateTime.Now,
+                ValorCambio = decimal.Parse(txttasadecambio.Text),
+
+            };
+
+            // Validar si ya existe una tasa registrada hoy
+            //var tasaExistente = tasaServicio?.Listatasas()
+            //                                .FirstOrDefault(t => t.FechaCambio == tasa.FechaCambio);
+            //if (tasaExistente != null)
+            //{
+            //    MessageBox.Show("Ya hay una tasa registrada para hoy.");
+            //    return;
+            //}
+
+            tasaServicio?.AgregarTasa(tasadecambio);
+            //Listatasacambios?.Add(tasadecambio);
+            MessageBox.Show("Tasa de cambio registrada correctamente.");
+
+
+=======
                 this.Close();
             }
+            
+            Factura factura = new Factura();
+            factura.Show();
+>>>>>>> 1f2e5bec682de1805f35839ad7f13f14a537c755
         }
 
         private void label3_Click(object sender, EventArgs e)
