@@ -45,28 +45,74 @@ namespace formstienda
 
         private void btnnuevo_Click(object sender, EventArgs e)
         {
-            // validar si ya existe el usuario
+            // Crear el objeto usuario
             var usuario = new Usuario
             {
-                NombreUsuario = txtnombreusuario.Text,
-                ApellidoUsuario = txtapellidousuario.Text,
-                CorreoUsuario = txtcorreousuario.Text,
+                NombreUsuario = txtnombreusuario.Text.Trim(),
+                ApellidoUsuario = txtapellidousuario.Text.Trim(),
+                CorreoUsuario = txtcorreousuario.Text.Trim(),
                 ContraseñaUsuario = txtpassword.Text,
                 RolUsuario = cbrolusuario.Text,
                 UsuarioLogueo = cbrolusuario.Text + txtnombreusuario.Text,
-                TelefonoUsuario = txttelefonousuario.Text,
-                EstadoUsuario = cbestadousuario.Text == "Activo" ? true : false,
+                TelefonoUsuario = txttelefonousuario.Text.Trim(),
+                EstadoUsuario = cbestadousuario.Text == "Activo"
             };
-            var usuarioExistente = usuarioServicio?.Listausuarios()
-                                                  .FirstOrDefault(p => p.CorreoUsuario == usuario.CorreoUsuario);
-            if (usuarioExistente != null)
+
+            // Validaciones de campos vacíos
+            if (string.IsNullOrWhiteSpace(usuario.NombreUsuario) ||
+                string.IsNullOrWhiteSpace(usuario.ApellidoUsuario) ||
+                string.IsNullOrWhiteSpace(usuario.CorreoUsuario) ||
+                string.IsNullOrWhiteSpace(usuario.ContraseñaUsuario) ||
+                string.IsNullOrWhiteSpace(usuario.RolUsuario) ||
+                string.IsNullOrWhiteSpace(usuario.TelefonoUsuario))
             {
-                MessageBox.Show("Este usuario ya existe, agregue otro correo");
+                MessageBox.Show("Por favor, complete todos los campos obligatorios.");
                 return;
             }
+
+            // Validar formato de correo electrónico
+            if (!System.Text.RegularExpressions.Regex.IsMatch(usuario.CorreoUsuario, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                MessageBox.Show("Ingrese un correo electrónico válido.");
+                return;
+            }
+
+            // Validar longitud de contraseña
+            if (usuario.ContraseñaUsuario.Length < 6)
+            {
+                MessageBox.Show("La contraseña debe tener al menos 6 caracteres.");
+                return;
+            }
+
+            // Validar que teléfono contenga solo números y tenga una longitud adecuada (ej: 10 dígitos)
+            //if (!System.Text.RegularExpressions.Regex.IsMatch(usuario.TelefonoUsuario, @"^\d{8}$"))
+            //{
+            //    MessageBox.Show("Ingrese un número de teléfono válido (8 dígitos).");
+            //    return;
+            //}
+
+            // Validar si el correo ya existe
+            var usuarioExistente = usuarioServicio?.Listausuarios()
+                                                  .FirstOrDefault(p => p.CorreoUsuario.Equals(usuario.CorreoUsuario, StringComparison.OrdinalIgnoreCase));
+            if (usuarioExistente != null)
+            {
+                MessageBox.Show("Este usuario ya existe, agregue otro correo.");
+                return;
+            }
+
+            // Agregar usuario
             usuarioServicio?.AgregarUsuario(usuario);
             Listausuarios?.Add(usuario);
             MessageBox.Show("Usuario agregado correctamente");
+
+            // Limpiar los campos después de agregar
+            txtnombreusuario.Text = "";
+            txtapellidousuario.Text = "";
+            txtcorreousuario.Text = "";
+            txtpassword.Text = "";
+            txttelefonousuario.Text = "";
+            cbrolusuario.SelectedIndex = -1;
+            cbestadousuario.SelectedIndex = -1;
         }
 
         private void cargarusuarios()
