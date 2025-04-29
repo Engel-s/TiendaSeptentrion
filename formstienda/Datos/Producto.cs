@@ -13,9 +13,9 @@ public partial class Producto
 
     public string ModeloProducto { get; set; } = null!;
 
-    public int PrecioVenta { get; set; }
+    public double PrecioVenta { get; set; }
 
-    public bool EstadoProducto { get; set; }
+    public bool? EstadoProducto { get; set; }
 
     public int StockActual { get; set; }
 

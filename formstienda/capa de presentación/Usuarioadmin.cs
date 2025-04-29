@@ -178,6 +178,7 @@ namespace formstienda
                 TelefonoUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["TelefonoUsuario"].Value?.ToString() ?? "",
                 RolUsuario = DGUSUARIOS.Rows[e.RowIndex].Cells["RolUsuario"].Value?.ToString() ?? "",
                 EstadoUsuario = Convert.ToBoolean(DGUSUARIOS.Rows[e.RowIndex].Cells["EstadoUsuario"].Value),
+                UsuarioLogueo = DGUSUARIOS.Rows[e.RowIndex].Cells["UsuarioLogueo"].Value?.ToString() ?? "",
 
 
             };

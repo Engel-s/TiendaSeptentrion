@@ -407,7 +407,7 @@ namespace formstienda
                     var columnSettings = new List<(string Name, string Header, string Format, DataGridViewAutoSizeColumnMode SizeMode)>
                     {
                         ("CodigoProducto", "Código Producto", null, DataGridViewAutoSizeColumnMode.Fill),
-                        ("NombreProducto", "Nombre Producto", null, DataGridViewAutoSizeColumnMode.Fill),
+                        ("ModeloProducto", "Nombre Producto", null, DataGridViewAutoSizeColumnMode.Fill),
                         ("PrecioVenta", "Precio Venta", "C2", DataGridViewAutoSizeColumnMode.Fill),
                         ("Marca", "Marca", null, DataGridViewAutoSizeColumnMode.Fill),
                         ("Categoria", "Categoría", null, DataGridViewAutoSizeColumnMode.Fill),
