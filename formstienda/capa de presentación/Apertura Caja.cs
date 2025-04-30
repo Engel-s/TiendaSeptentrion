@@ -97,9 +97,11 @@ namespace formstienda
 
                 MontoApertura = decimal.Parse(txtMontoApertura.Text),
                 EstadoApertura = "Abierta",
+                
 
-            }
-    ;
+            };
+            this.Hide();
+    
 
            // Validar si ya hay una apertura hoy
            //var aperturaExistente = aperturaServicio?.ListaAperturas()
