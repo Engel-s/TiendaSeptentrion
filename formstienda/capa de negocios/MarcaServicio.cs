@@ -114,47 +114,28 @@ namespace formstienda.capa_de_negocios
             }
         }
 
-        // Actualizar marca
-        public bool ActualizarMarca(int idMarca, string nuevoNombre)
+        public bool ActualizarMarca(int id, string nuevoNombre)
         {
-            if (string.IsNullOrWhiteSpace(nuevoNombre))
+            using (var contexto = new DbTiendaSeptentrionContext())
             {
-                MessageBox.Show("El nombre de la marca no puede estar vacío");
-                return false;
-            }
-
-            try
-            {
-                using (var _context = new DbTiendaSeptentrionContext())
+                var marca = contexto.Marcas.FirstOrDefault(m => m.IdMarca == id);
+                if (marca != null)
                 {
-                    var marca = _context.Marcas.Find(idMarca);
-                    if (marca == null)
-                    {
-                        MessageBox.Show("Marca no encontrada");
-                        return false;
-                    }
-
-                    // Verificar si el nuevo nombre ya existe
-                    var existe = _context.Marcas
-                        .Any(m => m.IdMarca != idMarca &&
-                                m.Marca1.ToLower() == nuevoNombre.ToLower());
-                    if (existe)
-                    {
-                        MessageBox.Show("Ya existe otra marca con este nombre");
-                        return false;
-                    }
-
                     marca.Marca1 = nuevoNombre;
-                    _context.SaveChanges();
+                    contexto.SaveChanges();
                     return true;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show("Error al actualizar marca: " + ex.Message);
                 return false;
             }
         }
+
+        public Marca ObtenerMarcaPorNombre(string nombre)
+        {
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                return context.Marcas.FirstOrDefault(m => m.Marca1 == nombre);
+            }
+        }
+
     }
 }

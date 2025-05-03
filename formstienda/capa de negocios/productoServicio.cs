@@ -107,121 +107,51 @@ namespace formstienda.capa_de_negocios
             }
         }
 
-        // Eliminar un producto
-        public bool EliminarProducto(int idProducto)
-        {
-            try
-            {
-                using (var _context = new DbTiendaSeptentrionContext())
-                {
-                    var producto = _context.Productos.Find(idProducto);
-
-                    if (producto == null)
-                    {
-                        MessageBox.Show("Producto no encontrado");
-                        return false;
-                    }
-
-                    // Verificar si hay stock antes de eliminar
-                    if (producto.StockActual > 0)
-                    {
-                        MessageBox.Show("No se puede eliminar un producto con existencias en stock");
-                        return false;
-                    }
-
-                    _context.Productos.Remove(producto);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show("Error al eliminar producto: " + ex.Message);
-                return false;
-            }
-        }
-
-        // Actualizar un producto
         public bool ActualizarProducto(Producto producto)
         {
-            if (producto == null)
+            using (var contexto = new DbTiendaSeptentrionContext())
             {
-                MessageBox.Show("Datos del producto inválidos");
-                return false;
-            }
-
-            try
-            {
-                using (var _context = new DbTiendaSeptentrionContext())
+                var prod = contexto.Productos.FirstOrDefault(p => p.IdProducto == producto.IdProducto);
+                if (prod == null)
                 {
-                    var productoExistente = _context.Productos.Find(producto.IdProducto);
-                    if (productoExistente == null)
-                    {
-                        MessageBox.Show("Producto no encontrado");
-                        return false;
-                    }
+                    return false;
+                }
 
-                    // Actualizar propiedades
-                    productoExistente.ModeloProducto = producto.ModeloProducto;
-                    productoExistente.IdCategoria = producto.IdCategoria;
-                    productoExistente.IdMarca = producto.IdMarca;
-                    productoExistente.PrecioVenta = producto.PrecioVenta;
-                    productoExistente.EstadoProducto = producto.EstadoProducto;
-                    productoExistente.StockActual = producto.StockActual;
-                    productoExistente.StockMinimo = producto.StockMinimo;
-                    productoExistente.CodigoProducto = producto.CodigoProducto;
+                // Asignar propiedades individuales
+                prod.ModeloProducto = producto.ModeloProducto;
+                prod.PrecioVenta = producto.PrecioVenta;
+                prod.StockActual = producto.StockActual;
+                prod.StockMinimo = producto.StockMinimo;
+                //prod.IdMarca = producto.IdMarca;           // <- Aquí estás usando IdMarca (int), no el nombre
+                //prod.IdCategoria = producto.IdCategoria;
+                prod.EstadoProducto = producto.EstadoProducto;
 
-                    _context.SaveChanges();
+                try
+                {
+                    contexto.SaveChanges();
                     return true;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show("Error al actualizar producto: " + ex.Message);
-                return false;
-            }
-        }
-
-        // Buscar productos por criterios
-        public List<Producto> BuscarProductos(string nombre, string marca, string categoria)
-        {
-            try
-            {
-                using (var _context = new DbTiendaSeptentrionContext())
+                catch (Exception ex)
                 {
-                    var query = _context.Productos
-                        .Include(p => p.IdCategoriaNavigation)
-                        .Include(p => p.IdMarcaNavigation)
-                        .AsQueryable();
-
-                    if (!string.IsNullOrEmpty(nombre))
-                    {
-                        query = query.Where(p => p.ModeloProducto.Contains(nombre));
-                    }
-
-                    if (!string.IsNullOrEmpty(marca))
-                    {
-                        query = query.Where(p => p.IdMarcaNavigation.Marca1.Contains(marca));
-                    }
-
-                    if (!string.IsNullOrEmpty(categoria))
-                    {
-                        query = query.Where(p => p.IdCategoriaNavigation.Categoria.Contains(categoria));
-                    }
-
-                    return query.AsNoTracking().ToList();
+                    // Opcional: loggear error si lo necesitas
+                    Console.WriteLine("Error al actualizar producto: " + ex.Message);
+                    return false;
                 }
             }
-            catch (Exception ex)
+        }
+
+
+        public Producto ObtenerProductoPorCodigo(string codigo)
+        {
+            using (var contexto = new DbTiendaSeptentrionContext())
             {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show("Error al buscar productos: " + ex.Message);
-                return new List<Producto>();
+                return contexto.Productos
+                    .Include(p => p.IdCategoriaNavigation)
+                    .Include(p => p.IdMarcaNavigation)
+                    .FirstOrDefault(p => p.CodigoProducto == codigo);
             }
         }
 
-        
+
     }
 }

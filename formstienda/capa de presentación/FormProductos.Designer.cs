@@ -254,6 +254,7 @@ namespace formstienda
             DGPRODUCTOS.Size = new Size(1253, 413);
             DGPRODUCTOS.TabIndex = 19;
             DGPRODUCTOS.CellContentClick += DGPRODUCTOS_CellContentClick;
+            DGPRODUCTOS.CellDoubleClick += DGPRODUCTOS_CellDoubleClick;
             // 
             // button2
             // 
@@ -513,6 +514,7 @@ namespace formstienda
             DGCATEGORIAS.Size = new Size(1282, 501);
             DGCATEGORIAS.TabIndex = 20;
             DGCATEGORIAS.CellClick += DGCATEGORIAS_CellClick;
+            DGCATEGORIAS.CellDoubleClick += DGCATEGORIAS_CellDoubleClick;
             // 
             // btnCancelaCategoria
             // 
@@ -614,10 +616,11 @@ namespace formstienda
             DGMARCAS.Name = "DGMARCAS";
             DGMARCAS.RowHeadersWidth = 51;
             DGMARCAS.RowTemplate.Height = 24;
-            DGMARCAS.Size = new Size(1282, 506);
+            DGMARCAS.Size = new Size(1357, 506);
             DGMARCAS.TabIndex = 28;
             DGMARCAS.UseWaitCursor = true;
             DGMARCAS.CellClick += DGMARCAS_CellClick;
+            DGMARCAS.CellDoubleClick += DGMARCAS_CellDoubleClick;
             // 
             // btnCancelarMarca
             // 

@@ -106,16 +106,6 @@ namespace formstienda
                 DGMARCAS.Columns["Marca"].HeaderText = "Nombre de Marca";
                 DGMARCAS.Columns["IdMarcas"].ReadOnly = true; // ID no editable
 
-                // Verificar si ya existe la columna botón para no agregarla dos veces
-                if (!DGMARCAS.Columns.Contains("Editar"))
-                {
-                    DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn();
-                    btnEditar.HeaderText = "Acciones";
-                    btnEditar.Name = "Editar";
-                    btnEditar.Text = "Editar";
-                    btnEditar.UseColumnTextForButtonValue = true;
-                    DGMARCAS.Columns.Add(btnEditar);
-                }
             }
         }
 
@@ -134,16 +124,6 @@ namespace formstienda
                 DGCATEGORIAS.Columns["Categoria"].HeaderText = "Nombre de Categoría";
                 DGCATEGORIAS.Columns["IdCategoria"].ReadOnly = true; // ID no editable
 
-                // Verificar si ya existe la columna botón para no agregarla dos veces
-                if (!DGCATEGORIAS.Columns.Contains("Editar"))
-                {
-                    DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn();
-                    btnEditar.HeaderText = "Acciones";
-                    btnEditar.Name = "Editar";
-                    btnEditar.Text = "Editar";
-                    btnEditar.UseColumnTextForButtonValue = true;
-                    DGCATEGORIAS.Columns.Add(btnEditar);
-                }
             }
         }
 
@@ -192,20 +172,7 @@ namespace formstienda
             }
         }
         //
-        private void DGMARCAS_EditarCeldas(object sender, DataGridViewCellEventArgs e)
-        {
-            // Obtener datos editados
-            var row = DGMARCAS.Rows[e.RowIndex];
-            int idMarca = Convert.ToInt32(row.Cells["IdMarcas"].Value);
-            string nuevoNombre = row.Cells["Marca"].Value.ToString();
 
-            // Actualizar en la base de datos
-            if (!_marcaServicio.ActualizarMarca(idMarca, nuevoNombre))
-            {
-                // Si falla la actualización, recargar los datos originales
-                CargarMarcas();
-            }
-        }
 
         //private void DGMARCAS_BorrarCeldas(object sender, DataGridViewRowCancelEventArgs e)
         //{
@@ -231,11 +198,6 @@ namespace formstienda
         //        CargarMarcas(); // Refrescar datos
         //    }
         //}
-
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            CargarMarcas();
-        }
 
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -407,7 +369,7 @@ namespace formstienda
                     var columnSettings = new List<(string Name, string Header, string Format, DataGridViewAutoSizeColumnMode SizeMode)>
                     {
                         ("CodigoProducto", "Código Producto", null, DataGridViewAutoSizeColumnMode.Fill),
-                        ("NombreProducto", "Nombre Producto", null, DataGridViewAutoSizeColumnMode.Fill),
+                        ("ModeloProducto", "Nombre Producto", null, DataGridViewAutoSizeColumnMode.Fill),
                         ("PrecioVenta", "Precio Venta", "C2", DataGridViewAutoSizeColumnMode.Fill),
                         ("Marca", "Marca", null, DataGridViewAutoSizeColumnMode.Fill),
                         ("Categoria", "Categoría", null, DataGridViewAutoSizeColumnMode.Fill),
@@ -448,71 +410,174 @@ namespace formstienda
         }
 
 
-        //metodo marcas editar
         private void DGMARCAS_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                if (DGMARCAS.Columns[e.ColumnIndex].Name == "Editar")
-                {
-                    int idMarca = (int)DGMARCAS.Rows[e.RowIndex].Cells["IdMarcas"].Value;
-                    string nombreActual = DGMARCAS.Rows[e.RowIndex].Cells["Marca"].Value.ToString();
 
-                    string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox(
-                        "Editar nombre de la marca:",
-                        "Editar Marca",
-                        nombreActual
-                    );
-
-                    if (!string.IsNullOrWhiteSpace(nuevoNombre) && nuevoNombre != nombreActual)
-                    {
-                        if (_marcaServicio.ActualizarMarca(idMarca, nuevoNombre))
-                        {
-                            MessageBox.Show("Marca actualizada correctamente");
-                            CargarMarcas();
-                            CargarComboMarca();
-                        }
-                    }
-                }
-            }
         }
 
-        //metodo editar categoria
         private void DGCATEGORIAS_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                if (DGCATEGORIAS.Columns[e.ColumnIndex].Name == "Editar")
-                {
-                    int idCategoria = (int)DGCATEGORIAS.Rows[e.RowIndex].Cells["IdCategoria"].Value;
-                    string nombreActual = DGCATEGORIAS.Rows[e.RowIndex].Cells["Categoria"].Value.ToString();
 
-                    string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox(
-                        "Editar nombre de la categoría:",
-                        "Editar Categoría",
-                        nombreActual
-                    );
-
-                    if (!string.IsNullOrWhiteSpace(nuevoNombre) && nuevoNombre != nombreActual)
-                    {
-                        if (_categoriaServicio.ActualizarCategoria(idCategoria, nuevoNombre))
-                        {
-                            MessageBox.Show("Categoría actualizada correctamente");
-                            CargarCategorias();
-                            CargarComboCategoria();
-                        }
-                    }
-                }
-            }
         }
 
         private void DGPRODUCTOS_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         }
-               
+
         private void FormProductos_Load(object sender, EventArgs e)
         {
 
         }
+
+        //Editar Marca
+        private void DGMARCAS_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex >= 0)
+            {
+                int idMarca = Convert.ToInt32(DGMARCAS.Rows[e.RowIndex].Cells["IdMarcas"].Value);
+                string nombreActual = DGMARCAS.Rows[e.RowIndex].Cells["Marca"].Value.ToString();
+
+                string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Ingrese el nuevo nombre de la marca:", "Editar Marca", nombreActual);
+
+                if (!string.IsNullOrWhiteSpace(nuevoNombre) && nuevoNombre != nombreActual)
+                {
+                    bool actualizado = _marcaServicio.ActualizarMarca(idMarca, nuevoNombre.Trim());
+
+                    if (actualizado)
+                    {
+                        MessageBox.Show("Marca actualizada correctamente.");
+                        CargarMarcas();       // Refresca el grid de marcas
+                        CargarComboMarca();   // Refresca el ComboBox
+                        CargarProductos();    // Refresca la grilla de productos
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo actualizar la marca.");
+                    }
+                }
+            }
+
+        }
+
+        private void DGCATEGORIAS_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex >= 0)
+            {
+                // Obtener el ID y el nombre actual de la categoría
+                int idCategoria = Convert.ToInt32(DGCATEGORIAS.Rows[e.RowIndex].Cells["IdCategoria"].Value);
+                string nombreActual = DGCATEGORIAS.Rows[e.RowIndex].Cells["Categoria"].Value.ToString();
+
+                // Pedir nuevo nombre al usuario
+                string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Ingrese el nuevo nombre de la categoría:", "Editar Categoría", nombreActual);
+
+                if (!string.IsNullOrWhiteSpace(nuevoNombre) && nuevoNombre != nombreActual)
+                {
+                    // Llamar al servicio para actualizar
+                    bool actualizado = _categoriaServicio.ActualizarCategoria(idCategoria, nuevoNombre.Trim());
+
+                    if (actualizado)
+                    {
+                        MessageBox.Show("Categoría actualizada correctamente.");
+                        CargarCategorias();       // Refrescar grilla de categorías
+                        CargarComboCategoria();   // Refrescar ComboBox
+                        CargarProductos();        // Refrescar grilla de productos para reflejar el cambio
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo actualizar la categoría.");
+                    }
+                }
+            }
+
+        }
+
+        private void DGPRODUCTOS_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                string codigo = DGPRODUCTOS.Rows[e.RowIndex].Cells["CodigoProducto"].Value?.ToString();
+
+                if (string.IsNullOrWhiteSpace(codigo))
+                {
+                    MessageBox.Show("No se pudo identificar el producto.");
+                    return;
+                }
+
+                var producto = productoServicio.ObtenerProductoPorCodigo(codigo);
+                if (producto == null)
+                {
+                    MessageBox.Show("Producto no encontrado.");
+                    return;
+                }
+
+                // Editar cada campo uno por uno con InputBox
+                string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox("Nuevo nombre:", "Editar Producto", producto.ModeloProducto);
+                if (string.IsNullOrWhiteSpace(nuevoNombre)) return;
+
+                string nuevoPrecioStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo precio de venta:", "Editar Producto", producto.PrecioVenta.ToString("0.00"));
+        if (!float.TryParse(nuevoPrecioStr, out float nuevoPrecio)) return;
+
+
+                string nuevoStockStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock actual:", "Editar Producto", producto.StockActual.ToString());
+                if (!int.TryParse(nuevoStockStr, out int nuevoStock)) return;
+
+                string nuevoStockMinStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock mínimo:", "Editar Producto", producto.StockMinimo.ToString());
+                if (!int.TryParse(nuevoStockMinStr, out int nuevoStockMin)) return;
+
+                string nuevoEstadoStr = Microsoft.VisualBasic.Interaction.InputBox("Estado (Activo/Inactivo):", "Editar Producto", producto.EstadoProducto ? "Activo" : "Inactivo");
+                bool nuevoEstado = nuevoEstadoStr.Trim().ToLower() == "activo";
+
+                //string nuevaMarca = Microsoft.VisualBasic.Interaction.InputBox("Nueva marca:", "Editar Producto", producto.IdMarcaNavigation?.Marca1 ?? "").Trim();
+
+                //if (string.IsNullOrWhiteSpace(nuevaMarca))
+                //{
+                //    MessageBox.Show("Debe ingresar una marca.");
+                //    return;
+                //}
+
+                //var marca = _marcaServicio.ObtenerMarcaPorNombre(nuevaMarca);
+                //if (marca == null)
+                //{
+                //    MessageBox.Show($"La marca '{nuevaMarca}' no fue encontrada. Verifique el nombre.");
+                //    return;
+                //}
+
+                //producto.IdMarca = marca.IdMarca; // Sigue utilizando el ID, aunque el usuario solo ve el nombre
+
+                //string nuevaCategoria = Microsoft.VisualBasic.Interaction.InputBox("Nueva categoría:", "Editar Producto", producto.IdCategoriaNavigation?.Categoria ?? "");
+                //var categoria = _categoriaServicio.ObtenerCategoriaPorNombre(nuevaCategoria);
+                //if (categoria == null)
+                //{
+                //    MessageBox.Show("Categoría no encontrada.");
+                //    return;
+                //}
+
+                // Aplicar cambios
+                producto.ModeloProducto = nuevoNombre;
+                producto.PrecioVenta = nuevoPrecio;
+                producto.StockActual = nuevoStock;
+                producto.StockMinimo = nuevoStockMin;
+                producto.EstadoProducto = nuevoEstado;
+                //producto.IdMarca = marca.IdMarca;
+                //producto.IdCategoria = categoria.IdCategoria;
+
+                // Guardar
+                bool actualizado = productoServicio.ActualizarProducto(producto);
+                if (actualizado)
+                {
+                    MessageBox.Show("Producto actualizado correctamente.");
+                    CargarProductos(); // Refrescar grilla
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar el producto.");
+                }
+            }
+        }
+        
     }
 }

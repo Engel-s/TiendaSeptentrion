@@ -39,43 +39,17 @@ namespace formstienda.capa_de_negocios
         }
 
         // Actualizar categoría
-        public bool ActualizarCategoria(int idCategoria, string nuevoNombre)
+        public bool ActualizarCategoria(int id, string nuevoNombre)
         {
-            if (string.IsNullOrWhiteSpace(nuevoNombre))
+            using (var contexto = new DbTiendaSeptentrionContext())
             {
-                MessageBox.Show("El nombre de la categoría no puede estar vacío");
-                return false;
-            }
-
-            try
-            {
-                using (var _context = new DbTiendaSeptentrionContext())
+                var categoria = contexto.Categoria.FirstOrDefault(c => c.IdCategoria == id);
+                if (categoria != null)
                 {
-                    var categoria = _context.Categoria.Find(idCategoria);
-                    if (categoria == null)
-                    {
-                        MessageBox.Show("Categoría no encontrada");
-                        return false;
-                    }
-
-                    // Verificar si ya existe otra categoría con el mismo nombre
-                    var existe = _context.Categoria
-                        .Any(c => c.IdCategoria != idCategoria && c.Categoria.ToLower() == nuevoNombre.ToLower());
-                    if (existe)
-                    {
-                        MessageBox.Show("Ya existe otra categoría con este nombre");
-                        return false;
-                    }
-
                     categoria.Categoria = nuevoNombre;
-                    _context.SaveChanges();
+                    contexto.SaveChanges();
                     return true;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show("Error al actualizar categoría: " + ex.Message);
                 return false;
             }
         }
@@ -119,5 +93,15 @@ namespace formstienda.capa_de_negocios
                 return false;
             }
         }
+
+        // En CategoriaServicio
+        public Categorium ObtenerCategoriaPorNombre(string nombre)
+        {
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                return context.Categoria.FirstOrDefault(c => c.Categoria == nombre);
+            }
+        }
+
     }
 }
