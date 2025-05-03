@@ -45,7 +45,8 @@ namespace formstienda
 
 
 
-        public bool EnviarCorreo(string correodestino, string token)
+       
+        /*public bool EnviarCorreo(string correodestino, string token)
         {
             try
             {

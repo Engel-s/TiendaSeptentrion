@@ -85,7 +85,7 @@
             btnIniciarSesion.TabIndex = 23;
             btnIniciarSesion.Text = "Recuperar";
             btnIniciarSesion.UseVisualStyleBackColor = false;
-            //btnIniciarSesion.Click += btnIniciarSesion_Click;
+            btnIniciarSesion.Click += btnIniciarSesion_Click_1;
             // 
             // panel1
             // 
@@ -181,7 +181,7 @@
             btnCambarContraseña.ForeColor = Color.Black;
             btnCambarContraseña.Location = new Point(560, 580);
             btnCambarContraseña.Margin = new Padding(4, 2, 4, 2);
-            btnCambarContraseña.Name = "button1";
+            btnCambarContraseña.Name = "btnCambarContraseña";
             btnCambarContraseña.Size = new Size(224, 37);
             btnCambarContraseña.TabIndex = 30;
             btnCambarContraseña.Text = "Cambiar contraseña ";

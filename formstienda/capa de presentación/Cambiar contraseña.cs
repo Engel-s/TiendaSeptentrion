@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using formstienda.capa_de_negocios;
 
 namespace formstienda.capa_de_presentación
 {
@@ -19,25 +20,26 @@ namespace formstienda.capa_de_presentación
             _correo = correo;
         }
 
-       /* private void btnCambiar_Contraseña_Click(object sender, EventArgs e)
-        {
-            string tokenRecupeacion = txtCambiarContraseña.Text.Trim();
-            string NuevaContraseña = txtContraseñaNueva.Text.Trim();
+        private void btnCambiar_Contraseña_Click(object sender, EventArgs e)
+     
+         {
+             string tokenRecupeacion = txtCambiarContraseña.Text.Trim();
+             string NuevaContraseña = txtContraseñaNueva.Text.Trim();
 
-            var usermanager = new UserManager();
-            bool exitoso = usermanager.cambiarcontraseña(_correo, tokenRecupeacion, NuevaContraseña);
+             var clienteServicio = new ClienteServicio();
+             bool exitoso = clienteServicio.cambiarcontraseña(_correo, tokenRecupeacion, NuevaContraseña);
 
-                if (exitoso)
-            {
-                MessageBox.Show("Se ha cambiado la contraseña");
-                Login login = new Login();
-                this.Hide();
-                login.Show();
-            }
-            else 
-            {
-                MessageBox.Show("Hubo un error no se puede cambiar la contraseña");
-            }
-        }*/
+                 if (exitoso)
+             {
+                 MessageBox.Show("Se ha cambiado la contraseña");
+                 Login login = new Login();
+                 this.Hide();
+                 login.Show();
+             }
+             else 
+             {
+                 MessageBox.Show("Hubo un error no se puede cambiar la contraseña");
+             }
+         }
     }
 }
