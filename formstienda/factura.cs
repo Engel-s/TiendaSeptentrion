@@ -19,8 +19,6 @@ namespace formstienda
         private double dolar;
         private string idproducto;
 
-        
-
         public int Cantidad { get => cantidad; set => cantidad = value; }
         public double Total { get => total; set=> total = value; }
         public double Subtotal { get => subtotal; set=> subtotal = value; }

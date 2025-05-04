@@ -12,9 +12,40 @@ namespace formstienda.capa_de_presentación
 {
     public partial class menu : Form
     {
-        public menu()
+        public menu(string EsAdmin)
         {
             InitializeComponent();
+
+            if (EsAdmin == "Administrador")
+            {
+                btncompras.Visible = true;
+                btnventas.Visible = true;
+                btndevoluciones.Visible = true;
+                btncreditos.Visible = true;
+                btnproductos.Visible = true;
+                btnsalidasinventario.Visible = true;
+                btnclientes.Visible = true;
+                btnproveedores.Visible = true;
+                btnusuarios.Visible = true;
+                btnarqueo.Visible = true;
+                btninformes.Visible = true;
+                btnacercade.Visible = true;
+            }
+            else
+            {
+                btncompras.Visible = true;
+                btnventas.Visible = true;
+                btndevoluciones.Visible = true;
+                btncreditos.Visible = true;
+                btnproductos.Visible = true;
+                btnsalidasinventario.Visible = true;
+                btnclientes.Visible = true;
+                btnproveedores.Visible = false;
+                btnusuarios.Visible = false;
+                btnarqueo.Visible = true;
+                btninformes.Visible = false;
+                btnacercade.Visible = true;
+            }
         }
 
         private void Menu_Inicio_Load(object sender, EventArgs e)
@@ -37,12 +68,15 @@ namespace formstienda.capa_de_presentación
 
         private void label1_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             lblfecha.Visible = true;
             lblhora.Visible = true;
             if (PanelContenedor.Controls.Count > 0)
                 PanelContenedor.Controls.RemoveAt(0);
           
 
+=======
+>>>>>>> desarrollo
 
         }
 
@@ -204,12 +238,16 @@ namespace formstienda.capa_de_presentación
 
         }
 
+<<<<<<< HEAD
         public void lblfecha_Click(object sender, EventArgs e)
         {
 
         }
 
         public void lblhora_Click(object sender, EventArgs e)
+=======
+        private void lblfecha_Click(object sender, EventArgs e)
+>>>>>>> desarrollo
         {
 
         }

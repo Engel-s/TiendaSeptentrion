@@ -7,11 +7,11 @@ public partial class AperturaCaja
 {
     public int IdApertura { get; set; }
 
-    public double MontoApertura { get; set; }
+    public decimal MontoApertura { get; set; }
 
-    public DateOnly FechaApertura { get; set; }
+    public DateTime FechaApertura { get; set; }
 
-    public DateTime HoraApertura { get; set; }
+    public TimeOnly HoraApertura { get; set; }
 
     public string EstadoApertura { get; set; } = null!;
 
