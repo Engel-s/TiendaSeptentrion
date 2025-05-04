@@ -168,6 +168,7 @@ namespace formstienda
             comboBox9.Name = "comboBox9";
             comboBox9.Size = new Size(172, 30);
             comboBox9.TabIndex = 161;
+
             // 
             // label13
             // 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace formstienda.capa_de_negocios
 {
-    public class UsuarioServicio
+   public class UsuarioServicio
     {
         //listar usuarios
         public List <Usuario> Listausuarios()
@@ -30,29 +30,49 @@ namespace formstienda.capa_de_negocios
         }
 
         //agregar usuarios
-        public bool AgregarUsuario(Usuario usuario) 
+        public bool AgregarUsuario(Usuario usuario)
         {
-            if (usuario == null) 
+            if (usuario == null)
             {
                 MessageBox.Show("Rellenar los campos correctamente.");
                 return false;
             }
+
             try
             {
-                using (var _context = new DbTiendaSeptentrionContext()) 
+                using (var _context = new DbTiendaSeptentrionContext())
                 {
-                    _context.Usuarios.Add (usuario);
-                    _context.SaveChanges(); 
+                    // Check if the user already exists based on some unique identifier (e.g., CorreoUsuario or NombreUsuario)
+                    var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.CorreoUsuario == usuario.CorreoUsuario);
+
+                    if (usuarioExistente != null)
+                    {
+                        MessageBox.Show("El usuario ya existe.");
+                        return false;
+                    }
+
+                    // If not, add the new user
+                    _context.Usuarios.Add(usuario);
+                    _context.SaveChanges();
+                    MessageBox.Show("Usuario agregado correctamente.");
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                string errorMessage = ex.Message;
+
+                if (ex.InnerException != null)
+                {
+                    errorMessage += "\n\nInner Exception:\n" + ex.InnerException.Message;
+                }
+
+                MessageBox.Show(errorMessage, "Error al guardar usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+
         }
-        
+
         //eliminar usuarios
         public bool Eliminarusuario(int IdUsuario)
         {
@@ -81,6 +101,42 @@ namespace formstienda.capa_de_negocios
             }
         }
         //actualizar usuarios
+        public bool Actualizarusuario(Usuario usuario)
+        {
+            try
+            {
+                using (var _contexto = new DbTiendaSeptentrionContext())
+                {
+                    var usuarioExistente = _contexto.Usuarios.Find(usuario.IdUsuario);
+                    if (usuarioExistente == null)
+                    {
+                        Console.WriteLine($"Error:No se encontro el proveedor con ID(usuario.IdUsuario).");
+                        return false;
+
+                    }
+                    usuarioExistente.NombreUsuario=usuario.NombreUsuario;
+                    usuarioExistente.ApellidoUsuario=usuario.ApellidoUsuario;
+                    usuarioExistente.CorreoUsuario=usuario.CorreoUsuario;
+                    usuarioExistente.RolUsuario=usuario.RolUsuario;
+                    usuarioExistente.EstadoUsuario=usuario.EstadoUsuario;
+                    usuarioExistente.ContraseñaUsuario=usuario.ContraseñaUsuario;
+                    usuarioExistente.UsuarioLogueo=usuario.UsuarioLogueo;
+                    _contexto.Usuarios.Update(usuarioExistente);
+                    _contexto .SaveChanges();
+                    return true;
+                }
+                
+
+
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+                
+        }
+
 
     }
 }
