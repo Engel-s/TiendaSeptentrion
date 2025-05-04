@@ -562,8 +562,6 @@ namespace formstienda
                             cambios = true;
                         }
                         break;
-
-                        // Puedes agregar más columnas si es necesario
                 }
 
                 if (cambios)
