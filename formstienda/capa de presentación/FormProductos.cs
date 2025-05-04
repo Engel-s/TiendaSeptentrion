@@ -497,7 +497,7 @@ namespace formstienda
 
         private void DGPRODUCTOS_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 string codigo = DGPRODUCTOS.Rows[e.RowIndex].Cells["CodigoProducto"].Value?.ToString();
 
@@ -514,70 +514,74 @@ namespace formstienda
                     return;
                 }
 
-                // Editar cada campo uno por uno con InputBox
-                string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox("Nuevo nombre:", "Editar Producto", producto.ModeloProducto);
-                if (string.IsNullOrWhiteSpace(nuevoNombre)) return;
+                bool cambios = false;
 
-                string nuevoPrecioStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo precio de venta:", "Editar Producto", producto.PrecioVenta.ToString("0.00"));
-        if (!float.TryParse(nuevoPrecioStr, out float nuevoPrecio)) return;
-
-
-                string nuevoStockStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock actual:", "Editar Producto", producto.StockActual.ToString());
-                if (!int.TryParse(nuevoStockStr, out int nuevoStock)) return;
-
-                string nuevoStockMinStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock mínimo:", "Editar Producto", producto.StockMinimo.ToString());
-                if (!int.TryParse(nuevoStockMinStr, out int nuevoStockMin)) return;
-
-                string nuevoEstadoStr = Microsoft.VisualBasic.Interaction.InputBox("Estado (Activo/Inactivo):", "Editar Producto", producto.EstadoProducto ? "Activo" : "Inactivo");
-                bool nuevoEstado = nuevoEstadoStr.Trim().ToLower() == "activo";
-
-                //string nuevaMarca = Microsoft.VisualBasic.Interaction.InputBox("Nueva marca:", "Editar Producto", producto.IdMarcaNavigation?.Marca1 ?? "").Trim();
-
-                //if (string.IsNullOrWhiteSpace(nuevaMarca))
-                //{
-                //    MessageBox.Show("Debe ingresar una marca.");
-                //    return;
-                //}
-
-                //var marca = _marcaServicio.ObtenerMarcaPorNombre(nuevaMarca);
-                //if (marca == null)
-                //{
-                //    MessageBox.Show($"La marca '{nuevaMarca}' no fue encontrada. Verifique el nombre.");
-                //    return;
-                //}
-
-                //producto.IdMarca = marca.IdMarca; // Sigue utilizando el ID, aunque el usuario solo ve el nombre
-
-                //string nuevaCategoria = Microsoft.VisualBasic.Interaction.InputBox("Nueva categoría:", "Editar Producto", producto.IdCategoriaNavigation?.Categoria ?? "");
-                //var categoria = _categoriaServicio.ObtenerCategoriaPorNombre(nuevaCategoria);
-                //if (categoria == null)
-                //{
-                //    MessageBox.Show("Categoría no encontrada.");
-                //    return;
-                //}
-
-                // Aplicar cambios
-                producto.ModeloProducto = nuevoNombre;
-                producto.PrecioVenta = nuevoPrecio;
-                producto.StockActual = nuevoStock;
-                producto.StockMinimo = nuevoStockMin;
-                producto.EstadoProducto = nuevoEstado;
-                //producto.IdMarca = marca.IdMarca;
-                //producto.IdCategoria = categoria.IdCategoria;
-
-                // Guardar
-                bool actualizado = productoServicio.ActualizarProducto(producto);
-                if (actualizado)
+                switch (e.ColumnIndex)
                 {
-                    MessageBox.Show("Producto actualizado correctamente.");
-                    CargarProductos(); // Refrescar grilla
+                    case 1: // Nombre del producto
+                        string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox("Nuevo nombre:", "Editar Producto", producto.ModeloProducto);
+                        if (!string.IsNullOrWhiteSpace(nuevoNombre))
+                        {
+                            producto.ModeloProducto = nuevoNombre;
+                            cambios = true;
+                        }
+                        break;
+
+                    case 2: // Precio de venta
+                        string nuevoPrecioStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo precio de venta:", "Editar Producto", producto.PrecioVenta.ToString("0.00"));
+                        if (float.TryParse(nuevoPrecioStr, out float nuevoPrecio))
+                        {
+                            producto.PrecioVenta = nuevoPrecio;
+                            cambios = true;
+                        }
+                        break;
+
+                    case 3: // Stock actual
+                        string nuevoStockStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock actual:", "Editar Producto", producto.StockActual.ToString());
+                        if (int.TryParse(nuevoStockStr, out int nuevoStock))
+                        {
+                            producto.StockActual = nuevoStock;
+                            cambios = true;
+                        }
+                        break;
+
+                    case 4: // Stock mínimo
+                        string nuevoStockMinStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock mínimo:", "Editar Producto", producto.StockMinimo.ToString());
+                        if (int.TryParse(nuevoStockMinStr, out int nuevoStockMin))
+                        {
+                            producto.StockMinimo = nuevoStockMin;
+                            cambios = true;
+                        }
+                        break;
+
+                    case 7: // Estado (checkbox)
+                        DialogResult respuesta = MessageBox.Show("¿Desea cambiar el estado del producto?", "Cambiar Estado", MessageBoxButtons.YesNo);
+                        if (respuesta == DialogResult.Yes)
+                        {
+                            producto.EstadoProducto = !producto.EstadoProducto; // Cambiar el valor actual
+                            cambios = true;
+                        }
+                        break;
+
+                        // Puedes agregar más columnas si es necesario
                 }
-                else
+
+                if (cambios)
                 {
-                    MessageBox.Show("No se pudo actualizar el producto.");
+                    bool actualizado = productoServicio.ActualizarProducto(producto);
+                    if (actualizado)
+                    {
+                        MessageBox.Show("Producto actualizado correctamente.");
+                        CargarProductos();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo actualizar el producto.");
+                    }
                 }
             }
         }
-        
+
+
     }
 }
