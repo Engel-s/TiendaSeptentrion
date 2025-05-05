@@ -68,15 +68,6 @@ namespace formstienda.capa_de_presentación
 
         private void label1_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
-            lblfecha.Visible = true;
-            lblhora.Visible = true;
-            if (PanelContenedor.Controls.Count > 0)
-                PanelContenedor.Controls.RemoveAt(0);
-          
-
-=======
->>>>>>> desarrollo
 
         }
 
@@ -238,16 +229,7 @@ namespace formstienda.capa_de_presentación
 
         }
 
-<<<<<<< HEAD
-        public void lblfecha_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        public void lblhora_Click(object sender, EventArgs e)
-=======
         private void lblfecha_Click(object sender, EventArgs e)
->>>>>>> desarrollo
         {
 
         }

@@ -107,17 +107,10 @@
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label2.AutoSize = true;
-<<<<<<< HEAD
-            label2.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
-            label2.Location = new Point(91, 13);
-            label2.Name = "label2";
-            label2.Size = new Size(108, 22);
-=======
             label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             label2.Location = new Point(91, 13);
             label2.Name = "label2";
             label2.Size = new Size(109, 25);
->>>>>>> desarrollo
             label2.TabIndex = 0;
             label2.Text = "USUARIO";
             label2.Click += label2_Click;
@@ -535,15 +528,11 @@
             lblhora.ForeColor = Color.Black;
             lblhora.Location = new Point(1083, 755);
             lblhora.Name = "lblhora";
-<<<<<<< HEAD
-            lblhora.Size = new Size(152, 55);
-=======
             lblhora.Size = new Size(163, 57);
->>>>>>> desarrollo
             lblhora.TabIndex = 2;
             lblhora.Text = "label1";
             lblhora.TextAlign = ContentAlignment.BottomRight;
-            lblhora.Click += lblhora_Click;
+            //lblhora.Click += lblhora_Click;
             // 
             // lblfecha
             // 
@@ -553,11 +542,7 @@
             lblfecha.ForeColor = Color.Black;
             lblfecha.Location = new Point(16, 775);
             lblfecha.Name = "lblfecha";
-<<<<<<< HEAD
             lblfecha.Size = new Size(152, 55);
-=======
-            lblfecha.Size = new Size(163, 57);
->>>>>>> desarrollo
             lblfecha.TabIndex = 1;
             lblfecha.Text = "label1";
             lblfecha.TextAlign = ContentAlignment.BottomLeft;

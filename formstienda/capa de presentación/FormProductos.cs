@@ -18,7 +18,7 @@ namespace formstienda
     {
         //
         private CategoriaServicio _categoriaServicio;
-        private Claseinventario claseinventario;
+    
         private List<Producto> ListaProductos = new List<Producto>();
 
         //
