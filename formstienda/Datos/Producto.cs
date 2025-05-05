@@ -32,4 +32,9 @@ public partial class Producto
     public virtual Marca IdMarcaNavigation { get; set; } = null!;
 
     public virtual ICollection<Inventario> Inventarios { get; set; } = new List<Inventario>();
+
+    public override string ToString()
+    {
+        return ModeloProducto;
+    }
 }
