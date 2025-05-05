@@ -31,14 +31,10 @@ namespace formstienda
         {
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            txtBuscarProducto = new TextBox();
             txtNombreProduct = new TextBox();
             label14 = new Label();
-            comboBox9 = new ComboBox();
             label13 = new Label();
-            comboBox5 = new ComboBox();
-            label10 = new Label();
-            label21 = new Label();
-            comboBox4 = new ComboBox();
             btnSalirProductos = new Button();
             DGPRODUCTOS = new DataGridView();
             button2 = new Button();
@@ -96,20 +92,16 @@ namespace formstienda
             tabControl1.Margin = new Padding(2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1394, 816);
+            tabControl1.Size = new Size(1394, 876);
             tabControl1.TabIndex = 0;
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(txtBuscarProducto);
             tabPage1.Controls.Add(txtNombreProduct);
             tabPage1.Controls.Add(label14);
-            tabPage1.Controls.Add(comboBox9);
             tabPage1.Controls.Add(label13);
-            tabPage1.Controls.Add(comboBox5);
-            tabPage1.Controls.Add(label10);
-            tabPage1.Controls.Add(label21);
-            tabPage1.Controls.Add(comboBox4);
             tabPage1.Controls.Add(btnSalirProductos);
             tabPage1.Controls.Add(DGPRODUCTOS);
             tabPage1.Controls.Add(button2);
@@ -134,11 +126,21 @@ namespace formstienda
             tabPage1.Margin = new Padding(2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(2);
-            tabPage1.Size = new Size(1386, 781);
+            tabPage1.Size = new Size(1386, 841);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Productos";
             tabPage1.UseVisualStyleBackColor = true;
             tabPage1.Click += tabPage1_Click;
+            // 
+            // txtBuscarProducto
+            // 
+            txtBuscarProducto.Anchor = AnchorStyles.Top;
+            txtBuscarProducto.Location = new Point(166, 260);
+            txtBuscarProducto.Margin = new Padding(2);
+            txtBuscarProducto.Name = "txtBuscarProducto";
+            txtBuscarProducto.Size = new Size(414, 31);
+            txtBuscarProducto.TabIndex = 164;
+            txtBuscarProducto.TextChanged += txtBuscarProducto_TextChanged;
             // 
             // txtNombreProduct
             // 
@@ -153,82 +155,31 @@ namespace formstienda
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.Location = new Point(18, 191);
+            label14.Location = new Point(18, 230);
             label14.Margin = new Padding(2, 0, 2, 0);
             label14.Name = "label14";
             label14.Size = new Size(165, 22);
             label14.TabIndex = 162;
             label14.Text = "Buscar producto:";
             // 
-            // comboBox9
-            // 
-            comboBox9.FormattingEnabled = true;
-            comboBox9.Location = new Point(115, 216);
-            comboBox9.Margin = new Padding(2, 3, 2, 3);
-            comboBox9.Name = "comboBox9";
-            comboBox9.Size = new Size(172, 30);
-            comboBox9.TabIndex = 161;
-            // 
             // label13
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label13.ForeColor = Color.Black;
-            label13.Location = new Point(18, 221);
+            label13.Location = new Point(18, 265);
             label13.Margin = new Padding(2, 0, 2, 0);
             label13.Name = "label13";
-            label13.Size = new Size(83, 20);
+            label13.Size = new Size(144, 20);
             label13.TabIndex = 160;
-            label13.Text = "Producto:";
-            // 
-            // comboBox5
-            // 
-            comboBox5.FormattingEnabled = true;
-            comboBox5.Location = new Point(392, 216);
-            comboBox5.Margin = new Padding(2, 3, 2, 3);
-            comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(172, 30);
-            comboBox5.TabIndex = 159;
-            // 
-            // label10
-            // 
-            label10.Anchor = AnchorStyles.Top;
-            label10.AutoSize = true;
-            label10.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(314, 221);
-            label10.Margin = new Padding(2, 0, 2, 0);
-            label10.Name = "label10";
-            label10.Size = new Size(63, 20);
-            label10.TabIndex = 158;
-            label10.Text = "Marca:";
-            // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label21.ForeColor = Color.Black;
-            label21.Location = new Point(589, 221);
-            label21.Margin = new Padding(2, 0, 2, 0);
-            label21.Name = "label21";
-            label21.Size = new Size(88, 20);
-            label21.TabIndex = 157;
-            label21.Text = "Categoría:";
-            // 
-            // comboBox4
-            // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(696, 216);
-            comboBox4.Margin = new Padding(2, 3, 2, 3);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(172, 30);
-            comboBox4.TabIndex = 153;
+            label13.Text = "Buscar Productos:";
             // 
             // btnSalirProductos
             // 
             btnSalirProductos.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnSalirProductos.BackColor = Color.FromArgb(3, 171, 229);
             btnSalirProductos.FlatStyle = FlatStyle.Popup;
-            btnSalirProductos.Location = new Point(1238, 716);
+            btnSalirProductos.Location = new Point(1238, 776);
             btnSalirProductos.Margin = new Padding(2);
             btnSalirProductos.Name = "btnSalirProductos";
             btnSalirProductos.Size = new Size(126, 46);
@@ -244,14 +195,14 @@ namespace formstienda
             DGPRODUCTOS.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DGPRODUCTOS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGPRODUCTOS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGPRODUCTOS.Location = new Point(18, 257);
+            DGPRODUCTOS.Location = new Point(42, 315);
             DGPRODUCTOS.Margin = new Padding(2);
             DGPRODUCTOS.Name = "DGPRODUCTOS";
             DGPRODUCTOS.ReadOnly = true;
             DGPRODUCTOS.RowHeadersWidth = 51;
             DGPRODUCTOS.RowTemplate.Height = 24;
             DGPRODUCTOS.ScrollBars = ScrollBars.None;
-            DGPRODUCTOS.Size = new Size(1253, 413);
+            DGPRODUCTOS.Size = new Size(1301, 415);
             DGPRODUCTOS.TabIndex = 19;
             DGPRODUCTOS.CellContentClick += DGPRODUCTOS_CellContentClick;
             DGPRODUCTOS.CellDoubleClick += DGPRODUCTOS_CellDoubleClick;
@@ -470,7 +421,7 @@ namespace formstienda
             tabPage2.Margin = new Padding(2);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(2);
-            tabPage2.Size = new Size(1386, 781);
+            tabPage2.Size = new Size(1386, 841);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Categoría";
             tabPage2.UseVisualStyleBackColor = true;
@@ -575,7 +526,7 @@ namespace formstienda
             tabPage3.Location = new Point(4, 31);
             tabPage3.Margin = new Padding(2);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(1386, 781);
+            tabPage3.Size = new Size(1386, 841);
             tabPage3.TabIndex = 3;
             tabPage3.Text = "Marcas";
             tabPage3.UseVisualStyleBackColor = true;
@@ -678,7 +629,7 @@ namespace formstienda
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(238, 238, 238);
-            ClientSize = new Size(1401, 882);
+            ClientSize = new Size(1401, 942);
             Controls.Add(tabControl1);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
@@ -740,14 +691,12 @@ namespace formstienda
         private System.Windows.Forms.Button btnSalirCategorias;
         private System.Windows.Forms.Button btnSalirMarcas;
         private ComboBox comboBox4;
-        private Label label21;
         private ComboBox comboBox9;
         private Label label13;
-        private ComboBox comboBox5;
-        private Label label10;
         private Label label14;
         private TextBox txtNombreProduct;
         private TextBox txtNuevaCategoria;
         private TextBox txtNuevaMarca;
+        private TextBox txtBuscarProducto;
     }
 }
