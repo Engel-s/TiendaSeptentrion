@@ -24,6 +24,8 @@ namespace formstienda
         private ProductoServicio? productoServicio;
         private BindingList<ProductoServicio> listaproductos;
 
+        private CompraServicio? compraServicio;
+
         public FormCompras()
         {
             InitializeComponent();
@@ -156,11 +158,28 @@ namespace formstienda
 
         }
 
+        private BindingList<Compra>? listacompras;
+
+        private void CargarCompras()
+        {
+            //Instanciar el servicio
+            compraServicio = new CompraServicio();
+
+            //listar para almacenar las compras
+            listacompras = new BindingList<Compra>(compraServicio.ListarCompra());
+
+            //Vincular datagrid con el servicio
+            dtgcompras.DataSource = listacompras;
+
+        }
         private void FormCompras_Load(object sender, EventArgs e)
         {
             cargarcategorias();
             cargarmarcas();
             cargarproductos();
+
+
+            CargarCompras();
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)

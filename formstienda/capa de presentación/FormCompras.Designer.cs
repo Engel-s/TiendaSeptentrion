@@ -34,7 +34,7 @@
             button4 = new Button();
             textBox7 = new TextBox();
             button3 = new Button();
-            dataGridView1 = new DataGridView();
+            dtgcompras = new DataGridView();
             button2 = new Button();
             dateTimePicker1 = new DateTimePicker();
             label18 = new Label();
@@ -67,15 +67,7 @@
             label8 = new Label();
             button1 = new Button();
             btnnuevo = new Button();
-            Column10 = new DataGridViewTextBoxColumn();
-            Column8 = new DataGridViewTextBoxColumn();
-            Column7 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column1 = new DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtgcompras).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -138,21 +130,20 @@
             button3.UseVisualStyleBackColor = false;
             button3.Click += button3_Click_1;
             // 
-            // dataGridView1
+            // dtgcompras
             // 
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.BackgroundColor = Color.FromArgb(238, 238, 238);
-            dataGridView1.ColumnHeadersHeight = 29;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5, Column7, Column8, Column10 });
-            dataGridView1.Location = new Point(12, 432);
-            dataGridView1.Margin = new Padding(2);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.RowTemplate.Height = 28;
-            dataGridView1.Size = new Size(1138, 337);
-            dataGridView1.TabIndex = 69;
+            dtgcompras.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dtgcompras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgcompras.BackgroundColor = Color.FromArgb(238, 238, 238);
+            dtgcompras.ColumnHeadersHeight = 29;
+            dtgcompras.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dtgcompras.Location = new Point(12, 432);
+            dtgcompras.Margin = new Padding(2);
+            dtgcompras.Name = "dtgcompras";
+            dtgcompras.RowHeadersWidth = 62;
+            dtgcompras.RowTemplate.Height = 28;
+            dtgcompras.Size = new Size(1138, 337);
+            dtgcompras.TabIndex = 69;
             // 
             // button2
             // 
@@ -508,70 +499,6 @@
             btnnuevo.Text = "Nuevo";
             btnnuevo.UseVisualStyleBackColor = false;
             // 
-            // Column10
-            // 
-            Column10.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Column10.HeaderText = "Eliminar";
-            Column10.MinimumWidth = 6;
-            Column10.Name = "Column10";
-            Column10.Width = 70;
-            // 
-            // Column8
-            // 
-            Column8.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Column8.HeaderText = "Subtotal";
-            Column8.MinimumWidth = 8;
-            Column8.Name = "Column8";
-            Column8.Width = 125;
-            // 
-            // Column7
-            // 
-            Column7.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Column7.HeaderText = "Cantidad";
-            Column7.MinimumWidth = 8;
-            Column7.Name = "Column7";
-            Column7.Width = 80;
-            // 
-            // Column5
-            // 
-            Column5.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Column5.HeaderText = "Precio compra";
-            Column5.MinimumWidth = 8;
-            Column5.Name = "Column5";
-            Column5.Width = 110;
-            // 
-            // Column4
-            // 
-            Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Column4.HeaderText = "Marca";
-            Column4.MinimumWidth = 8;
-            Column4.Name = "Column4";
-            Column4.Width = 75;
-            // 
-            // Column3
-            // 
-            Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Column3.HeaderText = "Categoría";
-            Column3.MinimumWidth = 8;
-            Column3.Name = "Column3";
-            Column3.Width = 110;
-            // 
-            // Column2
-            // 
-            Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Column2.HeaderText = "Producto";
-            Column2.MinimumWidth = 8;
-            Column2.Name = "Column2";
-            Column2.Width = 150;
-            // 
-            // Column1
-            // 
-            Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Column1.HeaderText = "Código";
-            Column1.MinimumWidth = 8;
-            Column1.Name = "Column1";
-            Column1.Width = 90;
-            // 
             // FormCompras
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -590,7 +517,7 @@
             Controls.Add(button4);
             Controls.Add(textBox7);
             Controls.Add(button3);
-            Controls.Add(dataGridView1);
+            Controls.Add(dtgcompras);
             Controls.Add(button2);
             Controls.Add(label8);
             Controls.Add(dateTimePicker1);
@@ -621,7 +548,7 @@
             Text = "Compras";
             WindowState = FormWindowState.Maximized;
             Load += FormCompras_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtgcompras).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
@@ -637,7 +564,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dtgcompras;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label18;
@@ -670,13 +597,5 @@
         private Label label8;
         private Button button1;
         private Button btnnuevo;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column3;
-        private DataGridViewTextBoxColumn Column4;
-        private DataGridViewTextBoxColumn Column5;
-        private DataGridViewTextBoxColumn Column7;
-        private DataGridViewTextBoxColumn Column8;
-        private DataGridViewTextBoxColumn Column10;
     }
 }
