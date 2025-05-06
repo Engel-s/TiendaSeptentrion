@@ -81,6 +81,24 @@ namespace formstienda.capa_de_negocios
                 return false;
             }
         }
+        public Cliente BuscarClientePorNumero(string numero)
+        {
+            try
+            {
+                using (var _context = new DbTiendaSeptentrionContext())
+                {
+                    return _context.Clientes
+                                   .AsNoTracking()
+                                   .FirstOrDefault(c => c.TelefonoCliente == numero);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
     }
-    
+
 }

@@ -363,6 +363,8 @@ namespace formstienda
             productoServicio = new ProductoServicio(); // ya lo haces
             VentaServicio = new VentaServicio();
             Listaventa = new BindingList<DetalleDeVentum>(); // simplemente iniciar la lista vacía
+            ClienteServicio clienteServicio = new ClienteServicio();
+
 
             var productos = productoServicio.ListarProductos();
             Listaproducto = new BindingList<Producto>(productos);
@@ -643,9 +645,16 @@ namespace formstienda
             txtfaltante.Clear();
         }
 
+        private int idClienteActual = 0;
 
         private void btnguardar_Click_1(object sender, EventArgs e)
         {
+            if (idClienteActual == 0)
+            {
+                MessageBox.Show("Primero debe buscar un cliente.");
+                return;
+            }
+
             var venta = new Ventum
             {
                 FechaVenta = DateOnly.FromDateTime(DateTime.Now),
@@ -666,8 +675,10 @@ namespace formstienda
                     IdProducto = producto.IdProducto,
                     IdCategoria = producto.IdCategoria,
                     IdMarca = producto.IdMarca,
+                     // ✅ Aquí lo agregas
                     Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
-                    TotalPago = Convert.ToDouble(row.Cells["Subtotal"].Value)
+                    TotalPago = Convert.ToDouble(row.Cells["Subtotal"].Value),
+                    IdCliente = idClienteActual // ✅ TAMBIÉN AQUÍ
                 };
 
                 detalles.Add(detalle);
@@ -678,6 +689,7 @@ namespace formstienda
             {
                 MessageBox.Show("Venta guardada correctamente.");
                 LimpiarFormulario();
+                idClienteActual = 0; // limpiar cliente actual
             }
             else
             {
@@ -685,6 +697,25 @@ namespace formstienda
             }
         }
 
-    }
+        private void Busquedacliente_Click(object sender, EventArgs e)
+        {
+            string numero = txtbuscarcliente.Text.Trim();
+            var cliente = clienteServicio.BuscarClientePorNumero(numero);
 
+            if (cliente != null)
+            {
+                txtnombrecliente.Text = cliente.NombreCliente + " " + cliente.ApellidoCliente;
+                lblcliente.Text = cliente.IdCliente.ToString(); // solo si lo muestras
+                idClienteActual = cliente.IdCliente; // ✅ GUARDAMOS EL ID
+            }
+            else
+            {
+                MessageBox.Show("Cliente no encontrado.");
+            }
+        }
+
+
+    }
 }
+
+

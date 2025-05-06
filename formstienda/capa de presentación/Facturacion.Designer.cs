@@ -46,7 +46,7 @@
             textBox22 = new TextBox();
             label45 = new Label();
             checkBox1 = new CheckBox();
-            textBox5 = new TextBox();
+            txtbuscarcliente = new TextBox();
             txtcategoria = new TextBox();
             txtmarca = new TextBox();
             txtcodigoproducto = new TextBox();
@@ -69,11 +69,19 @@
             button4 = new Button();
             btnnuevo = new Button();
             btnguardar = new Button();
-            pictureBox1 = new PictureBox();
+            Busquedacliente = new PictureBox();
             label1 = new Label();
             label6 = new Label();
             label3 = new Label();
             dgmostrar = new DataGridView();
+            CodigoProducto = new DataGridViewTextBoxColumn();
+            Modelo = new DataGridViewTextBoxColumn();
+            Categoria = new DataGridViewTextBoxColumn();
+            Marca = new DataGridViewTextBoxColumn();
+            Precio = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            Subtotal = new DataGridViewTextBoxColumn();
+            eliminar = new DataGridViewTextBoxColumn();
             label5 = new Label();
             label15 = new Label();
             btncancelar = new Button();
@@ -89,21 +97,13 @@
             label21 = new Label();
             label22 = new Label();
             lbltelefonocliente = new Label();
-            txttelefonodelcliente = new TextBox();
-            CodigoProducto = new DataGridViewTextBoxColumn();
-            Modelo = new DataGridViewTextBoxColumn();
-            Categoria = new DataGridViewTextBoxColumn();
-            Marca = new DataGridViewTextBoxColumn();
-            Precio = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            Subtotal = new DataGridViewTextBoxColumn();
-            eliminar = new DataGridViewTextBoxColumn();
+            lblcliente = new TextBox();
             ((System.ComponentModel.ISupportInitialize)fechafactura).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Busquedacliente).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgmostrar).BeginInit();
             SuspendLayout();
             // 
@@ -276,13 +276,13 @@
             checkBox1.Text = "Genérico ";
             checkBox1.UseVisualStyleBackColor = true;
             // 
-            // textBox5
+            // txtbuscarcliente
             // 
-            textBox5.Location = new Point(495, 65);
-            textBox5.Margin = new Padding(2, 5, 2, 5);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(322, 27);
-            textBox5.TabIndex = 136;
+            txtbuscarcliente.Location = new Point(495, 65);
+            txtbuscarcliente.Margin = new Padding(2, 5, 2, 5);
+            txtbuscarcliente.Name = "txtbuscarcliente";
+            txtbuscarcliente.Size = new Size(322, 27);
+            txtbuscarcliente.TabIndex = 136;
             // 
             // txtcategoria
             // 
@@ -533,16 +533,17 @@
             btnguardar.UseVisualStyleBackColor = false;
             btnguardar.Click += btnguardar_Click_1;
             // 
-            // pictureBox1
+            // Busquedacliente
             // 
-            pictureBox1.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
-            pictureBox1.Location = new Point(843, 42);
-            pictureBox1.Margin = new Padding(2);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(42, 50);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 121;
-            pictureBox1.TabStop = false;
+            Busquedacliente.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
+            Busquedacliente.Location = new Point(843, 42);
+            Busquedacliente.Margin = new Padding(2);
+            Busquedacliente.Name = "Busquedacliente";
+            Busquedacliente.Size = new Size(42, 50);
+            Busquedacliente.SizeMode = PictureBoxSizeMode.StretchImage;
+            Busquedacliente.TabIndex = 121;
+            Busquedacliente.TabStop = false;
+            Busquedacliente.Click += Busquedacliente_Click;
             // 
             // label1
             // 
@@ -597,6 +598,55 @@
             dgmostrar.RowTemplate.Height = 24;
             dgmostrar.Size = new Size(1122, 442);
             dgmostrar.TabIndex = 105;
+            // 
+            // CodigoProducto
+            // 
+            CodigoProducto.FillWeight = 72.30135F;
+            CodigoProducto.HeaderText = "Código";
+            CodigoProducto.MinimumWidth = 8;
+            CodigoProducto.Name = "CodigoProducto";
+            // 
+            // Modelo
+            // 
+            Modelo.HeaderText = "Producto";
+            Modelo.MinimumWidth = 8;
+            Modelo.Name = "Modelo";
+            // 
+            // Categoria
+            // 
+            Categoria.HeaderText = "Categoría";
+            Categoria.MinimumWidth = 6;
+            Categoria.Name = "Categoria";
+            // 
+            // Marca
+            // 
+            Marca.HeaderText = "Marca";
+            Marca.MinimumWidth = 6;
+            Marca.Name = "Marca";
+            // 
+            // Precio
+            // 
+            Precio.HeaderText = "Precio";
+            Precio.MinimumWidth = 8;
+            Precio.Name = "Precio";
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.MinimumWidth = 8;
+            Cantidad.Name = "Cantidad";
+            // 
+            // Subtotal
+            // 
+            Subtotal.HeaderText = "Subtotal";
+            Subtotal.MinimumWidth = 8;
+            Subtotal.Name = "Subtotal";
+            // 
+            // eliminar
+            // 
+            eliminar.HeaderText = "Eliminar";
+            eliminar.MinimumWidth = 8;
+            eliminar.Name = "eliminar";
             // 
             // label5
             // 
@@ -779,63 +829,14 @@
             lbltelefonocliente.TabIndex = 159;
             lbltelefonocliente.Text = "Telefono: ";
             // 
-            // txttelefonodelcliente
+            // lblcliente
             // 
-            txttelefonodelcliente.Location = new Point(870, 108);
-            txttelefonodelcliente.Margin = new Padding(2, 5, 2, 5);
-            txttelefonodelcliente.Name = "txttelefonodelcliente";
-            txttelefonodelcliente.ReadOnly = true;
-            txttelefonodelcliente.Size = new Size(121, 27);
-            txttelefonodelcliente.TabIndex = 160;
-            // 
-            // CodigoProducto
-            // 
-            CodigoProducto.FillWeight = 72.30135F;
-            CodigoProducto.HeaderText = "Código";
-            CodigoProducto.MinimumWidth = 8;
-            CodigoProducto.Name = "CodigoProducto";
-            // 
-            // Modelo
-            // 
-            Modelo.HeaderText = "Producto";
-            Modelo.MinimumWidth = 8;
-            Modelo.Name = "Modelo";
-            // 
-            // Categoria
-            // 
-            Categoria.HeaderText = "Categoría";
-            Categoria.MinimumWidth = 6;
-            Categoria.Name = "Categoria";
-            // 
-            // Marca
-            // 
-            Marca.HeaderText = "Marca";
-            Marca.MinimumWidth = 6;
-            Marca.Name = "Marca";
-            // 
-            // Precio
-            // 
-            Precio.HeaderText = "Precio";
-            Precio.MinimumWidth = 8;
-            Precio.Name = "Precio";
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.MinimumWidth = 8;
-            Cantidad.Name = "Cantidad";
-            // 
-            // Subtotal
-            // 
-            Subtotal.HeaderText = "Subtotal";
-            Subtotal.MinimumWidth = 8;
-            Subtotal.Name = "Subtotal";
-            // 
-            // eliminar
-            // 
-            eliminar.HeaderText = "Eliminar";
-            eliminar.MinimumWidth = 8;
-            eliminar.Name = "eliminar";
+            lblcliente.Location = new Point(870, 108);
+            lblcliente.Margin = new Padding(2, 5, 2, 5);
+            lblcliente.Name = "lblcliente";
+            lblcliente.ReadOnly = true;
+            lblcliente.Size = new Size(121, 27);
+            lblcliente.TabIndex = 160;
             // 
             // Factura
             // 
@@ -843,7 +844,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(238, 238, 238);
             ClientSize = new Size(1314, 882);
-            Controls.Add(txttelefonodelcliente);
+            Controls.Add(lblcliente);
             Controls.Add(lbltelefonocliente);
             Controls.Add(label22);
             Controls.Add(label21);
@@ -866,7 +867,7 @@
             Controls.Add(textBox22);
             Controls.Add(label45);
             Controls.Add(checkBox1);
-            Controls.Add(textBox5);
+            Controls.Add(txtbuscarcliente);
             Controls.Add(txtcategoria);
             Controls.Add(txtmarca);
             Controls.Add(txtcodigoproducto);
@@ -889,7 +890,7 @@
             Controls.Add(button4);
             Controls.Add(btnnuevo);
             Controls.Add(btnguardar);
-            Controls.Add(pictureBox1);
+            Controls.Add(Busquedacliente);
             Controls.Add(label1);
             Controls.Add(label6);
             Controls.Add(label3);
@@ -913,7 +914,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Busquedacliente).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgmostrar).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -938,7 +939,7 @@
         private System.Windows.Forms.TextBox textBox22;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtbuscarcliente;
         private System.Windows.Forms.TextBox txtcategoria;
         private System.Windows.Forms.TextBox txtmarca;
         private System.Windows.Forms.TextBox txtcodigoproducto;
@@ -961,7 +962,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btnnuevo;
         private System.Windows.Forms.Button btnguardar;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox Busquedacliente;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label3;
@@ -980,7 +981,7 @@
         private ComboBox CBmarcas;
         private ComboBox CBproductos;
         private Label label22;
-        private TextBox txttelefonodelcliente;
+        private TextBox lblcliente;
         private Label lbltelefonocliente;
         private DataGridViewTextBoxColumn CodigoProducto;
         private DataGridViewTextBoxColumn Modelo;
