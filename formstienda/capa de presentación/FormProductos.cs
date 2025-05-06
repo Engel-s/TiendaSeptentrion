@@ -62,7 +62,7 @@ namespace formstienda
                 var query = productoServicio.ListarProductos()
                     .Select(p => new
                     {
-                        p.CodigoProducto,
+                        p.CodigoProducto,  // Mantenemos el nombre original aquí
                         p.ModeloProducto,
                         p.PrecioVenta,
                         p.StockActual,
@@ -77,9 +77,6 @@ namespace formstienda
                     query = query.Where(p =>
                         p.CodigoProducto.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                         p.ModeloProducto.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
-                        p.PrecioVenta.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
-                        p.StockActual.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
-                        p.StockMinimo.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                         p.Marca.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                         p.Categoria.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                         p.EstadoProducto.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase)
@@ -90,7 +87,16 @@ namespace formstienda
                 DGPRODUCTOS.DataSource = null;
                 DGPRODUCTOS.DataSource = listaProductos;
 
-                // Configurar columnas aquí si lo necesitas
+                // Configurar el nombre de la columna en el DataGridView
+                if (DGPRODUCTOS.Columns["CodigoProducto"] != null)
+                {
+                    DGPRODUCTOS.Columns["CodigoProducto"].HeaderText = "Código";
+                }
+
+                if (DGPRODUCTOS.Columns["ModeloProducto"] != null)
+                {
+                    DGPRODUCTOS.Columns["ModeloProducto"].HeaderText = "Nombre";
+                }    
             }
             catch (Exception ex)
             {
@@ -133,24 +139,7 @@ namespace formstienda
                 MessageBox.Show("Error al cargar combos: " + ex.Message);
             }
         }
-
-        //marcas
-        //private void CargarMarcas()
-        //{
-        //    var listaMarcas = _marcaServicio.ListarMarcas();
-
-        //    DGMARCAS.DataSource = null;
-        //    DGMARCAS.DataSource = listaMarcas;
-
-        //    // Configurar nombres de columnas
-        //    if (DGMARCAS.Columns.Count > 0)
-        //    {
-        //        DGMARCAS.Columns["IdMarcas"].HeaderText = "ID";
-        //        DGMARCAS.Columns["Marca"].HeaderText = "Nombre de Marca";
-        //        DGMARCAS.Columns["IdMarcas"].ReadOnly = true; // ID no editable
-        //    }
-        //}
-
+                
         //cargar las marcas
         private void CargarMarcas()
         {
@@ -374,45 +363,7 @@ namespace formstienda
                 MessageBox.Show("No se pudo agregar la categoría.");
             }
         }
-        //
-        //private void CargarProductos(string filtro = "")
-        //{
-        //    try
-        //    {
-        //        // Obtener lista de productos con información relacionada
-        //        var query = productoServicio.ListarProductos()
-        //            .Select(p => new
-        //            {
-        //                p.CodigoProducto,
-        //                p.ModeloProducto,
-        //                p.PrecioVenta,
-        //                p.StockActual,
-        //                p.StockMinimo,
-        //                Marca = p.IdMarcaNavigation?.Marca1 ?? "N/A",
-        //                Categoria = p.IdCategoriaNavigation?.Categoria ?? "N/A",
-        //                p.EstadoProducto,
-        //            });
-
-        //        // Aplicar filtro si existe
-        //        if (!string.IsNullOrWhiteSpace(filtro))
-        //        {
-        //            query = query.Where(p => p.ModeloProducto.Contains(filtro, StringComparison.OrdinalIgnoreCase));
-        //        }
-
-        //        var listaProductos = query.ToList();
-
-        //        // Resto del código para configurar el DataGridView...
-        //        DGPRODUCTOS.DataSource = null;
-        //        DGPRODUCTOS.DataSource = listaProductos;
-
-        //        // Configurar columnas (mantén el mismo código que ya tienes)...
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error",
-        //                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
+        
 
 
         private void DGMARCAS_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -527,6 +478,36 @@ namespace formstienda
                 // Controlar qué columna fue doble clickeada
                 switch (e.ColumnIndex)
                 {
+
+                    case 0: // Código del producto
+                        string nuevoCodigo = Microsoft.VisualBasic.Interaction.InputBox("Nuevo código del producto:", "Editar Producto", producto.CodigoProducto);
+                        if (!string.IsNullOrWhiteSpace(nuevoCodigo))
+                        {
+                            nuevoCodigo = nuevoCodigo.Trim();
+
+                            // Validación: verificar que el nuevo código no esté repetido (y que no sea el mismo actual)
+                            if (nuevoCodigo != producto.CodigoProducto && productoServicio.ExisteCodigoProducto(nuevoCodigo))
+                            {
+                                MessageBox.Show("El código ingresado ya existe. Por favor, ingrese un código único.");
+                                return;
+                            }
+
+                            // Validación adicional: longitud o formato si aplica
+                            if (nuevoCodigo.Length > 20)
+                            {
+                                MessageBox.Show("El código del producto no puede tener más de 20 caracteres.");
+                                return;
+                            }
+
+                            producto.CodigoProducto = nuevoCodigo;
+                            cambios = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El código no puede estar vacío.");
+                        }
+                        break;
+
                     case 1: // Nombre del producto
                         string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox("Nuevo nombre:", "Editar Producto", producto.ModeloProducto);
                         if (!string.IsNullOrWhiteSpace(nuevoNombre))
