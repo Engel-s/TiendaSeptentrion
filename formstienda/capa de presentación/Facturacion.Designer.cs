@@ -74,14 +74,6 @@
             label6 = new Label();
             label3 = new Label();
             dgmostrar = new DataGridView();
-            cliente = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
-            Column6 = new DataGridViewTextBoxColumn();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            eliminar = new DataGridViewTextBoxColumn();
             label5 = new Label();
             label15 = new Label();
             btncancelar = new Button();
@@ -95,10 +87,17 @@
             label19 = new Label();
             label20 = new Label();
             label21 = new Label();
-            button1 = new Button();
             label22 = new Label();
             lbltelefonocliente = new Label();
             txttelefonodelcliente = new TextBox();
+            CodigoProducto = new DataGridViewTextBoxColumn();
+            Modelo = new DataGridViewTextBoxColumn();
+            Categoria = new DataGridViewTextBoxColumn();
+            Marca = new DataGridViewTextBoxColumn();
+            Precio = new DataGridViewTextBoxColumn();
+            Cantidad = new DataGridViewTextBoxColumn();
+            Subtotal = new DataGridViewTextBoxColumn();
+            eliminar = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)fechafactura).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -308,6 +307,7 @@
             txtcodigoproducto.Location = new Point(121, 322);
             txtcodigoproducto.Margin = new Padding(2, 5, 2, 5);
             txtcodigoproducto.Name = "txtcodigoproducto";
+            txtcodigoproducto.ReadOnly = true;
             txtcodigoproducto.Size = new Size(172, 27);
             txtcodigoproducto.TabIndex = 125;
             // 
@@ -531,6 +531,7 @@
             btnguardar.TabIndex = 120;
             btnguardar.Text = "Guardar";
             btnguardar.UseVisualStyleBackColor = false;
+            btnguardar.Click += btnguardar_Click_1;
             // 
             // pictureBox1
             // 
@@ -587,8 +588,8 @@
             dgmostrar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgmostrar.BackgroundColor = Color.FromArgb(238, 238, 238);
             dgmostrar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgmostrar.Columns.AddRange(new DataGridViewColumn[] { cliente, Column4, Column5, Column6, Column1, Column2, Column3, eliminar });
-            dgmostrar.GridColor = Color.FromArgb(238, 238, 238);
+            dgmostrar.Columns.AddRange(new DataGridViewColumn[] { CodigoProducto, Modelo, Categoria, Marca, Precio, Cantidad, Subtotal, eliminar });
+            dgmostrar.GridColor = Color.Black;
             dgmostrar.Location = new Point(12, 425);
             dgmostrar.Margin = new Padding(2, 5, 2, 5);
             dgmostrar.Name = "dgmostrar";
@@ -596,55 +597,6 @@
             dgmostrar.RowTemplate.Height = 24;
             dgmostrar.Size = new Size(1122, 442);
             dgmostrar.TabIndex = 105;
-            // 
-            // cliente
-            // 
-            cliente.FillWeight = 72.30135F;
-            cliente.HeaderText = "Código";
-            cliente.MinimumWidth = 8;
-            cliente.Name = "cliente";
-            // 
-            // Column4
-            // 
-            Column4.HeaderText = "Producto";
-            Column4.MinimumWidth = 8;
-            Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            Column5.HeaderText = "Categoría";
-            Column5.MinimumWidth = 6;
-            Column5.Name = "Column5";
-            // 
-            // Column6
-            // 
-            Column6.HeaderText = "Marca";
-            Column6.MinimumWidth = 6;
-            Column6.Name = "Column6";
-            // 
-            // Column1
-            // 
-            Column1.HeaderText = "Precio";
-            Column1.MinimumWidth = 8;
-            Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            Column2.HeaderText = "Cantidad";
-            Column2.MinimumWidth = 8;
-            Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            Column3.HeaderText = "Subtotal";
-            Column3.MinimumWidth = 8;
-            Column3.Name = "Column3";
-            // 
-            // eliminar
-            // 
-            eliminar.HeaderText = "Eliminar";
-            eliminar.MinimumWidth = 8;
-            eliminar.Name = "eliminar";
             // 
             // label5
             // 
@@ -717,6 +669,7 @@
             btnagregar.Text = "Agregar ";
             btnagregar.TextImageRelation = TextImageRelation.TextAboveImage;
             btnagregar.UseVisualStyleBackColor = false;
+            btnagregar.Click += btnagregar_Click;
             // 
             // label8
             // 
@@ -733,7 +686,7 @@
             // CBproductos
             // 
             CBproductos.FormattingEnabled = true;
-            CBproductos.Location = new Point(116, 225);
+            CBproductos.Location = new Point(730, 225);
             CBproductos.Margin = new Padding(2, 3, 2, 3);
             CBproductos.Name = "CBproductos";
             CBproductos.Size = new Size(172, 28);
@@ -742,7 +695,7 @@
             // CBmarcas
             // 
             CBmarcas.FormattingEnabled = true;
-            CBmarcas.Location = new Point(418, 225);
+            CBmarcas.Location = new Point(425, 225);
             CBmarcas.Margin = new Padding(2, 3, 2, 3);
             CBmarcas.Name = "CBmarcas";
             CBmarcas.Size = new Size(172, 28);
@@ -751,7 +704,7 @@
             // CBcategorias
             // 
             CBcategorias.FormattingEnabled = true;
-            CBcategorias.Location = new Point(753, 222);
+            CBcategorias.Location = new Point(118, 225);
             CBcategorias.Margin = new Padding(2, 3, 2, 3);
             CBcategorias.Name = "CBcategorias";
             CBcategorias.Size = new Size(172, 28);
@@ -771,7 +724,7 @@
             label19.AutoSize = true;
             label19.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label19.ForeColor = Color.Black;
-            label19.Location = new Point(11, 228);
+            label19.Location = new Point(625, 228);
             label19.Margin = new Padding(2, 0, 2, 0);
             label19.Name = "label19";
             label19.Size = new Size(83, 20);
@@ -783,7 +736,7 @@
             label20.AutoSize = true;
             label20.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label20.ForeColor = Color.Black;
-            label20.Location = new Point(341, 228);
+            label20.Location = new Point(348, 228);
             label20.Margin = new Padding(2, 0, 2, 0);
             label20.Name = "label20";
             label20.Size = new Size(63, 20);
@@ -795,28 +748,12 @@
             label21.AutoSize = true;
             label21.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label21.ForeColor = Color.Black;
-            label21.Location = new Point(652, 225);
+            label21.Location = new Point(17, 228);
             label21.Margin = new Padding(2, 0, 2, 0);
             label21.Name = "label21";
             label21.Size = new Size(88, 20);
             label21.TabIndex = 156;
             label21.Text = "Categoría:";
-            // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button1.BackColor = Color.FromArgb(3, 171, 229);
-            button1.Cursor = Cursors.Hand;
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.Font = new Font("Calisto MT", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Black;
-            button1.Location = new Point(1198, 681);
-            button1.Margin = new Padding(2, 5, 2, 5);
-            button1.Name = "button1";
-            button1.Size = new Size(104, 42);
-            button1.TabIndex = 157;
-            button1.Text = "Pagar";
-            button1.UseVisualStyleBackColor = false;
             // 
             // label22
             // 
@@ -851,6 +788,55 @@
             txttelefonodelcliente.Size = new Size(121, 27);
             txttelefonodelcliente.TabIndex = 160;
             // 
+            // CodigoProducto
+            // 
+            CodigoProducto.FillWeight = 72.30135F;
+            CodigoProducto.HeaderText = "Código";
+            CodigoProducto.MinimumWidth = 8;
+            CodigoProducto.Name = "CodigoProducto";
+            // 
+            // Modelo
+            // 
+            Modelo.HeaderText = "Producto";
+            Modelo.MinimumWidth = 8;
+            Modelo.Name = "Modelo";
+            // 
+            // Categoria
+            // 
+            Categoria.HeaderText = "Categoría";
+            Categoria.MinimumWidth = 6;
+            Categoria.Name = "Categoria";
+            // 
+            // Marca
+            // 
+            Marca.HeaderText = "Marca";
+            Marca.MinimumWidth = 6;
+            Marca.Name = "Marca";
+            // 
+            // Precio
+            // 
+            Precio.HeaderText = "Precio";
+            Precio.MinimumWidth = 8;
+            Precio.Name = "Precio";
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.MinimumWidth = 8;
+            Cantidad.Name = "Cantidad";
+            // 
+            // Subtotal
+            // 
+            Subtotal.HeaderText = "Subtotal";
+            Subtotal.MinimumWidth = 8;
+            Subtotal.Name = "Subtotal";
+            // 
+            // eliminar
+            // 
+            eliminar.HeaderText = "Eliminar";
+            eliminar.MinimumWidth = 8;
+            eliminar.Name = "eliminar";
+            // 
             // Factura
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -860,7 +846,6 @@
             Controls.Add(txttelefonodelcliente);
             Controls.Add(lbltelefonocliente);
             Controls.Add(label22);
-            Controls.Add(button1);
             Controls.Add(label21);
             Controls.Add(label20);
             Controls.Add(label19);
@@ -916,6 +901,7 @@
             Controls.Add(btnagregar);
             Controls.Add(label8);
             Controls.Add(label10);
+            ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2, 5, 2, 5);
             Name = "Factura";
@@ -986,14 +972,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnagregar;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cliente;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn eliminar;
         private Label label21;
         private Label label20;
         private Label label19;
@@ -1001,9 +979,16 @@
         private ComboBox CBcategorias;
         private ComboBox CBmarcas;
         private ComboBox CBproductos;
-        private Button button1;
         private Label label22;
         private TextBox txttelefonodelcliente;
         private Label lbltelefonocliente;
+        private DataGridViewTextBoxColumn CodigoProducto;
+        private DataGridViewTextBoxColumn Modelo;
+        private DataGridViewTextBoxColumn Categoria;
+        private DataGridViewTextBoxColumn Marca;
+        private DataGridViewTextBoxColumn Precio;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn Subtotal;
+        private DataGridViewTextBoxColumn eliminar;
     }
 }

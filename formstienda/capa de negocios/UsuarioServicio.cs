@@ -10,7 +10,7 @@ namespace formstienda.capa_de_negocios
 {
    public class UsuarioServicio
     {
-        //listar usuarios
+        //listar usuarios3
         public List <Usuario> Listausuarios()
         {
             try 
