@@ -5,11 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 using formstienda.Datos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace formstienda.capa_de_negocios
 {
     public class ProveedorServicio
     {
+
+        public Proveedor buscarProvee(string numero)
+        {
+            try
+            {
+                using (var _context = new DbTiendaSeptentrionContext())
+                {
+                    return _context.Proveedors
+                                   .AsNoTracking()
+                                   .FirstOrDefault(c => c.TelefonoProveedor == numero);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
         //Listar proveedor
 
         public List<Proveedor> ListarProveedores()
@@ -87,6 +106,16 @@ namespace formstienda.capa_de_negocios
             {
                 Console.WriteLine(ex.Message);
                 return false;
+            }
+        }
+
+        public int ObtenerIdPorNombre(string NombreProveedor)
+        {
+            using(var context = new DbTiendaSeptentrionContext())
+            {
+                var proveedor = context.Proveedors
+                    .FirstOrDefault(p => p.NombreProveedor == NombreProveedor);
+                return proveedor != null ? proveedor.IdProveedor : 0;
             }
         }
     }

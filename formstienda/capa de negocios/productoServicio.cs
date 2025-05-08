@@ -152,6 +152,14 @@ namespace formstienda.capa_de_negocios
             }
         }
 
-
+        public int ObtenerIdPorNombreProducto(string nombre) 
+        {
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                var producto = context.Productos
+                    .FirstOrDefault(p => p.ModeloProducto == nombre);
+                return producto != null ? producto.IdProducto : 0;
+            }
+        }
     }
 }

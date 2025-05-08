@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCompras));
             label9 = new Label();
             button4 = new Button();
@@ -36,7 +38,7 @@
             button3 = new Button();
             dtgcompras = new DataGridView();
             button2 = new Button();
-            dateTimePicker1 = new DateTimePicker();
+            datefecha = new DateTimePicker();
             label18 = new Label();
             txtprecioventa = new TextBox();
             pictureBox2 = new PictureBox();
@@ -44,17 +46,17 @@
             label16 = new Label();
             label15 = new Label();
             label1 = new Label();
-            txttelefono = new TextBox();
+            txtbuscartelefono = new TextBox();
             label14 = new Label();
             label3 = new Label();
-            textBox4 = new TextBox();
+            txtnombreproveedor = new TextBox();
             label13 = new Label();
             label2 = new Label();
             txtcodigoproducto = new TextBox();
             label10 = new Label();
             label7 = new Label();
             label12 = new Label();
-            textBox5 = new TextBox();
+            txtcantidadproducto = new TextBox();
             textBox8 = new TextBox();
             label11 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
@@ -65,7 +67,7 @@
             pictureBox4 = new PictureBox();
             cmbproducto = new ComboBox();
             label8 = new Label();
-            button1 = new Button();
+            btnagregar = new Button();
             btnnuevo = new Button();
             ((System.ComponentModel.ISupportInitialize)dtgcompras).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -132,11 +134,21 @@
             // 
             // dtgcompras
             // 
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dtgcompras.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dtgcompras.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dtgcompras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgcompras.BackgroundColor = Color.FromArgb(238, 238, 238);
             dtgcompras.ColumnHeadersHeight = 29;
             dtgcompras.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dtgcompras.DefaultCellStyle = dataGridViewCellStyle2;
             dtgcompras.Location = new Point(12, 432);
             dtgcompras.Margin = new Padding(2);
             dtgcompras.Name = "dtgcompras";
@@ -161,16 +173,18 @@
             button2.Text = "Cancelar";
             button2.UseVisualStyleBackColor = false;
             // 
-            // dateTimePicker1
+            // datefecha
             // 
-            dateTimePicker1.Location = new Point(1044, 74);
-            dateTimePicker1.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(262, 27);
-            dateTimePicker1.TabIndex = 97;
+            datefecha.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            datefecha.Location = new Point(1044, 74);
+            datefecha.Margin = new Padding(2, 5, 2, 5);
+            datefecha.Name = "datefecha";
+            datefecha.Size = new Size(262, 27);
+            datefecha.TabIndex = 97;
             // 
             // label18
             // 
+            label18.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label18.AutoSize = true;
             label18.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label18.ForeColor = Color.Black;
@@ -203,6 +217,7 @@
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 95;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click_1;
             // 
             // txtpreciocompra
             // 
@@ -249,13 +264,13 @@
             label1.Text = "Teléfono:";
             label1.Click += label1_Click;
             // 
-            // txttelefono
+            // txtbuscartelefono
             // 
-            txttelefono.Location = new Point(124, 115);
-            txttelefono.Margin = new Padding(2);
-            txttelefono.Name = "txttelefono";
-            txttelefono.Size = new Size(196, 27);
-            txttelefono.TabIndex = 60;
+            txtbuscartelefono.Location = new Point(124, 115);
+            txtbuscartelefono.Margin = new Padding(2);
+            txtbuscartelefono.Name = "txtbuscartelefono";
+            txtbuscartelefono.Size = new Size(196, 27);
+            txtbuscartelefono.TabIndex = 60;
             // 
             // label14
             // 
@@ -282,14 +297,14 @@
             label3.TabIndex = 63;
             label3.Text = "Nombre:";
             // 
-            // textBox4
+            // txtnombreproveedor
             // 
-            textBox4.Location = new Point(519, 114);
-            textBox4.Margin = new Padding(2);
-            textBox4.Name = "textBox4";
-            textBox4.ReadOnly = true;
-            textBox4.Size = new Size(234, 27);
-            textBox4.TabIndex = 64;
+            txtnombreproveedor.Location = new Point(519, 114);
+            txtnombreproveedor.Margin = new Padding(2);
+            txtnombreproveedor.Name = "txtnombreproveedor";
+            txtnombreproveedor.ReadOnly = true;
+            txtnombreproveedor.Size = new Size(234, 27);
+            txtnombreproveedor.TabIndex = 64;
             // 
             // label13
             // 
@@ -361,13 +376,13 @@
             label12.TabIndex = 78;
             label12.Text = "Código:";
             // 
-            // textBox5
+            // txtcantidadproducto
             // 
-            textBox5.Location = new Point(989, 343);
-            textBox5.Margin = new Padding(2);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(78, 27);
-            textBox5.TabIndex = 68;
+            txtcantidadproducto.Location = new Point(989, 343);
+            txtcantidadproducto.Margin = new Padding(2);
+            txtcantidadproducto.Name = "txtcantidadproducto";
+            txtcantidadproducto.Size = new Size(78, 27);
+            txtcantidadproducto.TabIndex = 68;
             // 
             // textBox8
             // 
@@ -407,6 +422,7 @@
             cmbcategoria.Name = "cmbcategoria";
             cmbcategoria.Size = new Size(200, 28);
             cmbcategoria.TabIndex = 99;
+            cmbcategoria.SelectedIndexChanged += cmbcategoria_SelectedIndexChanged;
             // 
             // pictureBox6
             // 
@@ -467,25 +483,24 @@
             label8.Text = "Buscar proveedor";
             label8.Click += label8_Click_1;
             // 
-            // button1
+            // btnagregar
             // 
-            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button1.BackColor = Color.FromArgb(3, 171, 229);
-            button1.Cursor = Cursors.Hand;
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Black;
-            button1.Location = new Point(989, 386);
-            button1.Margin = new Padding(2);
-            button1.Name = "button1";
-            button1.Size = new Size(90, 29);
-            button1.TabIndex = 138;
-            button1.Text = "Agregar";
-            button1.UseVisualStyleBackColor = false;
+            btnagregar.BackColor = Color.FromArgb(3, 171, 229);
+            btnagregar.Cursor = Cursors.Hand;
+            btnagregar.FlatStyle = FlatStyle.Popup;
+            btnagregar.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnagregar.ForeColor = Color.Black;
+            btnagregar.Location = new Point(1084, 341);
+            btnagregar.Margin = new Padding(2);
+            btnagregar.Name = "btnagregar";
+            btnagregar.Size = new Size(90, 29);
+            btnagregar.TabIndex = 138;
+            btnagregar.Text = "Agregar";
+            btnagregar.UseVisualStyleBackColor = false;
+            btnagregar.Click += button1_Click_1;
             // 
             // btnnuevo
             // 
-            btnnuevo.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnnuevo.BackColor = Color.FromArgb(3, 171, 229);
             btnnuevo.Cursor = Cursors.Hand;
             btnnuevo.FlatStyle = FlatStyle.Popup;
@@ -498,6 +513,7 @@
             btnnuevo.TabIndex = 139;
             btnnuevo.Text = "Nuevo";
             btnnuevo.UseVisualStyleBackColor = false;
+            btnnuevo.Click += btnnuevo_Click;
             // 
             // FormCompras
             // 
@@ -506,7 +522,7 @@
             BackColor = Color.FromArgb(238, 238, 238);
             ClientSize = new Size(1362, 882);
             Controls.Add(btnnuevo);
-            Controls.Add(button1);
+            Controls.Add(btnagregar);
             Controls.Add(cmbproducto);
             Controls.Add(pictureBox6);
             Controls.Add(pictureBox5);
@@ -520,7 +536,7 @@
             Controls.Add(dtgcompras);
             Controls.Add(button2);
             Controls.Add(label8);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(datefecha);
             Controls.Add(label18);
             Controls.Add(txtprecioventa);
             Controls.Add(pictureBox2);
@@ -528,17 +544,17 @@
             Controls.Add(label16);
             Controls.Add(label15);
             Controls.Add(label1);
-            Controls.Add(txttelefono);
+            Controls.Add(txtbuscartelefono);
             Controls.Add(label14);
             Controls.Add(label3);
-            Controls.Add(textBox4);
+            Controls.Add(txtnombreproveedor);
             Controls.Add(label13);
             Controls.Add(label2);
             Controls.Add(txtcodigoproducto);
             Controls.Add(label10);
             Controls.Add(label7);
             Controls.Add(label12);
-            Controls.Add(textBox5);
+            Controls.Add(txtcantidadproducto);
             Controls.Add(textBox8);
             Controls.Add(label11);
             FormBorderStyle = FormBorderStyle.None;
@@ -566,7 +582,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dtgcompras;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker datefecha;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox txtprecioventa;
         private System.Windows.Forms.PictureBox pictureBox2;
@@ -574,17 +590,17 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txttelefono;
+        private System.Windows.Forms.TextBox txtbuscartelefono;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtnombreproveedor;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtcodigoproducto;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtcantidadproducto;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Timer timer1;
@@ -595,7 +611,7 @@
         private PictureBox pictureBox4;
         private ComboBox cmbproducto;
         private Label label8;
-        private Button button1;
+        private Button btnagregar;
         private Button btnnuevo;
     }
 }

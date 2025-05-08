@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,10 +26,30 @@ namespace formstienda
         private BindingList<ProductoServicio> listaproductos;
 
         private CompraServicio? compraServicio;
+        private BindingList<Compra> listacompra;
+
+        private ProveedorServicio? proveedorServicio;
+
+
+        //Variables auxiliares
+        string nombreProveedor = string.Empty;
+        string nombreProducto = string.Empty;
+        string nombreMarca = string.Empty;
+        string nombreCategoria = string.Empty;
+
+
+
+
+        bool newcompra = false;
 
         public FormCompras()
         {
             InitializeComponent();
+            proveedorServicio = new ProveedorServicio();
+            marcaServicio = new MarcaServicio();
+            categoriaServicio = new CategoriaServicio(); // Agregado
+            productoServicio = new ProductoServicio();   // Agregado
+            compraServicio = new CompraServicio();
         }
 
         private void cargarmarcas()
@@ -158,7 +179,6 @@ namespace formstienda
 
         }
 
-        private BindingList<Compra>? listacompras;
 
         private void CargarCompras()
         {
@@ -166,10 +186,10 @@ namespace formstienda
             compraServicio = new CompraServicio();
 
             //listar para almacenar las compras
-            listacompras = new BindingList<Compra>(compraServicio.ListarCompra());
+            listacompra = new BindingList<Compra>(compraServicio.ListarCompra());
 
             //Vincular datagrid con el servicio
-            dtgcompras.DataSource = listacompras;
+            dtgcompras.DataSource = listacompra;
 
         }
         private void FormCompras_Load(object sender, EventArgs e)
@@ -177,9 +197,14 @@ namespace formstienda
             cargarcategorias();
             cargarmarcas();
             cargarproductos();
-
-
             CargarCompras();
+
+            //Se usa para no mostrar una columna en el datagrid
+            //dtgcompras.Columns["Id"].Visible = false;
+
+            //Se usa para cambiar el nombre de la columna
+            //dtgcompras.Columns["CompraId"].HeaderText = "Producto";
+
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
@@ -239,6 +264,73 @@ namespace formstienda
                 txtprecioventa.Text = productoSeleccionado.PrecioVenta.ToString("C");
                 txtcodigoproducto.Text = productoSeleccionado.CodigoProducto.ToString();
             }
+
+        }
+
+
+        private void btnnuevo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            var fechacompra = datefecha.Value;
+
+            nombreProveedor = txtnombreproveedor.Text;
+            int idProveedor = proveedorServicio.ObtenerIdPorNombre(nombreProveedor);
+
+            nombreCategoria = cmbcategoria.SelectedItem.ToString();
+            int idCategoria = categoriaServicio.ObtenerIdPorNombreCategoria(nombreCategoria);
+
+            nombreProducto = cmbproducto.SelectedItem.ToString();
+            int idProducto = productoServicio.ObtenerIdPorNombreProducto(nombreProducto);
+
+            nombreMarca = cmbmarcas.SelectedItem.ToString();
+            int idMarca = marcaServicio.ObtenerIdPorNombreMarca(nombreMarca);
+
+            int cantidad = int.Parse(txtcantidadproducto.Text);
+            double precio = double.Parse(txtpreciocompra.Text);
+
+            Compra compra = new Compra
+            {
+                FechaCompra = fechacompra,
+                IdProveedor = idProveedor,
+                IdProducto = idProducto,
+                IdMarca = idMarca,
+                CantidadCompra = cantidad,
+                PrecioCompra = precio,
+
+            };
+
+            var agregarCompra = compraServicio.AgregarCompra(compra);
+            listacompra.Add(compra);
+
+
+        }
+
+
+
+        private void pictureBox2_Click_1(object sender, EventArgs e)
+        {
+
+            string numero = txtbuscartelefono.Text.Trim();
+            var proveedor = proveedorServicio.buscarProvee(numero);
+
+            if (proveedor != null)
+            {
+                txtnombreproveedor.Text = proveedor.NombreProveedor + " " + proveedor.ApellidoProveedor;
+                /*lblcliente.Text = proveedor.IdCliente.ToString(); // solo si lo muestras
+                idClienteActual = proveedor.IdCliente; //  GUARDAMOS EL ID*/
+            }
+            else
+            {
+                MessageBox.Show("Proveedor no encontrado.");
+            }
+        }
+
+        private void cmbcategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }

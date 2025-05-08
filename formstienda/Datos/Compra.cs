@@ -17,11 +17,15 @@ public partial class Compra
 
     public int NoFacturaCompra { get; set; }
 
-    public DateOnly FechaCompra { get; set; }
+    public DateTime FechaCompra { get; set; }
 
     public double PrecioCompra { get; set; }
 
     public int CantidadCompra { get; set; }
+
+    public double SubtotalCompra { get; set; }
+
+    public double TotalCompra { get; set; }
 
     public virtual Proveedor IdProveedorNavigation { get; set; } = null!;
 
