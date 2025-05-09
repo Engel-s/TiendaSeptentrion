@@ -46,7 +46,7 @@ namespace formstienda.capa_de_negocios
                 using (var _context = new DbTiendaSeptentrionContext())
                 {
                     // Verificar si ya existe un producto con el mismo ID
-                    var existeId = _context.Productos.Any(p => p.IdProducto == producto.IdProducto);
+                    var existeId = _context.Productos.Any(p => p.CodigoProducto == producto.CodigoProducto);
                     if (existeId)
                     {
                         MessageBox.Show("Ya existe un producto con este ID. Por favor, use un ID diferente.");
@@ -155,7 +155,7 @@ namespace formstienda.capa_de_negocios
             {
                 using (var _context = new DbTiendaSeptentrionContext())
                 {
-                    var productoExistente = _context.Productos.Find(producto.IdProducto);
+                    var productoExistente = _context.Productos.Find(producto.CodigoProducto);
                     if (productoExistente == null)
                     {
                         MessageBox.Show("Producto no encontrado");
