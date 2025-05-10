@@ -275,37 +275,6 @@ namespace formstienda
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            var fechacompra = datefecha.Value;
-
-            nombreProveedor = txtnombreproveedor.Text;
-            int idProveedor = proveedorServicio.ObtenerIdPorNombre(nombreProveedor);
-
-            nombreCategoria = cmbcategoria.SelectedItem.ToString();
-            int idCategoria = categoriaServicio.ObtenerIdPorNombreCategoria(nombreCategoria);
-
-            nombreProducto = cmbproducto.SelectedItem.ToString();
-            int idProducto = productoServicio.ObtenerIdPorNombreProducto(nombreProducto);
-
-            nombreMarca = cmbmarcas.SelectedItem.ToString();
-            int idMarca = marcaServicio.ObtenerIdPorNombreMarca(nombreMarca);
-
-            int cantidad = int.Parse(txtcantidadproducto.Text);
-            double precio = double.Parse(txtpreciocompra.Text);
-
-            Compra compra = new Compra
-            {
-                FechaCompra = fechacompra,
-                IdProveedor = idProveedor,
-                IdProducto = idProducto,
-                IdMarca = idMarca,
-                CantidadCompra = cantidad,
-                PrecioCompra = precio,
-
-            };
-
-            var agregarCompra = compraServicio.AgregarCompra(compra);
-            listacompra.Add(compra);
-
 
         }
 

@@ -197,7 +197,7 @@ namespace formstienda
 
             var proveedorEditado = new Proveedor
             {
-                IdProveedor = idProveedor,
+                //IdProveedor = idProveedor,
                 CodigoRuc = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value?.ToString() ?? "",
                 NombreProveedor = dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString() ?? "",
                 ApellidoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["ApellidoProveedor"].Value.ToString() ?? "",

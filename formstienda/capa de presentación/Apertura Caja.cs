@@ -92,10 +92,10 @@ namespace formstienda
         {
             var apertura = new AperturaCaja
             {
-                FechaApertura = DateTime.Now,
-                HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
+                //FechaApertura = DateTime.Now,
+                //HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
 
-                MontoApertura = decimal.Parse(txtMontoApertura.Text),
+                //MontoApertura = decimal.Parse(txtMontoApertura.Text),
                 EstadoApertura = "Abierta",
                 
 
@@ -117,8 +117,8 @@ namespace formstienda
             MessageBox.Show("Apertura de caja registrada correctamente.");
             var tasadecambio = new TasaDeCambio
             {
-                FechaCambio = DateTime.Now,
-                ValorCambio = decimal.Parse(txtTasaCambio.Text),
+                //FechaCambio = DateTime.Now,
+                //ValorCambio = decimal.Parse(txtTasaCambio.Text),
 
             };
 

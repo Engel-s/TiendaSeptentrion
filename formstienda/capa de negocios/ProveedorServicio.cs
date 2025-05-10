@@ -81,7 +81,7 @@ namespace formstienda.capa_de_negocios
             {
                 using (var contexto = new DbTiendaSeptentrionContext())
                 {
-                    var proveedorExistente = contexto.Proveedors.Find(proveedor.IdProveedor);
+                    var proveedorExistente = contexto.Proveedors.Find(proveedor.CodigoRuc);
                     if (proveedorExistente == null)
                     {
                         Console.WriteLine("Proveedor no encontrado");
@@ -109,14 +109,14 @@ namespace formstienda.capa_de_negocios
             }
         }
 
-        public int ObtenerIdPorNombre(string NombreProveedor)
+        /*public int ObtenerIdPorNombre(string NombreProveedor)
         {
             using(var context = new DbTiendaSeptentrionContext())
             {
                 var proveedor = context.Proveedors
                     .FirstOrDefault(p => p.NombreProveedor == NombreProveedor);
-                return proveedor != null ? proveedor.IdProveedor : 0;
+                return proveedor != null ? proveedor.CodigoRuc : 0;
             }
-        }
+        }*/
     }
 }

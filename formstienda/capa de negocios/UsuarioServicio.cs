@@ -120,7 +120,7 @@ namespace formstienda.capa_de_negocios
                     usuarioExistente.RolUsuario=usuario.RolUsuario;
                     usuarioExistente.EstadoUsuario=usuario.EstadoUsuario;
                     usuarioExistente.ContraseñaUsuario=usuario.ContraseñaUsuario;
-                    usuarioExistente.UsuarioLogueo=usuario.UsuarioLogueo;
+                    //usuarioExistente.UsuarioLogueo=usuario.UsuarioLogueo;
                     _contexto.Usuarios.Update(usuarioExistente);
                     _contexto .SaveChanges();
                     return true;

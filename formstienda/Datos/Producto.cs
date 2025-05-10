@@ -15,7 +15,7 @@ public partial class Producto
 
     public float PrecioVenta { get; set; }
 
-    public bool ?EstadoProducto { get; set; }
+    public bool EstadoProducto { get; set; }
 
     public int? StockMinimo { get; set; }
 

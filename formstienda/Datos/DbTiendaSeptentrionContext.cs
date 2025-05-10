@@ -66,9 +66,13 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasColumnName("Estado_Apertura");
-            entity.Property(e => e.FechaApertura).HasColumnName("Fecha_Apertura");
+            entity.Property(e => e.FechaApertura)
+                .HasColumnType("datetime")
+                .HasColumnName("Fecha_Apertura");
             entity.Property(e => e.HoraApertura).HasColumnName("Hora_Apertura");
-            entity.Property(e => e.MontoApertura).HasColumnName("Monto_Apertura");
+            entity.Property(e => e.MontoApertura)
+                .HasColumnType("decimal(18, 0)")
+                .HasColumnName("Monto_Apertura");
         });
 
         modelBuilder.Entity<ArqueoCaja>(entity =>
@@ -186,7 +190,6 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.CantidadCompra).HasColumnName("Cantidad_compra");
             entity.Property(e => e.PrecioCompra).HasColumnName("Precio_Compra");
             entity.Property(e => e.SubtotalCompra).HasColumnName("Subtotal_Compra");
-            entity.Property(e => e.TotalCompra).HasColumnName("Total_Compra");
 
             entity.HasOne(d => d.Compra).WithMany(p => p.DetalleCompras)
                 .HasForeignKey(d => new { d.IdCompra, d.CodigoRuc })
