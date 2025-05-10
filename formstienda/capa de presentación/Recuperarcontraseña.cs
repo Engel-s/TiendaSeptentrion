@@ -55,7 +55,7 @@ namespace formstienda
         {
 
             correo = txtCorreoRecuperacion.Text.Trim();
-            var usuariovariable = new ClienteServicio();
+            var usuariovariable = new ClienteRecuperacion();
             bool existoso = usuariovariable.EnviarCodigoRecuperacion(correo);
 
             if (existoso)

@@ -26,7 +26,7 @@ namespace formstienda.capa_de_presentación
              string tokenRecupeacion = txtCambiarContraseña.Text.Trim();
              string NuevaContraseña = txtContraseñaNueva.Text.Trim();
 
-             var clienteServicio = new ClienteServicio();
+             var clienteServicio = new ClienteRecuperacion();
              bool exitoso = clienteServicio.cambiarcontraseña(_correo, tokenRecupeacion, NuevaContraseña);
 
                  if (exitoso)
