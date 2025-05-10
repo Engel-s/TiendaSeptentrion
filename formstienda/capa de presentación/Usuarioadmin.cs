@@ -53,7 +53,7 @@ namespace formstienda
                 CorreoUsuario = txtcorreousuario.Text,
                 ContraseñaUsuario = txtpassword.Text,
                 RolUsuario = cbrolusuario.Text,
-                UsuarioLogueo = cbrolusuario.Text + txtnombreusuario.Text,
+                //usuariologueo = cbrolusuario.text + txtnombreusuario.text,
                 TelefonoUsuario = txttelefonousuario.Text
             };
             var usuarioExistente = usuarioServicio.Listausuarios()

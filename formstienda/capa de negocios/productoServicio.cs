@@ -46,7 +46,7 @@ namespace formstienda.capa_de_negocios
 
             try
             {
-                var existeId = _context.Productos.Any(p => p.IdProducto == producto.IdProducto);
+                var existeId = _context.Productos.Any(p => p.CodigoProducto == producto.CodigoProducto);
                 if (existeId)
                 {
                     MessageBox.Show("Ya existe un producto con este ID. Por favor, use un ID diferente.");
@@ -70,7 +70,7 @@ namespace formstienda.capa_de_negocios
                     return false;
                 }
 
-                if (producto.StockActual < 0 || producto.StockMinimo < 0)
+                if (producto.StockMinimo < 0)
                 {
                     MessageBox.Show("Los valores de stock no pueden ser negativos.");
                     return false;
@@ -97,25 +97,23 @@ namespace formstienda.capa_de_negocios
 
         public bool ActualizarProducto(Producto producto)
         {
-            var prod = _context.Productos.FirstOrDefault(p => p.IdProducto == producto.IdProducto);
-            if (prod == null)
-                return false;
-
-            prod.ModeloProducto = producto.ModeloProducto;
-            prod.PrecioVenta = producto.PrecioVenta;
-            prod.StockActual = producto.StockActual;
-            prod.StockMinimo = producto.StockMinimo;
-            prod.EstadoProducto = producto.EstadoProducto;
-
-            try
+            using (var contexto = new DbTiendaSeptentrionContext())
             {
-                _context.SaveChanges();
+                var productoExistente = contexto.Productos.FirstOrDefault(p => p.CodigoProducto == producto.CodigoProducto);
+                if (productoExistente == null)
+                    return false;
+
+                productoExistente.CodigoProducto = producto.CodigoProducto;
+                productoExistente.ModeloProducto = producto.ModeloProducto;
+                productoExistente.PrecioVenta = producto.PrecioVenta;
+                productoExistente.StockActual = producto.StockActual;
+                productoExistente.StockMinimo = producto.StockMinimo;
+                productoExistente.EstadoProducto = producto.EstadoProducto;
+                productoExistente.IdMarca = producto.IdMarca;
+                productoExistente.IdCategoria = producto.IdCategoria;
+
+                contexto.SaveChanges();
                 return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al actualizar producto: " + ex.Message);
-                return false;
             }
         }
 
@@ -129,7 +127,10 @@ namespace formstienda.capa_de_negocios
 
         public bool ExisteCodigoProducto(string codigo)
         {
-            return _context.Productos.Any(p => p.CodigoProducto == codigo);
+            using (var contexto = new DbTiendaSeptentrionContext())
+            {
+                return contexto.Productos.Any(p => p.CodigoProducto == codigo);
+            }
         }
 
         // Método para liberar recursos del contexto cuando se termine de usar

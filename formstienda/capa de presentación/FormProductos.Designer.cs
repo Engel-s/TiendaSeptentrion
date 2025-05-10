@@ -45,8 +45,6 @@ namespace formstienda
             label8 = new Label();
             txtStockMinimo = new TextBox();
             label7 = new Label();
-            txtStockActual = new TextBox();
-            label6 = new Label();
             cmbMarcProduct = new ComboBox();
             label5 = new Label();
             cmbCategoriaProduc = new ComboBox();
@@ -112,8 +110,6 @@ namespace formstienda
             tabPage1.Controls.Add(label8);
             tabPage1.Controls.Add(txtStockMinimo);
             tabPage1.Controls.Add(label7);
-            tabPage1.Controls.Add(txtStockActual);
-            tabPage1.Controls.Add(label6);
             tabPage1.Controls.Add(cmbMarcProduct);
             tabPage1.Controls.Add(label5);
             tabPage1.Controls.Add(cmbCategoriaProduc);
@@ -148,7 +144,7 @@ namespace formstienda
             txtNombreProduct.Location = new Point(191, 70);
             txtNombreProduct.Margin = new Padding(2);
             txtNombreProduct.Name = "txtNombreProduct";
-            txtNombreProduct.Size = new Size(118, 31);
+            txtNombreProduct.Size = new Size(221, 31);
             txtNombreProduct.TabIndex = 163;
             // 
             // label14
@@ -239,7 +235,7 @@ namespace formstienda
             cmbEstado.Anchor = AnchorStyles.Top;
             cmbEstado.FormattingEnabled = true;
             cmbEstado.Items.AddRange(new object[] { "Activo", "Inactivo" });
-            cmbEstado.Location = new Point(938, 133);
+            cmbEstado.Location = new Point(878, 133);
             cmbEstado.Margin = new Padding(2);
             cmbEstado.Name = "cmbEstado";
             cmbEstado.Size = new Size(114, 30);
@@ -250,7 +246,7 @@ namespace formstienda
             label9.Anchor = AnchorStyles.Top;
             label9.AutoSize = true;
             label9.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(843, 134);
+            label9.Location = new Point(808, 138);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
             label9.Size = new Size(66, 20);
@@ -260,7 +256,7 @@ namespace formstienda
             // txtPrecioVenta
             // 
             txtPrecioVenta.Anchor = AnchorStyles.Top;
-            txtPrecioVenta.Location = new Point(702, 136);
+            txtPrecioVenta.Location = new Point(611, 133);
             txtPrecioVenta.Margin = new Padding(2);
             txtPrecioVenta.Name = "txtPrecioVenta";
             txtPrecioVenta.Size = new Size(110, 31);
@@ -271,7 +267,7 @@ namespace formstienda
             label8.Anchor = AnchorStyles.Top;
             label8.AutoSize = true;
             label8.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(525, 138);
+            label8.Location = new Point(461, 138);
             label8.Margin = new Padding(2, 0, 2, 0);
             label8.Name = "label8";
             label8.Size = new Size(131, 20);
@@ -281,7 +277,7 @@ namespace formstienda
             // txtStockMinimo
             // 
             txtStockMinimo.Anchor = AnchorStyles.Top;
-            txtStockMinimo.Location = new Point(392, 129);
+            txtStockMinimo.Location = new Point(302, 133);
             txtStockMinimo.Margin = new Padding(2);
             txtStockMinimo.Name = "txtStockMinimo";
             txtStockMinimo.Size = new Size(110, 31);
@@ -293,32 +289,12 @@ namespace formstienda
             label7.Anchor = AnchorStyles.Top;
             label7.AutoSize = true;
             label7.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(262, 134);
+            label7.Location = new Point(179, 138);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
             label7.Size = new Size(119, 20);
             label7.TabIndex = 11;
             label7.Text = "Stock Mínimo:";
-            // 
-            // txtStockActual
-            // 
-            txtStockActual.Anchor = AnchorStyles.Top;
-            txtStockActual.Location = new Point(173, 131);
-            txtStockActual.Margin = new Padding(2);
-            txtStockActual.Name = "txtStockActual";
-            txtStockActual.Size = new Size(74, 31);
-            txtStockActual.TabIndex = 10;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(14, 134);
-            label6.Margin = new Padding(2, 0, 2, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(108, 20);
-            label6.TabIndex = 9;
-            label6.Text = "Stock Actual:";
             // 
             // cmbMarcProduct
             // 
@@ -675,8 +651,6 @@ namespace formstienda
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtStockMinimo;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtStockActual;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnAgregarCategoria;
         private System.Windows.Forms.Label label12;

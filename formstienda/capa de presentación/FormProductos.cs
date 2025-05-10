@@ -249,14 +249,7 @@ namespace formstienda
                 {
                     MessageBox.Show("Por favor, ingrese un precio de venta válido (número positivo).");
                     return;
-                }
-
-                // Validación del stock
-                if (!int.TryParse(txtStockActual.Text, out int stockActual) || stockActual < 0)
-                {
-                    MessageBox.Show("Por favor, ingrese un stock actual válido (número entero no negativo).");
-                    return;
-                }
+                }                        
 
                 if (!int.TryParse(txtStockMinimo.Text, out int stockMinimo) || stockMinimo < 0)
                 {
@@ -273,7 +266,6 @@ namespace formstienda
                     IdMarca = Convert.ToInt32(cmbMarcProduct.SelectedValue),
                     PrecioVenta = Convert.ToInt32(precioVenta),
                     EstadoProducto = cmbEstado.Text == "Activo" ? true : false,
-                    StockActual = stockActual,
                     StockMinimo = stockMinimo
                 };
 
@@ -325,7 +317,6 @@ namespace formstienda
             txtNombreProduct.Text = "";
             txtCodigoProduct.Text = "";
             txtPrecioVenta.Text = "";
-            txtStockActual.Text = "0";
             txtStockMinimo.Text = "0";
             cmbCategoriaProduc.SelectedIndex = -1;
             cmbMarcProduct.SelectedIndex = -1;
@@ -417,6 +408,7 @@ namespace formstienda
 
         }
 
+        //Editar Categoria
         private void DGCATEGORIAS_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -451,6 +443,7 @@ namespace formstienda
 
         }
 
+        //Editar producto
         private void DGPRODUCTOS_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // Validar que se hizo doble clic en una celda válida (no cabecera ni fuera de rango)
@@ -478,35 +471,6 @@ namespace formstienda
                 // Controlar qué columna fue doble clickeada
                 switch (e.ColumnIndex)
                 {
-
-                    case 0: // Código del producto
-                        string nuevoCodigo = Microsoft.VisualBasic.Interaction.InputBox("Nuevo código del producto:", "Editar Producto", producto.CodigoProducto);
-                        if (!string.IsNullOrWhiteSpace(nuevoCodigo))
-                        {
-                            nuevoCodigo = nuevoCodigo.Trim();
-
-                            // Validación: verificar que el nuevo código no esté repetido (y que no sea el mismo actual)
-                            if (nuevoCodigo != producto.CodigoProducto && productoServicio.ExisteCodigoProducto(nuevoCodigo))
-                            {
-                                MessageBox.Show("El código ingresado ya existe. Por favor, ingrese un código único.");
-                                return;
-                            }
-
-                            // Validación adicional: longitud o formato si aplica
-                            if (nuevoCodigo.Length > 20)
-                            {
-                                MessageBox.Show("El código del producto no puede tener más de 20 caracteres.");
-                                return;
-                            }
-
-                            producto.CodigoProducto = nuevoCodigo;
-                            cambios = true;
-                        }
-                        else
-                        {
-                            MessageBox.Show("El código no puede estar vacío.");
-                        }
-                        break;
 
                     case 1: // Nombre del producto
                         string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox("Nuevo nombre:", "Editar Producto", producto.ModeloProducto);
@@ -548,7 +512,7 @@ namespace formstienda
                         string nuevoStockStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock actual:", "Editar Producto", producto.StockActual.ToString());
                         if (int.TryParse(nuevoStockStr, out int nuevoStock))
                         {
-                            if (nuevoStock < 0)
+                            if (nuevoStock <= 0)
                             {
                                 MessageBox.Show("El stock no puede ser negativo.");
                                 return;
