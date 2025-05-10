@@ -13,7 +13,7 @@ using formstienda.capa_de_negocios;
 using formstienda.Datos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-
+using System.Text.RegularExpressions;
 
 namespace formstienda
 {
@@ -104,7 +104,7 @@ namespace formstienda
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-
+            txtTelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
 
             var proveedor = new Proveedor
             {
@@ -115,45 +115,61 @@ namespace formstienda
                 CorreoProveedor = txtCorreo.Text,
                 EstadoProveedor = cmbestado.Text == "Activo" ? true : false,
             };
-
-            if (txtNombre_proveedor.Text == "")
+            
+            if (string.IsNullOrWhiteSpace(txtNombre_proveedor.Text) ||
+                string.IsNullOrWhiteSpace(txtApellido_proveedores.Text) ||
+                string.IsNullOrWhiteSpace(txtTelefono.Text) ||
+                string.IsNullOrWhiteSpace(txtCodigo_ruc.Text))
             {
-                MessageBox.Show("Ingrese el nombre del proveedor");
+                MessageBox.Show("Rellene todos los campos obligatorios", 
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (txtApellido_proveedores.Text == "")
+            var codigoruc = txtCodigo_ruc.Text.Trim();
+            string patronCodigoRuc = @"^\d{3}-\d{6}-\d{4}[A-Z]{1}$";
+
+            if (!Regex.IsMatch(codigoruc, patronCodigoRuc))
             {
-                MessageBox.Show("Ingrese el apellido del proveedor");
+                MessageBox.Show("El formato del codigo RUC es incorrecto.", 
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (txtTelefono.Text == "")
+
+            var telefono = txtTelefono.Text.Trim();
+            string patronTelefono = @"^\d{4}-\d{4}$";
+
+            if (!Regex.IsMatch(telefono, patronTelefono))
             {
-                MessageBox.Show("Ingrese el numero telefonico del proveedor");
+                MessageBox.Show("El formato del telefono es incorrecto.",
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             //Validar existencias del proveedor
             var proveedorExistente = proveedorServicio.ListarProveedores()
                 .FirstOrDefault(p => p.CodigoRuc == proveedor.CodigoRuc
-                || p.TelefonoProveedor == proveedor.TelefonoProveedor || p.CorreoProveedor == proveedor.CorreoProveedor);
+                || !string.IsNullOrWhiteSpace(proveedor.CorreoProveedor) && p.CorreoProveedor == proveedor.CorreoProveedor);
 
             if (proveedorExistente != null)
             {
                 if (proveedorExistente.CodigoRuc == proveedor.CodigoRuc)
                 {
-                    MessageBox.Show("Este proveedor ya existe, verifique el codigo ruc");
+                    MessageBox.Show("Este proveedor ya existe, verifique el codigo ruc." 
+                        ,"Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 if (proveedorExistente.TelefonoProveedor == proveedor.TelefonoProveedor)
                 {
-                    MessageBox.Show("Este proveedor ya existe, verifique el numero de telefono");
+                    MessageBox.Show("Este proveedor ya existe, verifique el numero de telefono"
+                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (proveedorExistente.CorreoProveedor == proveedor.CorreoProveedor)
                 {
-                    MessageBox.Show("Este proveedor ya existe, verifique el correo electronico");
+                    MessageBox.Show("Este proveedor ya existe, verifique el correo electronico"
+                        ,"Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
