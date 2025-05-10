@@ -90,6 +90,14 @@ namespace formstienda
             //cuando se cargue el formulario se ejecuta esto
             CargarProveedores();
             cmbestado.SelectedItem = "Activo";
+
+            dtgproveedores.Columns["Compras"].Visible = false;
+            dtgproveedores.Columns["CodigoRuc"].HeaderText = "Código RUC";
+            dtgproveedores.Columns["NombreProveedor"].HeaderText = "Nombre";
+            dtgproveedores.Columns["ApellidoProveedor"].HeaderText = "Apellido";
+            dtgproveedores.Columns["TelefonoProveedor"].HeaderText = "Numero telefónico";
+            dtgproveedores.Columns["CorreoProveedor"].HeaderText = "Correo electrónico";
+            dtgproveedores.Columns["EstadoProveedor"].HeaderText = "Estado";
         }
 
         private void label7_Click(object sender, EventArgs e)

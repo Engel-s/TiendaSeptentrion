@@ -270,9 +270,9 @@
             // 
             txtCodigo_ruc.Anchor = AnchorStyles.Top;
             txtCodigo_ruc.Location = new Point(180, 134);
-            txtCodigo_ruc.Mask = "000-000000-0000X";
+            txtCodigo_ruc.Mask = "000-000000-0000>L";
             txtCodigo_ruc.Name = "txtCodigo_ruc";
-            txtCodigo_ruc.Size = new Size(205, 27);
+            txtCodigo_ruc.Size = new Size(133, 27);
             txtCodigo_ruc.TabIndex = 87;
             // 
             // txtTelefono
@@ -281,7 +281,7 @@
             txtTelefono.Location = new Point(180, 189);
             txtTelefono.Mask = "0000-0000";
             txtTelefono.Name = "txtTelefono";
-            txtTelefono.Size = new Size(205, 27);
+            txtTelefono.Size = new Size(114, 27);
             txtTelefono.TabIndex = 88;
             txtTelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             // 
