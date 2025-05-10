@@ -62,9 +62,9 @@ namespace formstienda
                 var query = productoServicio.ListarProductos()
                     .Select(p => new
                     {
-                        p.CodigoProducto,  // Mantenemos el nombre original aquí
+                        p.CodigoProducto,
                         p.ModeloProducto,
-                        p.PrecioVenta,
+                        PrecioVenta = $"C$ {p.PrecioVenta:N2}", // Formatear con símbolo y 2 decimales
                         p.StockActual,
                         p.StockMinimo,
                         Marca = p.IdMarcaNavigation?.Marca1 ?? "N/A",
@@ -96,7 +96,13 @@ namespace formstienda
                 if (DGPRODUCTOS.Columns["ModeloProducto"] != null)
                 {
                     DGPRODUCTOS.Columns["ModeloProducto"].HeaderText = "Nombre";
-                }    
+                }
+
+                // Configurar la columna de precio para que mantenga el formato
+                if (DGPRODUCTOS.Columns["PrecioVenta"] != null)
+                {
+                    DGPRODUCTOS.Columns["PrecioVenta"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                }
             }
             catch (Exception ex)
             {
@@ -245,11 +251,11 @@ namespace formstienda
                 }
 
                 // Validación del precio de venta
-                if (!decimal.TryParse(txtPrecioVenta.Text, out decimal precioVenta) || precioVenta <= 0)
+                if (!decimal.TryParse(txtPrecioVenta.Text.Replace("C$", "").Trim(), out decimal precioVenta) || precioVenta <= 0)
                 {
                     MessageBox.Show("Por favor, ingrese un precio de venta válido (número positivo).");
                     return;
-                }                        
+                }
 
                 if (!int.TryParse(txtStockMinimo.Text, out int stockMinimo) || stockMinimo < 0)
                 {
@@ -491,7 +497,13 @@ namespace formstienda
                         break;
 
                     case 2: // Precio de venta
-                        string nuevoPrecioStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo precio de venta:", "Editar Producto", producto.PrecioVenta.ToString("0.00"));
+                            // Eliminar el símbolo C$ si está presente para la edición
+                        string precioActual = producto.PrecioVenta.ToString("0.00");
+                        string nuevoPrecioStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo precio de venta (C$):", "Editar Producto", precioActual);
+
+                        // Eliminar el símbolo si el usuario lo copió
+                        nuevoPrecioStr = nuevoPrecioStr.Replace("C$", "").Trim();
+
                         if (float.TryParse(nuevoPrecioStr, out float nuevoPrecio))
                         {
                             if (nuevoPrecio < 0)
@@ -530,7 +542,7 @@ namespace formstienda
                         string nuevoStockMinStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock mínimo:", "Editar Producto", producto.StockMinimo.ToString());
                         if (int.TryParse(nuevoStockMinStr, out int nuevoStockMin))
                         {
-                            if (nuevoStockMin < 0)
+                            if (nuevoStockMin <= 0)
                             {
                                 MessageBox.Show("El stock mínimo no puede ser negativo.");
                                 return;
@@ -571,6 +583,8 @@ namespace formstienda
             }
         }
 
+        // 
+        
 
         private void pbBuscarProducto_Click(object sender, EventArgs e)
         {
