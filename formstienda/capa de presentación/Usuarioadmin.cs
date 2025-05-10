@@ -53,9 +53,8 @@ namespace formstienda
                 CorreoUsuario = txtcorreousuario.Text.Trim(),
                 ContraseñaUsuario = txtpassword.Text,
                 RolUsuario = cbrolusuario.Text,
-                UsuarioLogueo = cbrolusuario.Text + txtnombreusuario.Text,
-                TelefonoUsuario = txttelefonousuario.Text.Trim(),
-                EstadoUsuario = cbestadousuario.Text == "Activo"
+                //usuariologueo = cbrolusuario.text + txtnombreusuario.text,
+                TelefonoUsuario = txttelefonousuario.Text
             };
 
             // Validaciones de campos vacíos

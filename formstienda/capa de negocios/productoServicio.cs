@@ -3,26 +3,29 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace formstienda.capa_de_negocios
 {
-    public class ProductoServicio
+    public class ProductoServicio : IDisposable
     {
+        private readonly DbTiendaSeptentrionContext _context;
+
+        public ProductoServicio()
+        {
+            _context = new DbTiendaSeptentrionContext();
+        }
+
         // Listar todos los productos con información relacionada
         public List<Producto> ListarProductos()
         {
             try
             {
-                using (var _context = new DbTiendaSeptentrionContext())
-                {
-                    return _context.Productos
-                        .Include(p => p.IdCategoriaNavigation)
-                        .Include(p => p.IdMarcaNavigation)
-                        .AsNoTracking()
-                        .ToList();
-                }
+                return _context.Productos
+                    .Include(p => p.IdCategoriaNavigation)
+                    .Include(p => p.IdMarcaNavigation)
+                    .AsNoTracking()
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -43,60 +46,45 @@ namespace formstienda.capa_de_negocios
 
             try
             {
-                using (var _context = new DbTiendaSeptentrionContext())
+                var existeId = _context.Productos.Any(p => p.CodigoProducto == producto.CodigoProducto);
+                if (existeId)
                 {
-                    // Verificar si ya existe un producto con el mismo ID
-                    var existeId = _context.Productos.Any(p => p.IdProducto == producto.IdProducto);
-                    if (existeId)
-                    {
-                        MessageBox.Show("Ya existe un producto con este ID. Por favor, use un ID diferente.");
-                        return false;
-                    }
-
-                    // Verificar si ya existe un producto con el mismo código
-                    if (!string.IsNullOrEmpty(producto.CodigoProducto))
-                    {
-                        var existeCodigo = _context.Productos.Any(p => p.CodigoProducto == producto.CodigoProducto);
-                        if (existeCodigo)
-                        {
-                            MessageBox.Show("Ya existe un producto con este código.");
-                            return false;
-                        }
-                    }
-
-                    // Verificar si ya existe un producto con el mismo nombre
-                    var existeNombre = _context.Productos.Any(p => p.ModeloProducto == producto.ModeloProducto);
-                    if (existeNombre)
-                    {
-                        MessageBox.Show("Ya existe un producto con este nombre.");
-                        return false;
-                    }
-
-                    // Validar stock mínimo
-                    if (producto.StockActual < 0 || producto.StockMinimo < 0)
-                    {
-                        MessageBox.Show("Los valores de stock no pueden ser negativos.");
-                        return false;
-                    }
-
-                    // Agregar producto
-                    _context.Productos.Add(producto);
-                    _context.SaveChanges();
-
-                    return true;
+                    MessageBox.Show("Ya existe un producto con este ID. Por favor, use un ID diferente.");
+                    return false;
                 }
+
+                if (!string.IsNullOrEmpty(producto.CodigoProducto))
+                {
+                    var existeCodigo = _context.Productos.Any(p => p.CodigoProducto == producto.CodigoProducto);
+                    if (existeCodigo)
+                    {
+                        MessageBox.Show("Ya existe un producto con este código.");
+                        return false;
+                    }
+                }
+
+                var existeNombre = _context.Productos.Any(p => p.ModeloProducto == producto.ModeloProducto);
+                if (existeNombre)
+                {
+                    MessageBox.Show("Ya existe un producto con este nombre.");
+                    return false;
+                }
+
+                if (producto.StockMinimo < 0)
+                {
+                    MessageBox.Show("Los valores de stock no pueden ser negativos.");
+                    return false;
+                }
+
+                _context.Productos.Add(producto);
+                _context.SaveChanges();
+
+                return true;
             }
             catch (DbUpdateException ex)
             {
                 Console.WriteLine(ex.Message);
-                if (ex.InnerException != null && ex.InnerException.Message.Contains("PRIMARY KEY"))
-                {
-                    MessageBox.Show("El ID de producto ya existe. Por favor, use un ID diferente.");
-                }
-                else
-                {
-                    MessageBox.Show("Error al agregar producto: " + ex.Message);
-                }
+                MessageBox.Show("Error al agregar producto: " + ex.Message);
                 return false;
             }
             catch (Exception ex)
@@ -111,55 +99,44 @@ namespace formstienda.capa_de_negocios
         {
             using (var contexto = new DbTiendaSeptentrionContext())
             {
-                var prod = contexto.Productos.FirstOrDefault(p => p.IdProducto == producto.IdProducto);
-                if (prod == null)
-                {
+                var productoExistente = contexto.Productos.FirstOrDefault(p => p.CodigoProducto == producto.CodigoProducto);
+                if (productoExistente == null)
                     return false;
-                }
 
-                // Asignar propiedades individuales
-                prod.ModeloProducto = producto.ModeloProducto;
-                prod.PrecioVenta = producto.PrecioVenta;
-                prod.StockActual = producto.StockActual;
-                prod.StockMinimo = producto.StockMinimo;
-                //prod.IdMarca = producto.IdMarca;           // <- Aquí estás usando IdMarca (int), no el nombre
-                //prod.IdCategoria = producto.IdCategoria;
-                prod.EstadoProducto = producto.EstadoProducto;
+                productoExistente.CodigoProducto = producto.CodigoProducto;
+                productoExistente.ModeloProducto = producto.ModeloProducto;
+                productoExistente.PrecioVenta = producto.PrecioVenta;
+                productoExistente.StockActual = producto.StockActual;
+                productoExistente.StockMinimo = producto.StockMinimo;
+                productoExistente.EstadoProducto = producto.EstadoProducto;
+                productoExistente.IdMarca = producto.IdMarca;
+                productoExistente.IdCategoria = producto.IdCategoria;
 
-                try
-                {
-                    contexto.SaveChanges();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    // Opcional: loggear error si lo necesitas
-                    Console.WriteLine("Error al actualizar producto: " + ex.Message);
-                    return false;
-                }
+                contexto.SaveChanges();
+                return true;
             }
         }
-
 
         public Producto ObtenerProductoPorCodigo(string codigo)
         {
+            return _context.Productos
+                .Include(p => p.IdCategoriaNavigation)
+                .Include(p => p.IdMarcaNavigation)
+                .FirstOrDefault(p => p.CodigoProducto == codigo);
+        }
+
+        public bool ExisteCodigoProducto(string codigo)
+        {
             using (var contexto = new DbTiendaSeptentrionContext())
             {
-                return contexto.Productos
-                    .Include(p => p.IdCategoriaNavigation)
-                    .Include(p => p.IdMarcaNavigation)
-                    .FirstOrDefault(p => p.CodigoProducto == codigo);
+                return contexto.Productos.Any(p => p.CodigoProducto == codigo);
             }
         }
 
-        public int ObtenerIdPorNombreProducto(string nombre) 
+        // Método para liberar recursos del contexto cuando se termine de usar
+        public void Dispose()
         {
-            using (var context = new DbTiendaSeptentrionContext())
-            {
-                var producto = context.Productos
-                    .FirstOrDefault(p => p.ModeloProducto == nombre);
-                return producto != null ? producto.IdProducto : 0;
-            }
+            _context.Dispose();
         }
     }
 }

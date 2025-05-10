@@ -31,14 +31,10 @@ namespace formstienda
         {
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            txtBuscarProducto = new TextBox();
             txtNombreProduct = new TextBox();
             label14 = new Label();
-            comboBox9 = new ComboBox();
             label13 = new Label();
-            comboBox5 = new ComboBox();
-            label10 = new Label();
-            label21 = new Label();
-            comboBox4 = new ComboBox();
             btnSalirProductos = new Button();
             DGPRODUCTOS = new DataGridView();
             button2 = new Button();
@@ -49,8 +45,6 @@ namespace formstienda
             label8 = new Label();
             txtStockMinimo = new TextBox();
             label7 = new Label();
-            txtStockActual = new TextBox();
-            label6 = new Label();
             cmbMarcProduct = new ComboBox();
             label5 = new Label();
             cmbCategoriaProduc = new ComboBox();
@@ -96,20 +90,16 @@ namespace formstienda
             tabControl1.Margin = new Padding(2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1394, 816);
+            tabControl1.Size = new Size(1394, 876);
             tabControl1.TabIndex = 0;
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(txtBuscarProducto);
             tabPage1.Controls.Add(txtNombreProduct);
             tabPage1.Controls.Add(label14);
-            tabPage1.Controls.Add(comboBox9);
             tabPage1.Controls.Add(label13);
-            tabPage1.Controls.Add(comboBox5);
-            tabPage1.Controls.Add(label10);
-            tabPage1.Controls.Add(label21);
-            tabPage1.Controls.Add(comboBox4);
             tabPage1.Controls.Add(btnSalirProductos);
             tabPage1.Controls.Add(DGPRODUCTOS);
             tabPage1.Controls.Add(button2);
@@ -120,8 +110,6 @@ namespace formstienda
             tabPage1.Controls.Add(label8);
             tabPage1.Controls.Add(txtStockMinimo);
             tabPage1.Controls.Add(label7);
-            tabPage1.Controls.Add(txtStockActual);
-            tabPage1.Controls.Add(label6);
             tabPage1.Controls.Add(cmbMarcProduct);
             tabPage1.Controls.Add(label5);
             tabPage1.Controls.Add(cmbCategoriaProduc);
@@ -134,11 +122,21 @@ namespace formstienda
             tabPage1.Margin = new Padding(2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(2);
-            tabPage1.Size = new Size(1386, 781);
+            tabPage1.Size = new Size(1386, 841);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Productos";
             tabPage1.UseVisualStyleBackColor = true;
             tabPage1.Click += tabPage1_Click;
+            // 
+            // txtBuscarProducto
+            // 
+            txtBuscarProducto.Anchor = AnchorStyles.Top;
+            txtBuscarProducto.Location = new Point(166, 260);
+            txtBuscarProducto.Margin = new Padding(2);
+            txtBuscarProducto.Name = "txtBuscarProducto";
+            txtBuscarProducto.Size = new Size(414, 31);
+            txtBuscarProducto.TabIndex = 164;
+            txtBuscarProducto.TextChanged += txtBuscarProducto_TextChanged;
             // 
             // txtNombreProduct
             // 
@@ -146,90 +144,38 @@ namespace formstienda
             txtNombreProduct.Location = new Point(191, 70);
             txtNombreProduct.Margin = new Padding(2);
             txtNombreProduct.Name = "txtNombreProduct";
-            txtNombreProduct.Size = new Size(118, 31);
+            txtNombreProduct.Size = new Size(221, 31);
             txtNombreProduct.TabIndex = 163;
             // 
             // label14
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.Location = new Point(18, 191);
+            label14.Location = new Point(18, 230);
             label14.Margin = new Padding(2, 0, 2, 0);
             label14.Name = "label14";
             label14.Size = new Size(165, 22);
             label14.TabIndex = 162;
             label14.Text = "Buscar producto:";
             // 
-            // comboBox9
-            // 
-            comboBox9.FormattingEnabled = true;
-            comboBox9.Location = new Point(115, 216);
-            comboBox9.Margin = new Padding(2, 3, 2, 3);
-            comboBox9.Name = "comboBox9";
-            comboBox9.Size = new Size(172, 30);
-            comboBox9.TabIndex = 161;
-
-            // 
             // label13
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label13.ForeColor = Color.Black;
-            label13.Location = new Point(18, 221);
+            label13.Location = new Point(18, 265);
             label13.Margin = new Padding(2, 0, 2, 0);
             label13.Name = "label13";
-            label13.Size = new Size(83, 20);
+            label13.Size = new Size(144, 20);
             label13.TabIndex = 160;
-            label13.Text = "Producto:";
-            // 
-            // comboBox5
-            // 
-            comboBox5.FormattingEnabled = true;
-            comboBox5.Location = new Point(392, 216);
-            comboBox5.Margin = new Padding(2, 3, 2, 3);
-            comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(172, 30);
-            comboBox5.TabIndex = 159;
-            // 
-            // label10
-            // 
-            label10.Anchor = AnchorStyles.Top;
-            label10.AutoSize = true;
-            label10.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(314, 221);
-            label10.Margin = new Padding(2, 0, 2, 0);
-            label10.Name = "label10";
-            label10.Size = new Size(63, 20);
-            label10.TabIndex = 158;
-            label10.Text = "Marca:";
-            // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label21.ForeColor = Color.Black;
-            label21.Location = new Point(589, 221);
-            label21.Margin = new Padding(2, 0, 2, 0);
-            label21.Name = "label21";
-            label21.Size = new Size(88, 20);
-            label21.TabIndex = 157;
-            label21.Text = "Categoría:";
-            // 
-            // comboBox4
-            // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(696, 216);
-            comboBox4.Margin = new Padding(2, 3, 2, 3);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(172, 30);
-            comboBox4.TabIndex = 153;
+            label13.Text = "Buscar Productos:";
             // 
             // btnSalirProductos
             // 
             btnSalirProductos.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnSalirProductos.BackColor = Color.FromArgb(3, 171, 229);
             btnSalirProductos.FlatStyle = FlatStyle.Popup;
-            btnSalirProductos.Location = new Point(1238, 716);
+            btnSalirProductos.Location = new Point(1238, 776);
             btnSalirProductos.Margin = new Padding(2);
             btnSalirProductos.Name = "btnSalirProductos";
             btnSalirProductos.Size = new Size(126, 46);
@@ -245,14 +191,14 @@ namespace formstienda
             DGPRODUCTOS.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DGPRODUCTOS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGPRODUCTOS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGPRODUCTOS.Location = new Point(18, 257);
+            DGPRODUCTOS.Location = new Point(42, 315);
             DGPRODUCTOS.Margin = new Padding(2);
             DGPRODUCTOS.Name = "DGPRODUCTOS";
             DGPRODUCTOS.ReadOnly = true;
             DGPRODUCTOS.RowHeadersWidth = 51;
             DGPRODUCTOS.RowTemplate.Height = 24;
             DGPRODUCTOS.ScrollBars = ScrollBars.None;
-            DGPRODUCTOS.Size = new Size(1253, 413);
+            DGPRODUCTOS.Size = new Size(1301, 415);
             DGPRODUCTOS.TabIndex = 19;
             DGPRODUCTOS.CellContentClick += DGPRODUCTOS_CellContentClick;
             DGPRODUCTOS.CellDoubleClick += DGPRODUCTOS_CellDoubleClick;
@@ -289,7 +235,7 @@ namespace formstienda
             cmbEstado.Anchor = AnchorStyles.Top;
             cmbEstado.FormattingEnabled = true;
             cmbEstado.Items.AddRange(new object[] { "Activo", "Inactivo" });
-            cmbEstado.Location = new Point(938, 133);
+            cmbEstado.Location = new Point(878, 133);
             cmbEstado.Margin = new Padding(2);
             cmbEstado.Name = "cmbEstado";
             cmbEstado.Size = new Size(114, 30);
@@ -300,7 +246,7 @@ namespace formstienda
             label9.Anchor = AnchorStyles.Top;
             label9.AutoSize = true;
             label9.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(843, 134);
+            label9.Location = new Point(808, 138);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
             label9.Size = new Size(66, 20);
@@ -310,7 +256,7 @@ namespace formstienda
             // txtPrecioVenta
             // 
             txtPrecioVenta.Anchor = AnchorStyles.Top;
-            txtPrecioVenta.Location = new Point(702, 136);
+            txtPrecioVenta.Location = new Point(611, 133);
             txtPrecioVenta.Margin = new Padding(2);
             txtPrecioVenta.Name = "txtPrecioVenta";
             txtPrecioVenta.Size = new Size(110, 31);
@@ -321,7 +267,7 @@ namespace formstienda
             label8.Anchor = AnchorStyles.Top;
             label8.AutoSize = true;
             label8.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(525, 138);
+            label8.Location = new Point(461, 138);
             label8.Margin = new Padding(2, 0, 2, 0);
             label8.Name = "label8";
             label8.Size = new Size(131, 20);
@@ -331,7 +277,7 @@ namespace formstienda
             // txtStockMinimo
             // 
             txtStockMinimo.Anchor = AnchorStyles.Top;
-            txtStockMinimo.Location = new Point(392, 129);
+            txtStockMinimo.Location = new Point(302, 133);
             txtStockMinimo.Margin = new Padding(2);
             txtStockMinimo.Name = "txtStockMinimo";
             txtStockMinimo.Size = new Size(110, 31);
@@ -343,32 +289,12 @@ namespace formstienda
             label7.Anchor = AnchorStyles.Top;
             label7.AutoSize = true;
             label7.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(262, 134);
+            label7.Location = new Point(179, 138);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
             label7.Size = new Size(119, 20);
             label7.TabIndex = 11;
             label7.Text = "Stock Mínimo:";
-            // 
-            // txtStockActual
-            // 
-            txtStockActual.Anchor = AnchorStyles.Top;
-            txtStockActual.Location = new Point(173, 131);
-            txtStockActual.Margin = new Padding(2);
-            txtStockActual.Name = "txtStockActual";
-            txtStockActual.Size = new Size(74, 31);
-            txtStockActual.TabIndex = 10;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(14, 134);
-            label6.Margin = new Padding(2, 0, 2, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(108, 20);
-            label6.TabIndex = 9;
-            label6.Text = "Stock Actual:";
             // 
             // cmbMarcProduct
             // 
@@ -471,7 +397,7 @@ namespace formstienda
             tabPage2.Margin = new Padding(2);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(2);
-            tabPage2.Size = new Size(1386, 781);
+            tabPage2.Size = new Size(1386, 841);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Categoría";
             tabPage2.UseVisualStyleBackColor = true;
@@ -576,7 +502,7 @@ namespace formstienda
             tabPage3.Location = new Point(4, 31);
             tabPage3.Margin = new Padding(2);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(1386, 781);
+            tabPage3.Size = new Size(1386, 841);
             tabPage3.TabIndex = 3;
             tabPage3.Text = "Marcas";
             tabPage3.UseVisualStyleBackColor = true;
@@ -679,7 +605,7 @@ namespace formstienda
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(238, 238, 238);
-            ClientSize = new Size(1401, 882);
+            ClientSize = new Size(1401, 942);
             Controls.Add(tabControl1);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
@@ -725,8 +651,6 @@ namespace formstienda
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtStockMinimo;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtStockActual;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnAgregarCategoria;
         private System.Windows.Forms.Label label12;
@@ -741,14 +665,12 @@ namespace formstienda
         private System.Windows.Forms.Button btnSalirCategorias;
         private System.Windows.Forms.Button btnSalirMarcas;
         private ComboBox comboBox4;
-        private Label label21;
         private ComboBox comboBox9;
         private Label label13;
-        private ComboBox comboBox5;
-        private Label label10;
         private Label label14;
         private TextBox txtNombreProduct;
         private TextBox txtNuevaCategoria;
         private TextBox txtNuevaMarca;
+        private TextBox txtBuscarProducto;
     }
 }

@@ -12,19 +12,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace formstienda
 {
     public partial class FormProductos : Form
     {
-        //
+        private System.Windows.Forms.Timer searchTimer; 
         private CategoriaServicio _categoriaServicio;
-        private Claseinventario claseinventario;
         private List<Producto> ListaProductos = new List<Producto>();
-
-        //
         private readonly MarcaServicio _marcaServicio;
         private ProductoServicio productoServicio = new ProductoServicio();
-
 
         public FormProductos()
         {
@@ -34,11 +31,86 @@ namespace formstienda
             productoServicio = new ProductoServicio();
             CargarMarcas();
             CargarCategorias();
-            CargarMarcas();
             CargarComboMarca();
             CargarComboCategoria();
-            CargarProductos(); // Refrescar el DataGridView
+            CargarProductos(); 
+
+            searchTimer = new System.Windows.Forms.Timer();
+            searchTimer.Interval = 300; // 300 milisegundos de retraso
+            searchTimer.Tick += SearchTimer_Tick;
+
+            txtBuscarProducto.TextChanged += TxtBuscarProducto_TextChanged;
         }
+
+        private void SearchTimer_Tick(object sender, EventArgs e)
+        {
+            searchTimer.Stop();
+            CargarProductos(txtBuscarProducto.Text.Trim());
+        }
+
+        private void TxtBuscarProducto_TextChanged(object sender, EventArgs e)
+        {
+            searchTimer.Stop();
+            searchTimer.Start();
+        }
+
+        //
+        private void CargarProductos(string filtro = "")
+        {
+            try
+            {
+                var query = productoServicio.ListarProductos()
+                    .Select(p => new
+                    {
+                        p.CodigoProducto,
+                        p.ModeloProducto,
+                        PrecioVenta = $"C$ {p.PrecioVenta:N2}", // Formatear con símbolo y 2 decimales
+                        p.StockActual,
+                        p.StockMinimo,
+                        Marca = p.IdMarcaNavigation?.Marca1 ?? "N/A",
+                        Categoria = p.IdCategoriaNavigation?.Categoria ?? "N/A",
+                        p.EstadoProducto,
+                    });
+
+                if (!string.IsNullOrWhiteSpace(filtro))
+                {
+                    query = query.Where(p =>
+                        p.CodigoProducto.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                        p.ModeloProducto.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                        p.Marca.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                        p.Categoria.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
+                        p.EstadoProducto.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase)
+                    );
+                }
+
+                var listaProductos = query.ToList();
+                DGPRODUCTOS.DataSource = null;
+                DGPRODUCTOS.DataSource = listaProductos;
+
+                // Configurar el nombre de la columna en el DataGridView
+                if (DGPRODUCTOS.Columns["CodigoProducto"] != null)
+                {
+                    DGPRODUCTOS.Columns["CodigoProducto"].HeaderText = "Código";
+                }
+
+                if (DGPRODUCTOS.Columns["ModeloProducto"] != null)
+                {
+                    DGPRODUCTOS.Columns["ModeloProducto"].HeaderText = "Nombre";
+                }
+
+                // Configurar la columna de precio para que mantenga el formato
+                if (DGPRODUCTOS.Columns["PrecioVenta"] != null)
+                {
+                    DGPRODUCTOS.Columns["PrecioVenta"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         //
         private void CargarComboCategoria()
         {
@@ -73,24 +145,7 @@ namespace formstienda
                 MessageBox.Show("Error al cargar combos: " + ex.Message);
             }
         }
-
-        //marcas
-        //private void CargarMarcas()
-        //{
-        //    var listaMarcas = _marcaServicio.ListarMarcas();
-
-        //    DGMARCAS.DataSource = null;
-        //    DGMARCAS.DataSource = listaMarcas;
-
-        //    // Configurar nombres de columnas
-        //    if (DGMARCAS.Columns.Count > 0)
-        //    {
-        //        DGMARCAS.Columns["IdMarcas"].HeaderText = "ID";
-        //        DGMARCAS.Columns["Marca"].HeaderText = "Nombre de Marca";
-        //        DGMARCAS.Columns["IdMarcas"].ReadOnly = true; // ID no editable
-        //    }
-        //}
-
+                
         //cargar las marcas
         private void CargarMarcas()
         {
@@ -123,7 +178,6 @@ namespace formstienda
                 DGCATEGORIAS.Columns["IdCategoria"].HeaderText = "ID";
                 DGCATEGORIAS.Columns["Categoria"].HeaderText = "Nombre de Categoría";
                 DGCATEGORIAS.Columns["IdCategoria"].ReadOnly = true; // ID no editable
-
             }
         }
 
@@ -174,30 +228,6 @@ namespace formstienda
         //
 
 
-        //private void DGMARCAS_BorrarCeldas(object sender, DataGridViewRowCancelEventArgs e)
-        //{
-        //    // Confirmar eliminación
-        //    var result = MessageBox.Show("¿Está seguro que desea eliminar esta marca?",
-        //                               "Confirmar eliminación",
-        //                               MessageBoxButtons.YesNo,
-        //                               MessageBoxIcon.Question);
-
-        //    if (result == DialogResult.No)
-        //    {
-        //        e.Cancel = true;
-        //        return;
-        //    }
-
-        //    // Obtener ID de la marca a eliminar
-        //    int idMarca = Convert.ToInt32(e.Row.Cells["IdMarcas"].Value);
-
-        //    // Intentar eliminar
-        //    if (!_marcaServicio.EliminarMarca(idMarca))
-        //    {
-        //        e.Cancel = true; // Cancelar eliminación si falla
-        //        CargarMarcas(); // Refrescar datos
-        //    }
-        //}
 
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -221,16 +251,9 @@ namespace formstienda
                 }
 
                 // Validación del precio de venta
-                if (!decimal.TryParse(txtPrecioVenta.Text, out decimal precioVenta) || precioVenta <= 0)
+                if (!decimal.TryParse(txtPrecioVenta.Text.Replace("C$", "").Trim(), out decimal precioVenta) || precioVenta <= 0)
                 {
                     MessageBox.Show("Por favor, ingrese un precio de venta válido (número positivo).");
-                    return;
-                }
-
-                // Validación del stock
-                if (!int.TryParse(txtStockActual.Text, out int stockActual) || stockActual < 0)
-                {
-                    MessageBox.Show("Por favor, ingrese un stock actual válido (número entero no negativo).");
                     return;
                 }
 
@@ -249,7 +272,6 @@ namespace formstienda
                     IdMarca = Convert.ToInt32(cmbMarcProduct.SelectedValue),
                     PrecioVenta = Convert.ToInt32(precioVenta),
                     EstadoProducto = cmbEstado.Text == "Activo" ? true : false,
-                    StockActual = stockActual,
                     StockMinimo = stockMinimo
                 };
 
@@ -301,7 +323,6 @@ namespace formstienda
             txtNombreProduct.Text = "";
             txtCodigoProduct.Text = "";
             txtPrecioVenta.Text = "";
-            txtStockActual.Text = "0";
             txtStockMinimo.Text = "0";
             cmbCategoriaProduc.SelectedIndex = -1;
             cmbMarcProduct.SelectedIndex = -1;
@@ -339,75 +360,7 @@ namespace formstienda
                 MessageBox.Show("No se pudo agregar la categoría.");
             }
         }
-        //
-        private void CargarProductos()
-        {
-            try
-            {
-                // Obtener lista de productos con información relacionada
-                var listaProductos = productoServicio.ListarProductos()
-                    .Select(p => new
-                    {
-                        p.CodigoProducto,
-                        p.ModeloProducto,
-                        p.PrecioVenta,
-                        p.StockActual,
-                        p.StockMinimo,
-                        Marca = p.IdMarcaNavigation?.Marca1 ?? "N/A",
-                        Categoria = p.IdCategoriaNavigation?.Categoria ?? "N/A",
-                        p.EstadoProducto,
-                    }).ToList();
-
-                // Configurar el DataGridView
-                DGPRODUCTOS.DataSource = null;
-                DGPRODUCTOS.DataSource = listaProductos;
-
-                // Configurar columnas
-                if (DGPRODUCTOS.Columns.Count > 0)
-                {
-                    // Orden y configuración de columnas
-                    var columnSettings = new List<(string Name, string Header, string Format, DataGridViewAutoSizeColumnMode SizeMode)>
-                    {
-                        ("CodigoProducto", "Código Producto", null, DataGridViewAutoSizeColumnMode.Fill),
-                        ("ModeloProducto", "Nombre Producto", null, DataGridViewAutoSizeColumnMode.Fill),
-                        ("PrecioVenta", "Precio Venta", "C2", DataGridViewAutoSizeColumnMode.Fill),
-                        ("Marca", "Marca", null, DataGridViewAutoSizeColumnMode.Fill),
-                        ("Categoria", "Categoría", null, DataGridViewAutoSizeColumnMode.Fill),
-                        ("StockActual", "Stock Actual", null, DataGridViewAutoSizeColumnMode.Fill),
-                        ("StockMinimo", "Stock Mínimo", null, DataGridViewAutoSizeColumnMode.Fill),
-                        ("EstadoProducto", "Estado", null, DataGridViewAutoSizeColumnMode.Fill),
-                    };
-
-                    for (int i = 0; i < columnSettings.Count; i++)
-                    {
-                        var setting = columnSettings[i];
-                        if (DGPRODUCTOS.Columns.Contains(setting.Name))
-                        {
-                            var col = DGPRODUCTOS.Columns[setting.Name];
-                            col.HeaderText = setting.Header;
-                            col.DisplayIndex = i;
-                            if (setting.Format != null) col.DefaultCellStyle.Format = setting.Format;
-                            col.AutoSizeMode = setting.SizeMode; // Esto se asegura de que todas las columnas ocupen todo el espacio disponible
-                            col.Visible = true;
-                        }
-                    }
-
-                    // Ocultar columnas no deseadas
-                    foreach (DataGridViewColumn col in DGPRODUCTOS.Columns)
-                    {
-                        if (!columnSettings.Any(c => c.Name == col.Name))
-                        {
-                            col.Visible = false;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error",
-                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        
 
 
         private void DGMARCAS_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -461,6 +414,7 @@ namespace formstienda
 
         }
 
+        //Editar Categoria
         private void DGCATEGORIAS_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -495,10 +449,13 @@ namespace formstienda
 
         }
 
+        //Editar producto
         private void DGPRODUCTOS_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            // Validar que se hizo doble clic en una celda válida (no cabecera ni fuera de rango)
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
+                // Obtener el código del producto desde la celda correspondiente
                 string codigo = DGPRODUCTOS.Rows[e.RowIndex].Cells["CodigoProducto"].Value?.ToString();
 
                 if (string.IsNullOrWhiteSpace(codigo))
@@ -507,6 +464,7 @@ namespace formstienda
                     return;
                 }
 
+                // Obtener el producto desde el servicio
                 var producto = productoServicio.ObtenerProductoPorCodigo(codigo);
                 if (producto == null)
                 {
@@ -516,23 +474,49 @@ namespace formstienda
 
                 bool cambios = false;
 
+                // Controlar qué columna fue doble clickeada
                 switch (e.ColumnIndex)
                 {
+
                     case 1: // Nombre del producto
                         string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox("Nuevo nombre:", "Editar Producto", producto.ModeloProducto);
                         if (!string.IsNullOrWhiteSpace(nuevoNombre))
                         {
-                            producto.ModeloProducto = nuevoNombre;
+                            if (nuevoNombre.Length > 100)
+                            {
+                                MessageBox.Show("El nombre del producto es demasiado largo.");
+                                return;
+                            }
+                            producto.ModeloProducto = nuevoNombre.Trim();
                             cambios = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El nombre no puede estar vacío.");
                         }
                         break;
 
                     case 2: // Precio de venta
-                        string nuevoPrecioStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo precio de venta:", "Editar Producto", producto.PrecioVenta.ToString("0.00"));
+                            // Eliminar el símbolo C$ si está presente para la edición
+                        string precioActual = producto.PrecioVenta.ToString("0.00");
+                        string nuevoPrecioStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo precio de venta (C$):", "Editar Producto", precioActual);
+
+                        // Eliminar el símbolo si el usuario lo copió
+                        nuevoPrecioStr = nuevoPrecioStr.Replace("C$", "").Trim();
+
                         if (float.TryParse(nuevoPrecioStr, out float nuevoPrecio))
                         {
+                            if (nuevoPrecio < 0)
+                            {
+                                MessageBox.Show("El precio no puede ser negativo.");
+                                return;
+                            }
                             producto.PrecioVenta = nuevoPrecio;
                             cambios = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ingrese un valor numérico válido para el precio.");
                         }
                         break;
 
@@ -540,8 +524,17 @@ namespace formstienda
                         string nuevoStockStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock actual:", "Editar Producto", producto.StockActual.ToString());
                         if (int.TryParse(nuevoStockStr, out int nuevoStock))
                         {
+                            if (nuevoStock <= 0)
+                            {
+                                MessageBox.Show("El stock no puede ser negativo.");
+                                return;
+                            }
                             producto.StockActual = nuevoStock;
                             cambios = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ingrese un número entero válido para el stock.");
                         }
                         break;
 
@@ -549,8 +542,17 @@ namespace formstienda
                         string nuevoStockMinStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo stock mínimo:", "Editar Producto", producto.StockMinimo.ToString());
                         if (int.TryParse(nuevoStockMinStr, out int nuevoStockMin))
                         {
+                            if (nuevoStockMin <= 0)
+                            {
+                                MessageBox.Show("El stock mínimo no puede ser negativo.");
+                                return;
+                            }
                             producto.StockMinimo = nuevoStockMin;
                             cambios = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ingrese un número entero válido para el stock mínimo.");
                         }
                         break;
 
@@ -564,22 +566,34 @@ namespace formstienda
                         break;
                 }
 
+                // Si se realizaron cambios, intentar guardar
                 if (cambios)
                 {
                     bool actualizado = productoServicio.ActualizarProducto(producto);
                     if (actualizado)
                     {
                         MessageBox.Show("Producto actualizado correctamente.");
-                        CargarProductos();
+                        CargarProductos(); // Refrescar la grilla
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo actualizar el producto.");
+                        MessageBox.Show("No se pudo actualizar el producto. Verifique los datos e intente nuevamente.");
                     }
                 }
             }
         }
 
+        // 
+        
 
+        private void pbBuscarProducto_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtBuscarProducto_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
