@@ -12,6 +12,9 @@ using formstienda;
 using Microsoft.Identity.Client;
 using formstienda.capa_de_negocios;
 using formstienda.Datos;
+using System.Globalization;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+
 
 namespace formstienda
 {
@@ -25,6 +28,9 @@ namespace formstienda
         private BindingList<Producto> Listaproducto;
         private VentaServicio VentaServicio;
         private BindingList<DetalleDeVentum> Listaventa;
+        private TasaServicio tasaServicio;
+        private int NUEVOIDVENTAREGISTRO;
+        public int STOCKACTUALPRODUCTO;
 
         public Factura()
         {
@@ -69,60 +75,6 @@ namespace formstienda
             CBmarcas.SelectedIndexChanged += ComboBox_Changed;
         }
 
-
-        //private void ComboBox_Changed(object sender, EventArgs e)
-        //{
-        //    string modelo = CBproductos.SelectedItem?.ToString();
-        //    string categoria = CBcategorias.SelectedItem?.ToString();
-        //    string marca = CBmarcas.SelectedItem?.ToString();
-
-        //    var filtrado = Listaproducto.Where(p =>
-        //        (string.IsNullOrEmpty(modelo) || p.ModeloProducto == modelo) &&
-        //        (string.IsNullOrEmpty(categoria) || p.IdCategoriaNavigation.Categoria == categoria) &&
-        //        (string.IsNullOrEmpty(marca) || p.IdMarcaNavigation.Marca1 == marca)
-        //    ).ToList();
-
-        //    // Evitar loops de eventos
-        //    CBproductos.SelectedIndexChanged -= ComboBox_Changed;
-        //    CBcategorias.SelectedIndexChanged -= ComboBox_Changed;
-        //    CBmarcas.SelectedIndexChanged -= ComboBox_Changed;
-
-        //    // Solo actualizar combos si no fue el que disparó el cambio
-        //    if (sender != CBproductos)
-        //        ActualizarCombo(CBproductos, filtrado.Select(p => p.ModeloProducto).Distinct().OrderBy(x => x).ToList(), modelo);
-        //    if (sender != CBcategorias)
-        //        ActualizarCombo(CBcategorias, filtrado.Select(p => p.IdCategoriaNavigation.Categoria).Distinct().OrderBy(x => x).ToList(), categoria);
-        //    if (sender != CBmarcas)
-        //        ActualizarCombo(CBmarcas, filtrado.Select(p => p.IdMarcaNavigation.Marca1).Distinct().OrderBy(x => x).ToList(), marca);
-
-        //    // Reconectar eventos
-        //    CBproductos.SelectedIndexChanged += ComboBox_Changed;
-        //    CBcategorias.SelectedIndexChanged += ComboBox_Changed;
-        //    CBmarcas.SelectedIndexChanged += ComboBox_Changed;
-
-        //    // Mostrar solo si el modelo está seleccionado y hay coincidencia clara
-        //    if (!string.IsNullOrEmpty(modelo) && filtrado.Count == 1)
-        //    {
-        //        var prod = filtrado.First();
-        //        txtprecio.Text = prod.PrecioVenta.ToString("N2");
-        //        txtcantidad.Text = "1";
-        //        txtmarca.Text = prod.IdMarcaNavigation.Marca1;
-        //        txtcategoria.Text = prod.IdCategoriaNavigation.Categoria;
-        //        txtproducto.Text = prod.ModeloProducto;
-        //        txtcodigoproducto.Text = prod.CodigoProducto;
-        //        txtstock.Text = Convert.ToString(prod.StockActual);
-        //    }
-        //    else
-        //    {
-        //        txtprecio.Clear();
-        //        txtcantidad.Clear();
-        //        txtmarca.Clear();
-        //        txtcategoria.Clear();
-        //        txtproducto.Clear();
-        //        txtstock.Clear();
-        //        txtcodigoproducto.Clear();
-        //    }
-        //}
         public class ProductoSeleccionado
         {
             public string CodigoProducto { get; set; }
@@ -132,6 +84,8 @@ namespace formstienda
             public double PrecioVenta { get; set; }
             public int Cantidad { get; set; }
             public double Subtotal => PrecioVenta * Cantidad;  // Calcular el subtotal
+            public int stockactualproducto;
+            
         }
 
         private ProductoSeleccionado productoSeleccionadoTemporal = null;
@@ -166,17 +120,25 @@ namespace formstienda
             CBcategorias.SelectedIndexChanged += ComboBox_Changed;
             CBmarcas.SelectedIndexChanged += ComboBox_Changed;
 
-            // Mostrar solo si el modelo está seleccionado y hay coincidencia clara
             if (!string.IsNullOrEmpty(modelo) && filtrado.Count == 1)
             {
                 var prod = filtrado.First();
                 txtprecio.Text = prod.PrecioVenta.ToString("N2");
-                txtcantidad.Text = "1";
+
+               
                 txtmarca.Text = prod.IdMarcaNavigation.Marca1;
                 txtcategoria.Text = prod.IdCategoriaNavigation.Categoria;
                 txtproducto.Text = prod.ModeloProducto;
                 txtcodigoproducto.Text = prod.CodigoProducto;
                 txtstock.Text = Convert.ToString(prod.StockActual);
+                int cantidad;
+                if (!int.TryParse(txtcantidad.Text, out cantidad))
+                {
+                    cantidad = 1; // valor por defecto si no se puede convertir
+                }
+                txtcantidad.Text = cantidad.ToString();
+                // esto puede no ser necesario si solo querías validar
+
 
                 // Guardar los datos del producto en una variable temporal
                 productoSeleccionadoTemporal = new ProductoSeleccionado
@@ -186,7 +148,9 @@ namespace formstienda
                     Marca = prod.IdMarcaNavigation.Marca1,
                     Categoria = prod.IdCategoriaNavigation.Categoria,
                     PrecioVenta = prod.PrecioVenta,
-                    Cantidad = int.Parse(txtcantidad.Text) // Establecer cantidad, por defecto 1
+                    stockactualproducto = (int)prod.StockActual,
+
+                    // La cantidad la leerás al momento de hacer clic en Agregar
                 };
             }
             else
@@ -365,7 +329,7 @@ namespace formstienda
             Listaventa = new BindingList<DetalleDeVentum>(); // simplemente iniciar la lista vacía
             ClienteServicio clienteServicio = new ClienteServicio();
 
-
+            tasaServicio = new TasaServicio();
             var productos = productoServicio.ListarProductos();
             Listaproducto = new BindingList<Producto>(productos);
 
@@ -373,6 +337,13 @@ namespace formstienda
             {
                 CargarCombos(productos);
             }
+            txtpago.KeyUp += txtpago_KeyUp;
+            txtfaltante.KeyUp += txtfaltante_KeyUp;
+            txtpago.KeyDown += txtpago_KeyDown;
+            txtfaltante.KeyDown += txtfaltante_KeyDown;
+            CargarNumeroFactura();
+
+
 
         }
 
@@ -567,8 +538,74 @@ namespace formstienda
 
         private void btnguardar_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(cedulaClienteActual))
+            {
+                MessageBox.Show("Primero debe buscar un cliente.");
+                return;
+            }
+            if (dgmostrar.Rows.Count == 0 || (dgmostrar.Rows.Count == 1 && dgmostrar.Rows[0].IsNewRow))
+            {
+                MessageBox.Show("Debe agregar al menos un producto a la factura.");
+                return;
+            }
 
+            var venta = new Ventum
+            {
+
+
+                IdVenta = NUEVOIDVENTAREGISTRO,
+                CedulaCliente = cedulaClienteActual,
+                FechaVenta = DateOnly.FromDateTime(DateTime.Now),
+                TipoPago = ObtenerTipoPagoSeleccionado(), // Asegúrate de implementar esta lógica según tus radios
+                PagoCordobas = float.TryParse(txtpago.Text, out float cordobas) ? cordobas : 0f,
+                PagoDolares = float.TryParse(txtfaltante.Text, out float dolares) ? dolares : 0f,
+                CambioVenta = float.TryParse(txtcambio.Text, out float cambio) ? cambio : 0f,
+                SubTotal = CalcularSubtotal(), // Debes tener una función que sume los subtotales
+                TotalVenta = float.TryParse(txttotal.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out float total) ? total : 0f,
+
+            };
+
+            var detalles = new List<DetalleDeVentum>();
+
+            foreach (DataGridViewRow row in dgmostrar.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                string codProd = row.Cells["CodigoProducto"].Value?.ToString();
+                var producto = Listaproducto.FirstOrDefault(p => p.CodigoProducto == codProd);
+                if (producto == null) continue;
+
+                int cantidadVendida = Convert.ToInt32(row.Cells["Cantidad"].Value);
+
+                var detalle = new DetalleDeVentum
+                {
+                    IdVenta = NUEVOIDVENTAREGISTRO,
+                    CodigoProducto = producto.CodigoProducto,
+                    Cantidad = cantidadVendida,
+                    Precio = row.Cells["Precio"].Value?.ToString() ?? producto.PrecioVenta.ToString("N2"),
+                    CedulaCliente = cedulaClienteActual
+                };
+
+                // ⚠️ Restar al stock actual
+                producto.StockActual -= cantidadVendida;
+
+                detalles.Add(detalle);
+            }
+
+            var servicio = new VentaServicio();
+            if (servicio.AgregarVentaConDetalles(venta, detalles))
+            {
+                MessageBox.Show("Venta guardada correctamente.");
+                LimpiarFormulario();
+                cedulaClienteActual = string.Empty;
+                CargarNumeroFactura();
+            }
+            else
+            {
+                MessageBox.Show("Error al guardar la venta.");
+            }
         }
+        
 
         private void dgmostrar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -601,20 +638,37 @@ namespace formstienda
         private void btnagregar_Click(object sender, EventArgs e)
         {
             if (productoSeleccionadoTemporal != null)
-            {
-                // Agregar el producto seleccionado al DataGridView
-                AgregarAlDataGridView(productoSeleccionadoTemporal);
+    {
+        // Validar cantidad ingresada
+        if (!int.TryParse(txtcantidad.Text, out int cantidadIngresada) || cantidadIngresada <= 0)
+        {
+            MessageBox.Show("Ingrese una cantidad válida.");
+            return;
+        }
 
-                // Limpiar la selección temporal
-                productoSeleccionadoTemporal = null;
+        // Validar stock disponible
+        if (cantidadIngresada > productoSeleccionadoTemporal.stockactualproducto)
+        {
+            MessageBox.Show($"Stock insuficiente para {productoSeleccionadoTemporal.ModeloProducto}. Disponible: {productoSeleccionadoTemporal.stockactualproducto}");
+            return;
+        }
 
-                // Limpiar los campos de texto
-                LimpiarCampos();
-            }
-            else
-            {
-                MessageBox.Show("Por favor, seleccione un producto antes de agregar.");
-            }
+        // Asignar la cantidad al producto antes de agregar
+        productoSeleccionadoTemporal.Cantidad = cantidadIngresada;
+
+        // Agregar el producto al DataGridView
+        AgregarAlDataGridView(productoSeleccionadoTemporal);
+
+        // Limpiar la selección temporal
+        productoSeleccionadoTemporal = null;
+
+        // Limpiar campos de texto
+        LimpiarCampos();
+    }
+    else
+    {
+        MessageBox.Show("Por favor, seleccione un producto antes de agregar.");
+    }
         }
         private void LimpiarCampos()
         {
@@ -643,79 +697,146 @@ namespace formstienda
             txtcambio.Clear();
             txtpago.Clear();
             txtfaltante.Clear();
+
+
         }
 
-        private int idClienteActual = 0;
+        private string cedulaClienteActual = string.Empty;
 
-        private void btnguardar_Click_1(object sender, EventArgs e)
+        private void CargarNumeroFactura()
         {
-            if (idClienteActual == 0)
+            int nuevoIdVenta = VentaServicio.ObtenerUltimoIdVenta() + 1;
+            NUEVOIDVENTAREGISTRO = nuevoIdVenta;
+            txtnumerofactura.Text = nuevoIdVenta.ToString();
+        }
+
+        private void btnguardar_Click_1(object sender, EventArgs e, int nuevoIdVenta)
+        {
+
+         
+        }
+
+        private void BuscarCliente()
+        {
+            string criterio = txtbuscarcliente.Text.Trim();
+            string tipoBusqueda = CBBUSCARPOR.SelectedItem?.ToString();
+
+            using (var _context = new DbTiendaSeptentrionContext())
             {
-                MessageBox.Show("Primero debe buscar un cliente.");
-                return;
+                List<Cliente> resultados;
+
+                if (tipoBusqueda == "Cédula")
+                {
+                    resultados = _context.Clientes
+                        .Where(c => c.CedulaCliente.Contains(criterio))
+                        .ToList();
+                }
+                else if (tipoBusqueda == "Telefono")
+                {
+                    resultados = _context.Clientes
+                        .Where(c => c.TelefonoCliente.Contains(criterio))
+                        .ToList();
+                }
+                else
+                {
+                    // Por si acaso no se selecciona nada
+                    MessageBox.Show("Seleccione un tipo de búsqueda.");
+                    return;
+                }
+
+                if (resultados.Count == 0)
+                {
+                    MessageBox.Show("Cliente no encontrado.");
+                }
+                else
+                {
+                    var cliente = resultados.First();
+                    txtnombrecliente.Text = cliente.NombreCliente;
+                    lblcliente.Text = cliente.CedulaCliente;
+                    cedulaClienteActual = lblcliente.Text;
+
+                }
             }
+        }
 
-            var venta = new Ventum
-            {
-                FechaVenta = DateOnly.FromDateTime(DateTime.Now),
-            };
 
-            var detalles = new List<DetalleDeVentum>();
+        private string ObtenerTipoPagoSeleccionado()
+        {
+            string tipoPago = rbcontado.Checked ? "Contado" : (rbcredito.Checked ? "Crédito" : "");
+            return tipoPago;
 
+        }
+
+        private float CalcularSubtotal()
+        {
+            float subtotal = 0f;
             foreach (DataGridViewRow row in dgmostrar.Rows)
             {
                 if (row.IsNewRow) continue;
-
-                string codProd = row.Cells["CodigoProducto"].Value?.ToString();
-                var producto = Listaproducto.FirstOrDefault(p => p.CodigoProducto == codProd);
-                if (producto == null) continue;
-
-                var detalle = new DetalleDeVentum
+                if (float.TryParse(row.Cells["Subtotal"].Value?.ToString(), out float sub))
                 {
-                    IdProducto = producto.IdProducto,
-                    IdCategoria = producto.IdCategoria,
-                    IdMarca = producto.IdMarca,
-                     // ✅ Aquí lo agregas
-                    Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
-                    TotalPago = Convert.ToDouble(row.Cells["Subtotal"].Value),
-                    IdCliente = idClienteActual // ✅ TAMBIÉN AQUÍ
-                };
+                    subtotal += sub;
+                }
+            }
+            return subtotal;
+        }
 
-                detalles.Add(detalle);
-            }
+        private void txtpago_TextChanged(object sender, EventArgs e)
+        {
+            CalcularCambio();
+        }
 
-            var servicio = new VentaServicio();
-            if (servicio.AgregarVentaConDetalles(venta, detalles))
-            {
-                MessageBox.Show("Venta guardada correctamente.");
-                LimpiarFormulario();
-                idClienteActual = 0; // limpiar cliente actual
-            }
-            else
-            {
-                MessageBox.Show("Error al guardar la venta.");
-            }
+        private void txtfaltante_TextChanged(object sender, EventArgs e)
+        {
+            CalcularCambio();
+        }
+
+        private void CalcularCambio()
+        {
+            if (!float.TryParse(txttotal.Text, System.Globalization.NumberStyles.Currency, null, out float totalVenta))
+                totalVenta = 0f;
+
+            float pagoCordobas = float.TryParse(txtpago.Text, out float cordobas) ? cordobas : 0f;
+            float pagoDolares = float.TryParse(txtfaltante.Text, out float dolares) ? dolares : 0f;
+            float tasaActual = tasaServicio.ObtenerTasaDeHoy().ValorCambio; // Asume que tienes esta función
+
+            float totalPagado = (pagoCordobas) + (pagoDolares * tasaActual);
+            float cambio = totalPagado - totalVenta;
+
+            txtcambio.Text = cambio >= 0 ? cambio.ToString("N2") : "0.00";
+        }
+
+
+        private void txtpago_KeyUp(object sender, KeyEventArgs e)
+        {
+            CalcularCambio();
+
+
+        }
+
+        private void txtfaltante_KeyUp(object sender, KeyEventArgs e)
+        {
+            CalcularCambio();
+        }
+
+        private void txtpago_KeyDown(object sender, KeyEventArgs e)
+        {
+            CalcularCambio();
+        }
+
+        private void txtfaltante_KeyDown(object sender, KeyEventArgs e)
+        {
+            CalcularCambio();
         }
 
         private void Busquedacliente_Click(object sender, EventArgs e)
         {
-            string numero = txtbuscarcliente.Text.Trim();
-            var cliente = clienteServicio.BuscarClientePorNumero(numero);
-
-            if (cliente != null)
-            {
-                txtnombrecliente.Text = cliente.NombreCliente + " " + cliente.ApellidoCliente;
-                lblcliente.Text = cliente.IdCliente.ToString(); // solo si lo muestras
-                idClienteActual = cliente.IdCliente; // ✅ GUARDAMOS EL ID
-            }
-            else
-            {
-                MessageBox.Show("Cliente no encontrado.");
-            }
+            BuscarCliente();
         }
 
-
+     
     }
+
 }
 
 

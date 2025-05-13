@@ -5,8 +5,6 @@ namespace formstienda.Datos;
 
 public partial class Proveedor
 {
-    public int IdProveedor { get; set; }
-
     public string CodigoRuc { get; set; } = null!;
 
     public string NombreProveedor { get; set; } = null!;
@@ -17,8 +15,7 @@ public partial class Proveedor
 
     public string? CorreoProveedor { get; set; }
 
-    public bool?
-        EstadoProveedor { get; set; }
+    public bool EstadoProveedor { get; set; }
 
     public virtual ICollection<Compra> Compras { get; set; } = new List<Compra>();
 }

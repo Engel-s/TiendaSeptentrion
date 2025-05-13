@@ -7,27 +7,19 @@ public partial class PagoDeCredito
 {
     public int IdCredito { get; set; }
 
-    public int IdFactura { get; set; }
-
-    public int IdProducto { get; set; }
-
-    public int IdCategoria { get; set; }
-
-    public int IdMarca { get; set; }
-
-    public int IdCliente { get; set; }
-
     public int IdVenta { get; set; }
 
-    public double TotalAbonado { get; set; }
+    public string EstadoCredito { get; set; } = null!;
 
-    public double? PagoCordobas { get; set; }
+    public float TotalAbonado { get; set; }
 
-    public double? PagoDolares { get; set; }
+    public float? PagoCordobas { get; set; }
 
-    public double Cambio { get; set; }
+    public float? PagoDolares { get; set; }
 
-    public double NuevoSaldo { get; set; }
+    public float Cambio { get; set; }
 
-    public virtual DetalleDeVentum DetalleDeVentum { get; set; } = null!;
+    public float NuevoSaldo { get; set; }
+
+    public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }

@@ -62,7 +62,7 @@ namespace formstienda.capa_de_negocios
             {
                 using (var contexto = new DbTiendaSeptentrionContext())
                 {
-                    var proveedorExistente = contexto.Proveedors.Find(proveedor.IdProveedor);
+                    var proveedorExistente = contexto.Proveedors.Find(proveedor.CodigoRuc);
                     if (proveedorExistente == null)
                     {
                         Console.WriteLine("Proveedor no encontrado");

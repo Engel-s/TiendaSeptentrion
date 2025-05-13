@@ -41,10 +41,10 @@
             label14 = new Label();
             label16 = new Label();
             label17 = new Label();
-            radioButton2 = new RadioButton();
-            radioButton1 = new RadioButton();
+            rbcredito = new RadioButton();
+            rbcontado = new RadioButton();
             textBox22 = new TextBox();
-            label45 = new Label();
+            lblcolillainss = new Label();
             checkBox1 = new CheckBox();
             txtbuscarcliente = new TextBox();
             txtcategoria = new TextBox();
@@ -53,11 +53,11 @@
             txtcambio = new TextBox();
             txtnombrecliente = new TextBox();
             txttotal = new TextBox();
-            txtnumero = new TextBox();
+            txtnumerofactura = new TextBox();
             txtprecio = new TextBox();
             txtcantidad = new TextBox();
             label9 = new Label();
-            comboBox5 = new ComboBox();
+            CBBUSCARPOR = new ComboBox();
             pictureBox6 = new PictureBox();
             pictureBox5 = new PictureBox();
             pictureBox4 = new PictureBox();
@@ -98,6 +98,10 @@
             label22 = new Label();
             lbltelefonocliente = new Label();
             lblcliente = new TextBox();
+            lblinteres = new Label();
+            txtinteresparaloscreditos = new TextBox();
+            lblnumeroplazos = new Label();
+            cbnumerodeplazos = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)fechafactura).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -133,6 +137,9 @@
             txtfaltante.Name = "txtfaltante";
             txtfaltante.Size = new Size(134, 27);
             txtfaltante.TabIndex = 124;
+            txtfaltante.TextChanged += txtfaltante_TextChanged;
+            txtfaltante.KeyDown += txtfaltante_KeyDown;
+            txtfaltante.KeyUp += txtfaltante_KeyUp;
             // 
             // dateTimePicker1
             // 
@@ -173,6 +180,9 @@
             txtpago.Name = "txtpago";
             txtpago.Size = new Size(134, 27);
             txtpago.TabIndex = 115;
+            txtpago.TextChanged += txtpago_TextChanged;
+            txtpago.KeyDown += txtpago_KeyDown;
+            txtpago.KeyUp += txtpago_KeyUp;
             // 
             // label14
             // 
@@ -205,64 +215,64 @@
             label17.AutoSize = true;
             label17.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label17.ForeColor = Color.Black;
-            label17.Location = new Point(872, 297);
+            label17.Location = new Point(970, 225);
             label17.Margin = new Padding(2, 0, 2, 0);
             label17.Name = "label17";
             label17.Size = new Size(125, 20);
             label17.TabIndex = 119;
             label17.Text = "Forma de pago:";
             // 
-            // radioButton2
+            // rbcredito
             // 
-            radioButton2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            radioButton2.AutoSize = true;
-            radioButton2.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            radioButton2.ForeColor = Color.Black;
-            radioButton2.Location = new Point(992, 330);
-            radioButton2.Margin = new Padding(2, 3, 2, 3);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(86, 24);
-            radioButton2.TabIndex = 145;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "Crédito";
-            radioButton2.UseVisualStyleBackColor = true;
+            rbcredito.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            rbcredito.AutoSize = true;
+            rbcredito.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            rbcredito.ForeColor = Color.Black;
+            rbcredito.Location = new Point(1100, 276);
+            rbcredito.Margin = new Padding(2, 3, 2, 3);
+            rbcredito.Name = "rbcredito";
+            rbcredito.Size = new Size(86, 24);
+            rbcredito.TabIndex = 145;
+            rbcredito.TabStop = true;
+            rbcredito.Text = "Crédito";
+            rbcredito.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rbcontado
             // 
-            radioButton1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            radioButton1.AutoSize = true;
-            radioButton1.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            radioButton1.ForeColor = Color.Black;
-            radioButton1.Location = new Point(874, 330);
-            radioButton1.Margin = new Padding(2, 3, 2, 3);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(95, 24);
-            radioButton1.TabIndex = 144;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Contado";
-            radioButton1.UseVisualStyleBackColor = true;
+            rbcontado.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            rbcontado.AutoSize = true;
+            rbcontado.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            rbcontado.ForeColor = Color.Black;
+            rbcontado.Location = new Point(970, 276);
+            rbcontado.Margin = new Padding(2, 3, 2, 3);
+            rbcontado.Name = "rbcontado";
+            rbcontado.Size = new Size(95, 24);
+            rbcontado.TabIndex = 144;
+            rbcontado.TabStop = true;
+            rbcontado.Text = "Contado";
+            rbcontado.UseVisualStyleBackColor = true;
             // 
             // textBox22
             // 
             textBox22.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            textBox22.Location = new Point(992, 365);
+            textBox22.Location = new Point(1030, 310);
             textBox22.Margin = new Padding(2, 5, 2, 5);
             textBox22.Name = "textBox22";
-            textBox22.Size = new Size(226, 27);
+            textBox22.Size = new Size(188, 27);
             textBox22.TabIndex = 143;
             // 
-            // label45
+            // lblcolillainss
             // 
-            label45.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            label45.AutoSize = true;
-            label45.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label45.ForeColor = Color.Black;
-            label45.Location = new Point(872, 368);
-            label45.Margin = new Padding(2, 0, 2, 0);
-            label45.Name = "label45";
-            label45.Size = new Size(112, 20);
-            label45.TabIndex = 142;
-            label45.Text = "Colillas INSS:";
+            lblcolillainss.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblcolillainss.AutoSize = true;
+            lblcolillainss.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblcolillainss.ForeColor = Color.Black;
+            lblcolillainss.Location = new Point(901, 313);
+            lblcolillainss.Margin = new Padding(2, 0, 2, 0);
+            lblcolillainss.Name = "lblcolillainss";
+            lblcolillainss.Size = new Size(112, 20);
+            lblcolillainss.TabIndex = 142;
+            lblcolillainss.Text = "Colillas INSS:";
             // 
             // checkBox1
             // 
@@ -340,14 +350,14 @@
             txttotal.Size = new Size(134, 27);
             txttotal.TabIndex = 109;
             // 
-            // txtnumero
+            // txtnumerofactura
             // 
-            txtnumero.Location = new Point(168, 155);
-            txtnumero.Margin = new Padding(2, 5, 2, 5);
-            txtnumero.Name = "txtnumero";
-            txtnumero.ReadOnly = true;
-            txtnumero.Size = new Size(130, 27);
-            txtnumero.TabIndex = 103;
+            txtnumerofactura.Location = new Point(168, 155);
+            txtnumerofactura.Margin = new Padding(2, 5, 2, 5);
+            txtnumerofactura.Name = "txtnumerofactura";
+            txtnumerofactura.ReadOnly = true;
+            txtnumerofactura.Size = new Size(130, 27);
+            txtnumerofactura.TabIndex = 103;
             // 
             // txtprecio
             // 
@@ -378,15 +388,15 @@
             label9.TabIndex = 135;
             label9.Text = "Buscar por:";
             // 
-            // comboBox5
+            // CBBUSCARPOR
             // 
-            comboBox5.FormattingEnabled = true;
-            comboBox5.Items.AddRange(new object[] { "Teléfono", "Nombre del cliente" });
-            comboBox5.Location = new Point(326, 65);
-            comboBox5.Margin = new Padding(2, 5, 2, 5);
-            comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(156, 28);
-            comboBox5.TabIndex = 134;
+            CBBUSCARPOR.FormattingEnabled = true;
+            CBBUSCARPOR.Items.AddRange(new object[] { "Cédula", "Telefono" });
+            CBBUSCARPOR.Location = new Point(326, 65);
+            CBBUSCARPOR.Margin = new Padding(2, 5, 2, 5);
+            CBBUSCARPOR.Name = "CBBUSCARPOR";
+            CBBUSCARPOR.Size = new Size(156, 28);
+            CBBUSCARPOR.TabIndex = 134;
             // 
             // pictureBox6
             // 
@@ -531,7 +541,7 @@
             btnguardar.TabIndex = 120;
             btnguardar.Text = "Guardar";
             btnguardar.UseVisualStyleBackColor = false;
-            btnguardar.Click += btnguardar_Click_1;
+            btnguardar.Click += btnguardar_Click;
             // 
             // Busquedacliente
             // 
@@ -825,9 +835,9 @@
             lbltelefonocliente.Location = new Point(782, 111);
             lbltelefonocliente.Margin = new Padding(2, 0, 2, 0);
             lbltelefonocliente.Name = "lbltelefonocliente";
-            lbltelefonocliente.Size = new Size(84, 20);
+            lbltelefonocliente.Size = new Size(65, 20);
             lbltelefonocliente.TabIndex = 159;
-            lbltelefonocliente.Text = "Telefono: ";
+            lbltelefonocliente.Text = "Cédula ";
             // 
             // lblcliente
             // 
@@ -835,8 +845,53 @@
             lblcliente.Margin = new Padding(2, 5, 2, 5);
             lblcliente.Name = "lblcliente";
             lblcliente.ReadOnly = true;
-            lblcliente.Size = new Size(121, 27);
+            lblcliente.Size = new Size(176, 27);
             lblcliente.TabIndex = 160;
+            // 
+            // lblinteres
+            // 
+            lblinteres.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblinteres.AutoSize = true;
+            lblinteres.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblinteres.ForeColor = Color.Black;
+            lblinteres.Location = new Point(861, 347);
+            lblinteres.Margin = new Padding(2, 0, 2, 0);
+            lblinteres.Name = "lblinteres";
+            lblinteres.Size = new Size(156, 20);
+            lblinteres.TabIndex = 161;
+            lblinteres.Text = "Interés para crédito:";
+            // 
+            // txtinteresparaloscreditos
+            // 
+            txtinteresparaloscreditos.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtinteresparaloscreditos.Location = new Point(1030, 347);
+            txtinteresparaloscreditos.Margin = new Padding(2, 5, 2, 5);
+            txtinteresparaloscreditos.Name = "txtinteresparaloscreditos";
+            txtinteresparaloscreditos.Size = new Size(188, 27);
+            txtinteresparaloscreditos.TabIndex = 162;
+            // 
+            // lblnumeroplazos
+            // 
+            lblnumeroplazos.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblnumeroplazos.AutoSize = true;
+            lblnumeroplazos.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblnumeroplazos.ForeColor = Color.Black;
+            lblnumeroplazos.Location = new Point(870, 384);
+            lblnumeroplazos.Margin = new Padding(2, 0, 2, 0);
+            lblnumeroplazos.Name = "lblnumeroplazos";
+            lblnumeroplazos.Size = new Size(147, 20);
+            lblnumeroplazos.TabIndex = 163;
+            lblnumeroplazos.Text = "Número de plazos:";
+            // 
+            // cbnumerodeplazos
+            // 
+            cbnumerodeplazos.FormattingEnabled = true;
+            cbnumerodeplazos.Items.AddRange(new object[] { "Cédula", "Telefono" });
+            cbnumerodeplazos.Location = new Point(1030, 384);
+            cbnumerodeplazos.Margin = new Padding(2, 5, 2, 5);
+            cbnumerodeplazos.Name = "cbnumerodeplazos";
+            cbnumerodeplazos.Size = new Size(188, 28);
+            cbnumerodeplazos.TabIndex = 164;
             // 
             // Factura
             // 
@@ -844,6 +899,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(238, 238, 238);
             ClientSize = new Size(1314, 882);
+            Controls.Add(cbnumerodeplazos);
+            Controls.Add(lblnumeroplazos);
+            Controls.Add(txtinteresparaloscreditos);
+            Controls.Add(lblinteres);
             Controls.Add(lblcliente);
             Controls.Add(lbltelefonocliente);
             Controls.Add(label22);
@@ -862,10 +921,10 @@
             Controls.Add(label14);
             Controls.Add(label16);
             Controls.Add(label17);
-            Controls.Add(radioButton2);
-            Controls.Add(radioButton1);
+            Controls.Add(rbcredito);
+            Controls.Add(rbcontado);
             Controls.Add(textBox22);
-            Controls.Add(label45);
+            Controls.Add(lblcolillainss);
             Controls.Add(checkBox1);
             Controls.Add(txtbuscarcliente);
             Controls.Add(txtcategoria);
@@ -874,11 +933,11 @@
             Controls.Add(txtcambio);
             Controls.Add(txtnombrecliente);
             Controls.Add(txttotal);
-            Controls.Add(txtnumero);
+            Controls.Add(txtnumerofactura);
             Controls.Add(txtprecio);
             Controls.Add(txtcantidad);
             Controls.Add(label9);
-            Controls.Add(comboBox5);
+            Controls.Add(CBBUSCARPOR);
             Controls.Add(pictureBox6);
             Controls.Add(pictureBox5);
             Controls.Add(pictureBox4);
@@ -934,10 +993,10 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rbcredito;
+        private System.Windows.Forms.RadioButton rbcontado;
         private System.Windows.Forms.TextBox textBox22;
-        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.Label lblcolillainss;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TextBox txtbuscarcliente;
         private System.Windows.Forms.TextBox txtcategoria;
@@ -946,11 +1005,11 @@
         private System.Windows.Forms.TextBox txtcambio;
         private System.Windows.Forms.TextBox txtnombrecliente;
         private System.Windows.Forms.TextBox txttotal;
-        private System.Windows.Forms.TextBox txtnumero;
+        private System.Windows.Forms.TextBox txtnumerofactura;
         private System.Windows.Forms.TextBox txtprecio;
         private System.Windows.Forms.TextBox txtcantidad;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.ComboBox CBBUSCARPOR;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox pictureBox4;
@@ -991,5 +1050,9 @@
         private DataGridViewTextBoxColumn Cantidad;
         private DataGridViewTextBoxColumn Subtotal;
         private DataGridViewTextBoxColumn eliminar;
+        private Label lblnumeroplazos;
+        private TextBox txtinteresparaloscreditos;
+        private Label lblinteres;
+        private ComboBox cbnumerodeplazos;
     }
 }
