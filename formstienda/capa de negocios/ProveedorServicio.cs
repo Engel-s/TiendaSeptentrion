@@ -109,14 +109,14 @@ namespace formstienda.capa_de_negocios
             }
         }
 
-        /*public int ObtenerIdPorNombre(string NombreProveedor)
+       public string ObtenerCodigoRucPorNombre(string NombreCompleto)
         {
             using(var context = new DbTiendaSeptentrionContext())
             {
                 var proveedor = context.Proveedors
-                    .FirstOrDefault(p => p.NombreProveedor == NombreProveedor);
-                return proveedor != null ? proveedor.CodigoRuc : 0;
+                    .FirstOrDefault(p => (p.NombreProveedor + " " + p.ApellidoProveedor).ToLower() == NombreCompleto.ToLower());
+                return proveedor != null ? proveedor.CodigoRuc : "0" ;
             }
-        }*/
+        }
     }
 }

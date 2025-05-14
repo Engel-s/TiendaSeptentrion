@@ -132,6 +132,60 @@ namespace formstienda.capa_de_negocios
                 return contexto.Productos.Any(p => p.CodigoProducto == codigo);
             }
         }
+        public void AumentarStock(string codigoProducto, int cantidad)
+        {
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                try
+                {
+                    Console.WriteLine($"Buscando producto con código: {codigoProducto}");
+                    var producto = context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
+
+                    if (producto != null)
+                    {
+                        Console.WriteLine($"Stock actual antes: {producto.StockActual}");
+                        producto.StockActual = (producto.StockActual ?? 0) + cantidad;
+                        context.SaveChanges();
+                        Console.WriteLine($"Stock actualizado. Nuevo stock: {producto.StockActual}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Producto no encontrado.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error al actualizar el stock: {ex.Message}");
+                }
+            }
+        }
+
+        public void DisminuirStock(string codigoProducto, int cantidad)
+        {
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                var producto = context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
+                if (producto != null)
+                {
+                    producto.StockActual -= cantidad;
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        public void ActualizarPrecioVenta(string codigoProducto, float nuevoPrecio)
+        {
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                var producto = context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
+                if (producto != null)
+                {
+                    producto.PrecioVenta = nuevoPrecio;
+                    context.SaveChanges();
+                }
+            }
+        }
+
 
         // Método para liberar recursos del contexto cuando se termine de usar
         public void Dispose()

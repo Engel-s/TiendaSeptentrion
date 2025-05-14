@@ -7,10 +7,6 @@ public partial class DetalleDeVentum
 {
     public int IdDetalleVenta { get; set; }
 
-    public int IdCategoria { get; set; }
-
-    public int IdMarca { get; set; }
-
     public int IdVenta { get; set; }
 
     public string CodigoProducto { get; set; } = null!;
@@ -21,7 +17,7 @@ public partial class DetalleDeVentum
 
     public string CedulaCliente { get; set; } = null!;
 
-    public virtual Producto Producto { get; set; } = null!;
+    public virtual Producto CodigoProductoNavigation { get; set; } = null!;
 
-    public virtual Ventum Ventum { get; set; } = null!;
+    public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }

@@ -21,7 +21,5 @@ public partial class PagoDeCredito
 
     public float NuevoSaldo { get; set; }
 
-    public string CedulaCliente { get; set; } = null!;
-
-    public virtual Ventum Ventum { get; set; } = null!;
+    public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }

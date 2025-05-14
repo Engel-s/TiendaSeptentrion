@@ -36,10 +36,8 @@
             pictureBox4 = new PictureBox();
             btnSalir = new Button();
             btnGuardar = new Button();
-            txtCodigo_ruc = new TextBox();
             txtNombre_proveedor = new TextBox();
             txtCorreo = new TextBox();
-            txtTelefono = new TextBox();
             label5 = new Label();
             label4 = new Label();
             label2 = new Label();
@@ -49,6 +47,8 @@
             txtApellido_proveedores = new TextBox();
             cmbestado = new ComboBox();
             dtgproveedores = new DataGridView();
+            txtCodigo_ruc = new MaskedTextBox();
+            txtTelefono = new MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgproveedores).BeginInit();
@@ -70,7 +70,7 @@
             // 
             // pictureBox6
             // 
-            pictureBox6.Anchor = AnchorStyles.Bottom;
+            pictureBox6.Anchor = AnchorStyles.Right;
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
             pictureBox6.Location = new Point(813, 730);
             pictureBox6.Margin = new Padding(3, 2, 3, 2);
@@ -82,6 +82,7 @@
             // 
             // pictureBox4
             // 
+            pictureBox4.Anchor = AnchorStyles.Top;
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
             pictureBox4.Location = new Point(24, 317);
             pictureBox4.Margin = new Padding(3, 2, 3, 2);
@@ -93,7 +94,7 @@
             // 
             // btnSalir
             // 
-            btnSalir.Anchor = AnchorStyles.Bottom;
+            btnSalir.Anchor = AnchorStyles.Right;
             btnSalir.BackColor = Color.FromArgb(3, 171, 229);
             btnSalir.Cursor = Cursors.Hand;
             btnSalir.FlatStyle = FlatStyle.Popup;
@@ -110,6 +111,7 @@
             // 
             // btnGuardar
             // 
+            btnGuardar.Anchor = AnchorStyles.Top;
             btnGuardar.BackColor = Color.FromArgb(3, 171, 229);
             btnGuardar.Cursor = Cursors.Hand;
             btnGuardar.FlatStyle = FlatStyle.Popup;
@@ -123,15 +125,6 @@
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
             btnGuardar.Click += btnGuardar_Click;
-            // 
-            // txtCodigo_ruc
-            // 
-            txtCodigo_ruc.Anchor = AnchorStyles.Top;
-            txtCodigo_ruc.Location = new Point(180, 133);
-            txtCodigo_ruc.Margin = new Padding(3, 2, 3, 2);
-            txtCodigo_ruc.Name = "txtCodigo_ruc";
-            txtCodigo_ruc.Size = new Size(205, 27);
-            txtCodigo_ruc.TabIndex = 77;
             // 
             // txtNombre_proveedor
             // 
@@ -150,15 +143,6 @@
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(234, 27);
             txtCorreo.TabIndex = 75;
-            // 
-            // txtTelefono
-            // 
-            txtTelefono.Anchor = AnchorStyles.Top;
-            txtTelefono.Location = new Point(180, 189);
-            txtTelefono.Margin = new Padding(3, 2, 3, 2);
-            txtTelefono.Name = "txtTelefono";
-            txtTelefono.Size = new Size(205, 27);
-            txtTelefono.TabIndex = 74;
             // 
             // label5
             // 
@@ -255,7 +239,7 @@
             // dtgproveedores
             // 
             dtgproveedores.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            dtgproveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            dtgproveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgproveedores.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
@@ -282,12 +266,33 @@
             dtgproveedores.CellContentClick += dtgproveedores_CellContentClick;
             dtgproveedores.CellEndEdit += dtgproveedores_CellEndEdit;
             // 
+            // txtCodigo_ruc
+            // 
+            txtCodigo_ruc.Anchor = AnchorStyles.Top;
+            txtCodigo_ruc.Location = new Point(180, 134);
+            txtCodigo_ruc.Mask = "000-000000-0000>L";
+            txtCodigo_ruc.Name = "txtCodigo_ruc";
+            txtCodigo_ruc.Size = new Size(133, 27);
+            txtCodigo_ruc.TabIndex = 87;
+            // 
+            // txtTelefono
+            // 
+            txtTelefono.Anchor = AnchorStyles.Top;
+            txtTelefono.Location = new Point(180, 189);
+            txtTelefono.Mask = "0000-0000";
+            txtTelefono.Name = "txtTelefono";
+            txtTelefono.Size = new Size(114, 27);
+            txtTelefono.TabIndex = 88;
+            txtTelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            // 
             // Proveedores
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(989, 789);
+            Controls.Add(txtTelefono);
+            Controls.Add(txtCodigo_ruc);
             Controls.Add(dtgproveedores);
             Controls.Add(cmbestado);
             Controls.Add(txtApellido_proveedores);
@@ -296,10 +301,8 @@
             Controls.Add(pictureBox4);
             Controls.Add(btnSalir);
             Controls.Add(btnGuardar);
-            Controls.Add(txtCodigo_ruc);
             Controls.Add(txtNombre_proveedor);
             Controls.Add(txtCorreo);
-            Controls.Add(txtTelefono);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label2);
@@ -328,10 +331,9 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.TextBox txtCodigo_ruc;
+     
         private System.Windows.Forms.TextBox txtNombre_proveedor;
         private System.Windows.Forms.TextBox txtCorreo;
-        private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
@@ -341,5 +343,7 @@
         private System.Windows.Forms.TextBox txtApellido_proveedores;
         private ComboBox cmbestado;
         private DataGridView dtgproveedores;
+        private MaskedTextBox txtCodigo_ruc;
+        private MaskedTextBox txtTelefono;
     }
 }

@@ -137,7 +137,7 @@ namespace formstienda.capa_de_negocios
             }
         }
 
-        public int ObtenerIdPorNombreMarca(string nombre)
+        /*public int ObtenerIdPorNombreMarca(string nombre)
         {
             using (var context = new DbTiendaSeptentrionContext())
             {
@@ -145,7 +145,7 @@ namespace formstienda.capa_de_negocios
                     .FirstOrDefault(p => p.Marca1 == nombre);
                 return marca != null ? marca.IdMarca : 0;
             }
-        }
+        }*/
 
     }
 }

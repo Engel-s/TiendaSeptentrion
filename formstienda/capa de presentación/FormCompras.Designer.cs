@@ -31,13 +31,14 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCompras));
             label9 = new Label();
-            button4 = new Button();
-            textBox7 = new TextBox();
+            btnregistrar = new Button();
+            txtsubtotalcompra = new TextBox();
             button3 = new Button();
             dtgcompras = new DataGridView();
-            button2 = new Button();
+            btncancelar = new Button();
             datefecha = new DateTimePicker();
             label18 = new Label();
             txtprecioventa = new TextBox();
@@ -46,7 +47,6 @@
             label16 = new Label();
             label15 = new Label();
             label1 = new Label();
-            txtbuscartelefono = new TextBox();
             label14 = new Label();
             label3 = new Label();
             txtnombreproveedor = new TextBox();
@@ -57,7 +57,7 @@
             label7 = new Label();
             label12 = new Label();
             txtcantidadproducto = new TextBox();
-            textBox8 = new TextBox();
+            txtnumerofactura = new TextBox();
             label11 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
             cmbmarcas = new ComboBox();
@@ -69,6 +69,7 @@
             label8 = new Label();
             btnagregar = new Button();
             btnnuevo = new Button();
+            txtbuscartelefono = new MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)dtgcompras).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -90,30 +91,32 @@
             label9.TabIndex = 71;
             label9.Text = "Total a Pagar";
             // 
-            // button4
+            // btnregistrar
             // 
-            button4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button4.BackColor = Color.FromArgb(3, 171, 229);
-            button4.Cursor = Cursors.Hand;
-            button4.FlatStyle = FlatStyle.Popup;
-            button4.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.ForeColor = Color.Black;
-            button4.Location = new Point(1217, 702);
-            button4.Margin = new Padding(2);
-            button4.Name = "button4";
-            button4.Size = new Size(118, 42);
-            button4.TabIndex = 74;
-            button4.Text = "Registrar";
-            button4.UseVisualStyleBackColor = false;
+            btnregistrar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnregistrar.BackColor = Color.FromArgb(3, 171, 229);
+            btnregistrar.Cursor = Cursors.Hand;
+            btnregistrar.FlatStyle = FlatStyle.Popup;
+            btnregistrar.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnregistrar.ForeColor = Color.Black;
+            btnregistrar.Location = new Point(1217, 702);
+            btnregistrar.Margin = new Padding(2);
+            btnregistrar.Name = "btnregistrar";
+            btnregistrar.Size = new Size(118, 42);
+            btnregistrar.TabIndex = 74;
+            btnregistrar.Text = "Registrar";
+            btnregistrar.UseVisualStyleBackColor = false;
+            btnregistrar.Click += button4_Click;
             // 
-            // textBox7
+            // txtsubtotalcompra
             // 
-            textBox7.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            textBox7.Location = new Point(1202, 610);
-            textBox7.Margin = new Padding(2);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(134, 27);
-            textBox7.TabIndex = 72;
+            txtsubtotalcompra.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            txtsubtotalcompra.Location = new Point(1202, 610);
+            txtsubtotalcompra.Margin = new Padding(2);
+            txtsubtotalcompra.Name = "txtsubtotalcompra";
+            txtsubtotalcompra.ReadOnly = true;
+            txtsubtotalcompra.Size = new Size(134, 27);
+            txtsubtotalcompra.TabIndex = 72;
             // 
             // button3
             // 
@@ -134,49 +137,62 @@
             // 
             // dtgcompras
             // 
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dtgcompras.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dtgcompras.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dtgcompras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgcompras.BackgroundColor = Color.FromArgb(238, 238, 238);
+            dtgcompras.BorderStyle = BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dtgcompras.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgcompras.ColumnHeadersHeight = 29;
-            dtgcompras.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.BackColor = Color.Transparent;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = Color.White;
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dtgcompras.DefaultCellStyle = dataGridViewCellStyle2;
             dtgcompras.Location = new Point(12, 432);
             dtgcompras.Margin = new Padding(2);
             dtgcompras.Name = "dtgcompras";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgcompras.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dtgcompras.RowHeadersWidth = 62;
             dtgcompras.RowTemplate.Height = 28;
             dtgcompras.Size = new Size(1138, 337);
             dtgcompras.TabIndex = 69;
             // 
-            // button2
+            // btncancelar
             // 
-            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button2.BackColor = Color.FromArgb(3, 171, 229);
-            button2.Cursor = Cursors.Hand;
-            button2.FlatStyle = FlatStyle.Popup;
-            button2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.Black;
-            button2.Location = new Point(1217, 756);
-            button2.Margin = new Padding(2);
-            button2.Name = "button2";
-            button2.Size = new Size(118, 42);
-            button2.TabIndex = 70;
-            button2.Text = "Cancelar";
-            button2.UseVisualStyleBackColor = false;
+            btncancelar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btncancelar.BackColor = Color.FromArgb(3, 171, 229);
+            btncancelar.Cursor = Cursors.Hand;
+            btncancelar.FlatStyle = FlatStyle.Popup;
+            btncancelar.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btncancelar.ForeColor = Color.Black;
+            btncancelar.Location = new Point(1217, 756);
+            btncancelar.Margin = new Padding(2);
+            btncancelar.Name = "btncancelar";
+            btncancelar.Size = new Size(118, 42);
+            btncancelar.TabIndex = 70;
+            btncancelar.Text = "Cancelar";
+            btncancelar.UseVisualStyleBackColor = false;
+            btncancelar.Click += button2_Click_1;
             // 
             // datefecha
             // 
             datefecha.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            datefecha.Location = new Point(1044, 74);
+            datefecha.Location = new Point(1074, 112);
             datefecha.Margin = new Padding(2, 5, 2, 5);
             datefecha.Name = "datefecha";
             datefecha.Size = new Size(262, 27);
@@ -188,7 +204,7 @@
             label18.AutoSize = true;
             label18.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label18.ForeColor = Color.Black;
-            label18.Location = new Point(856, 74);
+            label18.Location = new Point(880, 114);
             label18.Margin = new Padding(2, 0, 2, 0);
             label18.Name = "label18";
             label18.Padding = new Padding(10, 0, 10, 0);
@@ -202,7 +218,6 @@
             txtprecioventa.Location = new Point(731, 346);
             txtprecioventa.Margin = new Padding(2);
             txtprecioventa.Name = "txtprecioventa";
-            txtprecioventa.ReadOnly = true;
             txtprecioventa.Size = new Size(138, 27);
             txtprecioventa.TabIndex = 88;
             txtprecioventa.TextChanged += textBox12_TextChanged_1;
@@ -210,7 +225,7 @@
             // pictureBox2
             // 
             pictureBox2.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
-            pictureBox2.Location = new Point(339, 114);
+            pictureBox2.Location = new Point(245, 112);
             pictureBox2.Margin = new Padding(2);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(36, 37);
@@ -264,14 +279,6 @@
             label1.Text = "Teléfono:";
             label1.Click += label1_Click;
             // 
-            // txtbuscartelefono
-            // 
-            txtbuscartelefono.Location = new Point(124, 115);
-            txtbuscartelefono.Margin = new Padding(2);
-            txtbuscartelefono.Name = "txtbuscartelefono";
-            txtbuscartelefono.Size = new Size(196, 27);
-            txtbuscartelefono.TabIndex = 60;
-            // 
             // label14
             // 
             label14.AutoSize = true;
@@ -290,7 +297,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(410, 115);
+            label3.Location = new Point(371, 118);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
             label3.Size = new Size(85, 22);
@@ -299,7 +306,7 @@
             // 
             // txtnombreproveedor
             // 
-            txtnombreproveedor.Location = new Point(519, 114);
+            txtnombreproveedor.Location = new Point(471, 118);
             txtnombreproveedor.Margin = new Padding(2);
             txtnombreproveedor.Name = "txtnombreproveedor";
             txtnombreproveedor.ReadOnly = true;
@@ -384,13 +391,14 @@
             txtcantidadproducto.Size = new Size(78, 27);
             txtcantidadproducto.TabIndex = 68;
             // 
-            // textBox8
+            // txtnumerofactura
             // 
-            textBox8.Location = new Point(130, 230);
-            textBox8.Margin = new Padding(2);
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(81, 27);
-            textBox8.TabIndex = 76;
+            txtnumerofactura.Location = new Point(130, 230);
+            txtnumerofactura.Margin = new Padding(2);
+            txtnumerofactura.Name = "txtnumerofactura";
+            txtnumerofactura.ReadOnly = true;
+            txtnumerofactura.Size = new Size(81, 27);
+            txtnumerofactura.TabIndex = 76;
             // 
             // label11
             // 
@@ -506,7 +514,7 @@
             btnnuevo.FlatStyle = FlatStyle.Popup;
             btnnuevo.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnnuevo.ForeColor = Color.Black;
-            btnnuevo.Location = new Point(779, 114);
+            btnnuevo.Location = new Point(731, 118);
             btnnuevo.Margin = new Padding(2);
             btnnuevo.Name = "btnnuevo";
             btnnuevo.Size = new Size(90, 29);
@@ -515,12 +523,23 @@
             btnnuevo.UseVisualStyleBackColor = false;
             btnnuevo.Click += btnnuevo_Click;
             // 
+            // txtbuscartelefono
+            // 
+            txtbuscartelefono.Location = new Point(127, 118);
+            txtbuscartelefono.Mask = "0000-0000";
+            txtbuscartelefono.Name = "txtbuscartelefono";
+            txtbuscartelefono.Size = new Size(103, 27);
+            txtbuscartelefono.TabIndex = 140;
+            txtbuscartelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            txtbuscartelefono.MaskInputRejected += txtbuscartelefono_MaskInputRejected;
+            // 
             // FormCompras
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(238, 238, 238);
             ClientSize = new Size(1362, 882);
+            Controls.Add(txtbuscartelefono);
             Controls.Add(btnnuevo);
             Controls.Add(btnagregar);
             Controls.Add(cmbproducto);
@@ -530,11 +549,11 @@
             Controls.Add(cmbcategoria);
             Controls.Add(cmbmarcas);
             Controls.Add(label9);
-            Controls.Add(button4);
-            Controls.Add(textBox7);
+            Controls.Add(btnregistrar);
+            Controls.Add(txtsubtotalcompra);
             Controls.Add(button3);
             Controls.Add(dtgcompras);
-            Controls.Add(button2);
+            Controls.Add(btncancelar);
             Controls.Add(label8);
             Controls.Add(datefecha);
             Controls.Add(label18);
@@ -544,7 +563,6 @@
             Controls.Add(label16);
             Controls.Add(label15);
             Controls.Add(label1);
-            Controls.Add(txtbuscartelefono);
             Controls.Add(label14);
             Controls.Add(label3);
             Controls.Add(txtnombreproveedor);
@@ -555,7 +573,7 @@
             Controls.Add(label7);
             Controls.Add(label12);
             Controls.Add(txtcantidadproducto);
-            Controls.Add(textBox8);
+            Controls.Add(txtnumerofactura);
             Controls.Add(label11);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2);
@@ -577,11 +595,11 @@
         #endregion
 
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Button btnregistrar;
+        private System.Windows.Forms.TextBox txtsubtotalcompra;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dtgcompras;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btncancelar;
         private System.Windows.Forms.DateTimePicker datefecha;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox txtprecioventa;
@@ -590,7 +608,6 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtbuscartelefono;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtnombreproveedor;
@@ -601,7 +618,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtcantidadproducto;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox txtnumerofactura;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ComboBox cmbmarcas;
@@ -613,5 +630,6 @@
         private Label label8;
         private Button btnagregar;
         private Button btnnuevo;
+        private MaskedTextBox txtbuscartelefono;
     }
 }

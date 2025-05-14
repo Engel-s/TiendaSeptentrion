@@ -114,13 +114,13 @@ namespace formstienda
 
             aperturaServicio?.Agregarfondo(apertura);
             //ListaAperturas?.Add(apertura);
-            MessageBox.Show("Apertura de caja registrada correctamente.");
+            /*MessageBox.Show("Apertura de caja registrada correctamente.");
             var tasadecambio = new TasaDeCambio
             {
                 //FechaCambio = DateTime.Now,
                 //ValorCambio = decimal.Parse(txtTasaCambio.Text),
 
-            };
+            };*/
 
             //Validar si ya existe una tasa registrada hoy
             //var tasaExistente = tasaServicio?.Listatasas()
@@ -131,7 +131,7 @@ namespace formstienda
             //    return;
             //}
 
-            tasaServicio?.AgregarTasa(tasadecambio);
+            //tasaServicio?.AgregarTasa(tasadecambio);
             //Listatasacambios?.Add(tasadecambio);
             MessageBox.Show("Tasa de cambio registrada correctamente.");
         }
