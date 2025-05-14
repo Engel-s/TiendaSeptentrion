@@ -5,7 +5,7 @@ namespace formstienda.Datos;
 
 public partial class Producto
 {
-    public int IdProducto { get; set; }
+    public string CodigoProducto { get; set; } = null!;
 
     public int IdCategoria { get; set; }
 
@@ -13,11 +13,15 @@ public partial class Producto
 
     public string ModeloProducto { get; set; } = null!;
 
-    public double PrecioVenta { get; set; }
+    public float PrecioVenta { get; set; }
 
     public bool EstadoProducto { get; set; }
 
-    public virtual ICollection<Compra> Compras { get; set; } = new List<Compra>();
+    public int? StockMinimo { get; set; }
+
+    public int? StockActual { get; set; }
+
+    public virtual ICollection<DetalleCompra> DetalleCompras { get; set; } = new List<DetalleCompra>();
 
     public virtual ICollection<DetalleDeVentum> DetalleDeVenta { get; set; } = new List<DetalleDeVentum>();
 
@@ -25,5 +29,5 @@ public partial class Producto
 
     public virtual Marca IdMarcaNavigation { get; set; } = null!;
 
-    public virtual ICollection<Inventario> Inventarios { get; set; } = new List<Inventario>();
+    public virtual ICollection<OtrasSalidasDeInventario> OtrasSalidasDeInventarios { get; set; } = new List<OtrasSalidasDeInventario>();
 }

@@ -5,7 +5,7 @@ namespace formstienda.Datos;
 
 public partial class Cliente
 {
-    public int IdCliente { get; set; }
+    public string CedulaCliente { get; set; } = null!;
 
     public string NombreCliente { get; set; } = null!;
 
@@ -15,11 +15,9 @@ public partial class Cliente
 
     public string TelefonoCliente { get; set; } = null!;
 
-    public string CedulaCliente { get; set; } = null!;
-
-    public string ColillaInssCliente { get; set; } = null!;
+    public string? ColillaInssCliente { get; set; }
 
     public string? DireccionCliente { get; set; }
 
-    public virtual ICollection<DetalleDeVentum> DetalleDeVenta { get; set; } = new List<DetalleDeVentum>();
+    public virtual ICollection<Ventum> Venta { get; set; } = new List<Ventum>();
 }
