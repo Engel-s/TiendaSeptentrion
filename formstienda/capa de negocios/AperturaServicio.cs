@@ -1,4 +1,5 @@
 ﻿using formstienda.Datos;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,23 @@ namespace formstienda.capa_de_negocios
 {
     public class AperturaServicio
     {
+        public List<AperturaCaja> Listaapertura()
+        {
+            try
+            {
+                using (var _context = new DbTiendaSeptentrionContext())
+                {
+                    // select from * usuarios
+                    return _context.AperturaCajas.AsNoTracking().ToList();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<AperturaCaja>();
+            }
+        }
         public bool Agregarfondo(AperturaCaja aperturaCaja)
         {
             if (aperturaCaja == null)
@@ -37,6 +55,27 @@ namespace formstienda.capa_de_negocios
                 MessageBox.Show(errorMessage, "Error al registrar fondo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+
         }
+        public AperturaCaja? ObtenerAperturaHoy()
+        {
+            try
+            {
+                using (var _context = new DbTiendaSeptentrionContext())
+                {
+                    var hoy = DateOnly.FromDateTime(DateTime.Today);
+                    return _context.AperturaCajas
+                                   .AsNoTracking()
+                                   .FirstOrDefault(a => a.FechaApertura == hoy);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al obtener apertura de hoy: " + ex.Message);
+                return null;
+            }
+        }
+
+
     }
 }

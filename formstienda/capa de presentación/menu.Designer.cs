@@ -532,6 +532,7 @@
             lblhora.TabIndex = 2;
             lblhora.Text = "label1";
             lblhora.TextAlign = ContentAlignment.BottomRight;
+            //lblhora.Click += lblhora_Click;
             // 
             // lblfecha
             // 
@@ -541,7 +542,7 @@
             lblfecha.ForeColor = Color.Black;
             lblfecha.Location = new Point(16, 775);
             lblfecha.Name = "lblfecha";
-            lblfecha.Size = new Size(163, 57);
+            lblfecha.Size = new Size(152, 55);
             lblfecha.TabIndex = 1;
             lblfecha.Text = "label1";
             lblfecha.TextAlign = ContentAlignment.BottomLeft;

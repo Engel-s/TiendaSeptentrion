@@ -9,31 +9,193 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using formstienda;
+using Microsoft.Identity.Client;
+using formstienda.capa_de_negocios;
+using formstienda.Datos;
+using System.Globalization;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+
 
 namespace formstienda
 {
-    
+
     public partial class Factura : Form
     {
-        List<factura> listafactura = new List<factura>();
-        List<persona> listapersona = new List<persona>();
-
-        string nombre, producto;
-        double  precio,total = 0;
-        int cantidad, indice;
-        string codigo;
-        Claseinventario claseinventario;
-        List<(string IDPRODUCTO, int Cantidad)> productosExtraidos = new List<(string, int)>();
-
-
+        private ProductoServicio productoServicio;
+        private UsuarioServicio usuarioServicio;
+        private ClienteServicio clienteServicio;
+        private AperturaServicio aperturaServicio;
+        private BindingList<Producto> Listaproducto;
+        private VentaServicio VentaServicio;
+        private BindingList<DetalleDeVentum> Listaventa;
+        private TasaServicio tasaServicio;
+        private int NUEVOIDVENTAREGISTRO;
+        public int STOCKACTUALPRODUCTO;
 
         public Factura()
         {
             InitializeComponent();
-            claseinventario=Claseinventario.Instance;
+            productoServicio = new ProductoServicio();
+            usuarioServicio = new UsuarioServicio();
+            clienteServicio = new ClienteServicio();
+            aperturaServicio = new AperturaServicio();
 
         }
-        
+        private void CargarCombos(List<Producto> productos)
+        {
+            CBproductos.SelectedIndexChanged -= ComboBox_Changed;
+            CBcategorias.SelectedIndexChanged -= ComboBox_Changed;
+            CBmarcas.SelectedIndexChanged -= ComboBox_Changed;
+
+            CBproductos.DataSource = productos
+                .Select(p => p.ModeloProducto)
+                .Distinct()
+                .OrderBy(m => m)
+                .ToList();
+
+            CBcategorias.DataSource = productos
+                .Select(p => p.IdCategoriaNavigation.Categoria)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            CBmarcas.DataSource = productos
+                .Select(p => p.IdMarcaNavigation.Marca1)
+                .Distinct()
+                .OrderBy(m => m)
+                .ToList();
+
+            // <- Aquí lo importante: seleccionar ninguno
+            CBproductos.SelectedIndex = -1;
+            CBcategorias.SelectedIndex = -1;
+            CBmarcas.SelectedIndex = -1;
+
+            CBproductos.SelectedIndexChanged += ComboBox_Changed;
+            CBcategorias.SelectedIndexChanged += ComboBox_Changed;
+            CBmarcas.SelectedIndexChanged += ComboBox_Changed;
+        }
+
+        public class ProductoSeleccionado
+        {
+            public string CodigoProducto { get; set; }
+            public string ModeloProducto { get; set; }
+            public string Marca { get; set; }
+            public string Categoria { get; set; }
+            public double PrecioVenta { get; set; }
+            public int Cantidad { get; set; }
+            public double Subtotal => PrecioVenta * Cantidad;  // Calcular el subtotal
+            public int stockactualproducto;
+            
+        }
+
+        private ProductoSeleccionado productoSeleccionadoTemporal = null;
+
+        private void ComboBox_Changed(object sender, EventArgs e)
+        {
+            string modelo = CBproductos.SelectedItem?.ToString();
+            string categoria = CBcategorias.SelectedItem?.ToString();
+            string marca = CBmarcas.SelectedItem?.ToString();
+
+            var filtrado = Listaproducto.Where(p =>
+                (string.IsNullOrEmpty(modelo) || p.ModeloProducto == modelo) &&
+                (string.IsNullOrEmpty(categoria) || p.IdCategoriaNavigation.Categoria == categoria) &&
+                (string.IsNullOrEmpty(marca) || p.IdMarcaNavigation.Marca1 == marca)
+            ).ToList();
+
+            // Evitar loops de eventos
+            CBproductos.SelectedIndexChanged -= ComboBox_Changed;
+            CBcategorias.SelectedIndexChanged -= ComboBox_Changed;
+            CBmarcas.SelectedIndexChanged -= ComboBox_Changed;
+
+            // Solo actualizar combos si no fue el que disparó el cambio
+            if (sender != CBproductos)
+                ActualizarCombo(CBproductos, filtrado.Select(p => p.ModeloProducto).Distinct().OrderBy(x => x).ToList(), modelo);
+            if (sender != CBcategorias)
+                ActualizarCombo(CBcategorias, filtrado.Select(p => p.IdCategoriaNavigation.Categoria).Distinct().OrderBy(x => x).ToList(), categoria);
+            if (sender != CBmarcas)
+                ActualizarCombo(CBmarcas, filtrado.Select(p => p.IdMarcaNavigation.Marca1).Distinct().OrderBy(x => x).ToList(), marca);
+
+            // Reconectar eventos
+            CBproductos.SelectedIndexChanged += ComboBox_Changed;
+            CBcategorias.SelectedIndexChanged += ComboBox_Changed;
+            CBmarcas.SelectedIndexChanged += ComboBox_Changed;
+
+            if (!string.IsNullOrEmpty(modelo) && filtrado.Count == 1)
+            {
+                var prod = filtrado.First();
+                txtprecio.Text = prod.PrecioVenta.ToString("N2");
+
+               
+                txtmarca.Text = prod.IdMarcaNavigation.Marca1;
+                txtcategoria.Text = prod.IdCategoriaNavigation.Categoria;
+                txtproducto.Text = prod.ModeloProducto;
+                txtcodigoproducto.Text = prod.CodigoProducto;
+                txtstock.Text = Convert.ToString(prod.StockActual);
+                int cantidad;
+                if (!int.TryParse(txtcantidad.Text, out cantidad))
+                {
+                    cantidad = 1; // valor por defecto si no se puede convertir
+                }
+                txtcantidad.Text = cantidad.ToString();
+                // esto puede no ser necesario si solo querías validar
+
+
+                // Guardar los datos del producto en una variable temporal
+                productoSeleccionadoTemporal = new ProductoSeleccionado
+                {
+                    CodigoProducto = prod.CodigoProducto,
+                    ModeloProducto = prod.ModeloProducto,
+                    Marca = prod.IdMarcaNavigation.Marca1,
+                    Categoria = prod.IdCategoriaNavigation.Categoria,
+                    PrecioVenta = prod.PrecioVenta,
+                    stockactualproducto = (int)prod.StockActual,
+
+                    // La cantidad la leerás al momento de hacer clic en Agregar
+                };
+            }
+            else
+            {
+                txtprecio.Clear();
+                txtcantidad.Clear();
+                txtmarca.Clear();
+                txtcategoria.Clear();
+                txtproducto.Clear();
+                txtstock.Clear();
+                txtcodigoproducto.Clear();
+            }
+        }
+
+
+
+        private void ActualizarCombo(System.Windows.Forms.ComboBox combo, List<string> datosFiltrados, string valorSeleccionado)
+        {
+            // Obtener todas las opciones posibles según el ComboBox
+            var todos = combo == CBproductos
+                ? Listaproducto.Select(p => p.ModeloProducto).Distinct()
+                : combo == CBcategorias
+                    ? Listaproducto.Select(p => p.IdCategoriaNavigation.Categoria).Distinct()
+                    : Listaproducto.Select(p => p.IdMarcaNavigation.Marca1).Distinct();
+
+            // Ordenar: primero los filtrados (en el orden original), luego los restantes (ordenados)
+            var noFiltrados = todos.Except(datosFiltrados).OrderBy(x => x);
+            var final = datosFiltrados.Concat(noFiltrados).ToList();
+
+            // Evitar refrescos innecesarios
+            combo.DataSource = null;
+            combo.DataSource = final;
+
+            // Restaurar selección si es válida
+            if (!string.IsNullOrEmpty(valorSeleccionado) && final.Contains(valorSeleccionado))
+                combo.SelectedItem = valorSeleccionado;
+            else
+                combo.SelectedIndex = -1;
+        }
+
+
+
+
+
+
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
@@ -52,10 +214,10 @@ namespace formstienda
             txtprecio.Enabled = false;
             btnagregar.Enabled = false;
             btncancelar.Enabled = false;
-            
+
             btnguardar.Enabled = false;
             txtcambio.Enabled = false;
-            txtsaldo.Enabled = false;
+
             txttotal.Enabled = false;
         }
         public void ActivarControles()
@@ -65,11 +227,11 @@ namespace formstienda
             txtcantidad.Enabled = true;
             txtprecio.Enabled = true;
             btnagregar.Enabled = true;
-            btncancelar .Enabled = true;
-            
-            txttotal .Enabled = true;
-            txtcambio .Enabled = true;
-            txtsaldo .Enabled = true;
+            btncancelar.Enabled = true;
+
+            txttotal.Enabled = true;
+            txtcambio.Enabled = true;
+
         }
         public void ActivarDatosFactura()
         {
@@ -81,18 +243,17 @@ namespace formstienda
         public void LimpiarFactura()
         {
             txtnombrecliente.Clear();
- 
+
             txtcantidad.Clear();
             txtprecio.Clear();
-           
+
             txtpago.Clear();
             txtfaltante.Clear();
-            txttotal.Clear();
-            txtsaldo .Clear();
+
             txtcambio.Clear();
             dgmostrar.Rows.Clear();
-          
-        }  
+
+        }
         public void LimpiarControles()
         {
             txtcantidad.Text = "";
@@ -101,7 +262,7 @@ namespace formstienda
 
         public void MostrarDatosListaObjetos()
         {
-            
+
         }
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -125,15 +286,7 @@ namespace formstienda
 
         private void button3_Click(object sender, EventArgs e)
         {// Restaurar el stock de los productos extraídos
-            foreach (var item in productosExtraidos)
-            {
-                claseinventario.RestaurarStock(item.IDPRODUCTO, item.Cantidad);
-            }
 
-            // Limpiar los datos de la factura y la lista de productos extraídos
-            LimpiarFactura();
-            listafactura.Clear();
-            productosExtraidos.Clear();
 
             MessageBox.Show("Factura cancelada y productos devueltos al inventario.");
 
@@ -151,7 +304,7 @@ namespace formstienda
 
         private void txtfecha_TextChanged(object sender, EventArgs e)
         {
-           
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -161,17 +314,36 @@ namespace formstienda
 
         private void button4_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void lblfecha_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Factura_Load(object sender, EventArgs e)
         {
-            
+            productoServicio = new ProductoServicio(); // ya lo haces
+            VentaServicio = new VentaServicio();
+            Listaventa = new BindingList<DetalleDeVentum>(); // simplemente iniciar la lista vacía
+            ClienteServicio clienteServicio = new ClienteServicio();
+
+            tasaServicio = new TasaServicio();
+            var productos = productoServicio.ListarProductos();
+            Listaproducto = new BindingList<Producto>(productos);
+
+            if (Listaproducto.Count > 0)
+            {
+                CargarCombos(productos);
+            }
+            txtpago.KeyUp += txtpago_KeyUp;
+            txtfaltante.KeyUp += txtfaltante_KeyUp;
+            txtpago.KeyDown += txtpago_KeyDown;
+            txtfaltante.KeyDown += txtfaltante_KeyDown;
+            CargarNumeroFactura();
+
+
 
         }
 
@@ -193,7 +365,7 @@ namespace formstienda
         private void txtpago_Leave(object sender, EventArgs e)
         {
 
- 
+
         }
 
         private void radCordoba_CheckedChanged(object sender, EventArgs e)
@@ -339,7 +511,7 @@ namespace formstienda
 
         private void facturafecha_Tick(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label14_Click_2(object sender, EventArgs e)
@@ -354,48 +526,317 @@ namespace formstienda
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            this.Close() ;
+            this.Close();
         }
 
         private void btneditar_Click(object sender, EventArgs e)
         {
-  
-            listafactura[indice] = new factura(precio, cantidad);
-            listapersona[indice] = new persona(nombre, producto);
+
             LimpiarControles();
 
         }
 
         private void btnguardar_Click(object sender, EventArgs e)
         {
-            
+            if (string.IsNullOrEmpty(cedulaClienteActual))
+            {
+                MessageBox.Show("Primero debe buscar un cliente.");
+                return;
+            }
+            if (dgmostrar.Rows.Count == 0 || (dgmostrar.Rows.Count == 1 && dgmostrar.Rows[0].IsNewRow))
+            {
+                MessageBox.Show("Debe agregar al menos un producto a la factura.");
+                return;
+            }
+
+            var venta = new Ventum
+            {
+
+
+                IdVenta = NUEVOIDVENTAREGISTRO,
+                CedulaCliente = cedulaClienteActual,
+                FechaVenta = DateOnly.FromDateTime(DateTime.Now),
+                TipoPago = ObtenerTipoPagoSeleccionado(), // Asegúrate de implementar esta lógica según tus radios
+                PagoCordobas = float.TryParse(txtpago.Text, out float cordobas) ? cordobas : 0f,
+                PagoDolares = float.TryParse(txtfaltante.Text, out float dolares) ? dolares : 0f,
+                CambioVenta = float.TryParse(txtcambio.Text, out float cambio) ? cambio : 0f,
+                SubTotal = CalcularSubtotal(), // Debes tener una función que sume los subtotales
+                TotalVenta = float.TryParse(txttotal.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out float total) ? total : 0f,
+
+            };
+
+            var detalles = new List<DetalleDeVentum>();
+
+            foreach (DataGridViewRow row in dgmostrar.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                string codProd = row.Cells["CodigoProducto"].Value?.ToString();
+                var producto = Listaproducto.FirstOrDefault(p => p.CodigoProducto == codProd);
+                if (producto == null) continue;
+
+                int cantidadVendida = Convert.ToInt32(row.Cells["Cantidad"].Value);
+
+                var detalle = new DetalleDeVentum
+                {
+                    IdVenta = NUEVOIDVENTAREGISTRO,
+                    CodigoProducto = producto.CodigoProducto,
+                    Cantidad = cantidadVendida,
+                    Precio = row.Cells["Precio"].Value?.ToString() ?? producto.PrecioVenta.ToString("N2"),
+                    CedulaCliente = cedulaClienteActual
+                };
+
+                // ⚠️ Restar al stock actual
+                producto.StockActual -= cantidadVendida;
+
+                detalles.Add(detalle);
+            }
+
+            var servicio = new VentaServicio();
+            if (servicio.AgregarVentaConDetalles(venta, detalles))
+            {
+                MessageBox.Show("Venta guardada correctamente.");
+                LimpiarFormulario();
+                cedulaClienteActual = string.Empty;
+                CargarNumeroFactura();
+            }
+            else
+            {
+                MessageBox.Show("Error al guardar la venta.");
+            }
         }
+        
 
         private void dgmostrar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            indice = dgmostrar.CurrentRow.Index;
 
-            if (dgmostrar.Columns[e.ColumnIndex].Name == "editar")
+
+        }
+
+        private void AgregarAlDataGridView(ProductoSeleccionado producto)
+        {
+            // Agregar producto al DataGridView
+            dgmostrar.Rows.Add(producto.CodigoProducto, producto.ModeloProducto, producto.Marca, producto.Categoria, producto.PrecioVenta, producto.Cantidad, producto.Subtotal);
+
+            // Actualizar total
+            ActualizarTotal();
+        }
+
+        private void ActualizarTotal()
+        {
+            double total = 0;
+
+            // Sumar los subtotales de todas las filas
+            foreach (DataGridViewRow row in dgmostrar.Rows)
             {
-                txtnombrecliente.Text = listapersona[indice].NombreCliente;
-
-                txtcantidad.Text = listafactura[indice].Cantidad.ToString();
-                txtprecio.Text = listafactura[indice].Precio.ToString();
-                ActivarControles();
+                total += Convert.ToDouble(row.Cells["Subtotal"].Value);
             }
-            if (dgmostrar.Columns[e.ColumnIndex].Name == "eliminar")
+
+            txttotal.Text = total.ToString("C2");
+        }
+
+        private void btnagregar_Click(object sender, EventArgs e)
+        {
+            if (productoSeleccionadoTemporal != null)
+    {
+        // Validar cantidad ingresada
+        if (!int.TryParse(txtcantidad.Text, out int cantidadIngresada) || cantidadIngresada <= 0)
+        {
+            MessageBox.Show("Ingrese una cantidad válida.");
+            return;
+        }
+
+        // Validar stock disponible
+        if (cantidadIngresada > productoSeleccionadoTemporal.stockactualproducto)
+        {
+            MessageBox.Show($"Stock insuficiente para {productoSeleccionadoTemporal.ModeloProducto}. Disponible: {productoSeleccionadoTemporal.stockactualproducto}");
+            return;
+        }
+
+        // Asignar la cantidad al producto antes de agregar
+        productoSeleccionadoTemporal.Cantidad = cantidadIngresada;
+
+        // Agregar el producto al DataGridView
+        AgregarAlDataGridView(productoSeleccionadoTemporal);
+
+        // Limpiar la selección temporal
+        productoSeleccionadoTemporal = null;
+
+        // Limpiar campos de texto
+        LimpiarCampos();
+    }
+    else
+    {
+        MessageBox.Show("Por favor, seleccione un producto antes de agregar.");
+    }
+        }
+        private void LimpiarCampos()
+        {
+            txtprecio.Clear();
+            txtcantidad.Clear();
+            txtmarca.Clear();
+            txtcategoria.Clear();
+            txtproducto.Clear();
+            txtstock.Clear();
+            txtcodigoproducto.Clear();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+        private void LimpiarFormulario()
+        {
+            LimpiarFactura();         // Limpia los controles de factura
+            LimpiarCampos();          // Limpia los campos de producto
+            productoSeleccionadoTemporal = null; // Quitar selección
+            CBproductos.SelectedIndex = -1;
+            CBcategorias.SelectedIndex = -1;
+            CBmarcas.SelectedIndex = -1;
+            txttotal.Clear();
+            txtcambio.Clear();
+            txtpago.Clear();
+            txtfaltante.Clear();
+
+
+        }
+
+        private string cedulaClienteActual = string.Empty;
+
+        private void CargarNumeroFactura()
+        {
+            int nuevoIdVenta = VentaServicio.ObtenerUltimoIdVenta() + 1;
+            NUEVOIDVENTAREGISTRO = nuevoIdVenta;
+            txtnumerofactura.Text = nuevoIdVenta.ToString();
+        }
+
+        private void btnguardar_Click_1(object sender, EventArgs e, int nuevoIdVenta)
+        {
+
+         
+        }
+
+        private void BuscarCliente()
+        {
+            string criterio = txtbuscarcliente.Text.Trim();
+            string tipoBusqueda = CBBUSCARPOR.SelectedItem?.ToString();
+
+            using (var _context = new DbTiendaSeptentrionContext())
             {
-                DialogResult respeeliminar;
-                respeeliminar = MessageBox.Show("Esta seguro que desea eliminar el producto", "eliminar producto",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if(respeeliminar == DialogResult.OK)
+                List<Cliente> resultados;
+
+                if (tipoBusqueda == "Cédula")
                 {
-                    listapersona.RemoveAt(indice);
-                    listafactura.RemoveAt(indice);
-                    dgmostrar.Rows.Clear();
+                    resultados = _context.Clientes
+                        .Where(c => c.CedulaCliente.Contains(criterio))
+                        .ToList();
+                }
+                else if (tipoBusqueda == "Telefono")
+                {
+                    resultados = _context.Clientes
+                        .Where(c => c.TelefonoCliente.Contains(criterio))
+                        .ToList();
+                }
+                else
+                {
+                    // Por si acaso no se selecciona nada
+                    MessageBox.Show("Seleccione un tipo de búsqueda.");
+                    return;
+                }
+
+                if (resultados.Count == 0)
+                {
+                    MessageBox.Show("Cliente no encontrado.");
+                }
+                else
+                {
+                    var cliente = resultados.First();
+                    txtnombrecliente.Text = cliente.NombreCliente;
+                    lblcliente.Text = cliente.CedulaCliente;
+                    cedulaClienteActual = lblcliente.Text;
+
                 }
             }
         }
-    }    
+
+
+        private string ObtenerTipoPagoSeleccionado()
+        {
+            string tipoPago = rbcontado.Checked ? "Contado" : (rbcredito.Checked ? "Crédito" : "");
+            return tipoPago;
+
+        }
+
+        private float CalcularSubtotal()
+        {
+            float subtotal = 0f;
+            foreach (DataGridViewRow row in dgmostrar.Rows)
+            {
+                if (row.IsNewRow) continue;
+                if (float.TryParse(row.Cells["Subtotal"].Value?.ToString(), out float sub))
+                {
+                    subtotal += sub;
+                }
+            }
+            return subtotal;
+        }
+
+        private void txtpago_TextChanged(object sender, EventArgs e)
+        {
+            CalcularCambio();
+        }
+
+        private void txtfaltante_TextChanged(object sender, EventArgs e)
+        {
+            CalcularCambio();
+        }
+
+        private void CalcularCambio()
+        {
+            if (!float.TryParse(txttotal.Text, System.Globalization.NumberStyles.Currency, null, out float totalVenta))
+                totalVenta = 0f;
+
+            float pagoCordobas = float.TryParse(txtpago.Text, out float cordobas) ? cordobas : 0f;
+            float pagoDolares = float.TryParse(txtfaltante.Text, out float dolares) ? dolares : 0f;
+            float tasaActual = tasaServicio.ObtenerTasaDeHoy().ValorCambio; // Asume que tienes esta función
+
+            float totalPagado = (pagoCordobas) + (pagoDolares * tasaActual);
+            float cambio = totalPagado - totalVenta;
+
+            txtcambio.Text = cambio >= 0 ? cambio.ToString("N2") : "0.00";
+        }
+
+
+        private void txtpago_KeyUp(object sender, KeyEventArgs e)
+        {
+            CalcularCambio();
+
+
+        }
+
+        private void txtfaltante_KeyUp(object sender, KeyEventArgs e)
+        {
+            CalcularCambio();
+        }
+
+        private void txtpago_KeyDown(object sender, KeyEventArgs e)
+        {
+            CalcularCambio();
+        }
+
+        private void txtfaltante_KeyDown(object sender, KeyEventArgs e)
+        {
+            CalcularCambio();
+        }
+
+        private void Busquedacliente_Click(object sender, EventArgs e)
+        {
+            BuscarCliente();
+        }
+
+     
+    }
 
 }
+
+

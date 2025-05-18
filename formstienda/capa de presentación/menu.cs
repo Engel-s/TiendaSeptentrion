@@ -84,6 +84,8 @@ namespace formstienda.capa_de_presentación
         }
         public void AbrirformInPanel(Form formHijo)
         {
+            lblfecha.Visible = false;
+            lblhora.Visible = false;
             if (PanelContenedor.Controls.Count > 0)
                 PanelContenedor.Controls.RemoveAt(0); // Elimina el formulario previo
 
@@ -95,6 +97,7 @@ namespace formstienda.capa_de_presentación
             PanelContenedor.Tag = formHijo;
 
             formHijo.Show(); // Muestra el formulario
+            
         }
 
         private void iconButton1_Click(object sender, EventArgs e)

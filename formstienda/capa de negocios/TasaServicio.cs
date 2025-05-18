@@ -41,16 +41,7 @@ namespace formstienda.capa_de_negocios
             {
                 using (var _context = new DbTiendaSeptentrionContext())
                 {
-                    // Check if the user already exists based on some unique identifier (e.g., CorreoUsuario or NombreUsuario)
-                    //var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.CorreoUsuario == usuario.CorreoUsuario);
-
-                    //if (usuarioExistente != null)
-                    //{
-                    //    MessageBox.Show("El usuario ya existe.");
-                    //    return false;
-                    //}
-
-                    // If not, add the new user
+                
                     _context.TasaDeCambios.Add(tasadecambio);
                     _context.SaveChanges();
                     MessageBox.Show("Tasa de cambio agregada correctamente.");
@@ -71,6 +62,25 @@ namespace formstienda.capa_de_negocios
             }
 
         }
+        public TasaDeCambio? ObtenerTasaDeHoy()
+        {
+            try
+            {
+                using (var _context = new DbTiendaSeptentrionContext())
+                {
+                    var hoy = DateOnly.FromDateTime(DateTime.Today);
+                    return _context.TasaDeCambios
+                                   .AsNoTracking()
+                                   .FirstOrDefault(t => t.FechaCambio == hoy);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al obtener tasa del día: " + ex.Message);
+                return null;
+            }
+        }
+
     }
 }
 
