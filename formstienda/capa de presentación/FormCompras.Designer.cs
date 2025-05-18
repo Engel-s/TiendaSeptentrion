@@ -221,6 +221,7 @@
             txtprecioventa.Size = new Size(138, 27);
             txtprecioventa.TabIndex = 88;
             txtprecioventa.TextChanged += textBox12_TextChanged_1;
+            txtprecioventa.KeyPress += txtprecioventa_KeyPress;
             // 
             // pictureBox2
             // 
@@ -241,6 +242,7 @@
             txtpreciocompra.Name = "txtpreciocompra";
             txtpreciocompra.Size = new Size(138, 27);
             txtpreciocompra.TabIndex = 87;
+            txtpreciocompra.KeyPress += txtpreciocompra_KeyPress;
             // 
             // label16
             // 
@@ -390,6 +392,8 @@
             txtcantidadproducto.Name = "txtcantidadproducto";
             txtcantidadproducto.Size = new Size(78, 27);
             txtcantidadproducto.TabIndex = 68;
+            txtcantidadproducto.TextChanged += txtcantidadproducto_TextChanged;
+            txtcantidadproducto.KeyPress += txtcantidadproducto_KeyPress;
             // 
             // txtnumerofactura
             // 
@@ -414,6 +418,7 @@
             // 
             // cmbmarcas
             // 
+            cmbmarcas.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbmarcas.FormattingEnabled = true;
             cmbmarcas.Items.AddRange(new object[] { "ID Producto", "Nombre del producto" });
             cmbmarcas.Location = new Point(421, 286);
@@ -424,6 +429,7 @@
             // 
             // cmbcategoria
             // 
+            cmbcategoria.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbcategoria.FormattingEnabled = true;
             cmbcategoria.Location = new Point(127, 286);
             cmbcategoria.Margin = new Padding(2, 5, 2, 5);
@@ -470,6 +476,7 @@
             // 
             // cmbproducto
             // 
+            cmbproducto.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbproducto.FormattingEnabled = true;
             cmbproducto.Location = new Point(677, 288);
             cmbproducto.Margin = new Padding(2, 5, 2, 5);
@@ -582,6 +589,7 @@
             Text = "Compras";
             WindowState = FormWindowState.Maximized;
             Load += FormCompras_Load;
+            KeyPress += FormCompras_KeyPress;
             ((System.ComponentModel.ISupportInitialize)dtgcompras).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
