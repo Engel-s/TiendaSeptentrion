@@ -11,17 +11,17 @@ public partial class ArqueoCaja
 
     public int IdApertura { get; set; }
 
-    public decimal TotalEfectivoCordoba { get; set; }
+    public float TotalEfectivoCordoba { get; set; }
 
-    public decimal TotalEfectivoDolar { get; set; }
+    public float TotalEfectivoDolar { get; set; }
 
-    public decimal? FaltanteCordoba { get; set; }
+    public float? FaltanteCordoba { get; set; }
 
-    public decimal? FaltanteDolar { get; set; }
+    public float? FaltanteDolar { get; set; }
 
-    public decimal? SobranteCordoba { get; set; }
+    public float? SobranteCordoba { get; set; }
 
-    public decimal? SobranteDolar { get; set; }
+    public float? SobranteDolar { get; set; }
 
     public virtual ICollection<Egreso> Egresos { get; set; } = new List<Egreso>();
 

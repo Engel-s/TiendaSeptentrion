@@ -13,13 +13,15 @@ public partial class PagoDeCredito
 
     public float TotalAbonado { get; set; }
 
-    public float? PagoCordobas { get; set; }
+    public float? CordobasAbonados { get; set; }
 
-    public float? PagoDolares { get; set; }
+    public float? DolaresAbonados { get; set; }
 
     public float Cambio { get; set; }
 
     public float NuevoSaldo { get; set; }
+
+    public DateOnly? FechaPago { get; set; }
 
     public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }

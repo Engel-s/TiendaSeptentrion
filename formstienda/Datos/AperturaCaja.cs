@@ -5,9 +5,11 @@ namespace formstienda.Datos;
 
 public partial class AperturaCaja
 {
+    internal int MontoAperturaDolares;
+
     public int IdApertura { get; set; }
 
-    public decimal? MontoApertura { get; set; }
+    public float MontoApertura { get; set; }
 
     public DateOnly FechaApertura { get; set; }
 

@@ -29,6 +29,8 @@ namespace formstienda.capa_de_negocios
             }
         }
 
+
+
         //agregar usuarios
         public bool AgregarUsuario(Usuario usuario) 
         {

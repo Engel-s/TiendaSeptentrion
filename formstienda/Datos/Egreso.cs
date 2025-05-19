@@ -15,9 +15,11 @@ public partial class Egreso
 
     public DateOnly FechaEgreso { get; set; }
 
-    public decimal? CantidadEgresada { get; set; }
+    public decimal CantidadEgresadaCordoba { get; set; }
 
     public string MotivoEgreso { get; set; } = null!;
+
+    public decimal CantidadEgresadaDolar { get; set; }
 
     public virtual ArqueoCaja ArqueoCaja { get; set; } = null!;
 }
