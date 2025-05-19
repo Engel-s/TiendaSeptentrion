@@ -9,6 +9,8 @@ public partial class Devolucion
 
     public int IdVenta { get; set; }
 
+    public string CedulaCliente { get; set; } = null!;
+
     public string MotivoDevolucion { get; set; } = null!;
 
     public string DescripcionDevolucion { get; set; } = null!;
@@ -17,7 +19,7 @@ public partial class Devolucion
 
     public int CantidadDevuelta { get; set; }
 
-    public string CedulaCliente { get; set; } = null!;
+    public DateOnly? FechaDevolucion { get; set; }
 
-    public virtual Ventum Ventum { get; set; } = null!;
+    public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }

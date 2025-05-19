@@ -506,7 +506,6 @@ namespace formstienda
             tabPage3.TabIndex = 3;
             tabPage3.Text = "Marcas";
             tabPage3.UseVisualStyleBackColor = true;
-            tabPage3.UseWaitCursor = true;
             // 
             // txtNuevaMarca
             // 
@@ -515,7 +514,6 @@ namespace formstienda
             txtNuevaMarca.Name = "txtNuevaMarca";
             txtNuevaMarca.Size = new Size(286, 31);
             txtNuevaMarca.TabIndex = 41;
-            txtNuevaMarca.UseWaitCursor = true;
             // 
             // btnSalirMarcas
             // 
@@ -530,7 +528,6 @@ namespace formstienda
             btnSalirMarcas.TabIndex = 39;
             btnSalirMarcas.Text = "Salir";
             btnSalirMarcas.UseVisualStyleBackColor = false;
-            btnSalirMarcas.UseWaitCursor = true;
             btnSalirMarcas.Click += button10_Click;
             // 
             // DGMARCAS
@@ -560,7 +557,6 @@ namespace formstienda
             btnCancelarMarca.TabIndex = 27;
             btnCancelarMarca.Text = "Cancelar";
             btnCancelarMarca.UseVisualStyleBackColor = false;
-            btnCancelarMarca.UseWaitCursor = true;
             // 
             // btnGuardarMarca
             // 
@@ -573,7 +569,6 @@ namespace formstienda
             btnGuardarMarca.TabIndex = 26;
             btnGuardarMarca.Text = "Guardar";
             btnGuardarMarca.UseVisualStyleBackColor = false;
-            btnGuardarMarca.UseWaitCursor = true;
             btnGuardarMarca.Click += button6_Click;
             // 
             // label15
@@ -586,7 +581,6 @@ namespace formstienda
             label15.Size = new Size(148, 20);
             label15.TabIndex = 24;
             label15.Text = "Nombre de Marca:";
-            label15.UseWaitCursor = true;
             // 
             // label16
             // 
@@ -598,7 +592,6 @@ namespace formstienda
             label16.Size = new Size(147, 25);
             label16.TabIndex = 23;
             label16.Text = "Nueva Marca:";
-            label16.UseWaitCursor = true;
             // 
             // FormProductos
             // 

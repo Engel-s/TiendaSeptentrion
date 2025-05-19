@@ -15,13 +15,9 @@ public partial class DetalleCompra
 
     public int CantidadCompra { get; set; }
 
-    public int IdCategoria { get; set; }
+    public double? SubtotalCompra { get; set; }
 
-    public int IdMarca { get; set; }
+    public virtual Producto CodigoProductoNavigation { get; set; } = null!;
 
-    public string CodigoRuc { get; set; } = null!;
-
-    public virtual Compra Compra { get; set; } = null!;
-
-    public virtual Producto Producto { get; set; } = null!;
+    public virtual Compra IdCompraNavigation { get; set; } = null!;
 }

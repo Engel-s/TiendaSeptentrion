@@ -21,6 +21,8 @@ public partial class Usuario
 
     public bool EstadoUsuario { get; set; }
 
+    public string UsuarioLogueo { get; set; } = null!;
+
     public string? TokenRecuperacion { get; set; }
 
     public DateOnly? FechaRecuperacion { get; set; }
