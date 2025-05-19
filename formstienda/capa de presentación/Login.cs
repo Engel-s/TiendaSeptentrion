@@ -11,15 +11,17 @@ using System.Runtime.InteropServices;
 using formstienda;
 using formstienda.capa_de_presentación;
 using formstienda.Datos;
+using formstienda.capa_de_negocios;
 
 namespace formstienda
 {
     public partial class Login : Form
     {
+        private AuthServicio _authServicio;
         public Login()
         {
             InitializeComponent();
-            
+
         }
 
         private bool showpassword = false;
@@ -34,7 +36,7 @@ namespace formstienda
         {
 
         }
-          
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -68,7 +70,7 @@ namespace formstienda
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            _authServicio = new AuthServicio();
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -93,37 +95,37 @@ namespace formstienda
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-            string usuario = txtusername.Text;
-            string contraseña = txtpassword.Text;
+            string nombreusuario = txtusername.Text.Trim();
+            string contraseña = txtpassword.Text.Trim();
 
-            if (txtusername.Text != "")
+            if (string.IsNullOrEmpty(nombreusuario) || string.IsNullOrEmpty(contraseña))
             {
-                if (txtpassword.Text != "")
-                {
-                    using (var context = new DbTiendaSeptentrionContext())
-                    {
-                        var usuarioValido = context.Usuarios
-                            .FirstOrDefault(u => u.UsuarioLogueo == usuario && u.ContraseñaUsuario == contraseña);
-
-                        if (usuarioValido != null)
-                        {
-                            // Usuario válido para abrir el formulario de menú
-                            menu form = new menu();
-                            form.Show();
-                            Apertura_Caja apertura = new Apertura_Caja();
-                            apertura.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            // Usuario o contraseña incorrectos
-                            MessageBox.Show("Usuario o contraseña incorrectos");
-                        }
-                    }
-                }
-                else MessageBox.Show("Ingrese contraseña");
+                MessageBox.Show("El nombre de usuario o la contrasena son nulas");
+                return;
             }
-            else MessageBox.Show("Ingrese usuario");
+
+            var usuario = _authServicio.Validar_Credenciales(nombreusuario, contraseña);
+            if (usuario == null)
+            {
+                MessageBox.Show("Credenciales no validas");
+                txtusername.Clear();
+                txtpassword.Clear();
+                return;
+            }
+
+            if (usuario.EstadoUsuario == false)
+            {
+                MessageBox.Show($"El usuario {usuario.NombreUsuario} esta inactivo, activelo nuevamente o ingrese con otro usuario");
+                return;
+            }
+
+            MessageBox.Show($"Bienvenido {usuario.NombreUsuario} al sistema");
+            this.Hide();
+            menu form = new menu(usuario.RolUsuario);
+            form.Show();
+            Apertura_Caja apertura = new Apertura_Caja();
+            apertura.Show();
+            this.Hide();
 
         }
 
@@ -141,10 +143,10 @@ namespace formstienda
 
         private void txtusuario_Enter(object sender, EventArgs e)
         {
-            if(txtusername.Text=="Usuario:")
+            if (txtusername.Text == "Usuario:")
             {
                 txtusername.Text = "";
-            }    
+            }
         }
 
         private void txtusuario_Leave(object sender, EventArgs e)
@@ -160,7 +162,7 @@ namespace formstienda
         private void txtcontraseña_Enter(object sender, EventArgs e)
         {
 
-         
+
 
         }
 
