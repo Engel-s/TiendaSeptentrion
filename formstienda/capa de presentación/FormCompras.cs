@@ -13,6 +13,7 @@ using formstienda.capa_de_negocios;
 using formstienda.capa_de_presentación;
 using formstienda.Datos;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System.Globalization;
 
 namespace formstienda
 {
@@ -323,7 +324,7 @@ namespace formstienda
         {
             if (cmbproducto.SelectedItem is Producto productoSeleccionado)
             {
-                txtprecioventa.Text = productoSeleccionado.PrecioVenta.ToString("C");
+                txtprecioventa.Text = productoSeleccionado.PrecioVenta.ToString("C", new CultureInfo ("es-NI"));
                 txtcodigoproducto.Text = productoSeleccionado.CodigoProducto.ToString();
             }
 
