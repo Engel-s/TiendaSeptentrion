@@ -9,33 +9,40 @@ namespace formstienda.Servicios
 {
     public class EgresoServicio
     {
+        // Contexto de base de datos
         private readonly DbTiendaSeptentrionContext _contexto;
 
+        // Constructor que recibe el contexto de base de datos
         public EgresoServicio(DbTiendaSeptentrionContext contexto)
         {
             _contexto = contexto ?? throw new ArgumentNullException(nameof(contexto));
         }
 
+        // Método principal para crear un egreso
         public bool CrearEgreso(int idApertura, DateOnly fechaEgreso, decimal? cantidadCordobas, decimal? cantidadDolares, string motivo)
         {
-            // Validación inicial de usuario
+            //VALIDACIONES
+
+            // Validar que haya un usuario logueado
             if (!UsuarioActivo.HayUsuarioLogueado())
             {
                 throw new InvalidOperationException("No hay un usuario logueado para registrar el egreso");
             }
 
+            // Obtener ID del usuario logueado
             var idUsuario = UsuarioActivo.ObtenerIdUsuario();
             if (!idUsuario.HasValue)
             {
                 throw new InvalidOperationException("El usuario logueado no tiene un ID válido");
             }
 
-            // Validaciones básicas de parámetros
+            // Validar ID de apertura
             if (idApertura <= 0)
             {
                 throw new ArgumentException("El ID de apertura no es válido");
             }
 
+            // Validar motivo del egreso
             if (string.IsNullOrWhiteSpace(motivo))
             {
                 throw new ArgumentException("El motivo del egreso no puede estar vacío");
@@ -46,17 +53,19 @@ namespace formstienda.Servicios
                 throw new ArgumentException("El motivo no puede exceder los 255 caracteres");
             }
 
-            // Validación de montos
+            // Validar montos (al menos uno debe tener valor)
             if (!cantidadCordobas.HasValue && !cantidadDolares.HasValue)
             {
                 throw new ArgumentException("Debe especificar al menos un monto en córdobas o dólares");
             }
 
+            // Validar que los montos no sean negativos
             if ((cantidadCordobas ?? 0) < 0 || (cantidadDolares ?? 0) < 0)
             {
                 throw new ArgumentException("Los montos no pueden ser negativos");
             }
 
+            // Validar que al menos un monto sea mayor que cero
             if ((cantidadCordobas ?? 0) == 0 && (cantidadDolares ?? 0) == 0)
             {
                 throw new ArgumentException("Al menos un monto debe ser mayor que cero");
@@ -67,34 +76,43 @@ namespace formstienda.Servicios
             {
                 throw new ArgumentException("La apertura de caja especificada no existe");
             }
+
             // Validar que la fecha de egreso no sea futura
             if (fechaEgreso > DateOnly.FromDateTime(DateTime.Now))
             {
                 throw new ArgumentException("La fecha de egreso no puede ser futura");
             }
+
             // Validar que la fecha de egreso no sea anterior a la apertura
             var apertura = _contexto.AperturaCajas
                 .AsNoTracking()
                 .FirstOrDefault(a => a.IdApertura == idApertura);
+
             if (apertura == null)
             {
                 throw new ArgumentException("La apertura de caja especificada no existe");
             }
+
             if (fechaEgreso < apertura.FechaApertura)
             {
                 throw new ArgumentException("La fecha de egreso no puede ser anterior a la fecha de apertura");
             }
 
+            // Validación redundante de apertura (podría eliminarse)
             if (!_contexto.AperturaCajas.Any(a => a.IdApertura == idApertura))
             {
                 throw new Exception("La apertura de caja especificada no existe");
             }
 
+            // Validación redundante de usuario (podría eliminarse)
             if (UsuarioActivo.ObtenerIdUsuario() == null)
             {
                 throw new Exception("No hay un usuario válido logueado");
             }
 
+            //CREACIÓN DEL EGRESO
+
+            // Iniciar transacción para asegurar la atomicidad
             using var transaction = _contexto.Database.BeginTransaction();
 
             try
@@ -105,6 +123,7 @@ namespace formstienda.Servicios
 
                 if (arqueo == null)
                 {
+                    // Crear nuevo arqueo si no existe
                     arqueo = new ArqueoCaja
                     {
                         IdApertura = idApertura,
@@ -120,7 +139,7 @@ namespace formstienda.Servicios
                     _contexto.SaveChanges(); // Guardar el arqueo
                 }
 
-                // 2. Crear el egreso vinculado al arqueo
+                // 2. Crear el registro de egreso
                 var egreso = new Egreso
                 {
                     IdArqueoCaja = arqueo.IdArqueoCaja,
@@ -145,8 +164,7 @@ namespace formstienda.Servicios
                     arqueo.TotalEfectivoDolar -= (float)cantidadDolares.Value;
                 }
 
-
-                // 4. Guardar todos los cambios
+                // 4. Guardar todos los cambios y confirmar transacción
                 var result = _contexto.SaveChanges() > 0;
                 transaction.Commit();
 
@@ -154,21 +172,24 @@ namespace formstienda.Servicios
             }
             catch (DbUpdateException dbEx)
             {
+                // En caso de error, hacer rollback y propagar la excepción
                 transaction.Rollback();
                 throw new ApplicationException("Error de base de datos al crear el egreso: " + dbEx.InnerException?.Message, dbEx);
             }
             catch (Exception ex)
             {
+                // En caso de error, hacer rollback y propagar la excepción
                 transaction.Rollback();
                 throw new ApplicationException("Error al crear el egreso: " + ex.Message, ex);
             }
         }
 
+        // --- MÉTODOS PARA OBTENER TOTALES ---
 
-
+        // Obtener total en córdobas considerando varios factores
         public decimal ObtenerTotalCajaCordobas(DateOnly fecha)
         {
-            // Obtener apertura
+            // Obtener apertura de caja
             var apertura = ListarAperturaCaja(fecha).FirstOrDefault();
             decimal montoApertura = (decimal)(apertura?.MontoApertura ?? 0);
 
@@ -177,7 +198,7 @@ namespace formstienda.Servicios
                 .Where(v => v.PagoCordobas.HasValue)
                 .Sum(v => v.PagoCordobas.Value);
 
-            // Sumar pagos crédito en córdobas
+            // Sumar pagos de crédito en córdobas
             decimal totalCreditos = (Decimal)ListarPagosCredito(fecha)
                 .Where(p => p.CordobasAbonados.HasValue)
                 .Sum(p => p.CordobasAbonados.Value);
@@ -191,43 +212,33 @@ namespace formstienda.Servicios
                 .Where(e => e.FechaEgreso == fecha)
                 .Sum(e => e.CantidadEgresadaCordoba);
 
+            // Cálculo del total final
             return montoApertura + totalVentas + totalCreditos - totalDevoluciones - totalEgresos;
         }
 
+        // Obtener total en dólares considerando varios factores
         public decimal ObtenerTotalCajaDolares(DateOnly fecha)
         {
-            // Similar al método anterior pero para dólares
+            // Sumar ventas en dólares
             decimal totalVentas = (Decimal)ListarTotalVenta(fecha)
                 .Where(v => v.PagoDolares.HasValue)
                 .Sum(v => v.PagoDolares.Value);
 
+            // Sumar pagos de crédito en dólares
             decimal totalCreditos = (decimal)ListarPagosCredito(fecha)
                 .Where(p => p.DolaresAbonados.HasValue)
                 .Sum(p => p.DolaresAbonados.Value);
 
+            // Restar egresos del día
             decimal totalEgresos = _contexto.Egresos
                 .Where(e => e.FechaEgreso == fecha)
                 .Sum(e => e.CantidadEgresadaDolar);
 
+            // Cálculo del total final
             return totalVentas + totalCreditos - totalEgresos;
         }
 
-        public List<Egreso> ListarEgresosPorFecha(DateOnly fecha)
-        {
-            return _contexto.Egresos
-                .Where(e => e.FechaEgreso == fecha)
-                .AsNoTracking()
-                .ToList();
-        }
-
-        public List<Egreso> ListarEgresosPorApertura(int idApertura)
-        {
-            return _contexto.Egresos
-                .Where(e => e.IdApertura == idApertura)
-                .AsNoTracking()
-                .ToList();
-        }
-
+        // Obtener total de egresos en córdobas para una fecha
         public decimal ObtenerTotalEgresosCordobas(DateOnly fecha)
         {
             return _contexto.Egresos
@@ -235,6 +246,7 @@ namespace formstienda.Servicios
                 .Sum(e => e.CantidadEgresadaCordoba);
         }
 
+        // Obtener total de egresos en dólares para una fecha
         public decimal ObtenerTotalEgresosDolares(DateOnly fecha)
         {
             return _contexto.Egresos
@@ -242,37 +254,40 @@ namespace formstienda.Servicios
                 .Sum(e => e.CantidadEgresadaDolar);
         }
 
+        // Listar aperturas de caja para una fecha específica
         public List<AperturaCaja> ListarAperturaCaja(DateOnly fechaActual)
         {
             return _contexto.AperturaCajas
                 .Where(a => a.FechaApertura == fechaActual)
-                .AsNoTracking()
+                .AsNoTracking()  
                 .ToList();
         }
 
+        // Listar ventas para una fecha específica
         public List<Ventum> ListarTotalVenta(DateOnly fechaActual)
         {
             return _contexto.Venta
                 .Where(a => a.FechaVenta == fechaActual)
-                .AsNoTracking()
+                .AsNoTracking()  
                 .ToList();
         }
 
+        // Listar devoluciones para una fecha específica
         public List<Devolucion> ListarDevolucion(DateOnly fechaActual)
         {
             return _contexto.Devolucions
                 .Where(a => a.FechaDevolucion == fechaActual)
-                .AsNoTracking()
+                .AsNoTracking() 
                 .ToList();
         }
 
+        // Listar pagos de crédito para una fecha específica
         public List<PagoDeCredito> ListarPagosCredito(DateOnly fechaActual)
         {
             return _contexto.PagoDeCreditos
                 .Where(a => a.FechaPago == fechaActual)
-                .AsNoTracking()
+                .AsNoTracking() 
                 .ToList();
         }
-                
     }
 }
