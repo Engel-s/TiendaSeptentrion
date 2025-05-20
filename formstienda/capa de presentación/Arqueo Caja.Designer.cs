@@ -943,6 +943,7 @@
             button1.TabIndex = 23;
             button1.Text = "Control de egreso";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click_1;
             // 
             // Arqueo_Caja
             // 

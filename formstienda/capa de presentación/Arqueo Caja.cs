@@ -30,7 +30,7 @@ namespace formstienda
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-          
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace formstienda
             Apertura_Caja apertura = new Apertura_Caja();
             apertura.Show();
 
-            
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -46,7 +46,7 @@ namespace formstienda
             Egresos egresos = new Egresos();
             egresos.Show();
 
-           
+
         }
 
         private void Arqueo_Caja_Load(object sender, EventArgs e)
@@ -57,6 +57,12 @@ namespace formstienda
         private void button4_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            ControldeEgresos egresos = new ControldeEgresos();
+            egresos.Show();
         }
     }
 }

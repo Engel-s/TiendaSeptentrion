@@ -355,5 +355,10 @@ namespace formstienda.capa_de_presentación
             // Actualizar el TextBox con el valor formateado
             txtTotalCaja.Text = valorMostrar.ToString("C2", cultura);
         }
+
+        private void btnCancelarCordobas_Click(object sender, EventArgs e)
+        {
+            LimpiarCamposEgreso();
+        }
     }
 }

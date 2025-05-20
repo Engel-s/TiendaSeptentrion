@@ -32,8 +32,6 @@
             button2 = new Button();
             btnGuardarCordobas = new Button();
             btnCancelarCordobas = new Button();
-            dateTimePickerEgresos = new DateTimePicker();
-            label5 = new Label();
             txtMotivoEgreso = new RichTextBox();
             txtCantidadEgresada = new TextBox();
             txtTotalCaja = new TextBox();
@@ -82,7 +80,7 @@
             btnGuardarCordobas.TabIndex = 82;
             btnGuardarCordobas.Text = "Guardar";
             btnGuardarCordobas.UseVisualStyleBackColor = false;
-            btnGuardarCordobas.Click += this.btnGuardar_Click;
+            btnGuardarCordobas.Click += btnGuardar_Click;
             // 
             // btnCancelarCordobas
             // 
@@ -97,25 +95,7 @@
             btnCancelarCordobas.TabIndex = 81;
             btnCancelarCordobas.Text = "Cancelar";
             btnCancelarCordobas.UseVisualStyleBackColor = false;
-            // 
-            // dateTimePickerEgresos
-            // 
-            dateTimePickerEgresos.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
-            dateTimePickerEgresos.Location = new Point(597, 203);
-            dateTimePickerEgresos.Margin = new Padding(3, 4, 3, 4);
-            dateTimePickerEgresos.Name = "dateTimePickerEgresos";
-            dateTimePickerEgresos.Size = new Size(272, 23);
-            dateTimePickerEgresos.TabIndex = 80;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(506, 204);
-            label5.Name = "label5";
-            label5.Size = new Size(71, 22);
-            label5.TabIndex = 79;
-            label5.Text = "Fecha:";
+            btnCancelarCordobas.Click += btnCancelarCordobas_Click;
             // 
             // txtMotivoEgreso
             // 
@@ -201,8 +181,6 @@
             Controls.Add(label6);
             Controls.Add(btnGuardarCordobas);
             Controls.Add(btnCancelarCordobas);
-            Controls.Add(dateTimePickerEgresos);
-            Controls.Add(label5);
             Controls.Add(txtMotivoEgreso);
             Controls.Add(txtCantidadEgresada);
             Controls.Add(txtTotalCaja);
@@ -226,8 +204,6 @@
         private System.Windows.Forms.Button button2;
         private Button btnGuardarCordobas;
         private Button btnCancelarCordobas;
-        private DateTimePicker dateTimePickerEgresos;
-        private Label label5;
         private RichTextBox txtMotivoEgreso;
         private TextBox txtCantidadEgresada;
         private TextBox txtTotalCaja;
