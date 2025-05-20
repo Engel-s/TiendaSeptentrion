@@ -36,7 +36,7 @@
             Column1 = new DataGridViewTextBoxColumn();
             button1 = new Button();
             label1 = new Label();
-            textBox1 = new TextBox();
+            txtBuscarEgresos = new TextBox();
             ((System.ComponentModel.ISupportInitialize)DGCONTROLEGRESOS).BeginInit();
             SuspendLayout();
             // 
@@ -116,19 +116,19 @@
             label1.TabIndex = 65;
             label1.Text = "Buscar:";
             // 
-            // textBox1
+            // txtBuscarEgresos
             // 
-            textBox1.Location = new Point(122, 43);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(375, 27);
-            textBox1.TabIndex = 66;
+            txtBuscarEgresos.Location = new Point(122, 43);
+            txtBuscarEgresos.Name = "txtBuscarEgresos";
+            txtBuscarEgresos.Size = new Size(375, 27);
+            txtBuscarEgresos.TabIndex = 66;
             // 
             // ControldeEgresos
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(902, 462);
-            Controls.Add(textBox1);
+            Controls.Add(txtBuscarEgresos);
             Controls.Add(label1);
             Controls.Add(button1);
             Controls.Add(DGCONTROLEGRESOS);
@@ -146,7 +146,7 @@
         private DataGridView DGCONTROLEGRESOS;
         private Button button1;
         private Label label1;
-        private TextBox textBox1;
+        private TextBox txtBuscarEgresos;
         private DataGridViewTextBoxColumn Column5;
         private DataGridViewTextBoxColumn Column2;
         private DataGridViewTextBoxColumn Column3;

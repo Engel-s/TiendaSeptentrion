@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using formstienda.Datos;
@@ -10,22 +9,30 @@ namespace formstienda.capa_de_presentación
     public partial class ControldeEgresos : Form
     {
         private readonly DbTiendaSeptentrionContext _contexto;
+        private System.Windows.Forms.Timer searchTimer;
 
         public ControldeEgresos()
         {
             InitializeComponent();
             _contexto = new DbTiendaSeptentrionContext();
+
+            // Configuración del timer para búsqueda con delay
+            searchTimer = new System.Windows.Forms.Timer();
+            searchTimer.Interval = 300; // 300ms de delay
+            searchTimer.Tick += SearchTimer_Tick;
+
+            txtBuscarEgresos.TextChanged += TxtBuscarEgresos_TextChanged;
+
             ConfigurarDataGridView();
             CargarDatosEgresos();
         }
 
         private void ConfigurarDataGridView()
         {
-            // Limpiar configuración previa
             DGCONTROLEGRESOS.AutoGenerateColumns = false;
             DGCONTROLEGRESOS.Columns.Clear();
 
-            // Configurar columnas con los campos solicitados
+            // Configuración de columnas
             DGCONTROLEGRESOS.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 DataPropertyName = "FechaEgreso",
@@ -37,10 +44,10 @@ namespace formstienda.capa_de_presentación
 
             DGCONTROLEGRESOS.Columns.Add(new DataGridViewTextBoxColumn()
             {
-                DataPropertyName = "IdUsuario",
-                HeaderText = "ID Usuario",
-                Name = "colIdUsuario",
-                Width = 100
+                DataPropertyName = "NombreUsuario",
+                HeaderText = "Usuario",
+                Name = "colUsuario",
+                Width = 150
             });
 
             DGCONTROLEGRESOS.Columns.Add(new DataGridViewTextBoxColumn()
@@ -77,7 +84,7 @@ namespace formstienda.capa_de_presentación
                 }
             });
 
-            // Configuración adicional para solo lectura
+            
             DGCONTROLEGRESOS.AllowUserToAddRows = false;
             DGCONTROLEGRESOS.AllowUserToDeleteRows = false;
             DGCONTROLEGRESOS.ReadOnly = true;
@@ -86,30 +93,53 @@ namespace formstienda.capa_de_presentación
             DGCONTROLEGRESOS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void CargarDatosEgresos()
+        private void CargarDatosEgresos(string filtro = "")
         {
             try
             {
-                // Consulta directa a la base de datos
-                var egresos = _contexto.Egresos
-                    .AsNoTracking()
-                    .Select(e => new
-                    {
-                        e.FechaEgreso,
-                        e.IdUsuario,
-                        e.MotivoEgreso,
-                        e.CantidadEgresadaCordoba,
-                        e.CantidadEgresadaDolar
-                    })
-                    .ToList();
+                
+                var query = _contexto.Egresos
+                    .Join(_contexto.Usuarios,
+                        egreso => egreso.IdUsuario,
+                        usuario => usuario.IdUsuario,
+                        (egreso, usuario) => new
+                        {
+                            egreso.FechaEgreso,
+                            NombreUsuario = usuario.NombreUsuario + " " + usuario.ApellidoUsuario,
+                            egreso.MotivoEgreso,
+                            egreso.CantidadEgresadaCordoba,
+                            egreso.CantidadEgresadaDolar,
+                            egreso.IdUsuario 
+                        });
 
-                DGCONTROLEGRESOS.DataSource = egresos;
+                if (!string.IsNullOrWhiteSpace(filtro))
+                {
+                    query = query.Where(e =>
+                        e.IdUsuario.ToString().Contains(filtro) || 
+                        e.NombreUsuario.Contains(filtro) ||        
+                        e.MotivoEgreso.Contains(filtro)            
+                    );
+                }
+
+                DGCONTROLEGRESOS.DataSource = query.ToList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar los egresos: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar egresos: {ex.Message}\n\nDetalles: {ex.InnerException?.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void TxtBuscarEgresos_TextChanged(object sender, EventArgs e)
+        {
+            searchTimer.Stop();
+            searchTimer.Start();
+        }
+
+        private void SearchTimer_Tick(object sender, EventArgs e)
+        {
+            searchTimer.Stop();
+            CargarDatosEgresos(txtBuscarEgresos.Text.Trim());
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -119,7 +149,8 @@ namespace formstienda.capa_de_presentación
 
         private void ControldeEgresos_Load(object sender, EventArgs e)
         {
-          
+            
         }
+
     }
 }
