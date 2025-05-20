@@ -37,7 +37,7 @@ namespace formstienda.Servicios
             }
 
             // Validar ID de apertura
-            if (idApertura <= 0)
+            if (idApertura < 0)
             {
                 throw new ArgumentException("El ID de apertura no es válido");
             }
@@ -53,7 +53,7 @@ namespace formstienda.Servicios
                 throw new ArgumentException("El motivo no puede exceder los 255 caracteres");
             }
 
-            // Validar montos (al menos uno debe tener valor)
+            // Validar montos
             if (!cantidadCordobas.HasValue && !cantidadDolares.HasValue)
             {
                 throw new ArgumentException("Debe especificar al menos un monto en córdobas o dólares");
@@ -98,17 +98,7 @@ namespace formstienda.Servicios
                 throw new ArgumentException("La fecha de egreso no puede ser anterior a la fecha de apertura");
             }
 
-            // Validación redundante de apertura (podría eliminarse)
-            if (!_contexto.AperturaCajas.Any(a => a.IdApertura == idApertura))
-            {
-                throw new Exception("La apertura de caja especificada no existe");
-            }
-
-            // Validación redundante de usuario (podría eliminarse)
-            if (UsuarioActivo.ObtenerIdUsuario() == null)
-            {
-                throw new Exception("No hay un usuario válido logueado");
-            }
+            
 
             //CREACIÓN DEL EGRESO
 
@@ -153,18 +143,8 @@ namespace formstienda.Servicios
 
                 _contexto.Egresos.Add(egreso);
 
-                // 3. Actualizar los totales del arqueo
-                if (cantidadCordobas.HasValue && cantidadCordobas > 0)
-                {
-                    arqueo.TotalEfectivoCordoba -= (float)cantidadCordobas.Value;
-                }
 
-                if (cantidadDolares.HasValue && cantidadDolares > 0)
-                {
-                    arqueo.TotalEfectivoDolar -= (float)cantidadDolares.Value;
-                }
-
-                // 4. Guardar todos los cambios y confirmar transacción
+                // 3. Guardar todos los cambios y confirmar transacción
                 var result = _contexto.SaveChanges() > 0;
                 transaction.Commit();
 

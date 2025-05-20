@@ -410,6 +410,7 @@
             textBox36.Location = new Point(214, 576);
             textBox36.Margin = new Padding(3, 2, 3, 2);
             textBox36.Name = "textBox36";
+            textBox36.ReadOnly = true;
             textBox36.Size = new Size(171, 27);
             textBox36.TabIndex = 103;
             // 
@@ -430,6 +431,7 @@
             textBox35.Location = new Point(214, 536);
             textBox35.Margin = new Padding(3, 2, 3, 2);
             textBox35.Name = "textBox35";
+            textBox35.ReadOnly = true;
             textBox35.Size = new Size(171, 27);
             textBox35.TabIndex = 101;
             // 
@@ -470,6 +472,7 @@
             textBox33.Location = new Point(214, 494);
             textBox33.Margin = new Padding(3, 2, 3, 2);
             textBox33.Name = "textBox33";
+            textBox33.ReadOnly = true;
             textBox33.Size = new Size(171, 27);
             textBox33.TabIndex = 97;
             // 
@@ -488,6 +491,7 @@
             textBox31.Location = new Point(214, 450);
             textBox31.Margin = new Padding(3, 2, 3, 2);
             textBox31.Name = "textBox31";
+            textBox31.ReadOnly = true;
             textBox31.Size = new Size(171, 27);
             textBox31.TabIndex = 95;
             // 
@@ -497,6 +501,7 @@
             textBox30.Location = new Point(214, 410);
             textBox30.Margin = new Padding(3, 2, 3, 2);
             textBox30.Name = "textBox30";
+            textBox30.ReadOnly = true;
             textBox30.Size = new Size(171, 27);
             textBox30.TabIndex = 94;
             // 
@@ -515,6 +520,7 @@
             textBox28.Location = new Point(214, 370);
             textBox28.Margin = new Padding(3, 2, 3, 2);
             textBox28.Name = "textBox28";
+            textBox28.ReadOnly = true;
             textBox28.Size = new Size(171, 27);
             textBox28.TabIndex = 92;
             // 
@@ -557,6 +563,7 @@
             textBox27.Location = new Point(214, 334);
             textBox27.Margin = new Padding(3, 2, 3, 2);
             textBox27.Name = "textBox27";
+            textBox27.ReadOnly = true;
             textBox27.Size = new Size(171, 27);
             textBox27.TabIndex = 88;
             // 
@@ -584,6 +591,7 @@
             textBox24.Location = new Point(214, 290);
             textBox24.Margin = new Padding(3, 2, 3, 2);
             textBox24.Name = "textBox24";
+            textBox24.ReadOnly = true;
             textBox24.Size = new Size(171, 27);
             textBox24.TabIndex = 85;
             // 
@@ -602,6 +610,7 @@
             textBox22.Location = new Point(212, 129);
             textBox22.Margin = new Padding(3, 2, 3, 2);
             textBox22.Name = "textBox22";
+            textBox22.ReadOnly = true;
             textBox22.Size = new Size(171, 27);
             textBox22.TabIndex = 83;
             // 
@@ -620,6 +629,7 @@
             textBox20.Location = new Point(214, 167);
             textBox20.Margin = new Padding(3, 2, 3, 2);
             textBox20.Name = "textBox20";
+            textBox20.ReadOnly = true;
             textBox20.Size = new Size(171, 27);
             textBox20.TabIndex = 81;
             // 
@@ -638,6 +648,7 @@
             textBox18.Location = new Point(214, 210);
             textBox18.Margin = new Padding(3, 2, 3, 2);
             textBox18.Name = "textBox18";
+            textBox18.ReadOnly = true;
             textBox18.Size = new Size(171, 27);
             textBox18.TabIndex = 79;
             // 
@@ -656,6 +667,7 @@
             textBox16.Location = new Point(214, 247);
             textBox16.Margin = new Padding(3, 2, 3, 2);
             textBox16.Name = "textBox16";
+            textBox16.ReadOnly = true;
             textBox16.Size = new Size(171, 27);
             textBox16.TabIndex = 77;
             // 
@@ -676,6 +688,7 @@
             textBox15.Location = new Point(214, 90);
             textBox15.Margin = new Padding(3, 2, 3, 2);
             textBox15.Name = "textBox15";
+            textBox15.ReadOnly = true;
             textBox15.Size = new Size(171, 27);
             textBox15.TabIndex = 75;
             // 
@@ -909,6 +922,7 @@
             textBox1.ReadOnly = true;
             textBox1.Size = new Size(95, 27);
             textBox1.TabIndex = 4;
+            textBox1.Text = "1";
             // 
             // textBox2
             // 

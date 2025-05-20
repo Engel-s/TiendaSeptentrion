@@ -261,7 +261,7 @@ namespace formstienda.capa_de_presentación
                     return;
                 }
 
-                // Intentar guardar el egreso en la base de datos
+                // Guardar el egreso en la base de datos
                 bool resultado = GuardarEgresoEnBD(cantidad, monedaSeleccionada);
 
                 if (resultado)
