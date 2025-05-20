@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static formstienda.Login;
 
 namespace formstienda.capa_de_presentación
 {
@@ -178,6 +179,13 @@ namespace formstienda.capa_de_presentación
         {
             try
             {
+                // Validar que hay un usuario logueado
+                if (!UsuarioActivo.HayUsuarioLogueado())
+                {
+                    MessageBox.Show("No hay un usuario logueado para registrar el egreso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 // Validaciones básicas
                 if (string.IsNullOrWhiteSpace(txtMotivoEgreso.Text))
                 {
@@ -210,11 +218,8 @@ namespace formstienda.capa_de_presentación
                     return;
                 }
 
-                // Obtener usuario logueado (ajustar según tu sistema de autenticación)
-                string nombreUsuario = Environment.UserName;
-
                 // Guardar el egreso
-                bool resultado = GuardarEgresoEnBD(cantidad, monedaSeleccionada, nombreUsuario);
+                bool resultado = GuardarEgresoEnBD(cantidad, monedaSeleccionada);
 
                 if (resultado)
                 {
@@ -243,7 +248,7 @@ namespace formstienda.capa_de_presentación
             }
         }
 
-        private bool GuardarEgresoEnBD(decimal cantidad, string moneda, string nombreUsuario)
+        private bool GuardarEgresoEnBD(decimal cantidad, string moneda)
         {
             try
             {
@@ -256,17 +261,8 @@ namespace formstienda.capa_de_presentación
                     return false;
                 }
 
-                int idUsuario = _egresoservicio.ObtenerIdUsuarioLogueado(nombreUsuario);
-
-                if (idUsuario <= 0)
-                {
-                    MessageBox.Show("No se pudo identificar al usuario actual", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-
                 bool resultado = _egresoservicio.CrearEgreso(
                     idApertura: apertura.IdApertura,
-                    idUsuario: idUsuario,
                     fechaEgreso: fechaActual,
                     cantidadCordobas: moneda == "Córdoba" ? cantidad : (decimal?)null,
                     cantidadDolares: moneda == "Dólar" ? cantidad : (decimal?)null,

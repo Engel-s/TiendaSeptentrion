@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using formstienda.Datos;
+using static formstienda.Login;
 
 namespace formstienda.Servicios
 {
@@ -15,98 +16,155 @@ namespace formstienda.Servicios
             _contexto = contexto ?? throw new ArgumentNullException(nameof(contexto));
         }
 
-        public bool CrearEgreso(int idApertura, int idUsuario, DateOnly fechaEgreso,decimal? cantidadCordobas, decimal? cantidadDolares, string motivo)
+        public bool CrearEgreso(int idApertura, DateOnly fechaEgreso, decimal? cantidadCordobas, decimal? cantidadDolares, string motivo)
         {
+            // Validación inicial de usuario
+            if (!UsuarioActivo.HayUsuarioLogueado())
+            {
+                throw new InvalidOperationException("No hay un usuario logueado para registrar el egreso");
+            }
+
+            var idUsuario = UsuarioActivo.ObtenerIdUsuario();
+            if (!idUsuario.HasValue)
+            {
+                throw new InvalidOperationException("El usuario logueado no tiene un ID válido");
+            }
+
+            // Validaciones básicas de parámetros
+            if (idApertura <= 0)
+            {
+                throw new ArgumentException("El ID de apertura no es válido");
+            }
+
+            if (string.IsNullOrWhiteSpace(motivo))
+            {
+                throw new ArgumentException("El motivo del egreso no puede estar vacío");
+            }
+
+            if (motivo.Length > 255)
+            {
+                throw new ArgumentException("El motivo no puede exceder los 255 caracteres");
+            }
+
+            // Validación de montos
+            if (!cantidadCordobas.HasValue && !cantidadDolares.HasValue)
+            {
+                throw new ArgumentException("Debe especificar al menos un monto en córdobas o dólares");
+            }
+
+            if ((cantidadCordobas ?? 0) < 0 || (cantidadDolares ?? 0) < 0)
+            {
+                throw new ArgumentException("Los montos no pueden ser negativos");
+            }
+
+            if ((cantidadCordobas ?? 0) == 0 && (cantidadDolares ?? 0) == 0)
+            {
+                throw new ArgumentException("Al menos un monto debe ser mayor que cero");
+            }
+
+            // Validar existencia de la apertura
+            if (!_contexto.AperturaCajas.Any(a => a.IdApertura == idApertura))
+            {
+                throw new ArgumentException("La apertura de caja especificada no existe");
+            }
+            // Validar que la fecha de egreso no sea futura
+            if (fechaEgreso > DateOnly.FromDateTime(DateTime.Now))
+            {
+                throw new ArgumentException("La fecha de egreso no puede ser futura");
+            }
+            // Validar que la fecha de egreso no sea anterior a la apertura
+            var apertura = _contexto.AperturaCajas
+                .AsNoTracking()
+                .FirstOrDefault(a => a.IdApertura == idApertura);
+            if (apertura == null)
+            {
+                throw new ArgumentException("La apertura de caja especificada no existe");
+            }
+            if (fechaEgreso < apertura.FechaApertura)
+            {
+                throw new ArgumentException("La fecha de egreso no puede ser anterior a la fecha de apertura");
+            }
+
+            if (!_contexto.AperturaCajas.Any(a => a.IdApertura == idApertura))
+            {
+                throw new Exception("La apertura de caja especificada no existe");
+            }
+
+            if (UsuarioActivo.ObtenerIdUsuario() == null)
+            {
+                throw new Exception("No hay un usuario válido logueado");
+            }
+
+            using var transaction = _contexto.Database.BeginTransaction();
+
             try
             {
-                // Validaciones básicas
-                if (idApertura <= 0)
-                    throw new ArgumentException("El ID de apertura no es válido");
-                               
+                // 1. Obtener o crear el arqueo de caja
+                var arqueo = _contexto.ArqueoCajas
+                    .FirstOrDefault(a => a.IdApertura == idApertura);
 
-                if (idUsuario <= 0)
-                    throw new ArgumentException("El ID de usuario no es válido");
+                if (arqueo == null)
+                {
+                    arqueo = new ArqueoCaja
+                    {
+                        IdApertura = idApertura,
+                        IdUsuario = idUsuario.Value,
+                        TotalEfectivoCordoba = 0,
+                        TotalEfectivoDolar = 0,
+                        FaltanteCordoba = null,
+                        FaltanteDolar = null,
+                        SobranteCordoba = null,
+                        SobranteDolar = null
+                    };
+                    _contexto.ArqueoCajas.Add(arqueo);
+                    _contexto.SaveChanges(); // Guardar el arqueo
+                }
 
-                if (string.IsNullOrWhiteSpace(motivo))
-                    throw new ArgumentException("El motivo del egreso no puede estar vacío");
-
-                if (motivo.Length > 255)
-                    throw new ArgumentException("El motivo no puede exceder los 255 caracteres");
-
-                // Validar montos
-                if (!cantidadCordobas.HasValue && !cantidadDolares.HasValue)
-                    throw new ArgumentException("Debe especificar al menos un monto en córdobas o dólares");
-
-                if ((cantidadCordobas ?? 0) < 0 || (cantidadDolares ?? 0) < 0)
-                    throw new ArgumentException("Los montos no pueden ser negativos");
-
-                if ((cantidadCordobas ?? 0) == 0 && (cantidadDolares ?? 0) == 0)
-                    throw new ArgumentException("Al menos un monto debe ser mayor que cero");
-
-                // Validar existencia de referencias
-                if (!_contexto.AperturaCajas.Any(a => a.IdApertura == idApertura))
-                    throw new ArgumentException("La apertura de caja especificada no existe");
-                                
-                if (!_contexto.Usuarios.Any(u => u.IdUsuario == idUsuario))
-                    throw new ArgumentException("El usuario especificado no existe");
-
-                // Crear el egreso
+                // 2. Crear el egreso vinculado al arqueo
                 var egreso = new Egreso
                 {
+                    IdArqueoCaja = arqueo.IdArqueoCaja,
                     IdApertura = idApertura,
-                    IdUsuario = idUsuario,
+                    IdUsuario = idUsuario.Value,
                     FechaEgreso = fechaEgreso,
                     CantidadEgresadaCordoba = cantidadCordobas ?? 0,
                     CantidadEgresadaDolar = cantidadDolares ?? 0,
-                    MotivoEgreso = motivo
+                    MotivoEgreso = motivo.Trim()
                 };
 
                 _contexto.Egresos.Add(egreso);
-                return _contexto.SaveChanges() > 0;
+
+                // 3. Actualizar los totales del arqueo
+                if (cantidadCordobas.HasValue && cantidadCordobas > 0)
+                {
+                    arqueo.TotalEfectivoCordoba -= (float)cantidadCordobas.Value;
+                }
+
+                if (cantidadDolares.HasValue && cantidadDolares > 0)
+                {
+                    arqueo.TotalEfectivoDolar -= (float)cantidadDolares.Value;
+                }
+
+
+                // 4. Guardar todos los cambios
+                var result = _contexto.SaveChanges() > 0;
+                transaction.Commit();
+
+                return result;
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException dbEx)
             {
-                throw new ApplicationException("Error de base de datos al crear el egreso. Detalles: " + ex.InnerException?.Message, ex);
+                transaction.Rollback();
+                throw new ApplicationException("Error de base de datos al crear el egreso: " + dbEx.InnerException?.Message, dbEx);
             }
             catch (Exception ex)
             {
+                transaction.Rollback();
                 throw new ApplicationException("Error al crear el egreso: " + ex.Message, ex);
             }
         }
 
-        public int ObtenerIdUsuarioLogueado(string nombreUsuario)
-        {
-            // Validación básica del parámetro de entrada
-            if (string.IsNullOrWhiteSpace(nombreUsuario))
-            {
-                throw new ArgumentException("El nombre de usuario no puede estar vacío", nameof(nombreUsuario));
-            }
 
-            try
-            {
-                // Usa los nombres correctos de las propiedades
-                var usuario = _contexto.Usuarios
-                    .FirstOrDefault(u => u.UsuarioLogueo == nombreUsuario.Trim() && u.EstadoUsuario);
-
-                if (usuario == null)
-                {
-                    // Mensaje más descriptivo para ayudar en la depuración
-                    var usuariosExistentes = _contexto.Usuarios
-                        .Where(u => u.EstadoUsuario)
-                        .Select(u => u.UsuarioLogueo)
-                        .ToList();
-
-                    throw new Exception($"No se encontró un usuario activo con el nombre '{nombreUsuario}'. " +
-                                      $"Usuarios activos disponibles: {string.Join(", ", usuariosExistentes)}");
-                }
-
-                return usuario.IdUsuario; // Usar IdUsuario en lugar de Id_usuario
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al buscar el usuario en la base de datos: {ex.Message}", ex);
-            }
-        }
 
         public decimal ObtenerTotalCajaCordobas(DateOnly fecha)
         {
@@ -139,7 +197,6 @@ namespace formstienda.Servicios
         public decimal ObtenerTotalCajaDolares(DateOnly fecha)
         {
             // Similar al método anterior pero para dólares
-
             decimal totalVentas = (Decimal)ListarTotalVenta(fecha)
                 .Where(v => v.PagoDolares.HasValue)
                 .Sum(v => v.PagoDolares.Value);
@@ -154,8 +211,6 @@ namespace formstienda.Servicios
 
             return totalVentas + totalCreditos - totalEgresos;
         }
-
-
 
         public List<Egreso> ListarEgresosPorFecha(DateOnly fecha)
         {
@@ -187,7 +242,6 @@ namespace formstienda.Servicios
                 .Sum(e => e.CantidadEgresadaDolar);
         }
 
-        // Métodos adicionales del servicio que ya tenías
         public List<AperturaCaja> ListarAperturaCaja(DateOnly fechaActual)
         {
             return _contexto.AperturaCajas
@@ -218,12 +272,6 @@ namespace formstienda.Servicios
                 .Where(a => a.FechaPago == fechaActual)
                 .AsNoTracking()
                 .ToList();
-        }
-
-        public Usuario ObtenerIdUsuarioLogueado(int idUsuario)
-        {
-            return _contexto.Usuarios
-                .FirstOrDefault(u => u.IdUsuario == idUsuario);
         }
                 
     }
