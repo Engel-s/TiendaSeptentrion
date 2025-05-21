@@ -21,5 +21,15 @@ public partial class PagoDeCredito
 
     public float NuevoSaldo { get; set; }
 
+    public int? Saldo { get; set; }
+
+    public string? TasaIntereses { get; set; }
+
+    public int? MontoPorMora { get; set; }
+
+    public int? DiasDeMora { get; set; }
+
+    public int? NumeroDePlazo { get; set; }
+
     public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }

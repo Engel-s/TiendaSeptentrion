@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace formstienda.Capa_negocios
 {
-  internal class CreditoServicio
+  public class CreditoServicio
        {
         public bool AñadirCredito(PagoDeCredito credito)
         {
@@ -28,25 +28,43 @@ namespace formstienda.Capa_negocios
                 return contexto.PagoDeCreditos.ToList();
             }
         }
+        //public bool AgregarPagoCredito(int idVenta, decimal montoAbonado, bool esDolares)
+        //{
+        //    using (var contexto = new DbTiendaSeptentrionContext())
+        //    {
+        //        // Buscar la factura
+        //        var factura = contexto.Venta.FirstOrDefault(a => a.IdVenta == idVenta);
+        //        if (factura == null)
+        //            return false;
 
-        public int ObtenerIDFActura(int nombreArticulo)
-        {
-            using (var contexto = new DbTiendaSeptentrionContext())
-            {
-                var factura = contexto.Venta.FirstOrDefault(a => a.IdVenta == nombreArticulo);
-                return factura != null ? factura.IdVenta : 0;
-            }
-        }
+        //        // Si la moneda es dólares, convierte a córdobas si es necesario
+        //        decimal montoEnCordobas = montoAbonado;
+        //        if (esDolares)
+        //        {
+        //            // Supón que tienes una tasa de cambio disponible, por ejemplo:
+        //            decimal tasaCambio = 36.5m; 
+        //            montoEnCordobas = montoAbonado * tasaCambio;
+        //        }
 
-        public bool AgregarPagoCredito(PagoDeCredito articulo)
-        {
-            using (var contexto = new DbTiendaSeptentrionContext())
-            {
-                var resultado = contexto.PagoDeCreditos.Add(articulo);
-                contexto.SaveChanges();
-                return resultado == null ? false : true;
-            }
-        }
+                // Restar el monto abonado al saldo de la factura
+                //factura. -= montoEnCordobas;
+
+                // Registrar el pago en la tabla de pagos de crédito
+                //var pago = new PagoDeCredito
+                //{
+                //    IdVenta = idVenta,
+                //    MontoPagado = montoAbonado,
+                //    EsDolares = esDolares,
+                //    FechaPago = DateTime.Now
+                    // Agrega otros campos necesarios
+            //    };
+
+            //    contexto.PagoDeCreditos.Add(pago);
+            //    contexto.SaveChanges();
+            //    return true;
+            //}
+        //}
+
     }
 }
        

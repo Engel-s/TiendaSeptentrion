@@ -41,6 +41,9 @@
             Column3 = new DataGridViewTextBoxColumn();
             Column4 = new DataGridViewTextBoxColumn();
             Column5 = new DataGridViewTextBoxColumn();
+            Column8 = new DataGridViewTextBoxColumn();
+            Column9 = new DataGridViewTextBoxColumn();
+            Column10 = new DataGridViewTextBoxColumn();
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
@@ -55,6 +58,7 @@
             btnSalir = new Button();
             pictureBox6 = new PictureBox();
             txtCambio = new TextBox();
+            checkBox1 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Tabla_Credito).BeginInit();
@@ -116,8 +120,8 @@
             Tabla_Credito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             Tabla_Credito.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             Tabla_Credito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            Tabla_Credito.Columns.AddRange(new DataGridViewColumn[] { Column1, Column6, Column7, Column2, Column3, Column4, Column5 });
-            Tabla_Credito.Location = new Point(28, 174);
+            Tabla_Credito.Columns.AddRange(new DataGridViewColumn[] { Column1, Column6, Column7, Column2, Column3, Column4, Column5, Column8, Column9, Column10 });
+            Tabla_Credito.Location = new Point(28, 162);
             Tabla_Credito.Margin = new Padding(3, 2, 3, 2);
             Tabla_Credito.Name = "Tabla_Credito";
             Tabla_Credito.RowHeadersWidth = 62;
@@ -166,6 +170,24 @@
             Column5.HeaderText = "Nuevo saldo";
             Column5.MinimumWidth = 8;
             Column5.Name = "Column5";
+            // 
+            // Column8
+            // 
+            Column8.HeaderText = "Tasa de interés";
+            Column8.MinimumWidth = 6;
+            Column8.Name = "Column8";
+            // 
+            // Column9
+            // 
+            Column9.HeaderText = "Número de plazo ";
+            Column9.MinimumWidth = 6;
+            Column9.Name = "Column9";
+            // 
+            // Column10
+            // 
+            Column10.HeaderText = "Interés por mora ";
+            Column10.MinimumWidth = 6;
+            Column10.Name = "Column10";
             // 
             // label3
             // 
@@ -220,6 +242,7 @@
             txtCordobas.Name = "txtCordobas";
             txtCordobas.Size = new Size(147, 27);
             txtCordobas.TabIndex = 46;
+            txtCordobas.TextChanged += txtCordobas_TextChanged;
             // 
             // btnGuardar
             // 
@@ -235,6 +258,7 @@
             btnGuardar.TabIndex = 48;
             btnGuardar.Text = "Guardar";
             btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // label6
             // 
@@ -251,11 +275,13 @@
             // txtDolares
             // 
             txtDolares.Anchor = AnchorStyles.Bottom;
+            txtDolares.Enabled = false;
             txtDolares.Location = new Point(542, 651);
             txtDolares.Margin = new Padding(3, 2, 3, 2);
             txtDolares.Name = "txtDolares";
             txtDolares.Size = new Size(147, 27);
             txtDolares.TabIndex = 47;
+            txtDolares.TextChanged += txtDolares_TextChanged;
             // 
             // btnCancelar
             // 
@@ -333,11 +359,23 @@
             txtCambio.Size = new Size(147, 27);
             txtCambio.TabIndex = 56;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(430, 613);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(119, 24);
+            checkBox1.TabIndex = 57;
+            checkBox1.Text = "Pago Dólares";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
             // Facturacion_de_crédito
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1045, 793);
+            Controls.Add(checkBox1);
             Controls.Add(txtCambio);
             Controls.Add(pictureBox6);
             Controls.Add(btnSalir);
@@ -395,6 +433,7 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.PictureBox pictureBox6;
+        private TextBox txtCambio;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column6;
         private DataGridViewTextBoxColumn Column7;
@@ -402,6 +441,9 @@
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
         private DataGridViewTextBoxColumn Column5;
-        private TextBox txtCambio;
+        private DataGridViewTextBoxColumn Column8;
+        private DataGridViewTextBoxColumn Column9;
+        private DataGridViewTextBoxColumn Column10;
+        private CheckBox checkBox1;
     }
 }

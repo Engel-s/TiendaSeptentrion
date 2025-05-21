@@ -51,7 +51,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-QJJDVK7\\SQLEXPRESS;Initial Catalog=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-QJJDVK7\\SQLEXPRESS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -348,6 +348,9 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.NuevoSaldo).HasColumnName("Nuevo_Saldo");
             entity.Property(e => e.PagoCordobas).HasColumnName("Pago_Cordobas");
             entity.Property(e => e.PagoDolares).HasColumnName("Pago_Dolares");
+            entity.Property(e => e.TasaIntereses)
+                .HasMaxLength(50)
+                .HasColumnName("Tasa_Intereses");
             entity.Property(e => e.TotalAbonado).HasColumnName("Total_Abonado");
 
             entity.HasOne(d => d.IdVentaNavigation).WithMany(p => p.PagoDeCreditos)
