@@ -35,15 +35,12 @@
             pictureBox2 = new PictureBox();
             Tabla_Credito = new DataGridView();
             Column1 = new DataGridViewTextBoxColumn();
-            Column6 = new DataGridViewTextBoxColumn();
-            Column7 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             Column3 = new DataGridViewTextBoxColumn();
             Column4 = new DataGridViewTextBoxColumn();
             Column5 = new DataGridViewTextBoxColumn();
             Column8 = new DataGridViewTextBoxColumn();
             Column9 = new DataGridViewTextBoxColumn();
-            Column10 = new DataGridViewTextBoxColumn();
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
@@ -120,7 +117,7 @@
             Tabla_Credito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             Tabla_Credito.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             Tabla_Credito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            Tabla_Credito.Columns.AddRange(new DataGridViewColumn[] { Column1, Column6, Column7, Column2, Column3, Column4, Column5, Column8, Column9, Column10 });
+            Tabla_Credito.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5, Column8, Column9 });
             Tabla_Credito.Location = new Point(28, 162);
             Tabla_Credito.Margin = new Padding(3, 2, 3, 2);
             Tabla_Credito.Name = "Tabla_Credito";
@@ -128,24 +125,13 @@
             Tabla_Credito.RowTemplate.Height = 28;
             Tabla_Credito.Size = new Size(1001, 402);
             Tabla_Credito.TabIndex = 41;
+            Tabla_Credito.CellContentClick += Tabla_Credito_CellContentClick;
             // 
             // Column1
             // 
             Column1.HeaderText = "Nº Factura";
             Column1.MinimumWidth = 8;
             Column1.Name = "Column1";
-            // 
-            // Column6
-            // 
-            Column6.HeaderText = "Días de mora";
-            Column6.MinimumWidth = 6;
-            Column6.Name = "Column6";
-            // 
-            // Column7
-            // 
-            Column7.HeaderText = "Monto por mora";
-            Column7.MinimumWidth = 6;
-            Column7.Name = "Column7";
             // 
             // Column2
             // 
@@ -182,12 +168,6 @@
             Column9.HeaderText = "Número de plazo ";
             Column9.MinimumWidth = 6;
             Column9.Name = "Column9";
-            // 
-            // Column10
-            // 
-            Column10.HeaderText = "Interés por mora ";
-            Column10.MinimumWidth = 6;
-            Column10.Name = "Column10";
             // 
             // label3
             // 
@@ -434,16 +414,13 @@
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.PictureBox pictureBox6;
         private TextBox txtCambio;
+        private CheckBox checkBox1;
         private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column6;
-        private DataGridViewTextBoxColumn Column7;
         private DataGridViewTextBoxColumn Column2;
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
         private DataGridViewTextBoxColumn Column5;
         private DataGridViewTextBoxColumn Column8;
         private DataGridViewTextBoxColumn Column9;
-        private DataGridViewTextBoxColumn Column10;
-        private CheckBox checkBox1;
     }
 }

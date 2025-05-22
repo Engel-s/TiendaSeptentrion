@@ -17,6 +17,8 @@ public partial class DetalleDeVentum
 
     public string CedulaCliente { get; set; } = null!;
 
+    public double? SubTotal { get; set; }
+
     public virtual Producto CodigoProductoNavigation { get; set; } = null!;
 
     public virtual Ventum IdVentaNavigation { get; set; } = null!;

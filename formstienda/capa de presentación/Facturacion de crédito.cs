@@ -24,6 +24,10 @@ namespace formstienda.capa_de_presentación
 
         }
 
+        private void CalcularClientesCredito()
+        {
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -33,6 +37,51 @@ namespace formstienda.capa_de_presentación
         private void Facturacion_de_crédito_Load(object sender, EventArgs e)
         {
 
+            if (Tabla_Credito.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una factura.");
+                return;
+            }
+
+            string numeroFactura = Tabla_Credito.CurrentRow.Cells["NumeroFactura"].Value.ToString();
+            decimal abono = 0;
+            decimal.TryParse(txtTotalAbonado.Text, out abono);
+
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                var factura = context.Venta.FirstOrDefault(f => f.IdVenta == int.Parse(numeroFactura));
+                var credito = context.DetalleCreditos.FirstOrDefault(d => d.IdDetalleCredito == int.Parse(numeroFactura));
+                if (factura == null)
+                {
+                    MessageBox.Show("Factura no encontrada.");
+                    return;
+                }
+
+                // Si hay atraso, incrementar interés
+                if (DateTime.Now > credito.FechaPago)
+                {
+                    // Convertir float a decimal para la operación precisa
+                    decimal interesDecimal = Convert.ToDecimal(credito.InteresPagado);
+
+                    // Incrementar el interés en 0.03 (3%)
+                    interesDecimal += 0.03m;
+
+                    // Convertir de nuevo a float para asignar a la propiedad
+                    credito.InteresPagado = (float)interesDecimal;
+                }
+                decimal abonoCapital = Convert.ToDecimal(credito.AbonoCapital);
+                abonoCapital += abono;
+                credito.AbonoCapital = (float)abonoCapital;
+
+                credito.ValorCuota = credito.InteresPagado - credito.AbonoCapital;
+                if (credito.ValorCuota < 0)
+                    credito.ValorCuota = 0;
+
+                context.SaveChanges();
+
+                MessageBox.Show($"Saldo restante a pagar: {credito.ValorCuota:C2}");
+                pictureBox1_Click(null, null); // Refresca la grilla
+            }
 
         }
 
@@ -42,35 +91,26 @@ namespace formstienda.capa_de_presentación
         }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            // Validar que el teléfono sea un número válido (si es int)
-            if (!int.TryParse(txtBusqueda.Text.Trim(), out int facturtabuscada))
-            {
-                MessageBox.Show("Por favor, ingresa un número válido en el campo.");
-                return;
-            }
+
+            string criterio = txtBusqueda.Text.Trim();
 
             using (var context = new DbTiendaSeptentrionContext())
             {
-                var credito = context.PagoDeCreditos.FirstOrDefault(cr => cr.IdVenta == facturtabuscada);
-                if (credito != null)
-                {
-                    // Rellenar campos con datos de la venta encontrado
-                    txtCambio.Text = credito.Cambio.ToString();
-                    txtCordobas.Text = credito.PagoCordobas.ToString();
-                    float? v = credito.PagoCordobas * 37;
-                    txtDolares.Text = v.ToString();
-                    txtTotalAbonado.Text = credito.TotalAbonado.ToString();
-                }
-                else
-                {
-                    MessageBox.Show("No se encontró ningún proveedor con ese teléfono. Puedes ingresar un nuevo proveedor.");
-                    // Opcional: limpiar otros campos para que el usuario ingrese datos nuevos
-                    txtTotalAbonado.Clear();
-                    txtDolares.Clear();
-                    txtCordobas.Clear();
-                    txtCambio.Clear();
-                    txtBusqueda.Clear();
-                }
+                var creditos = context.DetalleCreditos
+                    .Where(f => f.IdDetalleCredito.Contains(criterio) && f.ValorCuota > 0)
+                    .Select(f => new
+                    {
+                        f.NumeroFactura,
+                        Fecha = f.FechaRegistro,
+                        f.Saldo,
+                        f.Abono,
+                        NuevoSaldo = f.Saldo - f.Abono,
+                        f.TasaInteres,
+                        f.NumeroPlazo
+                    })
+                    .ToList();
+
+                Tabla_Credito.DataSource = creditos;
             }
 
         }
@@ -98,59 +138,80 @@ namespace formstienda.capa_de_presentación
         private void txtCordobas_TextChanged(object sender, EventArgs e)
         {
 
-            if (!string.IsNullOrWhiteSpace(txtCordobas.Text))
+            if (!chkPagoDolares.Checked)
             {
-                txtDolares.Text = string.Empty;
+                decimal abono = 0;
+                decimal.TryParse(txtCordobas.Text, out abono);
+                txtTotalAbonado.Text = abono.ToString("N2");
+                txtCambio.Text = ""; // Puedes calcular el cambio si el abono es mayor al saldo
             }
         }
 
         private void txtDolares_TextChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtDolares.Text))
+            if (txtDolares.Text)
             {
-                txtCordobas.Text = string.Empty;
+                decimal abonoDolares = 0;
+                decimal tasaCambio = 36.5m; // Usa la tasa actual de tu sistema
+                decimal.TryParse(txtDolares.Text, out abonoDolares);
+                decimal abonoCordobas = abonoDolares * tasaCambio;
+                txtTotalAbonado.Text = abonoCordobas.ToString("N2");
+                txtCambio.Text = ""; // Calcula el cambio si es necesario
             }
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+        }
+            private void btnPagar_Click(object sender, EventArgs e)
+        {
+            int facturaId = FacturaCredito); // Implementa este método según tu lógica
+            decimal abono = decimal.Parse(txtTotalAbonado.Text);
 
-            using (var db = new DbTiendaSeptentrionContext())
+            using (var context = new DbTiendaSeptentrionContext())
             {
-                // Suponiendo que tienes el Id del crédito seleccionado
-                int idCredito = int.Parse(Tabla_Credito.Text); // O como obtengas el Id
-                var credito = db.DetalleDeVenta.FirstOrDefault(c => c.IdVenta == idCredito);
+                var factura = context.DetalleDeVenta.Find(facturaId);
+                var credito = context.DetalleCreditos.Find(facturaId);
 
-                if (Tabla_Credito != null)
+                if (credito == null)
                 {
-                    decimal abono = 0;
-                    string moneda = "0";
+                    MessageBox.Show("Factura no encontrada.");
+                    return;
+                }
 
-                    if (!string.IsNullOrWhiteSpace(txtCordobas.Text))
-                    {
-                        abono = decimal.Parse(txtCordobas.Text);
-                        moneda = "Cordoba";
-                    }
-                    else if (!string.IsNullOrWhiteSpace(txtDolares.Text))
-                    {
-                        abono = decimal.Parse(txtDolares.Text);
-                        moneda = "Dolares";
-                    }
+                // Verificar atraso y actualizar interés si es necesario
+                if (DateTime.Now > credito.FechaPago)
+                {
+                    //decimal abonoCapital = Convert.ToDecimal(credito.AbonoCapital);
+                    //abonoCapital += abono;
+                    //credito.AbonoCapital = (float)abonoCapital;
+                    decimal interes = Convert.ToDecimal(credito.FechaPago);
+                    interes += 0.03m;
+                   credito.InteresPagado = (float) interes; // Incrementa el 3%
+                }
 
-                    // Actualiza el saldo
-                  //  Tabla_Credito.abono = abono;
-                    /// Tabla_Credito.Moneda = moneda; // Opcional, si manejas la moneda
+                // Actualizar abono y saldo
+                decimal abonoCapital = Convert.ToDecimal(credito.AbonoCapital);
+                abonoCapital += abono;
+                credito.AbonoCapital = (float)abonoCapital;
+                credito.ValorCuota = credito.ValorCuota - credito.AbonoCapital;
 
-                    db.SaveChanges();
-
-                    MessageBox.Show("Pago registrado y saldo actualizado.");
+                // Si ya pagó todo, poner saldo en 0
+                if (credito.ValorCuota <= 0)
+                {
+                    credito.ValorCuota = 0;
+                    MessageBox.Show("¡Crédito saldado!");
                 }
                 else
                 {
-                    MessageBox.Show("Crédito no encontrado.");
+                    MessageBox.Show($"Saldo restante a pagar: {credito.ValorCuota:C2}");
                 }
+
+                context.SaveChanges();
+                lblSaldoRestante.Text = credito.ValorCuota.ToString("C2");
             }
         }
+
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -164,6 +225,32 @@ namespace formstienda.capa_de_presentación
                 txtDolares.Enabled = false;
                 txtCordobas.Enabled = true;
             }
+        }
+
+        private void Tabla_Credito_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                var clientesConCredito = context.FacturaCreditos
+                    .Where(f => f.DetalleCreditos = "credito" && f.MontoCredito > 0)
+                    .Select(f => new
+                    {
+                        f.NumeroFactura,
+                        f.FechaRegistro,
+                        f.FechaFinalizacion,
+                        f.Saldo,
+                        f.Abono,
+                        f.NuevoSaldo,
+                        f.NumeroPlazo,
+                        f.TasaInteres,
+                        f.ClienteId,
+                        ClienteNombre = f.Cliente.Nombre
+                    })
+                    .ToList();
+
+                // Aquí puedes enlazar los datos a tu DataGridView o controles.
+            }
+
         }
     }
 }
