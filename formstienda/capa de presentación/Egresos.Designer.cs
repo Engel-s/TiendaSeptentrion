@@ -165,6 +165,7 @@
             // 
             // cmbMoneda
             // 
+            cmbMoneda.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbMoneda.FormattingEnabled = true;
             cmbMoneda.Location = new Point(263, 156);
             cmbMoneda.Name = "cmbMoneda";

@@ -37,7 +37,10 @@
             button1 = new Button();
             label1 = new Label();
             txtBuscarEgresos = new TextBox();
+            dateTimePicker1 = new DateTimePicker();
+            pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)DGCONTROLEGRESOS).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // DGCONTROLEGRESOS
@@ -118,16 +121,38 @@
             // 
             // txtBuscarEgresos
             // 
-            txtBuscarEgresos.Location = new Point(122, 43);
+            txtBuscarEgresos.Location = new Point(101, 43);
             txtBuscarEgresos.Name = "txtBuscarEgresos";
             txtBuscarEgresos.Size = new Size(375, 27);
             txtBuscarEgresos.TabIndex = 66;
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(482, 43);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(280, 27);
+            dateTimePicker1.TabIndex = 67;
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.reinicio_removebg_preview;
+            pictureBox1.Location = new Point(768, 43);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(41, 27);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 68;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += btnLimpiarFiltro_Click;
+            pictureBox1.DoubleClick += btnLimpiarFiltro_Click;
             // 
             // ControldeEgresos
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(902, 462);
+            Controls.Add(pictureBox1);
+            Controls.Add(dateTimePicker1);
             Controls.Add(txtBuscarEgresos);
             Controls.Add(label1);
             Controls.Add(button1);
@@ -137,6 +162,7 @@
             Text = "ControldeEgresos";
             Load += ControldeEgresos_Load;
             ((System.ComponentModel.ISupportInitialize)DGCONTROLEGRESOS).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -152,5 +178,7 @@
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
         private DataGridViewTextBoxColumn Column1;
+        private DateTimePicker dateTimePicker1;
+        private PictureBox pictureBox1;
     }
 }

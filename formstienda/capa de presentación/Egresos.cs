@@ -116,7 +116,7 @@ namespace formstienda.capa_de_presentación
 
                 // Obtener la apertura de caja del día
                 var apertura = _egresoservicio.ListarAperturaCaja(fechaActual).FirstOrDefault();
-                decimal montoApertura = (decimal)(apertura?.MontoApertura ?? 0f);
+                decimal montoApertura = apertura?.MontoApertura != null ? (decimal)apertura.MontoApertura : 0m;
 
                 // Obtener total de ventas en córdobas
                 var ventas = _egresoservicio.ListarTotalVenta(fechaActual);
@@ -133,8 +133,8 @@ namespace formstienda.capa_de_presentación
                 // Obtener total de pagos a crédito en córdobas
                 var pagosCredito = _egresoservicio.ListarPagosCredito(fechaActual);
                 decimal totalCordobasAbonados = pagosCredito?
-                    .Where(p => p?.CordobasAbonados != null)
-                    .Sum(p => (decimal)p.CordobasAbonados.Value) ?? 0m;
+                    .Where(p => p?.TotalCordobas > 0)
+                    .Sum(p => (decimal)p.TotalCordobas) ?? 0m;
 
                 // Obtener total de egresos en córdobas
                 decimal totalEgresos = _egresoservicio.ObtenerTotalEgresosCordobas(fechaActual);
@@ -168,8 +168,8 @@ namespace formstienda.capa_de_presentación
                 // Obtener total de pagos a crédito en dólares
                 var pagosCredito = _egresoservicio.ListarPagosCredito(fechaActual);
                 decimal totalDolaresAbonados = pagosCredito?
-                    .Where(p => p?.DolaresAbonados != null)
-                    .Sum(p => (decimal)p.DolaresAbonados.Value) ?? 0m;
+                    .Where(p => p?.TotalDolares > 0)
+                    .Sum(p => (decimal)p.TotalDolares) ?? 0m;
 
                 // Obtener total de egresos en dólares
                 decimal totalEgresos = _egresoservicio.ObtenerTotalEgresosDolares(fechaActual);
@@ -236,7 +236,7 @@ namespace formstienda.capa_de_presentación
                 }
 
                 // Validar que la cantidad es un número positivo
-                if (!decimal.TryParse(txtCantidadEgresada.Text, out decimal cantidad) || cantidad <= 0)
+                if (!decimal.TryParse(txtCantidadEgresada.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal cantidad) || cantidad <= 0)
                 {
                     MessageBox.Show("La cantidad debe ser un número positivo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtCantidadEgresada.SelectAll();

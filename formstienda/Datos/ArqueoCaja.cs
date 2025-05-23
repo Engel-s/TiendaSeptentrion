@@ -23,6 +23,8 @@ public partial class ArqueoCaja
 
     public float? SobranteDolar { get; set; }
 
+    public DateTime FechaArqueo { get; set; }
+
     public virtual ICollection<Egreso> Egresos { get; set; } = new List<Egreso>();
 
     public virtual AperturaCaja IdAperturaNavigation { get; set; } = null!;
