@@ -62,6 +62,7 @@
             // 
             // cmbestado
             // 
+            cmbestado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbestado.FormattingEnabled = true;
             cmbestado.Items.AddRange(new object[] { "Activo", "Inactivo" });
             cmbestado.Location = new Point(81, 270);
@@ -113,7 +114,7 @@
             label4.Name = "label4";
             label4.Size = new Size(119, 28);
             label4.TabIndex = 7;
-            label4.Text = "Codigo ruc:";
+            label4.Text = "Código ruc:";
             // 
             // label5
             // 
@@ -123,7 +124,7 @@
             label5.Name = "label5";
             label5.Size = new Size(99, 28);
             label5.TabIndex = 8;
-            label5.Text = "Telefono:";
+            label5.Text = "Teléfono:";
             // 
             // label6
             // 

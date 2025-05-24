@@ -36,7 +36,7 @@ namespace formstienda
             txtTelefono.Clear();
             txtCorreo.Clear();
         }
-        //DbContext db = new DbContext();
+        
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -198,6 +198,7 @@ namespace formstienda
 
         private void dtgproveedores_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            
             //int idProveedor = (int)dtgproveedores.Rows[e.RowIndex].Cells["IdProveedor"].Value;
 
             string codigoRuc = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value.ToString();
@@ -240,6 +241,81 @@ namespace formstienda
             }
             else
                 MessageBox.Show("No se pudo actualizar el proveedor");
+
+            /*string codigoRuc = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value?.ToString()?.Trim() ?? "";
+            string nombre = dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString()?.Trim() ?? "";
+            string apellido = dtgproveedores.Rows[e.RowIndex].Cells["ApellidoProveedor"].Value?.ToString()?.Trim() ?? "";
+            string telefono = dtgproveedores.Rows[e.RowIndex].Cells["TelefonoProveedor"].Value?.ToString()?.Trim() ?? "";
+            string correo = dtgproveedores.Rows[e.RowIndex].Cells["CorreoProveedor"].Value?.ToString()?.Trim() ?? "";
+            bool estado = Convert.ToBoolean(dtgproveedores.Rows[e.RowIndex].Cells["EstadoProveedor"].Value);
+
+            // Validar campos obligatorios
+            if (string.IsNullOrWhiteSpace(codigoRuc) || string.IsNullOrWhiteSpace(nombre)
+                || string.IsNullOrWhiteSpace(apellido) || string.IsNullOrWhiteSpace(telefono))
+            {
+                MessageBox.Show("Todos los campos obligatorios deben estar llenos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Validar formato del RUC
+            string patronRuc = @"^\d{3}-\d{6}-\d{4}[A-Z]{1}$";
+            if (!Regex.IsMatch(codigoRuc, patronRuc))
+            {
+                MessageBox.Show("El formato del código RUC es incorrecto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Validar formato del teléfono
+            string patronTelefono = @"^\d{8}$";
+            if (!Regex.IsMatch(telefono, patronTelefono))
+            {
+                MessageBox.Show("El formato del teléfono es incorrecto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Verificar duplicados, ignorando el proveedor actual
+            var proveedorDuplicado = proveedorServicio.ListarProveedores().FirstOrDefault(p =>
+                (p.CodigoRuc != codigoRuc) && (
+                    p.CorreoProveedor == correo && !string.IsNullOrWhiteSpace(correo) ||
+                    p.TelefonoProveedor == telefono
+                )
+            );
+
+            if (proveedorDuplicado != null)
+            {
+                if (proveedorDuplicado.TelefonoProveedor == telefono)
+                {
+                    MessageBox.Show("Ya existe un proveedor con ese número de teléfono.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!string.IsNullOrWhiteSpace(correo) && proveedorDuplicado.CorreoProveedor == correo)
+                {
+                    MessageBox.Show("Ya existe un proveedor con ese correo electrónico.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            // Crear objeto actualizado
+            var proveedorActualizado = new Proveedor
+            {
+                CodigoRuc = codigoRuc,
+                NombreProveedor = nombre,
+                ApellidoProveedor = apellido,
+                TelefonoProveedor = telefono,
+                CorreoProveedor = correo,
+                EstadoProveedor = estado
+            };
+
+            // Intentar actualizar
+            if (proveedorServicio.ActualizarProveedor(proveedorActualizado))
+            {
+                MessageBox.Show("Proveedor actualizado correctamente.");
+            }
+            else
+            {
+                MessageBox.Show("No se pudo actualizar el proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }*/
 
         }
 

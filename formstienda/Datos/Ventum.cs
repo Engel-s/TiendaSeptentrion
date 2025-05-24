@@ -17,8 +17,6 @@ public partial class Ventum
 
     public float? PagoDolares { get; set; }
 
-    public float SubTotal { get; set; }
-
     public float? CambioVenta { get; set; }
 
     public float TotalVenta { get; set; }
@@ -29,5 +27,5 @@ public partial class Ventum
 
     public virtual ICollection<Devolucion> Devolucions { get; set; } = new List<Devolucion>();
 
-    public virtual ICollection<PagoDeCredito> PagoDeCreditos { get; set; } = new List<PagoDeCredito>();
+    public virtual ICollection<FacturaCredito> FacturaCreditos { get; set; } = new List<FacturaCredito>();
 }

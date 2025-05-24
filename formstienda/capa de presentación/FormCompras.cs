@@ -34,17 +34,14 @@ namespace formstienda
         private DetalleCompraServicio? detalleCompraServicio;
         private BindingList<DetalleCompra> listadetallecompra;
 
-        private ProveedorServicio? proveedorServicio;
+        private ProveedorServicio? proveedorServicio; 
 
 
         //Variables auxiliares
         string nombreProveedor = string.Empty;
-        string nombreProducto = string.Empty;
-        string nombreMarca = string.Empty;
-        string nombreCategoria = string.Empty;
-
-
-
+        //string nombreProducto = string.Empty;
+        //string nombreMarca = string.Empty;
+        //string nombreCategoria = string.Empty;
 
 
         bool newcompra = false;
@@ -76,6 +73,7 @@ namespace formstienda
             txtcodigoproducto.Enabled = false;
             txtsubtotalcompra.Enabled = false;
             btncancelar.Enabled = false;
+            txtnumerofactura.Enabled = false; 
         }
 
         private void Activarcampos()
@@ -92,6 +90,7 @@ namespace formstienda
             txtcodigoproducto.Enabled = true;
             txtsubtotalcompra.Enabled = true;
             btncancelar.Enabled = true;
+            txtnumerofactura.Enabled = true;
         }
 
         private void cargarmarcas()
@@ -104,6 +103,7 @@ namespace formstienda
                 cmbmarcas.DataSource = marcas;
                 cmbmarcas.DisplayMember = "Marca"; // Solo muestra el nombre de la marca
                 cmbmarcas.ValueMember = "IdMarcas"; // Este valor se usa internamente si necesitas el ID
+                cmbmarcas.SelectedIndex = -1; 
             }
             catch (Exception ex)
             {
@@ -122,6 +122,7 @@ namespace formstienda
                 cmbcategoria.DataSource = categoria;
                 cmbcategoria.DisplayMember = "Categoria";
                 cmbcategoria.ValueMember = "IdCategoria";
+                cmbcategoria.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
@@ -132,12 +133,15 @@ namespace formstienda
         {
             try
             {
+                cmbproducto.SelectedIndexChanged -= cmbproducto_SelectedIndexChanged;
                 productoServicio = new ProductoServicio();
                 var productos = productoServicio.ListarProductos();
 
                 cmbproducto.DataSource = productos;
                 cmbproducto.DisplayMember = "ModeloProducto"; // Solo muestra el nombre del producto
-                //cmbproducto.ValueMember = "CodigoRuc"; // Este valor se usa internamente si necesitas el codigo ruc
+                //cmbproducto.ValueMember = "CodigoRuc"; 
+                cmbproducto.SelectedIndex = -1; // Desmarcar el primer elemento
+                cmbproducto.SelectedIndexChanged += cmbproducto_SelectedIndexChanged;
             }
             catch (Exception ex)
             {
@@ -146,13 +150,14 @@ namespace formstienda
 
         }
 
-        private void GenerarNuevoNumeroFactura()
+        //Funcion de generar numero de factura desactivada
+        /*private void GenerarNuevoNumeroFactura()
         {
             int ultimoId = compraServicio.ObtenerUltimoIdCompra();
             int nuevoNumeroFactura = ultimoId + 1;
 
             txtnumerofactura.Text = nuevoNumeroFactura.ToString();
-        }
+        }*/
 
         private void label4_Click(object sender, EventArgs e)
         {
@@ -232,7 +237,7 @@ namespace formstienda
         private void ColumnasPersonalizadas()
         {
             dtgcompras.Columns["IdDetalleCompra"].Visible = false;
-            dtgcompras.Columns["IdCompra"].HeaderText = "Numero de factura";
+            dtgcompras.Columns["IdCompra"].Visible = false;
             dtgcompras.Columns["CodigoProducto"].HeaderText = "Modelo producto";
             dtgcompras.Columns["CantidadCompra"].HeaderText = "Cantidad";
             dtgcompras.Columns["PrecioCompra"].HeaderText = "Precio de compra";
@@ -257,7 +262,7 @@ namespace formstienda
             cargarcategorias();
             cargarmarcas();
             cargarproductos();
-            GenerarNuevoNumeroFactura();
+            //GenerarNuevoNumeroFactura();
 
             detalleCompraServicio = new DetalleCompraServicio();
             compraServicio = new CompraServicio();
@@ -343,24 +348,49 @@ namespace formstienda
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            string textoVenta = txtprecioventa.Text.Replace("$", "").Replace("S/.", "").Replace(",", "").Trim();
+            if (string.IsNullOrEmpty(cmbcategoria.Text.Trim()) || string.IsNullOrEmpty(cmbmarcas.Text.Trim()) || string.IsNullOrEmpty(cmbproducto.Text.Trim()))
+            {
+                MessageBox.Show("Debe rellenar todos los campos.",
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (cmbcategoria.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar una categoría.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbmarcas.Focus();
+                return;
+            }
+
+            if (cmbmarcas.SelectedItem == null) 
+            {
+                MessageBox.Show("Debe seleccionar una marca.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbcategoria.Focus();
+                return;
+            }
+            if(cmbproducto.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un producto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbproducto.Focus();
+                return;
+            }
+
+            string textoVenta = txtprecioventa.Text.Replace("C$", "").Replace("S/.", "").Replace(",", "").Trim();
             float precioVenta = float.Parse(textoVenta);
 
-            if (string.IsNullOrEmpty(txtpreciocompra.Text.Trim()) || string.IsNullOrEmpty(txtcantidadproducto.Text.Trim()))
+            if (string.IsNullOrEmpty(txtpreciocompra.Text.Trim()) || string.IsNullOrEmpty(txtcantidadproducto.Text.Trim()) || string.IsNullOrEmpty(txtnumerofactura.Text.Trim()))
             {
-                MessageBox.Show("Los campos precio de compra y cantidad son obligatorios.",
+                MessageBox.Show("Los campos número de factura, precio de compra y cantidad son obligatorios.",
                     "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             else
             {
-                /*string patronPrecio = @"^\d+(\.\d{1,2})?$";
-                if (!Regex.IsMatch(txtprecioventa.Text, patronPrecio))
+                if(!int.TryParse(txtnumerofactura.Text, out int numeroFactura) || numeroFactura <= 0)
                 {
-                    MessageBox.Show("El formato del precio de venta es incorrecto.",
-                        "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El número de factura debe ser un número entero positivo.",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
-                }*/
+                }
 
                 if (!float.TryParse(txtpreciocompra.Text, out float precioCompra) || precioCompra <= 0)
                 {
@@ -368,6 +398,7 @@ namespace formstienda
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
                 if (!int.TryParse(txtcantidadproducto.Text, out int cantidad) || cantidad <= 0)
                 {
                     MessageBox.Show("La cantidad debe ser un número entero positivo.",
@@ -397,7 +428,6 @@ namespace formstienda
                     {
                         //Compra
                         var fechaCompra = datefecha.Value;
-                        var numeroFactura = int.Parse(txtnumerofactura.Text);
 
                         nombreProveedor = txtnombreproveedor.Text;
                         string codigoRuc = proveedorServicio.ObtenerCodigoRucPorNombre(nombreProveedor);
@@ -405,9 +435,20 @@ namespace formstienda
                         Compra compra = new Compra
                         {
                             FechaCompra = fechaCompra,
-                            IdCompra = numeroFactura,
+                            NumeroFactura = numeroFactura,
                             CodigoRuc = codigoRuc,
                         };
+
+                        var compraExistente = compraServicio.ListarCompra()
+                            .FirstOrDefault(c => c.NumeroFactura == compra.NumeroFactura || c.CodigoRuc == compra.CodigoRuc);
+                        if (compraExistente != null)
+                        {
+                            MessageBox.Show("Ya existe una compra de este proveedor con el mismo número de factura"
+                                             , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtnumerofactura.Focus();
+                            return;
+
+                        }
 
                         var agregarCompra = compraServicio.AgregarCompra(compra);
                         listacompra.Add(compra);
@@ -445,16 +486,23 @@ namespace formstienda
 
                         var registroCompra = detalleCompraServicio.AgregarDetalleCompra(detallecompra);
                         listadetallecompra.Add(detallecompra);
-
+                        
                         txtsubtotalcompra.Text = listadetallecompra
                                                                     .Where(x => x.IdCompra == listacompra.Last().IdCompra)
-                                                                    .Sum(x => x.SubtotalCompra ?? 0).ToString("C");
+                                                                    .Sum(x => x.SubtotalCompra).ToString("C");
                         productoServicio.AumentarStock(codigoProducto, cantidad);
                     }
                     else
                     {
                         MessageBox.Show("Selecciona un producto válido.");
                     }
+                    txtnumerofactura.Enabled = false;
+                    cmbproducto.SelectedIndex = -1; // Desmarcar el primer elemento
+                    cmbproducto.SelectedIndexChanged += cmbproducto_SelectedIndexChanged;
+                    cmbcategoria.SelectedIndex = -1; // Desmarcar el primer elemento
+                    cmbmarcas.SelectedIndex = -1; // Desmarcar el primer elemento
+                    txtprecioventa.Clear();
+                    txtcodigoproducto.Clear();
                     limpiarcampos();
                     btnregistrar.Enabled = true;
                     newcompra = false;
@@ -529,9 +577,16 @@ namespace formstienda
             txtsubtotalcompra.Clear();
             txtnombreproveedor.Clear();
             txtcantidadproducto.Clear();
+            txtnumerofactura.Clear();
             newcompra = true;
             Desactivarcampos();
-            GenerarNuevoNumeroFactura();
+            cmbproducto.SelectedIndex = -1; // Desmarcar el primer elemento
+            cmbproducto.SelectedIndexChanged += cmbproducto_SelectedIndexChanged;
+            cmbcategoria.SelectedIndex = -1; // Desmarcar el primer elemento
+            cmbmarcas.SelectedIndex = -1; // Desmarcar el primer elemento
+            txtprecioventa.Clear();
+            txtcodigoproducto.Clear();
+
         }
 
         private void txtbuscartelefono_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
@@ -585,14 +640,22 @@ namespace formstienda
             dtgcompras.DataSource = null; // Limpiar el DataGridView
             dtgcompras.DataSource = listadetallecompra; // Reasignar la lista vacía
             ColumnasPersonalizadas();
+            txtnumerofactura.Clear();
             txtsubtotalcompra.Clear();
             txtnombreproveedor.Clear();
             txtpreciocompra.Clear();
             txtcantidadproducto.Clear();
+            btnregistrar.Enabled = false;
+            cmbproducto.SelectedIndex = -1; // Desmarcar el primer elemento
+            cmbproducto.SelectedIndexChanged += cmbproducto_SelectedIndexChanged;
+            cmbcategoria.SelectedIndex = -1; // Desmarcar el primer elemento
+            cmbmarcas.SelectedIndex = -1; // Desmarcar el primer elemento
+            txtprecioventa.Clear();
+            txtcodigoproducto.Clear();
 
             newcompra = true;
-            int nuevoNumeroFactura = compraServicio.ObtenerUltimoIdCompra();
-            txtnumerofactura.Text = (nuevoNumeroFactura + 1).ToString();
+            /*int nuevoNumeroFactura = compraServicio.ObtenerUltimoIdCompra();
+            txtnumerofactura.Text = (nuevoNumeroFactura + 1).ToString();*/
 
             Desactivarcampos();
         }
@@ -634,6 +697,7 @@ namespace formstienda
             {
                 e.Handled = true;
             }
+            
 
             // Solo permitir un punto decimal
             if (e.KeyChar == '.' && (sender as TextBox).Text.Contains("."))

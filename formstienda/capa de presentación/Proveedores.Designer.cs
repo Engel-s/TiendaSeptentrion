@@ -49,6 +49,8 @@
             dtgproveedores = new DataGridView();
             txtCodigo_ruc = new MaskedTextBox();
             txtTelefono = new MaskedTextBox();
+            panel1 = new Panel();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgproveedores).BeginInit();
@@ -60,7 +62,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Times New Roman", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.Black;
-            label7.Location = new Point(385, 46);
+            label7.Location = new Point(376, 46);
             label7.Name = "label7";
             label7.Size = new Size(267, 38);
             label7.TabIndex = 68;
@@ -70,9 +72,9 @@
             // 
             // pictureBox6
             // 
-            pictureBox6.Anchor = AnchorStyles.Right;
+            pictureBox6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(813, 730);
+            pictureBox6.Location = new Point(678, 730);
             pictureBox6.Margin = new Padding(3, 2, 3, 2);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(28, 45);
@@ -84,7 +86,7 @@
             // 
             pictureBox4.Anchor = AnchorStyles.Top;
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(24, 317);
+            pictureBox4.Location = new Point(15, 317);
             pictureBox4.Margin = new Padding(3, 2, 3, 2);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(28, 42);
@@ -94,13 +96,13 @@
             // 
             // btnSalir
             // 
-            btnSalir.Anchor = AnchorStyles.Right;
+            btnSalir.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnSalir.BackColor = Color.FromArgb(3, 171, 229);
             btnSalir.Cursor = Cursors.Hand;
             btnSalir.FlatStyle = FlatStyle.Popup;
             btnSalir.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnSalir.ForeColor = Color.Black;
-            btnSalir.Location = new Point(847, 730);
+            btnSalir.Location = new Point(712, 730);
             btnSalir.Margin = new Padding(3, 5, 3, 5);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(110, 45);
@@ -117,7 +119,7 @@
             btnGuardar.FlatStyle = FlatStyle.Popup;
             btnGuardar.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnGuardar.ForeColor = Color.Black;
-            btnGuardar.Location = new Point(58, 314);
+            btnGuardar.Location = new Point(49, 314);
             btnGuardar.Margin = new Padding(3, 5, 3, 5);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(125, 45);
@@ -129,7 +131,7 @@
             // txtNombre_proveedor
             // 
             txtNombre_proveedor.Anchor = AnchorStyles.Top;
-            txtNombre_proveedor.Location = new Point(723, 134);
+            txtNombre_proveedor.Location = new Point(714, 134);
             txtNombre_proveedor.Margin = new Padding(3, 2, 3, 2);
             txtNombre_proveedor.Name = "txtNombre_proveedor";
             txtNombre_proveedor.Size = new Size(234, 27);
@@ -138,7 +140,7 @@
             // txtCorreo
             // 
             txtCorreo.Anchor = AnchorStyles.Top;
-            txtCorreo.Location = new Point(723, 255);
+            txtCorreo.Location = new Point(714, 255);
             txtCorreo.Margin = new Padding(3, 2, 3, 2);
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(234, 27);
@@ -150,7 +152,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(452, 255);
+            label5.Location = new Point(435, 255);
             label5.Name = "label5";
             label5.Size = new Size(170, 22);
             label5.TabIndex = 73;
@@ -162,7 +164,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(15, 255);
+            label4.Location = new Point(6, 255);
             label4.Name = "label4";
             label4.Size = new Size(78, 22);
             label4.TabIndex = 72;
@@ -174,7 +176,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(15, 189);
+            label2.Location = new Point(6, 189);
             label2.Name = "label2";
             label2.Size = new Size(95, 22);
             label2.TabIndex = 71;
@@ -186,7 +188,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(15, 131);
+            label1.Location = new Point(6, 131);
             label1.Name = "label1";
             label1.Size = new Size(127, 22);
             label1.TabIndex = 70;
@@ -198,7 +200,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(444, 133);
+            label3.Location = new Point(435, 133);
             label3.Name = "label3";
             label3.Size = new Size(214, 22);
             label3.TabIndex = 69;
@@ -210,7 +212,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.Black;
-            label6.Location = new Point(444, 189);
+            label6.Location = new Point(435, 189);
             label6.Name = "label6";
             label6.Size = new Size(217, 22);
             label6.TabIndex = 83;
@@ -219,7 +221,7 @@
             // txtApellido_proveedores
             // 
             txtApellido_proveedores.Anchor = AnchorStyles.Top;
-            txtApellido_proveedores.Location = new Point(723, 189);
+            txtApellido_proveedores.Location = new Point(714, 189);
             txtApellido_proveedores.Margin = new Padding(3, 2, 3, 2);
             txtApellido_proveedores.Name = "txtApellido_proveedores";
             txtApellido_proveedores.Size = new Size(234, 27);
@@ -230,7 +232,7 @@
             cmbestado.Anchor = AnchorStyles.Top;
             cmbestado.FormattingEnabled = true;
             cmbestado.Items.AddRange(new object[] { "Activo", "Inactivo" });
-            cmbestado.Location = new Point(180, 249);
+            cmbestado.Location = new Point(171, 249);
             cmbestado.Margin = new Padding(3, 2, 3, 2);
             cmbestado.Name = "cmbestado";
             cmbestado.Size = new Size(151, 28);
@@ -238,7 +240,7 @@
             // 
             // dtgproveedores
             // 
-            dtgproveedores.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            dtgproveedores.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dtgproveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dtgproveedores.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -258,10 +260,10 @@
             dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dtgproveedores.DefaultCellStyle = dataGridViewCellStyle2;
-            dtgproveedores.Location = new Point(15, 423);
+            dtgproveedores.Location = new Point(151, 424);
             dtgproveedores.Name = "dtgproveedores";
             dtgproveedores.RowHeadersWidth = 51;
-            dtgproveedores.Size = new Size(942, 282);
+            dtgproveedores.Size = new Size(671, 282);
             dtgproveedores.TabIndex = 86;
             dtgproveedores.CellContentClick += dtgproveedores_CellContentClick;
             dtgproveedores.CellEndEdit += dtgproveedores_CellEndEdit;
@@ -269,7 +271,7 @@
             // txtCodigo_ruc
             // 
             txtCodigo_ruc.Anchor = AnchorStyles.Top;
-            txtCodigo_ruc.Location = new Point(180, 134);
+            txtCodigo_ruc.Location = new Point(171, 134);
             txtCodigo_ruc.Mask = "000-000000-0000>L";
             txtCodigo_ruc.Name = "txtCodigo_ruc";
             txtCodigo_ruc.Size = new Size(133, 27);
@@ -278,12 +280,28 @@
             // txtTelefono
             // 
             txtTelefono.Anchor = AnchorStyles.Top;
-            txtTelefono.Location = new Point(180, 189);
+            txtTelefono.Location = new Point(171, 189);
             txtTelefono.Mask = "0000-0000";
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(114, 27);
             txtTelefono.TabIndex = 88;
             txtTelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            // 
+            // panel1
+            // 
+            panel1.Anchor = AnchorStyles.Right;
+            panel1.Location = new Point(828, 403);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(161, 386);
+            panel1.TabIndex = 89;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Anchor = AnchorStyles.Left;
+            flowLayoutPanel1.Location = new Point(0, 403);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(145, 386);
+            flowLayoutPanel1.TabIndex = 90;
             // 
             // Proveedores
             // 
@@ -291,6 +309,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(989, 789);
+            Controls.Add(flowLayoutPanel1);
+            Controls.Add(panel1);
             Controls.Add(txtTelefono);
             Controls.Add(txtCodigo_ruc);
             Controls.Add(dtgproveedores);
@@ -345,5 +365,7 @@
         private DataGridView dtgproveedores;
         private MaskedTextBox txtCodigo_ruc;
         private MaskedTextBox txtTelefono;
+        private Panel panel1;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

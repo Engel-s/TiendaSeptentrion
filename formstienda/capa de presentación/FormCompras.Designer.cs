@@ -400,7 +400,6 @@
             txtnumerofactura.Location = new Point(130, 230);
             txtnumerofactura.Margin = new Padding(2);
             txtnumerofactura.Name = "txtnumerofactura";
-            txtnumerofactura.ReadOnly = true;
             txtnumerofactura.Size = new Size(81, 27);
             txtnumerofactura.TabIndex = 76;
             // 
