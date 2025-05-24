@@ -425,6 +425,7 @@
             cmbmarcas.Name = "cmbmarcas";
             cmbmarcas.Size = new Size(142, 28);
             cmbmarcas.TabIndex = 98;
+            cmbmarcas.SelectedIndexChanged += cmbmarcas_SelectedIndexChanged_1;
             // 
             // cmbcategoria
             // 

@@ -20,13 +20,16 @@ namespace formstienda
     public partial class FormCompras : Form
     {
         private MarcaServicio? marcaServicio;
-        private BindingList<MarcaServicio> listamarcas;
+        private BindingList<Marca> listamarcas;
+        //private BindingList<Marca> listaMarcas;
+
 
         private CategoriaServicio? categoriaServicio;
         private BindingList<CategoriaServicio> listacategoria;
 
         private ProductoServicio? productoServicio;
         private BindingList<ProductoServicio> listaproductos;
+        private BindingList<Producto> listaproductosfiltrados;
 
         private CompraServicio? compraServicio;
         private BindingList<Compra> listacompra;
@@ -34,7 +37,7 @@ namespace formstienda
         private DetalleCompraServicio? detalleCompraServicio;
         private BindingList<DetalleCompra> listadetallecompra;
 
-        private ProveedorServicio? proveedorServicio; 
+        private ProveedorServicio? proveedorServicio;
 
 
         //Variables auxiliares
@@ -73,7 +76,7 @@ namespace formstienda
             txtcodigoproducto.Enabled = false;
             txtsubtotalcompra.Enabled = false;
             btncancelar.Enabled = false;
-            txtnumerofactura.Enabled = false; 
+            txtnumerofactura.Enabled = false;
         }
 
         private void Activarcampos()
@@ -99,11 +102,12 @@ namespace formstienda
             {
                 MarcaServicio servicio = new MarcaServicio();
                 var marcas = servicio.ListarMarcas();
+                marcaServicio = new MarcaServicio();
 
                 cmbmarcas.DataSource = marcas;
-                cmbmarcas.DisplayMember = "Marca"; // Solo muestra el nombre de la marca
-                cmbmarcas.ValueMember = "IdMarcas"; // Este valor se usa internamente si necesitas el ID
-                cmbmarcas.SelectedIndex = -1; 
+                cmbmarcas.DisplayMember = "Marca1"; // Solo muestra el nombre de la marca
+                cmbmarcas.ValueMember = "IdMarca"; // Este valor se usa internamente si necesitas el ID
+                cmbmarcas.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
@@ -139,7 +143,7 @@ namespace formstienda
 
                 cmbproducto.DataSource = productos;
                 cmbproducto.DisplayMember = "ModeloProducto"; // Solo muestra el nombre del producto
-                //cmbproducto.ValueMember = "CodigoRuc"; 
+                cmbproducto.ValueMember = "CodigoProducto";
                 cmbproducto.SelectedIndex = -1; // Desmarcar el primer elemento
                 cmbproducto.SelectedIndexChanged += cmbproducto_SelectedIndexChanged;
             }
@@ -149,6 +153,116 @@ namespace formstienda
             }
 
         }
+        private void FiltrarMarcasPorCategoria()
+        {
+            if (cmbcategoria.SelectedValue is int idCategoria)
+            {
+                var marcasFiltradas = listaproductosfiltrados
+                    .Where(p => p.IdCategoria == idCategoria && p.IdMarcaNavigation != null)
+                    .Select(p => new Marca
+                    {
+                        IdMarca = p.IdMarcaNavigation.IdMarca,
+                        Marca1 = p.IdMarcaNavigation.Marca1
+                    }
+                    //p => p.IdMarcaNavigation!
+                    )
+                    .GroupBy(m => m.IdMarca)
+                    .Select(g => g.First())
+                    //.Distinct()
+                    .ToList();
+
+                cmbmarcas.DataSource = marcasFiltradas;
+                cmbmarcas.DisplayMember = "Marca1";
+                cmbmarcas.ValueMember = "IdMarca";
+                cmbmarcas.SelectedIndex = -1;
+
+                cmbproducto.DataSource = null;
+                txtprecioventa.Clear();
+                txtcodigoproducto.Clear();
+            }
+        }
+        private void FiltrarProductos()
+        {
+            /*if (cmbcategoria.SelectedValue is int idCategoria && cmbmarcas.SelectedValue is int idMarca)
+            {
+                MessageBox.Show($"Filtrando por IdCategoria = {idCategoria}, IdMarca = {idMarca}");
+                var productosFiltrados = listaproductosfiltrados
+                    .Where(p => p.IdCategoria == idCategoria && p.IdMarca == idMarca)
+                    .ToList();
+                MessageBox.Show($"Productos encontrados: {productosFiltrados.Count}");
+
+                cmbproducto.DataSource = productosFiltrados;
+                cmbproducto.DisplayMember = "ModeloProducto";
+                cmbproducto.ValueMember = "CodigoProducto";
+                cmbproducto.SelectedIndex = -1;
+
+                txtprecioventa.Clear();
+                txtcodigoproducto.Clear();
+            }*/
+            try
+            {
+                // Conversión segura
+                int idCategoria = Convert.ToInt32(cmbcategoria.SelectedValue);
+                int idMarca = Convert.ToInt32(cmbmarcas.SelectedValue);
+
+                // Filtrar productos
+                var productosFiltrados = listaproductosfiltrados
+                    .Where(p => p.IdCategoria == idCategoria && p.IdMarca == idMarca)
+                    .ToList();
+
+                // Cargar productos filtrados al ComboBox
+                cmbproducto.DataSource = productosFiltrados;
+                cmbproducto.DisplayMember = "ModeloProducto";
+                cmbproducto.ValueMember = "CodigoProducto";
+                cmbproducto.SelectedIndex = -1;
+
+                // Limpiar campos
+                txtprecioventa.Clear();
+                txtcodigoproducto.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al filtrar productos: " + ex.Message);
+            }
+            /*try
+            {
+                if (cmbcategoria.SelectedValue == null || cmbmarcas.SelectedValue == null)
+                {
+                    MessageBox.Show("Debe seleccionar una categoría y una marca válidas.");
+                    return;
+                }
+
+                if (!int.TryParse(cmbcategoria.SelectedValue.ToString(), out int idCategoria) ||
+                    !int.TryParse(cmbmarcas.SelectedValue.ToString(), out int idMarca))
+                {
+                    MessageBox.Show("Error al convertir los valores seleccionados.");
+                    return;
+                }
+
+                var productosFiltrados = listaproductosfiltrados
+                    .Where(p => p.IdCategoria == idCategoria && p.IdMarca == idMarca)
+                    .ToList();
+
+                if (productosFiltrados.Count == 0)
+                {
+                    MessageBox.Show("No hay productos que coincidan con esa categoría y marca.");
+                }
+
+                cmbproducto.DataSource = productosFiltrados;
+                cmbproducto.DisplayMember = "ModeloProducto";
+                cmbproducto.ValueMember = "CodigoProducto";
+                cmbproducto.SelectedIndex = -1;
+
+                txtprecioventa.Clear();
+                txtcodigoproducto.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al filtrar productos: " + ex.Message);
+            }*/
+        }
+
+
 
         //Funcion de generar numero de factura desactivada
         /*private void GenerarNuevoNumeroFactura()
@@ -159,6 +273,17 @@ namespace formstienda
             txtnumerofactura.Text = nuevoNumeroFactura.ToString();
         }*/
 
+
+
+        private void cmbcategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FiltrarMarcasPorCategoria();
+        }
+
+        private void cmbmarcas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
         private void label4_Click(object sender, EventArgs e)
         {
 
@@ -262,13 +387,15 @@ namespace formstienda
             cargarcategorias();
             cargarmarcas();
             cargarproductos();
-            //GenerarNuevoNumeroFactura();
 
             detalleCompraServicio = new DetalleCompraServicio();
             compraServicio = new CompraServicio();
 
             listacompra = new BindingList<Compra>(compraServicio.ListarCompra());
             listadetallecompra = new BindingList<DetalleCompra>();
+            productoServicio = new ProductoServicio();
+            listaproductosfiltrados = new BindingList<Producto>(productoServicio.ListarProductos());
+
 
             dtgcompras.DataSource = listadetallecompra;
             ColumnasPersonalizadas();
@@ -327,11 +454,41 @@ namespace formstienda
 
         private void cmbproducto_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*if (cmbproducto.SelectedItem is Producto productoSeleccionado)
+            {
+                txtprecioventa.Text = productoSeleccionado.PrecioVenta.ToString("C", new CultureInfo("es-NI"));
+                txtcodigoproducto.Text = productoSeleccionado.CodigoProducto.ToString();
+            }*/
             if (cmbproducto.SelectedItem is Producto productoSeleccionado)
             {
-                txtprecioventa.Text = productoSeleccionado.PrecioVenta.ToString("C", new CultureInfo ("es-NI"));
+                // Obtener los IDs seleccionados de categoría y marca
+                int? categoriaSeleccionadaId = cmbcategoria.SelectedValue as int?;
+                int? marcaSeleccionadaId = cmbmarcas.SelectedValue as int?;
+
+                if (categoriaSeleccionadaId == null || marcaSeleccionadaId == null)
+                {
+                    MessageBox.Show("Debe seleccionar una categoría y una marca antes de seleccionar el producto.",
+                        "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbproducto.SelectedIndex = -1;
+                    return;
+                }
+
+                // Validar si la categoría y marca del producto coinciden con las seleccionadas
+                if (productoSeleccionado.IdCategoria != categoriaSeleccionadaId || productoSeleccionado.IdMarca != marcaSeleccionadaId)
+                {
+                    MessageBox.Show("La categoría o la marca no coinciden con el producto seleccionado.",
+                        "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtprecioventa.Clear();
+                    txtcodigoproducto.Clear();
+                    cmbproducto.SelectedIndex = -1;
+                    return;
+                }
+
+                // Si todo coincide, llenar los campos
+                txtprecioventa.Text = productoSeleccionado.PrecioVenta.ToString("C", new CultureInfo("es-NI"));
                 txtcodigoproducto.Text = productoSeleccionado.CodigoProducto.ToString();
             }
+
 
         }
         private void limpiarcampos()
@@ -339,6 +496,7 @@ namespace formstienda
             txtpreciocompra.Clear();
             txtcantidadproducto.Clear();
         }
+
 
         private void btnnuevo_Click(object sender, EventArgs e)
         {
@@ -361,13 +519,13 @@ namespace formstienda
                 return;
             }
 
-            if (cmbmarcas.SelectedItem == null) 
+            if (cmbmarcas.SelectedItem == null)
             {
                 MessageBox.Show("Debe seleccionar una marca.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbcategoria.Focus();
                 return;
             }
-            if(cmbproducto.SelectedItem == null)
+            if (cmbproducto.SelectedItem == null)
             {
                 MessageBox.Show("Debe seleccionar un producto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbproducto.Focus();
@@ -385,7 +543,7 @@ namespace formstienda
             }
             else
             {
-                if(!int.TryParse(txtnumerofactura.Text, out int numeroFactura) || numeroFactura <= 0)
+                if (!int.TryParse(txtnumerofactura.Text, out int numeroFactura) || numeroFactura <= 0)
                 {
                     MessageBox.Show("El número de factura debe ser un número entero positivo.",
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -440,7 +598,7 @@ namespace formstienda
                         };
 
                         var compraExistente = compraServicio.ListarCompra()
-                            .FirstOrDefault(c => c.NumeroFactura == compra.NumeroFactura || c.CodigoRuc == compra.CodigoRuc);
+                            .FirstOrDefault(c => c.NumeroFactura == compra.NumeroFactura && c.CodigoRuc == compra.CodigoRuc);
                         if (compraExistente != null)
                         {
                             MessageBox.Show("Ya existe una compra de este proveedor con el mismo número de factura"
@@ -486,7 +644,7 @@ namespace formstienda
 
                         var registroCompra = detalleCompraServicio.AgregarDetalleCompra(detallecompra);
                         listadetallecompra.Add(detallecompra);
-                        
+
                         txtsubtotalcompra.Text = listadetallecompra
                                                                     .Where(x => x.IdCompra == listacompra.Last().IdCompra)
                                                                     .Sum(x => x.SubtotalCompra).ToString("C");
@@ -543,10 +701,6 @@ namespace formstienda
             }
         }
 
-        private void cmbcategoria_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -697,12 +851,20 @@ namespace formstienda
             {
                 e.Handled = true;
             }
-            
+
 
             // Solo permitir un punto decimal
             if (e.KeyChar == '.' && (sender as TextBox).Text.Contains("."))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void cmbmarcas_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (cmbmarcas.SelectedIndex != -1 && cmbcategoria.SelectedIndex != -1)
+            {
+                FiltrarProductos();
             }
         }
     }

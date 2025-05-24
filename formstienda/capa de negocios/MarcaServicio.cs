@@ -12,7 +12,7 @@ namespace formstienda.capa_de_negocios
     {
         // Listar todas las marcas
         // Listar todas las marcas ordenadas por IdMarca de menor a mayor (ascendente)
-        public List<object> ListarMarcas()
+        public List<Marca> ListarMarcas()
         {
             try
             {
@@ -20,20 +20,15 @@ namespace formstienda.capa_de_negocios
                 {
                     return _context.Marcas
                         .AsNoTracking()
-                        .OrderBy(m => m.IdMarca) // Orden ASCENDENTE (de menor a mayor)
-                        .Select(m => new
-                        {
-                            IdMarcas = m.IdMarca,
-                            Marca = m.Marca1
-                        })
-                        .ToList<object>(); // devolvemos como lista de objetos anónimos
+                        .OrderBy(m => m.IdMarca)
+                        .ToList(); // Devuelve entidades reales Marca
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 MessageBox.Show("Error al listar marcas: " + ex.Message);
-                return new List<object>();
+                return new List<Marca>();
             }
         }
 
