@@ -183,23 +183,7 @@ namespace formstienda
         }
         private void FiltrarProductos()
         {
-            /*if (cmbcategoria.SelectedValue is int idCategoria && cmbmarcas.SelectedValue is int idMarca)
-            {
-                MessageBox.Show($"Filtrando por IdCategoria = {idCategoria}, IdMarca = {idMarca}");
-                var productosFiltrados = listaproductosfiltrados
-                    .Where(p => p.IdCategoria == idCategoria && p.IdMarca == idMarca)
-                    .ToList();
-                MessageBox.Show($"Productos encontrados: {productosFiltrados.Count}");
-
-                cmbproducto.DataSource = productosFiltrados;
-                cmbproducto.DisplayMember = "ModeloProducto";
-                cmbproducto.ValueMember = "CodigoProducto";
-                cmbproducto.SelectedIndex = -1;
-
-                txtprecioventa.Clear();
-                txtcodigoproducto.Clear();
-            }*/
-            try
+            /*try
             {
                 // Conversión segura
                 int idCategoria = Convert.ToInt32(cmbcategoria.SelectedValue);
@@ -223,8 +207,8 @@ namespace formstienda
             catch (Exception ex)
             {
                 MessageBox.Show("Error al filtrar productos: " + ex.Message);
-            }
-            /*try
+            }*/
+            try
             {
                 if (cmbcategoria.SelectedValue == null || cmbmarcas.SelectedValue == null)
                 {
@@ -259,20 +243,8 @@ namespace formstienda
             catch (Exception ex)
             {
                 MessageBox.Show("Error al filtrar productos: " + ex.Message);
-            }*/
+            }
         }
-
-
-
-        //Funcion de generar numero de factura desactivada
-        /*private void GenerarNuevoNumeroFactura()
-        {
-            int ultimoId = compraServicio.ObtenerUltimoIdCompra();
-            int nuevoNumeroFactura = ultimoId + 1;
-
-            txtnumerofactura.Text = nuevoNumeroFactura.ToString();
-        }*/
-
 
 
         private void cmbcategoria_SelectedIndexChanged(object sender, EventArgs e)

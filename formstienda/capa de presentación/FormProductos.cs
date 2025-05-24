@@ -157,9 +157,9 @@ namespace formstienda
             // Configurar nombres de columnas
             if (DGMARCAS.Columns.Count > 0)
             {
-                DGMARCAS.Columns["IdMarcas"].HeaderText = "ID";
-                DGMARCAS.Columns["Marca"].HeaderText = "Nombre de Marca";
-                DGMARCAS.Columns["IdMarcas"].ReadOnly = true; // ID no editable
+                DGMARCAS.Columns["IdMarca"].HeaderText = "ID";
+                DGMARCAS.Columns["Marca1"].HeaderText = "Nombre de Marca";
+                DGMARCAS.Columns["IdMarca"].ReadOnly = true; // ID no editable
 
             }
         }
