@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static formstienda.Login;
 
 namespace formstienda
 {
@@ -134,13 +135,27 @@ namespace formstienda
                 EstadoApertura = "Abierta"
             };
 
-            if (!aperturaServicio.Agregarfondo(apertura))
+            using (var _context = new DbTiendaSeptentrionContext())
             {
-                MessageBox.Show("❌ Error al registrar la apertura de caja.");
-                return;
+                // Guardar apertura primero
+                _context.AperturaCajas.Add(apertura);
+                _context.SaveChanges();
+
+                // 5. Crear arqueo asociado a la apertura
+                var arqueo = new ArqueoCaja
+                {
+                    TotalEfectivoCordoba = 0,
+                    TotalEfectivoDolar = 0,
+                    FechaArqueo = DateTime.Now,
+                    IdUsuario = (int)UsuarioActivo.ObtenerIdUsuario(),
+                    IdApertura = apertura.IdApertura // ahora sí está disponible
+                };
+
+                _context.ArqueoCajas.Add(arqueo);
+                _context.SaveChanges();
             }
 
-            // 5. Crear y guardar tasa de cambio
+            // 6. Crear y guardar tasa de cambio
             var tasa = new TasaDeCambio
             {
                 FechaCambio = fechaHoy,
@@ -153,7 +168,7 @@ namespace formstienda
                 return;
             }
 
-            MessageBox.Show("✅ Apertura de caja y tasa de cambio registradas correctamente.");
+            MessageBox.Show("✅ Apertura de caja, arqueo y tasa de cambio registrados correctamente.");
             this.Hide(); // Ocultar ventana tras éxito
         }
 

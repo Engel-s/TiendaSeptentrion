@@ -77,6 +77,10 @@ namespace formstienda
             {
                 return _usuarioActual?.IdUsuario;
             }
+            public static string? ObtenerUsuarioLogueo()
+            {
+                return _usuarioActual?.UsuarioLogueo;
+            }
         }
 
         private void sendlogin_Click(object sender, EventArgs e)

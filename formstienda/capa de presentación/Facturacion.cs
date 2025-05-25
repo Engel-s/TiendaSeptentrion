@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using static formstienda.Login;
 
 
 namespace formstienda
@@ -21,6 +22,7 @@ namespace formstienda
         private TasaServicio tasaServicio;
         private int NUEVOIDVENTAREGISTRO;
         public int STOCKACTUALPRODUCTO;
+        
 
         private BindingList<Cliente>? Listacliente;
 
@@ -308,6 +310,7 @@ namespace formstienda
 
                 TotalVenta = totalVenta
             };
+            
 
             var detalles = new List<DetalleDeVentum>();
             foreach (DataGridViewRow row in dgmostrar.Rows)
@@ -378,7 +381,7 @@ namespace formstienda
                         TotalDolares = 0,
                         CambioDevuelto = 0,
                         Observaciones = "Pendiente",
-                        UsuarioRegistro = "Usuario logueado" // usa la variable real del usuario logueado
+                        UsuarioRegistro = UsuarioActivo.ObtenerUsuarioLogueo() // usa la variable real del usuario logueado
                     });
 
                     saldoRestante -= abonoCapital;
@@ -396,13 +399,13 @@ namespace formstienda
                     FechaFinal = fechaFinal,
                     MontoCredito = montoTotalCredito,
                     InteresMensual = interesMensual,
-                    UsuarioRegistro = "Usuario logueado",
+                    UsuarioRegistro = UsuarioActivo.ObtenerUsuarioLogueo(),
                     FechaCreacion = DateTime.Now
                 };
 
                 if (VentaServicio.AgregarVentaConDetallesYCredito(venta, detalles, facturaCredito, detalleCreditos))
                 {
-                    MessageBox.Show("Venta y crédito guardados correctamente.");
+                    MessageBox.Show("Venta al crédito guardados correctamente.");
                     LimpiarFormulario();
                     cedulaClienteActual = string.Empty;
                     CargarNumeroFactura();
@@ -426,6 +429,26 @@ namespace formstienda
             else
             {
                 MessageBox.Show("Error al guardar la venta.");
+            }
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+
+                var arqueoDeHoy = context.ArqueoCajas
+                    .FirstOrDefault(a => a.FechaArqueo.Date == hoy.ToDateTime(TimeOnly.MinValue).Date);
+
+                if (arqueoDeHoy != null)
+                {
+                    arqueoDeHoy.TotalEfectivoCordoba += venta.PagoCordobas.GetValueOrDefault();
+                    arqueoDeHoy.TotalEfectivoDolar += venta.PagoDolares.GetValueOrDefault();
+
+
+                    context.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("⚠️ No hay arqueo registrado para hoy. No se puede actualizar el arqueo de caja.");
+                }
             }
 
 
