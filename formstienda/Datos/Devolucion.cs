@@ -19,5 +19,7 @@ public partial class Devolucion
 
     public int CantidadDevuelta { get; set; }
 
+    public DateOnly FechaDevolucion { get; set; }
+
     public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }

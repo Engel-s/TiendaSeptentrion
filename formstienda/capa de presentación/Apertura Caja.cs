@@ -136,5 +136,69 @@ namespace formstienda
             this.Hide(); // Ocultar ventana tras éxito
         }
 
+        private void txtTasaCambio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Permitir control (como Backspace)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Si es punto, convertirlo a coma manualmente
+            if (e.KeyChar == '.')
+            {
+                e.Handled = true;
+                int pos = txt.SelectionStart;
+                txt.Text = txt.Text.Insert(pos, ",");
+                txt.SelectionStart = pos + 1;
+                return;
+            }
+
+            // Permitir solo dígitos o una sola coma
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // No permitir más de una coma
+            if (e.KeyChar == ',' && txt.Text.Contains(','))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Limitar coma a ser después de mínimo dos dígitos
+            if (e.KeyChar == ',' && txt.SelectionStart < 2)
+            {
+                e.Handled = true;
+            }
+            // Simular el texto después de presionar la tecla
+            string textoActual = txt.Text;
+            int posCursor = txt.SelectionStart;
+
+            string nuevoTexto = textoActual.Insert(posCursor, e.KeyChar.ToString());
+
+            // Contar cuántos dígitos hay antes de la coma (o en total si no hay coma)
+            string parteAntesDeComa = nuevoTexto.Split(',')[0];
+            int digitosAntesDeComa = parteAntesDeComa.Count(c => char.IsDigit(c));
+
+            // Si se han escrito dos dígitos y no hay coma, insertar automáticamente
+            if (digitosAntesDeComa == 2 && !textoActual.Contains(","))
+            {
+                e.Handled = true;
+                txt.Text = textoActual.Insert(posCursor, e.KeyChar + ",");
+                txt.SelectionStart = posCursor + 2;
+                return;
+            }
+        }
+
+        private void txtMontoApertura_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

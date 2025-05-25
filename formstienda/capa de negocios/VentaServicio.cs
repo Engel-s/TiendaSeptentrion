@@ -43,7 +43,10 @@ namespace formstienda.capa_de_negocios
                         }
                     }
 
-                    context.SaveChanges(); // Guardar detalles y actualizar stock
+
+           
+
+                    context.SaveChanges();
                     MessageBox.Show("Factura registrada correctamente.");
                     return true;
                 }
@@ -58,6 +61,57 @@ namespace formstienda.capa_de_negocios
                 {
                     MessageBox.Show($"Error general: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                return false;
+            }
+        }
+        public bool AgregarVentaConDetallesYCredito(Ventum venta, List<DetalleDeVentum> detalles, FacturaCredito facturaCredito, List<DetalleCredito> detalleCreditos)
+        {
+            try
+            {
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    // Guardar venta
+                    context.Venta.Add(venta);
+                    context.SaveChanges();
+
+                    // Guardar detalles de venta y actualizar stock
+                    foreach (var detalle in detalles)
+                    {
+                        detalle.IdVenta = venta.IdVenta;
+                        context.DetalleDeVenta.Add(detalle);
+
+                        var producto = context.Productos.FirstOrDefault(p => p.CodigoProducto == detalle.CodigoProducto);
+                        if (producto != null)
+                        {
+                            if (producto.StockActual >= detalle.Cantidad)
+                                producto.StockActual -= detalle.Cantidad;
+                            else
+                            {
+                                MessageBox.Show($"Stock insuficiente para {producto.ModeloProducto}.", "Stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return false;
+                            }
+                        }
+                    }
+
+                    // Asignar ID de venta al crédito y guardar factura de crédito
+                    facturaCredito.IdVenta = venta.IdVenta;
+                    context.FacturaCreditos.Add(facturaCredito);
+                    context.SaveChanges(); // Necesario para obtener IdCredito
+
+                    // Asignar IdCredito a cada detalle y guardar
+                    foreach (var detalleCredito in detalleCreditos)
+                    {
+                        detalleCredito.IdCredito = facturaCredito.IdCredito;
+                        context.DetalleCreditos.Add(detalleCredito);
+                    }
+
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -76,8 +130,6 @@ namespace formstienda.capa_de_negocios
                 }
             }
         }
-
-
     }
 
 }
