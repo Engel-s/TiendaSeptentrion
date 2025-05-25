@@ -93,16 +93,17 @@ namespace formstienda
         {
             var fechaHoy = DateOnly.FromDateTime(DateTime.Now);
 
-            // Validar si ya existe una apertura hoy
-            var aperturaExistente = aperturaServicio?.Listaapertura()
-                                                     .FirstOrDefault(a => a.FechaApertura == fechaHoy);
-            if (aperturaExistente != null)
+            // 1. Verificar si ya hay una apertura abierta
+            var aperturaAbierta = aperturaServicio?.Listaapertura()
+                                                   .FirstOrDefault(a => a.EstadoApertura == "Abierta");
+
+            if (aperturaAbierta != null)
             {
-                MessageBox.Show("❌ Ya se realizó una apertura hoy.");
+                MessageBox.Show("❌ Ya existe una apertura activa. No se puede abrir otra.");
                 return;
             }
 
-            // Validar si ya existe una tasa de cambio hoy
+            // 2. Validar si ya existe una tasa de cambio hoy
             var tasaExistente = tasaServicio?.Listatasacambios()
                                              .FirstOrDefault(t => t.FechaCambio == fechaHoy);
             if (tasaExistente != null)
@@ -111,28 +112,48 @@ namespace formstienda
                 return;
             }
 
-            // Crear y guardar apertura
+            // 3. Validar campos
+            if (!float.TryParse(txtMontoApertura.Text, out float montoApertura) || montoApertura <= 0)
+            {
+                MessageBox.Show("Ingrese un monto de apertura válido.");
+                return;
+            }
+
+            if (!float.TryParse(txtTasaCambio.Text, out float valorCambio) || valorCambio <= 0)
+            {
+                MessageBox.Show("Ingrese una tasa de cambio válida.");
+                return;
+            }
+
+            // 4. Crear y guardar apertura
             var apertura = new AperturaCaja
             {
                 FechaApertura = fechaHoy,
                 HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
-                MontoApertura = float.Parse(txtMontoApertura.Text),
+                MontoApertura = montoApertura,
                 EstadoApertura = "Abierta"
             };
 
-            aperturaServicio?.Agregarfondo(apertura);
-            MessageBox.Show("✅ Apertura de caja registrada correctamente.");
+            if (!aperturaServicio.Agregarfondo(apertura))
+            {
+                MessageBox.Show("❌ Error al registrar la apertura de caja.");
+                return;
+            }
 
-            // Crear y guardar tasa de cambio
-            var tasadecambio = new TasaDeCambio
+            // 5. Crear y guardar tasa de cambio
+            var tasa = new TasaDeCambio
             {
                 FechaCambio = fechaHoy,
-                ValorCambio = float.Parse(txtTasaCambio.Text),
+                ValorCambio = valorCambio
             };
 
-            tasaServicio?.AgregarTasa(tasadecambio);
-            MessageBox.Show("✅ Tasa de cambio registrada correctamente.");
+            if (!tasaServicio.AgregarTasa(tasa))
+            {
+                MessageBox.Show("❌ Error al registrar la tasa de cambio.");
+                return;
+            }
 
+            MessageBox.Show("✅ Apertura de caja y tasa de cambio registradas correctamente.");
             this.Hide(); // Ocultar ventana tras éxito
         }
 

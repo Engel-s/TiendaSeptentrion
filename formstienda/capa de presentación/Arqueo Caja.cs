@@ -1,4 +1,5 @@
-﻿using formstienda.capa_de_presentación;
+﻿using formstienda.capa_de_negocios;
+using formstienda.capa_de_presentación;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,9 +14,13 @@ namespace formstienda
 {
     public partial class Arqueo_Caja : Form
     {
+        private AperturaServicio? aperturaServicio;
+        private TasaServicio? tasaServicio;
         public Arqueo_Caja()
         {
             InitializeComponent();
+            aperturaServicio = new AperturaServicio();
+            tasaServicio = new TasaServicio();
         }
 
         private void label16_Click(object sender, EventArgs e)

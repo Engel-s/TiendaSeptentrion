@@ -888,30 +888,9 @@ namespace formstienda
             LimpiarCampos();
             LimpiarCamposCliente();
             LimpiarFormulario();
-            LimpiarControles();
+            
         }
-        public void LimpiarControles(Control control)
-        {
-            foreach (Control c in control.Controls)
-            {
-                if (c is TextBox textBox)
-                {
-                    textBox.Clear();
-                }
-                else if (c is ComboBox comboBox)
-                {
-                    comboBox.SelectedIndex = -1;
-                }
-                else if (c is DataGridView dataGrid)
-                {
-                    dataGrid.Rows.Clear();
-                }
-                else if (c.HasChildren)
-                {
-                    LimpiarControles(c); // Recursivo para contenedores
-                }
-            }
-        }
+
 
     }
 
