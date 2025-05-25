@@ -5,6 +5,8 @@ namespace formstienda.Datos;
 
 public partial class FacturaCredito
 {
+    public int IdCliente { get; set; }
+
     public int IdCredito { get; set; }
 
     public int IdVenta { get; set; }
@@ -30,6 +32,8 @@ public partial class FacturaCredito
     public string UsuarioRegistro { get; set; } = null!;
 
     public DateTime FechaCreacion { get; set; }
+
+    public virtual Cliente Cliente { get; set; } = null!;
 
     public virtual ICollection<DetalleCredito> DetalleCreditos { get; set; } = new List<DetalleCredito>();
 

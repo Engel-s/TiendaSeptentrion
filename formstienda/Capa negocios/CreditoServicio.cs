@@ -1,11 +1,12 @@
-﻿using formstienda.Datos;
+﻿using formstienda.Capa_negocios;
+using formstienda.Datos;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using formstienda.Capa_negocios;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace formstienda.Capa_negocios
 {
@@ -16,7 +17,7 @@ namespace formstienda.Capa_negocios
 
             using (var contexto = new DbTiendaSeptentrionContext())
             {
-                var resultado = contexto.FacturaCreditos.Add();
+                var resultado = contexto.DetalleCreditos.Add(credito);
                 contexto.SaveChanges();
                 return resultado == null ? false : true;
             }
@@ -29,43 +30,54 @@ namespace formstienda.Capa_negocios
                 return contexto.DetalleCreditos.ToList();
             }
         }
-        public bool AgregarPagoCredito(int idVenta, int montoAbonado, bool esDolares, DateOnly? v)
+        public bool AgregarPagoCredito(int idVenta, decimal montoAbonado, bool esDolares, DateOnly? FechaPago)
         {
             using (var contexto = new DbTiendaSeptentrionContext())
             {
-                // Buscar la factura
-                var factura = contexto.Venta.FirstOrDefault(a => a.IdVenta == idVenta);
-                if (factura == null)
+                // Buscar la venta por id y cargar los créditos relacionados
+                var venta = contexto.Venta
+                    .Include(v => v.FacturaCreditos)
+                    .FirstOrDefault(v => v.IdVenta == idVenta);
+
+                if (venta == null)
                     return false;
 
-                // Si la moneda es dólares, convierte a córdobas si es necesario
                 decimal montoEnCordobas = montoAbonado;
                 if (esDolares)
                 {
-                    // Supón que tienes una tasa de cambio disponible, por ejemplo:
-                    decimal tasaCambio = 36.5m; 
+                    decimal tasaCambio = 36.5m; // Idealmente obtener dinámicamente
                     montoEnCordobas = montoAbonado * tasaCambio;
                 }
 
-                 //Restar el monto abonado al saldo de la factura
-              //  factura.SubTotal = montoEnCordobas;
+                // Obtener el crédito activo 
+                var creditoActivo = venta.FacturaCreditos.FirstOrDefault(fc => fc.NuevoSaldo > 0);
+                if (creditoActivo == null)
+                    return false; // No hay crédito activo para esa venta
 
-                 //Registrar el pago en la tabla de pagos de crédito
-                var pago = new FacturaCredito
+                // Actualizar saldo y total abonado en el crédito
+                creditoActivo.TotalAbonado += (float)montoEnCordobas;
+                creditoActivo.NuevoSaldo -= (float)montoEnCordobas;
+                if (creditoActivo.NuevoSaldo < 0)
+                    creditoActivo.NuevoSaldo = 0;
+
+                // Registrar el pago en DetalleCredito
+                var pago = new DetalleCredito
                 {
-                    IdVenta = idVenta,
-                    MontoCredito = montoAbonado, 
-                   TotalAbonado = (float?) montoEnCordobas,
-                   FechaCreacion = v
-                   // Agrega otros campos necesarios
+                    IdCredito = creditoActivo.IdCredito,
+                    FechaPago = FechaPago.HasValue ? FechaPago.Value.ToDateTime(TimeOnly.MinValue) : DateTime.Now,
+                    AbonoCapital = (float)montoEnCordobas,
+                    UsuarioRegistro = "usuario_actual", 
+                    ValorCuota = 0, // Ajusta según tu lógica
+                    InteresPagado = 0,
+                    TotalCordobas = (float)montoEnCordobas
                 };
 
-                contexto.FacturaCreditos.Add(pago);
+                contexto.DetalleCreditos.Add(pago);
                 contexto.SaveChanges();
+
                 return true;
             }
-        }
 
-    }
+        }   }
 }
        
