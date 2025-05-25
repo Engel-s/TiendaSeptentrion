@@ -46,6 +46,13 @@ namespace formstienda
                 _usuarioActual = usuario;
             }
 
+            public static string ObtenerNombreCompletoUsuario()
+            {
+                return _usuarioActual != null
+                    ? $"{_usuarioActual.NombreUsuario} {_usuarioActual.ApellidoUsuario}"
+                    : "Usuario no identificado";
+            }
+
             public static void LimpiarUsuarioActual()
             {
                 _usuarioActual = null;

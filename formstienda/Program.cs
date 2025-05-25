@@ -1,6 +1,7 @@
 
 
 using formstienda.capa_de_presentación;
+using static formstienda.Arqueo_Caja;
 
 namespace formstienda
 {
@@ -17,6 +18,7 @@ namespace formstienda
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new Login());
+            Application.ApplicationExit += (s, e) => CacheArqueo.Limpiar();
         }
     }
 }
