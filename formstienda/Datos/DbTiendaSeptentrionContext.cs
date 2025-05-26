@@ -155,7 +155,9 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
             entity.ToTable("Compra");
 
-            entity.Property(e => e.IdCompra).HasColumnName("Id_Compra");
+            entity.Property(e => e.IdCompra)
+                .ValueGeneratedNever()
+                .HasColumnName("Id_Compra");
             entity.Property(e => e.CodigoRuc)
                 .HasMaxLength(20)
                 .IsUnicode(false)
