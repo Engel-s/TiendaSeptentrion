@@ -30,9 +30,9 @@
         {
             components = new System.ComponentModel.Container();
             label1 = new Label();
-            label2 = new Label();
+            lblbusqueda = new Label();
             cbtipobusqueda = new ComboBox();
-            textBox1 = new TextBox();
+            txtbusqueda = new TextBox();
             label3 = new Label();
             txtnombreusuario = new TextBox();
             label6 = new Label();
@@ -49,12 +49,12 @@
             txtcorreousuario = new TextBox();
             label10 = new Label();
             txtapellidousuario = new TextBox();
-            pictureBox1 = new PictureBox();
+            pcbusqueda = new PictureBox();
             btneliminar = new Button();
             txttelefonousuario = new MaskedTextBox();
             mensajes = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)DGUSUARIOS).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pcbusqueda).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -70,18 +70,18 @@
             label1.TabIndex = 0;
             label1.Text = "Administración de usuarios";
             // 
-            // label2
+            // lblbusqueda
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(12, 72);
-            label2.Margin = new Padding(2, 0, 2, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(122, 25);
-            label2.TabIndex = 1;
-            label2.Text = "Buscar por ";
-            label2.Click += label2_Click;
+            lblbusqueda.AutoSize = true;
+            lblbusqueda.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            lblbusqueda.ForeColor = Color.Black;
+            lblbusqueda.Location = new Point(12, 72);
+            lblbusqueda.Margin = new Padding(2, 0, 2, 0);
+            lblbusqueda.Name = "lblbusqueda";
+            lblbusqueda.Size = new Size(122, 25);
+            lblbusqueda.TabIndex = 1;
+            lblbusqueda.Text = "Buscar por ";
+            lblbusqueda.Click += label2_Click;
             // 
             // cbtipobusqueda
             // 
@@ -94,14 +94,14 @@
             cbtipobusqueda.Size = new Size(100, 28);
             cbtipobusqueda.TabIndex = 2;
             // 
-            // textBox1
+            // txtbusqueda
             // 
-            textBox1.Location = new Point(284, 75);
-            textBox1.Margin = new Padding(2, 5, 2, 5);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(286, 27);
-            textBox1.TabIndex = 3;
-            textBox1.TextChanged += textBox1_TextChanged;
+            txtbusqueda.Location = new Point(284, 75);
+            txtbusqueda.Margin = new Padding(2, 5, 2, 5);
+            txtbusqueda.Name = "txtbusqueda";
+            txtbusqueda.Size = new Size(286, 27);
+            txtbusqueda.TabIndex = 3;
+            txtbusqueda.TextChanged += textBox1_TextChanged;
             // 
             // label3
             // 
@@ -306,16 +306,16 @@
             txtapellidousuario.Size = new Size(214, 27);
             txtapellidousuario.TabIndex = 45;
             // 
-            // pictureBox1
+            // pcbusqueda
             // 
-            pictureBox1.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
-            pictureBox1.Location = new Point(589, 72);
-            pictureBox1.Margin = new Padding(2);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(36, 35);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 46;
-            pictureBox1.TabStop = false;
+            pcbusqueda.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
+            pcbusqueda.Location = new Point(589, 72);
+            pcbusqueda.Margin = new Padding(2);
+            pcbusqueda.Name = "pcbusqueda";
+            pcbusqueda.Size = new Size(36, 35);
+            pcbusqueda.SizeMode = PictureBoxSizeMode.StretchImage;
+            pcbusqueda.TabIndex = 46;
+            pcbusqueda.TabStop = false;
             // 
             // btneliminar
             // 
@@ -358,7 +358,7 @@
             ClientSize = new Size(1273, 775);
             Controls.Add(txttelefonousuario);
             Controls.Add(btneliminar);
-            Controls.Add(pictureBox1);
+            Controls.Add(pcbusqueda);
             Controls.Add(txtapellidousuario);
             Controls.Add(label10);
             Controls.Add(txtcorreousuario);
@@ -375,9 +375,9 @@
             Controls.Add(label6);
             Controls.Add(txtnombreusuario);
             Controls.Add(label3);
-            Controls.Add(textBox1);
+            Controls.Add(txtbusqueda);
             Controls.Add(cbtipobusqueda);
-            Controls.Add(label2);
+            Controls.Add(lblbusqueda);
             Controls.Add(label1);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
@@ -387,7 +387,7 @@
             Text = "Usuarios";
             Load += Form9_Load;
             ((System.ComponentModel.ISupportInitialize)DGUSUARIOS).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pcbusqueda).EndInit();
             ResumeLayout(false);
             PerformLayout();
 
@@ -419,5 +419,8 @@
         private Button btneliminar;
         private MaskedTextBox txttelefonousuario;
         private ToolTip mensajes;
+        private Label lblbusqueda;
+        private TextBox txtbusqueda;
+        private PictureBox pcbusqueda;
     }
 }

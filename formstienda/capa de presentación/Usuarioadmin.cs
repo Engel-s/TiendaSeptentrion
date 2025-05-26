@@ -53,7 +53,7 @@ namespace formstienda
                 CorreoUsuario = txtcorreousuario.Text.Trim(),
                 ContraseñaUsuario = txtpassword.Text,
                 RolUsuario = cbrolusuario.Text,
-                //UsuarioLogueo = cbrolusuario.Text + txtnombreusuario.Text,
+                UsuarioLogueo = cbrolusuario.Text + txtnombreusuario.Text,
                 TelefonoUsuario = txttelefonousuario.Text.Trim(),
                 EstadoUsuario = cbestadousuario.Text == "Activo"
             };
@@ -128,6 +128,10 @@ namespace formstienda
 
 
             cargarusuarios();
+            pcbusqueda.Visible = false;
+            txtbusqueda.Visible = false;
+            lblbusqueda.Visible = false;
+            cbtipobusqueda.Visible = false;
 
         }
 
