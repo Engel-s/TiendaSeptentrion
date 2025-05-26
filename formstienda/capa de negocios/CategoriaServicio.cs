@@ -103,15 +103,5 @@ namespace formstienda.capa_de_negocios
             }
         }
 
-        /* int ObtenerIdPorNombreCategoria(string NombreCategoria)
-        {
-            using (var context = new DbTiendaSeptentrionContext())
-            {
-                var categoria = context.Categoria
-                    .FirstOrDefault(p => p.Categoria == NombreCategoria);
-                return categoria != null ? categoria.IdCategoria : 0;
-            }
-        }*/
-
     }
 }

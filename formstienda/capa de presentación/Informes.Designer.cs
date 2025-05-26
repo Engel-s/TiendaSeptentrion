@@ -226,7 +226,7 @@
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(2, 5, 2, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1174, 70);
+            panel1.Size = new Size(1736, 70);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
@@ -279,6 +279,7 @@
             // label5
             // 
             label5.AutoSize = true;
+            label5.ForeColor = Color.Black;
             label5.Location = new Point(26, 170);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
@@ -311,6 +312,7 @@
             // label4
             // 
             label4.AutoSize = true;
+            label4.ForeColor = Color.Black;
             label4.Location = new Point(26, 90);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
@@ -343,6 +345,7 @@
             label2.AutoSize = true;
             label2.BackColor = Color.FromArgb(3, 171, 229);
             label2.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.Black;
             label2.Location = new Point(32, 18);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
@@ -414,6 +417,7 @@
             // label6
             // 
             label6.AutoSize = true;
+            label6.ForeColor = Color.Black;
             label6.Location = new Point(26, 170);
             label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
@@ -446,6 +450,7 @@
             // label7
             // 
             label7.AutoSize = true;
+            label7.ForeColor = Color.Black;
             label7.Location = new Point(26, 90);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
@@ -478,6 +483,7 @@
             label9.AutoSize = true;
             label9.BackColor = Color.FromArgb(3, 171, 229);
             label9.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label9.ForeColor = Color.Black;
             label9.Location = new Point(-6, 15);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
@@ -550,6 +556,7 @@
             // label14
             // 
             label14.AutoSize = true;
+            label14.ForeColor = Color.Black;
             label14.Location = new Point(26, 218);
             label14.Margin = new Padding(2, 0, 2, 0);
             label14.Name = "label14";
@@ -571,6 +578,7 @@
             // label10
             // 
             label10.AutoSize = true;
+            label10.ForeColor = Color.Black;
             label10.Location = new Point(26, 148);
             label10.Margin = new Padding(2, 0, 2, 0);
             label10.Name = "label10";
@@ -603,6 +611,7 @@
             // label11
             // 
             label11.AutoSize = true;
+            label11.ForeColor = Color.Black;
             label11.Location = new Point(26, 75);
             label11.Margin = new Padding(2, 0, 2, 0);
             label11.Name = "label11";
@@ -635,6 +644,7 @@
             label13.AutoSize = true;
             label13.BackColor = Color.FromArgb(3, 171, 229);
             label13.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label13.ForeColor = Color.Black;
             label13.Location = new Point(26, 5);
             label13.Margin = new Padding(2, 0, 2, 0);
             label13.Name = "label13";
@@ -716,6 +726,7 @@
             // label15
             // 
             label15.AutoSize = true;
+            label15.ForeColor = Color.Black;
             label15.Location = new Point(26, 170);
             label15.Margin = new Padding(2, 0, 2, 0);
             label15.Name = "label15";
@@ -748,6 +759,7 @@
             // label16
             // 
             label16.AutoSize = true;
+            label16.ForeColor = Color.Black;
             label16.Location = new Point(26, 90);
             label16.Margin = new Padding(2, 0, 2, 0);
             label16.Name = "label16";
@@ -780,6 +792,7 @@
             label18.AutoSize = true;
             label18.BackColor = Color.FromArgb(3, 171, 229);
             label18.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label18.ForeColor = Color.Black;
             label18.Location = new Point(32, 2);
             label18.Margin = new Padding(2, 0, 2, 0);
             label18.Name = "label18";
@@ -861,6 +874,7 @@
             // label19
             // 
             label19.AutoSize = true;
+            label19.ForeColor = Color.Black;
             label19.Location = new Point(26, 170);
             label19.Margin = new Padding(2, 0, 2, 0);
             label19.Name = "label19";
@@ -893,6 +907,7 @@
             // label20
             // 
             label20.AutoSize = true;
+            label20.ForeColor = Color.Black;
             label20.Location = new Point(26, 90);
             label20.Margin = new Padding(2, 0, 2, 0);
             label20.Name = "label20";
@@ -925,6 +940,7 @@
             label22.AutoSize = true;
             label22.BackColor = Color.FromArgb(3, 171, 229);
             label22.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label22.ForeColor = Color.Black;
             label22.Location = new Point(14, 18);
             label22.Margin = new Padding(2, 0, 2, 0);
             label22.Name = "label22";
@@ -1006,6 +1022,7 @@
             // label23
             // 
             label23.AutoSize = true;
+            label23.ForeColor = Color.Black;
             label23.Location = new Point(26, 170);
             label23.Margin = new Padding(2, 0, 2, 0);
             label23.Name = "label23";
@@ -1038,6 +1055,7 @@
             // label24
             // 
             label24.AutoSize = true;
+            label24.ForeColor = Color.Black;
             label24.Location = new Point(26, 90);
             label24.Margin = new Padding(2, 0, 2, 0);
             label24.Name = "label24";
@@ -1070,6 +1088,7 @@
             label26.AutoSize = true;
             label26.BackColor = Color.FromArgb(3, 171, 229);
             label26.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label26.ForeColor = Color.Black;
             label26.Location = new Point(6, 20);
             label26.Margin = new Padding(2, 0, 2, 0);
             label26.Name = "label26";
@@ -1151,6 +1170,7 @@
             // label27
             // 
             label27.AutoSize = true;
+            label27.ForeColor = Color.Black;
             label27.Location = new Point(26, 170);
             label27.Margin = new Padding(2, 0, 2, 0);
             label27.Name = "label27";
@@ -1183,6 +1203,7 @@
             // label28
             // 
             label28.AutoSize = true;
+            label28.ForeColor = Color.Black;
             label28.Location = new Point(26, 90);
             label28.Margin = new Padding(2, 0, 2, 0);
             label28.Name = "label28";
@@ -1215,6 +1236,7 @@
             label30.AutoSize = true;
             label30.BackColor = Color.FromArgb(3, 171, 229);
             label30.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label30.ForeColor = Color.Black;
             label30.Location = new Point(-4, 18);
             label30.Margin = new Padding(2, 0, 2, 0);
             label30.Name = "label30";
@@ -1284,6 +1306,7 @@
             // label32
             // 
             label32.AutoSize = true;
+            label32.ForeColor = Color.Black;
             label32.Location = new Point(74, 202);
             label32.Margin = new Padding(2, 0, 2, 0);
             label32.Name = "label32";
@@ -1294,6 +1317,7 @@
             // label31
             // 
             label31.AutoSize = true;
+            label31.ForeColor = Color.Black;
             label31.Location = new Point(13, 88);
             label31.Margin = new Padding(2, 0, 2, 0);
             label31.Name = "label31";
@@ -1348,6 +1372,7 @@
             label34.AutoSize = true;
             label34.BackColor = Color.FromArgb(3, 171, 229);
             label34.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label34.ForeColor = Color.Black;
             label34.Location = new Point(32, 18);
             label34.Margin = new Padding(2, 0, 2, 0);
             label34.Name = "label34";
@@ -1406,7 +1431,7 @@
             panel50.Controls.Add(panel52);
             panel50.Controls.Add(panel54);
             panel50.Controls.Add(panel55);
-            panel50.Location = new Point(26, 866);
+            panel50.Location = new Point(1170, 108);
             panel50.Margin = new Padding(2, 5, 2, 5);
             panel50.MaximumSize = new Size(248, 352);
             panel50.MinimumSize = new Size(248, 352);
@@ -1428,6 +1453,7 @@
             // label35
             // 
             label35.AutoSize = true;
+            label35.ForeColor = Color.Black;
             label35.Location = new Point(26, 170);
             label35.Margin = new Padding(2, 0, 2, 0);
             label35.Name = "label35";
@@ -1460,6 +1486,7 @@
             // label36
             // 
             label36.AutoSize = true;
+            label36.ForeColor = Color.Black;
             label36.Location = new Point(26, 90);
             label36.Margin = new Padding(2, 0, 2, 0);
             label36.Name = "label36";
@@ -1492,6 +1519,7 @@
             label38.AutoSize = true;
             label38.BackColor = Color.FromArgb(3, 171, 229);
             label38.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label38.ForeColor = Color.Black;
             label38.Location = new Point(20, 17);
             label38.Margin = new Padding(2, 0, 2, 0);
             label38.Name = "label38";
@@ -1550,7 +1578,7 @@
             panel56.Controls.Add(panel58);
             panel56.Controls.Add(panel60);
             panel56.Controls.Add(panel61);
-            panel56.Location = new Point(316, 870);
+            panel56.Location = new Point(1171, 485);
             panel56.Margin = new Padding(2, 5, 2, 5);
             panel56.MaximumSize = new Size(248, 352);
             panel56.MinimumSize = new Size(248, 352);
@@ -1572,6 +1600,7 @@
             // label39
             // 
             label39.AutoSize = true;
+            label39.ForeColor = Color.Black;
             label39.Location = new Point(26, 170);
             label39.Margin = new Padding(2, 0, 2, 0);
             label39.Name = "label39";
@@ -1604,6 +1633,7 @@
             // label40
             // 
             label40.AutoSize = true;
+            label40.ForeColor = Color.Black;
             label40.Location = new Point(26, 90);
             label40.Margin = new Padding(2, 0, 2, 0);
             label40.Name = "label40";
@@ -1636,6 +1666,7 @@
             label42.AutoSize = true;
             label42.BackColor = Color.FromArgb(3, 171, 229);
             label42.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label42.ForeColor = Color.Black;
             label42.Location = new Point(22, 10);
             label42.Margin = new Padding(2, 0, 2, 0);
             label42.Name = "label42";
@@ -1692,7 +1723,7 @@
             panel62.Controls.Add(panel64);
             panel62.Controls.Add(panel66);
             panel62.Controls.Add(panel67);
-            panel62.Location = new Point(600, 870);
+            panel62.Location = new Point(1445, 108);
             panel62.Margin = new Padding(2, 5, 2, 5);
             panel62.MaximumSize = new Size(248, 352);
             panel62.MinimumSize = new Size(248, 352);
@@ -1722,6 +1753,7 @@
             // label44
             // 
             label44.AutoSize = true;
+            label44.ForeColor = Color.Black;
             label44.Location = new Point(26, 138);
             label44.Margin = new Padding(2, 0, 2, 0);
             label44.Name = "label44";
@@ -1754,6 +1786,7 @@
             label46.AutoSize = true;
             label46.BackColor = Color.FromArgb(3, 171, 229);
             label46.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label46.ForeColor = Color.Black;
             label46.Location = new Point(34, 5);
             label46.Margin = new Padding(2, 0, 2, 0);
             label46.Name = "label46";
@@ -1810,7 +1843,7 @@
             panel68.Controls.Add(panel70);
             panel68.Controls.Add(panel72);
             panel68.Controls.Add(panel73);
-            panel68.Location = new Point(882, 870);
+            panel68.Location = new Point(1446, 485);
             panel68.Margin = new Padding(2, 5, 2, 5);
             panel68.MaximumSize = new Size(248, 352);
             panel68.MinimumSize = new Size(248, 352);
@@ -1840,6 +1873,7 @@
             // label48
             // 
             label48.AutoSize = true;
+            label48.ForeColor = Color.Black;
             label48.Location = new Point(34, 135);
             label48.Margin = new Padding(2, 0, 2, 0);
             label48.Name = "label48";
@@ -1872,6 +1906,7 @@
             label50.AutoSize = true;
             label50.BackColor = Color.FromArgb(3, 171, 229);
             label50.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label50.ForeColor = Color.Black;
             label50.Location = new Point(32, 5);
             label50.Margin = new Padding(2, 0, 2, 0);
             label50.Name = "label50";
@@ -1922,11 +1957,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.White;
-            ClientSize = new Size(1174, 1102);
+            ClientSize = new Size(1736, 868);
+            Controls.Add(panel50);
             Controls.Add(panel68);
             Controls.Add(panel62);
             Controls.Add(panel56);
-            Controls.Add(panel50);
             Controls.Add(panel44);
             Controls.Add(panel38);
             Controls.Add(panel32);
@@ -1936,6 +1971,7 @@
             Controls.Add(panel8);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2, 5, 2, 5);
             Name = "Informes";
