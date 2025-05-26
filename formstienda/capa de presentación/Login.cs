@@ -146,16 +146,16 @@ namespace formstienda
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-            string nombreusuario = txtusername.Text.Trim();
+            string usuariologueo = txtusername.Text.Trim();
             string contraseña = txtpassword.Text.Trim();
 
-            if (string.IsNullOrEmpty(nombreusuario) || string.IsNullOrEmpty(contraseña))
+            if (string.IsNullOrEmpty(usuariologueo) || string.IsNullOrEmpty(contraseña))
             {
                 MessageBox.Show("El nombre de usuario o la contrasena son nulas");
                 return;
             }
 
-            var usuario = _authServicio.Validar_Credenciales(nombreusuario, contraseña);
+            var usuario = _authServicio.Validar_Credenciales(usuariologueo, contraseña);
             if (usuario == null)
             {
                 MessageBox.Show("Credenciales no validas");

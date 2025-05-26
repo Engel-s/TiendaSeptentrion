@@ -515,36 +515,6 @@
             PanelContenedor.TabIndex = 2;
             PanelContenedor.Paint += PanelContenedor_Paint;
             // 
-<<<<<<< HEAD
-            // lblhora
-            // 
-            lblhora.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            lblhora.AutoSize = true;
-            lblhora.Font = new Font("Microsoft Sans Serif", 29F, FontStyle.Bold);
-            lblhora.ForeColor = Color.Black;
-            lblhora.Location = new Point(1083, 755);
-            lblhora.Name = "lblhora";
-            lblhora.Size = new Size(163, 57);
-            lblhora.TabIndex = 2;
-            lblhora.Text = "label1";
-            lblhora.TextAlign = ContentAlignment.BottomRight;
-            // 
-            // lblfecha
-            // 
-            lblfecha.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lblfecha.AutoSize = true;
-            lblfecha.Font = new Font("Microsoft Sans Serif", 29F, FontStyle.Bold);
-            lblfecha.ForeColor = Color.Black;
-            lblfecha.Location = new Point(16, 775);
-            lblfecha.Name = "lblfecha";
-            lblfecha.Size = new Size(163, 57);
-            lblfecha.TabIndex = 1;
-            lblfecha.Text = "label1";
-            lblfecha.TextAlign = ContentAlignment.BottomLeft;
-            lblfecha.Click += lblfecha_Click;
-            // 
-=======
->>>>>>> ventas
             // timerhora
             // 
             timerhora.Enabled = true;

@@ -15,11 +15,7 @@ public partial class DetalleCompra
 
     public int CantidadCompra { get; set; }
 
-<<<<<<< HEAD
     public double SubtotalCompra { get; set; }
-=======
-    public double? SubtotalCompra { get; set; }
->>>>>>> ventas
 
     public virtual Producto CodigoProductoNavigation { get; set; } = null!;
 

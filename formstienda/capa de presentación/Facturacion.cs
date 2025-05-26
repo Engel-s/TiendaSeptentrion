@@ -307,11 +307,6 @@ namespace formstienda
                 PagoCordobas = pagoCordobas,
                 PagoDolares = pagoDolares,
                 CambioVenta = float.TryParse(txtcambio.Text, out float cambio) ? cambio : 0f,
-<<<<<<< HEAD
-                //SubTotal = CalcularSubtotal(), // Debes tener una función que sume los subtotales
-                TotalVenta = float.TryParse(txttotal.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out float total) ? total : 0f,
-=======
->>>>>>> ventas
 
                 TotalVenta = totalVenta
             };

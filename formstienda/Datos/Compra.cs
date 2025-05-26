@@ -9,17 +9,11 @@ public partial class Compra
 
     public string CodigoRuc { get; set; } = null!;
 
-<<<<<<< HEAD
     public int NumeroFactura { get; set; }
 
     public DateTime FechaCompra { get; set; }
 
     public double TotalCompra { get; set; }
-=======
-    public DateTime FechaCompra { get; set; }
-
-    public double? TotalCompra { get; set; }
->>>>>>> ventas
 
     public virtual Proveedor CodigoRucNavigation { get; set; } = null!;
 
