@@ -69,7 +69,7 @@
             button9.FlatStyle = FlatStyle.Popup;
             button9.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button9.Location = new Point(-238, 640);
-            button9.Margin = new Padding(2, 2, 2, 2);
+            button9.Margin = new Padding(2);
             button9.Name = "button9";
             button9.Size = new Size(74, 35);
             button9.TabIndex = 53;
@@ -79,18 +79,18 @@
             // label21
             // 
             label21.AutoSize = true;
-            label21.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label21.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label21.Location = new Point(-242, 26);
             label21.Margin = new Padding(2, 0, 2, 0);
             label21.Name = "label21";
-            label21.Size = new Size(133, 20);
+            label21.Size = new Size(150, 20);
             label21.TabIndex = 46;
             label21.Text = "Cantidad a Salir:";
             // 
             // textBox13
             // 
             textBox13.Location = new Point(610, -50);
-            textBox13.Margin = new Padding(2, 2, 2, 2);
+            textBox13.Margin = new Padding(2);
             textBox13.Name = "textBox13";
             textBox13.Size = new Size(118, 27);
             textBox13.TabIndex = 45;
@@ -98,29 +98,29 @@
             // label20
             // 
             label20.AutoSize = true;
-            label20.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label20.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label20.Location = new Point(458, -48);
             label20.Margin = new Padding(2, 0, 2, 0);
             label20.Name = "label20";
-            label20.Size = new Size(147, 20);
+            label20.Size = new Size(167, 20);
             label20.TabIndex = 44;
             label20.Text = "Stock Disponibles:";
             // 
             // label19
             // 
             label19.AutoSize = true;
-            label19.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label19.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label19.Location = new Point(-242, -48);
             label19.Margin = new Padding(2, 0, 2, 0);
             label19.Name = "label19";
-            label19.Size = new Size(172, 20);
+            label19.Size = new Size(192, 20);
             label19.TabIndex = 43;
             label19.Text = "Nombre del Producto:";
             // 
             // textBox11
             // 
             textBox11.Location = new Point(306, -50);
-            textBox11.Margin = new Padding(2, 2, 2, 2);
+            textBox11.Margin = new Padding(2);
             textBox11.Name = "textBox11";
             textBox11.Size = new Size(118, 27);
             textBox11.TabIndex = 42;
@@ -128,22 +128,22 @@
             // label18
             // 
             label18.AutoSize = true;
-            label18.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label18.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label18.Location = new Point(214, -48);
             label18.Margin = new Padding(2, 0, 2, 0);
             label18.Name = "label18";
-            label18.Size = new Size(70, 20);
+            label18.Size = new Size(73, 20);
             label18.TabIndex = 41;
             label18.Text = "Código:";
             // 
             // label17
             // 
             label17.AutoSize = true;
-            label17.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label17.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label17.Location = new Point(-242, -112);
             label17.Margin = new Padding(2, 0, 2, 0);
             label17.Name = "label17";
-            label17.Size = new Size(138, 22);
+            label17.Size = new Size(150, 25);
             label17.TabIndex = 40;
             label17.Text = "Otras Salidas:";
             // 
@@ -153,7 +153,7 @@
             comboBox4.ForeColor = Color.Black;
             comboBox4.FormattingEnabled = true;
             comboBox4.Location = new Point(234, 74);
-            comboBox4.Margin = new Padding(2, 2, 2, 2);
+            comboBox4.Margin = new Padding(2);
             comboBox4.Name = "comboBox4";
             comboBox4.Size = new Size(180, 28);
             comboBox4.TabIndex = 68;
@@ -165,7 +165,7 @@
             dataGridView4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView4.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn3, Column11, Column12, Column13, descripcion });
             dataGridView4.Location = new Point(26, 282);
-            dataGridView4.Margin = new Padding(2, 2, 2, 2);
+            dataGridView4.Margin = new Padding(2);
             dataGridView4.Name = "dataGridView4";
             dataGridView4.RowHeadersWidth = 51;
             dataGridView4.RowTemplate.Height = 24;
@@ -207,10 +207,10 @@
             // 
             button7.Anchor = AnchorStyles.Top;
             button7.BackColor = Color.FromArgb(3, 171, 229);
-            button7.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button7.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ForeColor = Color.Black;
             button7.Location = new Point(956, 203);
-            button7.Margin = new Padding(2, 2, 2, 2);
+            button7.Margin = new Padding(2);
             button7.Name = "button7";
             button7.Size = new Size(134, 54);
             button7.TabIndex = 65;
@@ -222,10 +222,10 @@
             // 
             button8.Anchor = AnchorStyles.Top;
             button8.BackColor = Color.FromArgb(3, 171, 229);
-            button8.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button8.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button8.ForeColor = Color.Black;
             button8.Location = new Point(814, 203);
-            button8.Margin = new Padding(2, 2, 2, 2);
+            button8.Margin = new Padding(2);
             button8.Name = "button8";
             button8.Size = new Size(114, 54);
             button8.TabIndex = 64;
@@ -239,7 +239,7 @@
             comboBox5.FormattingEnabled = true;
             comboBox5.Items.AddRange(new object[] { "Defecto de fabrica", "Facturacion erronea", "Producto dañado", "Uso personal", "Patrocinio" });
             comboBox5.Location = new Point(584, 150);
-            comboBox5.Margin = new Padding(2, 2, 2, 2);
+            comboBox5.Margin = new Padding(2);
             comboBox5.Name = "comboBox5";
             comboBox5.Size = new Size(246, 28);
             comboBox5.TabIndex = 63;
@@ -248,12 +248,12 @@
             // 
             label22.Anchor = AnchorStyles.Top;
             label22.AutoSize = true;
-            label22.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label22.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label22.ForeColor = Color.Black;
             label22.Location = new Point(414, 150);
             label22.Margin = new Padding(2, 0, 2, 0);
             label22.Name = "label22";
-            label22.Size = new Size(69, 20);
+            label22.Size = new Size(70, 20);
             label22.TabIndex = 62;
             label22.Text = "Motivo:";
             // 
@@ -261,7 +261,7 @@
             // 
             textBox14.Anchor = AnchorStyles.Top;
             textBox14.Location = new Point(214, 154);
-            textBox14.Margin = new Padding(2, 2, 2, 2);
+            textBox14.Margin = new Padding(2);
             textBox14.Name = "textBox14";
             textBox14.Size = new Size(70, 27);
             textBox14.TabIndex = 61;
@@ -270,12 +270,12 @@
             // 
             label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
-            label1.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
             label1.Location = new Point(22, 150);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(133, 20);
+            label1.Size = new Size(150, 20);
             label1.TabIndex = 60;
             label1.Text = "Cantidad a Salir:";
             // 
@@ -283,7 +283,7 @@
             // 
             textBox1.Anchor = AnchorStyles.Top;
             textBox1.Location = new Point(1106, 74);
-            textBox1.Margin = new Padding(2, 2, 2, 2);
+            textBox1.Margin = new Padding(2);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(66, 27);
             textBox1.TabIndex = 59;
@@ -292,12 +292,12 @@
             // 
             label2.Anchor = AnchorStyles.Top;
             label2.AutoSize = true;
-            label2.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
             label2.Location = new Point(902, 74);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(140, 20);
+            label2.Size = new Size(157, 20);
             label2.TabIndex = 58;
             label2.Text = "Stock Disponible:";
             label2.Click += label2_Click;
@@ -306,12 +306,12 @@
             // 
             label3.Anchor = AnchorStyles.Top;
             label3.AutoSize = true;
-            label3.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
             label3.Location = new Point(22, 74);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(172, 20);
+            label3.Size = new Size(192, 20);
             label3.TabIndex = 57;
             label3.Text = "Nombre del Producto:";
             // 
@@ -319,7 +319,7 @@
             // 
             textBox2.Anchor = AnchorStyles.Top;
             textBox2.Location = new Point(696, 74);
-            textBox2.Margin = new Padding(2, 2, 2, 2);
+            textBox2.Margin = new Padding(2);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(134, 27);
             textBox2.TabIndex = 56;
@@ -328,23 +328,23 @@
             // 
             label4.Anchor = AnchorStyles.Top;
             label4.AutoSize = true;
-            label4.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Black;
             label4.Location = new Point(574, 74);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
-            label4.Size = new Size(70, 20);
+            label4.Size = new Size(73, 20);
             label4.TabIndex = 55;
             label4.Text = "Código:";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Location = new Point(22, 10);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
-            label5.Size = new Size(138, 22);
+            label5.Size = new Size(150, 25);
             label5.TabIndex = 54;
             label5.Text = "Otras Salidas:";
             // 
@@ -352,10 +352,10 @@
             // 
             button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             button1.BackColor = Color.FromArgb(3, 171, 229);
-            button1.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.Black;
             button1.Location = new Point(1126, 755);
-            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(130, 50);
             button1.TabIndex = 69;
@@ -368,12 +368,12 @@
             // 
             label6.Anchor = AnchorStyles.Top;
             label6.AutoSize = true;
-            label6.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.Black;
             label6.Location = new Point(22, 203);
             label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
-            label6.Size = new Size(104, 20);
+            label6.Size = new Size(116, 20);
             label6.TabIndex = 70;
             label6.Text = "Descripción:";
             // 
@@ -388,9 +388,10 @@
             // 
             // pictureBox2
             // 
+            pictureBox2.Anchor = AnchorStyles.Top;
             pictureBox2.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
             pictureBox2.Location = new Point(466, 60);
-            pictureBox2.Margin = new Padding(2, 2, 2, 2);
+            pictureBox2.Margin = new Padding(2);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(42, 43);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;

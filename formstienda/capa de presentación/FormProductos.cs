@@ -137,8 +137,8 @@ namespace formstienda
                 var marcas = servicio.ListarMarcas();
 
                 cmbMarcProduct.DataSource = marcas;
-                cmbMarcProduct.DisplayMember = "Marca"; // Solo muestra el nombre de la marca
-                cmbMarcProduct.ValueMember = "IdMarcas"; // Este valor se usa internamente si necesitas el ID
+                cmbMarcProduct.DisplayMember = "Marca1"; // Solo muestra el nombre de la marca
+                cmbMarcProduct.ValueMember = "IdMarca"; // Este valor se usa internamente si necesitas el ID
             }
             catch (Exception ex)
             {

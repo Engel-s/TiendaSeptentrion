@@ -85,7 +85,7 @@ namespace formstienda
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
-            tabControl1.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tabControl1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tabControl1.Location = new Point(-2, 51);
             tabControl1.Margin = new Padding(2);
             tabControl1.Name = "tabControl1";
@@ -118,11 +118,11 @@ namespace formstienda
             tabPage1.Controls.Add(txtCodigoProduct);
             tabPage1.Controls.Add(label2);
             tabPage1.Controls.Add(label1);
-            tabPage1.Location = new Point(4, 31);
+            tabPage1.Location = new Point(4, 34);
             tabPage1.Margin = new Padding(2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(2);
-            tabPage1.Size = new Size(1386, 841);
+            tabPage1.Size = new Size(1386, 838);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Productos";
             tabPage1.UseVisualStyleBackColor = true;
@@ -131,42 +131,41 @@ namespace formstienda
             // txtBuscarProducto
             // 
             txtBuscarProducto.Anchor = AnchorStyles.Top;
-            txtBuscarProducto.Location = new Point(166, 260);
+            txtBuscarProducto.Location = new Point(179, 257);
             txtBuscarProducto.Margin = new Padding(2);
             txtBuscarProducto.Name = "txtBuscarProducto";
-            txtBuscarProducto.Size = new Size(414, 31);
+            txtBuscarProducto.Size = new Size(414, 30);
             txtBuscarProducto.TabIndex = 164;
             txtBuscarProducto.TextChanged += txtBuscarProducto_TextChanged;
             // 
             // txtNombreProduct
             // 
-            txtNombreProduct.Anchor = AnchorStyles.Top;
-            txtNombreProduct.Location = new Point(191, 70);
+            txtNombreProduct.Location = new Point(214, 73);
             txtNombreProduct.Margin = new Padding(2);
             txtNombreProduct.Name = "txtNombreProduct";
-            txtNombreProduct.Size = new Size(221, 31);
+            txtNombreProduct.Size = new Size(221, 30);
             txtNombreProduct.TabIndex = 163;
             // 
             // label14
             // 
             label14.AutoSize = true;
-            label14.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label14.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label14.Location = new Point(18, 230);
             label14.Margin = new Padding(2, 0, 2, 0);
             label14.Name = "label14";
-            label14.Size = new Size(165, 22);
+            label14.Size = new Size(176, 25);
             label14.TabIndex = 162;
             label14.Text = "Buscar producto:";
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label13.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label13.ForeColor = Color.Black;
             label13.Location = new Point(18, 265);
             label13.Margin = new Padding(2, 0, 2, 0);
             label13.Name = "label13";
-            label13.Size = new Size(144, 20);
+            label13.Size = new Size(166, 20);
             label13.TabIndex = 160;
             label13.Text = "Buscar Productos:";
             // 
@@ -207,7 +206,7 @@ namespace formstienda
             // 
             button2.Anchor = AnchorStyles.Top;
             button2.BackColor = Color.FromArgb(3, 171, 229);
-            button2.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button2.Location = new Point(1238, 151);
             button2.Margin = new Padding(2);
             button2.Name = "button2";
@@ -220,7 +219,7 @@ namespace formstienda
             // 
             button1.Anchor = AnchorStyles.Top;
             button1.BackColor = Color.FromArgb(3, 171, 229);
-            button1.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.Location = new Point(1094, 152);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
@@ -238,18 +237,18 @@ namespace formstienda
             cmbEstado.Location = new Point(878, 133);
             cmbEstado.Margin = new Padding(2);
             cmbEstado.Name = "cmbEstado";
-            cmbEstado.Size = new Size(114, 30);
+            cmbEstado.Size = new Size(114, 33);
             cmbEstado.TabIndex = 16;
             // 
             // label9
             // 
             label9.Anchor = AnchorStyles.Top;
             label9.AutoSize = true;
-            label9.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label9.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label9.Location = new Point(808, 138);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
-            label9.Size = new Size(66, 20);
+            label9.Size = new Size(73, 20);
             label9.TabIndex = 15;
             label9.Text = "Estado:";
             // 
@@ -259,40 +258,38 @@ namespace formstienda
             txtPrecioVenta.Location = new Point(611, 133);
             txtPrecioVenta.Margin = new Padding(2);
             txtPrecioVenta.Name = "txtPrecioVenta";
-            txtPrecioVenta.Size = new Size(110, 31);
+            txtPrecioVenta.Size = new Size(110, 30);
             txtPrecioVenta.TabIndex = 14;
             // 
             // label8
             // 
             label8.Anchor = AnchorStyles.Top;
             label8.AutoSize = true;
-            label8.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.Location = new Point(461, 138);
             label8.Margin = new Padding(2, 0, 2, 0);
             label8.Name = "label8";
-            label8.Size = new Size(131, 20);
+            label8.Size = new Size(149, 20);
             label8.TabIndex = 13;
             label8.Text = "Precio de Venta:";
             // 
             // txtStockMinimo
             // 
-            txtStockMinimo.Anchor = AnchorStyles.Top;
-            txtStockMinimo.Location = new Point(302, 133);
+            txtStockMinimo.Location = new Point(214, 128);
             txtStockMinimo.Margin = new Padding(2);
             txtStockMinimo.Name = "txtStockMinimo";
-            txtStockMinimo.Size = new Size(110, 31);
+            txtStockMinimo.Size = new Size(110, 30);
             txtStockMinimo.TabIndex = 12;
             txtStockMinimo.TextChanged += textBox4_TextChanged;
             // 
             // label7
             // 
-            label7.Anchor = AnchorStyles.Top;
             label7.AutoSize = true;
-            label7.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(179, 138);
+            label7.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(18, 133);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
-            label7.Size = new Size(119, 20);
+            label7.Size = new Size(128, 20);
             label7.TabIndex = 11;
             label7.Text = "Stock Mínimo:";
             // 
@@ -303,18 +300,18 @@ namespace formstienda
             cmbMarcProduct.Location = new Point(1151, 75);
             cmbMarcProduct.Margin = new Padding(2);
             cmbMarcProduct.Name = "cmbMarcProduct";
-            cmbMarcProduct.Size = new Size(192, 30);
+            cmbMarcProduct.Size = new Size(192, 33);
             cmbMarcProduct.TabIndex = 8;
             // 
             // label5
             // 
             label5.Anchor = AnchorStyles.Top;
             label5.AutoSize = true;
-            label5.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Location = new Point(1084, 80);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
-            label5.Size = new Size(63, 20);
+            label5.Size = new Size(67, 20);
             label5.TabIndex = 7;
             label5.Text = "Marca:";
             // 
@@ -325,30 +322,29 @@ namespace formstienda
             cmbCategoriaProduc.Location = new Point(875, 70);
             cmbCategoriaProduc.Margin = new Padding(2);
             cmbCategoriaProduc.Name = "cmbCategoriaProduc";
-            cmbCategoriaProduc.Size = new Size(177, 30);
+            cmbCategoriaProduc.Size = new Size(177, 33);
             cmbCategoriaProduc.TabIndex = 6;
             // 
             // label4
             // 
             label4.Anchor = AnchorStyles.Top;
             label4.AutoSize = true;
-            label4.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.Location = new Point(786, 76);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
-            label4.Size = new Size(88, 20);
+            label4.Size = new Size(96, 20);
             label4.TabIndex = 5;
             label4.Text = "Categoría:";
             // 
             // label3
             // 
-            label3.Anchor = AnchorStyles.Top;
             label3.AutoSize = true;
-            label3.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.Location = new Point(18, 76);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(172, 20);
+            label3.Size = new Size(192, 20);
             label3.TabIndex = 3;
             label3.Text = "Nombre del Producto:";
             // 
@@ -358,29 +354,29 @@ namespace formstienda
             txtCodigoProduct.Location = new Point(583, 70);
             txtCodigoProduct.Margin = new Padding(2);
             txtCodigoProduct.Name = "txtCodigoProduct";
-            txtCodigoProduct.Size = new Size(118, 31);
+            txtCodigoProduct.Size = new Size(118, 30);
             txtCodigoProduct.TabIndex = 2;
             // 
             // label2
             // 
             label2.Anchor = AnchorStyles.Top;
             label2.AutoSize = true;
-            label2.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(475, 81);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(70, 20);
+            label2.Size = new Size(73, 20);
             label2.TabIndex = 1;
             label2.Text = "Código:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(10, 22);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(165, 22);
+            label1.Size = new Size(173, 25);
             label1.TabIndex = 0;
             label1.Text = "Nuevo Producto:";
             // 
@@ -393,11 +389,11 @@ namespace formstienda
             tabPage2.Controls.Add(btnAgregarCategoria);
             tabPage2.Controls.Add(label12);
             tabPage2.Controls.Add(label11);
-            tabPage2.Location = new Point(4, 31);
+            tabPage2.Location = new Point(4, 34);
             tabPage2.Margin = new Padding(2);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(2);
-            tabPage2.Size = new Size(1386, 841);
+            tabPage2.Size = new Size(1386, 838);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Categoría";
             tabPage2.UseVisualStyleBackColor = true;
@@ -407,7 +403,7 @@ namespace formstienda
             txtNuevaCategoria.Location = new Point(248, 66);
             txtNuevaCategoria.Margin = new Padding(2);
             txtNuevaCategoria.Name = "txtNuevaCategoria";
-            txtNuevaCategoria.Size = new Size(297, 31);
+            txtNuevaCategoria.Size = new Size(297, 30);
             txtNuevaCategoria.TabIndex = 41;
             // 
             // btnSalirCategorias
@@ -446,7 +442,7 @@ namespace formstienda
             // btnCancelaCategoria
             // 
             btnCancelaCategoria.BackColor = Color.FromArgb(3, 171, 229);
-            btnCancelaCategoria.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelaCategoria.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCancelaCategoria.Location = new Point(746, 49);
             btnCancelaCategoria.Margin = new Padding(2);
             btnCancelaCategoria.Name = "btnCancelaCategoria";
@@ -458,7 +454,7 @@ namespace formstienda
             // btnAgregarCategoria
             // 
             btnAgregarCategoria.BackColor = Color.FromArgb(3, 171, 229);
-            btnAgregarCategoria.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregarCategoria.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAgregarCategoria.Location = new Point(594, 49);
             btnAgregarCategoria.Margin = new Padding(2);
             btnAgregarCategoria.Name = "btnAgregarCategoria";
@@ -471,22 +467,22 @@ namespace formstienda
             // label12
             // 
             label12.AutoSize = true;
-            label12.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label12.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.Location = new Point(10, 71);
             label12.Margin = new Padding(2, 0, 2, 0);
             label12.Name = "label12";
-            label12.Size = new Size(173, 20);
+            label12.Size = new Size(193, 20);
             label12.TabIndex = 2;
             label12.Text = "Nombre de Categoría:";
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label11.Location = new Point(10, 20);
             label11.Margin = new Padding(2, 0, 2, 0);
             label11.Name = "label11";
-            label11.Size = new Size(172, 22);
+            label11.Size = new Size(181, 25);
             label11.TabIndex = 1;
             label11.Text = "Nueva Categoría:";
             // 
@@ -499,10 +495,10 @@ namespace formstienda
             tabPage3.Controls.Add(btnGuardarMarca);
             tabPage3.Controls.Add(label15);
             tabPage3.Controls.Add(label16);
-            tabPage3.Location = new Point(4, 31);
+            tabPage3.Location = new Point(4, 34);
             tabPage3.Margin = new Padding(2);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(1386, 841);
+            tabPage3.Size = new Size(1386, 838);
             tabPage3.TabIndex = 3;
             tabPage3.Text = "Marcas";
             tabPage3.UseVisualStyleBackColor = true;
@@ -513,7 +509,7 @@ namespace formstienda
             txtNuevaMarca.Location = new Point(223, 69);
             txtNuevaMarca.Margin = new Padding(2);
             txtNuevaMarca.Name = "txtNuevaMarca";
-            txtNuevaMarca.Size = new Size(286, 31);
+            txtNuevaMarca.Size = new Size(286, 30);
             txtNuevaMarca.TabIndex = 41;
             txtNuevaMarca.UseWaitCursor = true;
             // 
@@ -552,7 +548,7 @@ namespace formstienda
             // btnCancelarMarca
             // 
             btnCancelarMarca.BackColor = Color.FromArgb(3, 171, 229);
-            btnCancelarMarca.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelarMarca.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCancelarMarca.Location = new Point(751, 50);
             btnCancelarMarca.Margin = new Padding(2);
             btnCancelarMarca.Name = "btnCancelarMarca";
@@ -565,7 +561,7 @@ namespace formstienda
             // btnGuardarMarca
             // 
             btnGuardarMarca.BackColor = Color.FromArgb(3, 171, 229);
-            btnGuardarMarca.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardarMarca.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnGuardarMarca.Location = new Point(594, 50);
             btnGuardarMarca.Margin = new Padding(2);
             btnGuardarMarca.Name = "btnGuardarMarca";
@@ -579,11 +575,11 @@ namespace formstienda
             // label15
             // 
             label15.AutoSize = true;
-            label15.Font = new Font("Calisto MT", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label15.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label15.Location = new Point(10, 69);
             label15.Margin = new Padding(2, 0, 2, 0);
             label15.Name = "label15";
-            label15.Size = new Size(148, 20);
+            label15.Size = new Size(164, 20);
             label15.TabIndex = 24;
             label15.Text = "Nombre de Marca:";
             label15.UseWaitCursor = true;
