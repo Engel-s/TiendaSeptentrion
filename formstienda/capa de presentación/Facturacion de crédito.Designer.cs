@@ -34,13 +34,6 @@
             txtBusqueda = new TextBox();
             pictureBox2 = new PictureBox();
             Tabla_Credito = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
-            Column8 = new DataGridViewTextBoxColumn();
-            Column9 = new DataGridViewTextBoxColumn();
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
@@ -117,7 +110,6 @@
             Tabla_Credito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             Tabla_Credito.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             Tabla_Credito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            Tabla_Credito.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5, Column8, Column9 });
             Tabla_Credito.Location = new Point(28, 162);
             Tabla_Credito.Margin = new Padding(3, 2, 3, 2);
             Tabla_Credito.Name = "Tabla_Credito";
@@ -126,48 +118,6 @@
             Tabla_Credito.Size = new Size(1001, 402);
             Tabla_Credito.TabIndex = 41;
             Tabla_Credito.CellContentClick += Tabla_Credito_CellContentClick;
-            // 
-            // Column1
-            // 
-            Column1.HeaderText = "Nº Factura";
-            Column1.MinimumWidth = 8;
-            Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            Column2.HeaderText = "Fecha";
-            Column2.MinimumWidth = 8;
-            Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            Column3.HeaderText = "Saldo";
-            Column3.MinimumWidth = 8;
-            Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            Column4.HeaderText = "Abono";
-            Column4.MinimumWidth = 8;
-            Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            Column5.HeaderText = "Nuevo saldo";
-            Column5.MinimumWidth = 8;
-            Column5.Name = "Column5";
-            // 
-            // Column8
-            // 
-            Column8.HeaderText = "Tasa de interés";
-            Column8.MinimumWidth = 6;
-            Column8.Name = "Column8";
-            // 
-            // Column9
-            // 
-            Column9.HeaderText = "Número de plazo ";
-            Column9.MinimumWidth = 6;
-            Column9.Name = "Column9";
             // 
             // label3
             // 
@@ -415,12 +365,5 @@
         private System.Windows.Forms.PictureBox pictureBox6;
         private TextBox txtCambio;
         private CheckBox checkBox1;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column3;
-        private DataGridViewTextBoxColumn Column4;
-        private DataGridViewTextBoxColumn Column5;
-        private DataGridViewTextBoxColumn Column8;
-        private DataGridViewTextBoxColumn Column9;
     }
 }
