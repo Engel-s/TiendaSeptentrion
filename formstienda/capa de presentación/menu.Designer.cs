@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(menu));
             MenuVertical = new FlowLayoutPanel();
             panel3 = new Panel();
-            label2 = new Label();
+            lblusuario = new Label();
             iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             btncompras = new FontAwesome.Sharp.IconButton();
             btnventas = new FontAwesome.Sharp.IconButton();
@@ -53,8 +53,6 @@
             lblpantallainfo = new Label();
             btnminimizar = new PictureBox();
             PanelContenedor = new Panel();
-            lblhora = new Label();
-            lblfecha = new Label();
             timerhora = new System.Windows.Forms.Timer(components);
             MenuVertical.SuspendLayout();
             panel3.SuspendLayout();
@@ -63,7 +61,6 @@
             ((System.ComponentModel.ISupportInitialize)Salir).BeginInit();
             ((System.ComponentModel.ISupportInitialize)maximizar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnminimizar).BeginInit();
-            PanelContenedor.SuspendLayout();
             SuspendLayout();
             // 
             // MenuVertical
@@ -94,7 +91,7 @@
             // panel3
             // 
             panel3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel3.Controls.Add(label2);
+            panel3.Controls.Add(lblusuario);
             panel3.Controls.Add(iconPictureBox1);
             panel3.Location = new Point(3, 4);
             panel3.Margin = new Padding(3, 4, 3, 4);
@@ -103,17 +100,17 @@
             panel3.TabIndex = 1;
             panel3.Paint += panel3_Paint;
             // 
-            // label2
+            // lblusuario
             // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-            label2.Location = new Point(91, 13);
-            label2.Name = "label2";
-            label2.Size = new Size(109, 25);
-            label2.TabIndex = 0;
-            label2.Text = "USUARIO";
-            label2.Click += label2_Click;
+            lblusuario.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lblusuario.AutoSize = true;
+            lblusuario.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            lblusuario.Location = new Point(91, 13);
+            lblusuario.Name = "lblusuario";
+            lblusuario.Size = new Size(109, 25);
+            lblusuario.TabIndex = 0;
+            lblusuario.Text = "USUARIO";
+            lblusuario.Click += label2_Click;
             // 
             // iconPictureBox1
             // 
@@ -493,7 +490,7 @@
             lblpantallainfo.TabIndex = 0;
             lblpantallainfo.Text = "MENÚ PRINCIPAL";
             lblpantallainfo.TextAlign = ContentAlignment.MiddleCenter;
-            lblpantallainfo.Click += label1_Click;
+            lblpantallainfo.Click += lblpantallainfo_Click;
             // 
             // btnminimizar
             // 
@@ -510,8 +507,6 @@
             // 
             // PanelContenedor
             // 
-            PanelContenedor.Controls.Add(lblhora);
-            PanelContenedor.Controls.Add(lblfecha);
             PanelContenedor.Dock = DockStyle.Fill;
             PanelContenedor.Location = new Point(239, 35);
             PanelContenedor.Margin = new Padding(3, 4, 3, 4);
@@ -519,34 +514,6 @@
             PanelContenedor.Size = new Size(1315, 847);
             PanelContenedor.TabIndex = 2;
             PanelContenedor.Paint += PanelContenedor_Paint;
-            // 
-            // lblhora
-            // 
-            lblhora.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            lblhora.AutoSize = true;
-            lblhora.Font = new Font("Microsoft Sans Serif", 29F, FontStyle.Bold);
-            lblhora.ForeColor = Color.Black;
-            lblhora.Location = new Point(1083, 755);
-            lblhora.Name = "lblhora";
-            lblhora.Size = new Size(163, 57);
-            lblhora.TabIndex = 2;
-            lblhora.Text = "label1";
-            lblhora.TextAlign = ContentAlignment.BottomRight;
-            //lblhora.Click += lblhora_Click;
-            // 
-            // lblfecha
-            // 
-            lblfecha.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lblfecha.AutoSize = true;
-            lblfecha.Font = new Font("Microsoft Sans Serif", 29F, FontStyle.Bold);
-            lblfecha.ForeColor = Color.Black;
-            lblfecha.Location = new Point(16, 775);
-            lblfecha.Name = "lblfecha";
-            lblfecha.Size = new Size(152, 55);
-            lblfecha.TabIndex = 1;
-            lblfecha.Text = "label1";
-            lblfecha.TextAlign = ContentAlignment.BottomLeft;
-            lblfecha.Click += lblfecha_Click;
             // 
             // timerhora
             // 
@@ -575,8 +542,6 @@
             ((System.ComponentModel.ISupportInitialize)Salir).EndInit();
             ((System.ComponentModel.ISupportInitialize)maximizar).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnminimizar).EndInit();
-            PanelContenedor.ResumeLayout(false);
-            PanelContenedor.PerformLayout();
             ResumeLayout(false);
 
         }
@@ -609,5 +574,6 @@
         private System.Windows.Forms.Timer timerhora;
         private System.Windows.Forms.Label lblhora;
         private System.Windows.Forms.PictureBox btnminimizar;
+        private Label lblusuario;
     }
 }

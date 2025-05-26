@@ -1,4 +1,6 @@
 ﻿using formstienda.capa_de_negocios;
+using formstienda.capa_de_negocios;
+using formstienda.Datos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,10 +8,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using formstienda.capa_de_negocios;
-using formstienda.Datos;
+using System.Text.RegularExpressions;
 
 namespace formstienda.capa_de_presentación
 {
@@ -83,6 +85,8 @@ namespace formstienda.capa_de_presentación
 
         private void btnregistrar_Click(object sender, EventArgs e)
         {
+            
+
             // Crear cliente con valores limpios
             var cliente = new Cliente
             {
@@ -100,23 +104,45 @@ namespace formstienda.capa_de_presentación
                 string.IsNullOrWhiteSpace(cliente.ApellidoCliente) ||
                 string.IsNullOrWhiteSpace(cliente.DireccionCliente) ||
                 string.IsNullOrWhiteSpace(cliente.CedulaCliente) ||
-
                 string.IsNullOrWhiteSpace(cliente.TelefonoCliente))
             {
                 MessageBox.Show("Por favor, complete todos los campos obligatorios.");
                 return;
             }
 
-            // Validar teléfono (solo números y entre 10 y 15 dígitos)
-            //if (cliente.TelefonoCliente.Length < 10 || cliente.TelefonoCliente.Length > 15)
-            //{
-            //    MessageBox.Show("Ingrese un número de teléfono válido (entre 10 y 15 dígitos).");
-            //    return;
-            //}
+            // Validar que nombre y apellido contengan solo letras y espacios
+            Regex soloLetras = new Regex(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$");
+
+            if (!soloLetras.IsMatch(cliente.NombreCliente))
+            {
+                MessageBox.Show("El nombre solo debe contener letras.");
+                return;
+            }
+
+            if (!soloLetras.IsMatch(cliente.ApellidoCliente))
+            {
+                MessageBox.Show("El apellido solo debe contener letras.");
+                return;
+            }
+
+            // Validar cédula: (puedes ajustar el patrón según el formato que usas)
+            Regex cedulaRegex = new Regex(@"^\d{13}[a-zA-Z]$");
+            if (!cedulaRegex.IsMatch(cliente.CedulaCliente))
+            {
+                MessageBox.Show("La cédula solo puede contener letras, números y guiones.");
+                return;
+            }
+
+            // Validar teléfono (solo números y entre 8 y 15 dígitos)
+            if (cliente.TelefonoCliente.Length < 8 || cliente.TelefonoCliente.Length > 15)
+            {
+                MessageBox.Show("Ingrese un número de teléfono válido (entre 8 y 15 dígitos).");
+                return;
+            }
 
             // Validar si ya existe cliente con ese teléfono
             var clienteExistente = clienteServicio?.Listaclientes()
-                                                  .FirstOrDefault(p => p.TelefonoCliente == cliente.TelefonoCliente);
+                                                   .FirstOrDefault(p => p.TelefonoCliente == cliente.TelefonoCliente && p.CedulaCliente==cliente.CedulaCliente);
             if (clienteExistente != null)
             {
                 MessageBox.Show("Este cliente ya existe, agregue otro teléfono.");

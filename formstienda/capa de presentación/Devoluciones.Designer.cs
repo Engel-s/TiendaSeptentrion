@@ -28,133 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
-            txtbusquedafactura = new TextBox();
-            DGDETALLESDEVENTA = new DataGridView();
-            CodigoProducto = new DataGridViewTextBoxColumn();
-            ModeloProducto = new DataGridViewTextBoxColumn();
-            Precio = new DataGridViewTextBoxColumn();
-            Cantidad = new DataGridViewTextBoxColumn();
-            Subtotal = new DataGridViewTextBoxColumn();
-            cantidadDevuelta = new DataGridViewTextBoxColumn();
-            label4 = new Label();
+            txtmontodevolucion = new TextBox();
             CBMOTIVO = new ComboBox();
             label7 = new Label();
-            txtmontodevolucion = new TextBox();
-            btnconfirmarcambio = new Button();
-            btnsalir = new Button();
-            btncancelar = new Button();
-            btnbuscar = new PictureBox();
+            label4 = new Label();
             txttelefonodelcliente = new TextBox();
-            label8 = new Label();
-            txtnombrecliente = new TextBox();
             label5 = new Label();
-            txtdescripcion = new TextBox();
+            btnsalir = new Button();
+            btnconfirmardevolucion = new Button();
             label3 = new Label();
+            btncancelar = new Button();
+            DGDETALLESDEVENTA = new DataGridView();
+            txtdescripcion = new TextBox();
+            label1 = new Label();
             btnanularfactura = new Button();
+            label2 = new Label();
+            txtnombrecliente = new TextBox();
+            txtbusquedafactura = new TextBox();
+            label8 = new Label();
+            btnbuscar = new PictureBox();
             panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)DGDETALLESDEVENTA).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnbuscar).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
+            // txtmontodevolucion
             // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Font = new Font("Calisto MT", 14F, FontStyle.Bold);
-            label1.ForeColor = Color.Black;
-            label1.Location = new Point(317, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(411, 28);
-            label1.TabIndex = 0;
-            label1.Text = "Proceso de solicitud de devoluciones ";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(71, 73);
-            label2.Name = "label2";
-            label2.Size = new Size(125, 20);
-            label2.TabIndex = 1;
-            label2.Text = "Buscar Factura:";
-            label2.Click += label2_Click;
-            // 
-            // txtbusquedafactura
-            // 
-            txtbusquedafactura.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtbusquedafactura.Location = new Point(202, 70);
-            txtbusquedafactura.Margin = new Padding(3, 5, 3, 5);
-            txtbusquedafactura.Name = "txtbusquedafactura";
-            txtbusquedafactura.Size = new Size(295, 27);
-            txtbusquedafactura.TabIndex = 3;
-            // 
-            // DGDETALLESDEVENTA
-            // 
-            DGDETALLESDEVENTA.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            DGDETALLESDEVENTA.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DGDETALLESDEVENTA.BackgroundColor = Color.FromArgb(238, 238, 238);
-            DGDETALLESDEVENTA.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGDETALLESDEVENTA.Columns.AddRange(new DataGridViewColumn[] { CodigoProducto, ModeloProducto, Precio, Cantidad, Subtotal, cantidadDevuelta });
-            DGDETALLESDEVENTA.Location = new Point(17, 171);
-            DGDETALLESDEVENTA.Margin = new Padding(3, 5, 3, 5);
-            DGDETALLESDEVENTA.Name = "DGDETALLESDEVENTA";
-            DGDETALLESDEVENTA.RowHeadersWidth = 51;
-            DGDETALLESDEVENTA.RowTemplate.Height = 24;
-            DGDETALLESDEVENTA.Size = new Size(1051, 276);
-            DGDETALLESDEVENTA.TabIndex = 5;
-            // 
-            // CodigoProducto
-            // 
-            CodigoProducto.HeaderText = "Código";
-            CodigoProducto.MinimumWidth = 6;
-            CodigoProducto.Name = "CodigoProducto";
-            // 
-            // ModeloProducto
-            // 
-            ModeloProducto.HeaderText = "Producto";
-            ModeloProducto.MinimumWidth = 6;
-            ModeloProducto.Name = "ModeloProducto";
-            // 
-            // Precio
-            // 
-            Precio.HeaderText = "Precio";
-            Precio.MinimumWidth = 6;
-            Precio.Name = "Precio";
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.MinimumWidth = 6;
-            Cantidad.Name = "Cantidad";
-            // 
-            // Subtotal
-            // 
-            Subtotal.HeaderText = "Subtotal";
-            Subtotal.MinimumWidth = 6;
-            Subtotal.Name = "Subtotal";
-            // 
-            // cantidadDevuelta
-            // 
-            cantidadDevuelta.HeaderText = "Cantidad devuelta";
-            cantidadDevuelta.MinimumWidth = 8;
-            cantidadDevuelta.Name = "cantidadDevuelta";
-            // 
-            // label4
-            // 
-            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            label4.AutoSize = true;
-            label4.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label4.ForeColor = Color.Black;
-            label4.Location = new Point(34, 507);
-            label4.Name = "label4";
-            label4.Size = new Size(174, 20);
-            label4.TabIndex = 6;
-            label4.Text = "Motivo de devolución:";
-            label4.Click += label4_Click;
+            txtmontodevolucion.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            txtmontodevolucion.Location = new Point(251, 600);
+            txtmontodevolucion.Margin = new Padding(3, 5, 3, 5);
+            txtmontodevolucion.Name = "txtmontodevolucion";
+            txtmontodevolucion.ReadOnly = true;
+            txtmontodevolucion.Size = new Size(275, 27);
+            txtmontodevolucion.TabIndex = 13;
+            txtmontodevolucion.TextChanged += textBox4_TextChanged;
             // 
             // CBMOTIVO
             // 
@@ -162,7 +70,7 @@
             CBMOTIVO.DropDownStyle = ComboBoxStyle.DropDownList;
             CBMOTIVO.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             CBMOTIVO.FormattingEnabled = true;
-            CBMOTIVO.Items.AddRange(new object[] { "Defecto de fabrica", "Error de facturación", "Garantía" });
+            CBMOTIVO.Items.AddRange(new object[] { "Defecto de fábrica", "Facturación errónea", "Garantía" });
             CBMOTIVO.Location = new Point(251, 507);
             CBMOTIVO.Margin = new Padding(3, 5, 3, 5);
             CBMOTIVO.Name = "CBMOTIVO";
@@ -182,33 +90,41 @@
             label7.Text = "Monto de devolución:";
             label7.Click += label7_Click;
             // 
-            // txtmontodevolucion
+            // label4
             // 
-            txtmontodevolucion.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            txtmontodevolucion.Location = new Point(251, 600);
-            txtmontodevolucion.Margin = new Padding(3, 5, 3, 5);
-            txtmontodevolucion.Name = "txtmontodevolucion";
-            txtmontodevolucion.ReadOnly = true;
-            txtmontodevolucion.Size = new Size(275, 27);
-            txtmontodevolucion.TabIndex = 13;
-            txtmontodevolucion.TextChanged += textBox4_TextChanged;
+            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label4.AutoSize = true;
+            label4.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            label4.ForeColor = Color.Black;
+            label4.Location = new Point(34, 507);
+            label4.Name = "label4";
+            label4.Size = new Size(174, 20);
+            label4.TabIndex = 6;
+            label4.Text = "Motivo de devolución:";
+            label4.Click += label4_Click;
             // 
-            // btnconfirmarcambio
+            // txttelefonodelcliente
             // 
-            btnconfirmarcambio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnconfirmarcambio.BackColor = Color.FromArgb(3, 171, 229);
-            btnconfirmarcambio.Cursor = Cursors.Hand;
-            btnconfirmarcambio.FlatStyle = FlatStyle.Popup;
-            btnconfirmarcambio.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            btnconfirmarcambio.ForeColor = Color.Black;
-            btnconfirmarcambio.Location = new Point(806, 698);
-            btnconfirmarcambio.Margin = new Padding(3, 5, 3, 5);
-            btnconfirmarcambio.Name = "btnconfirmarcambio";
-            btnconfirmarcambio.Size = new Size(129, 42);
-            btnconfirmarcambio.TabIndex = 14;
-            btnconfirmarcambio.Text = "Confirmar";
-            btnconfirmarcambio.UseVisualStyleBackColor = false;
-            btnconfirmarcambio.Click += button1_Click;
+            txttelefonodelcliente.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            txttelefonodelcliente.Location = new Point(675, 120);
+            txttelefonodelcliente.Margin = new Padding(3, 5, 3, 5);
+            txttelefonodelcliente.Name = "txttelefonodelcliente";
+            txttelefonodelcliente.ReadOnly = true;
+            txttelefonodelcliente.Size = new Size(139, 27);
+            txttelefonodelcliente.TabIndex = 41;
+            txttelefonodelcliente.TextChanged += textBox5_TextChanged;
+            // 
+            // label5
+            // 
+            label5.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label5.AutoSize = true;
+            label5.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            label5.ForeColor = Color.Black;
+            label5.Location = new Point(34, 556);
+            label5.Name = "label5";
+            label5.Size = new Size(209, 20);
+            label5.TabIndex = 44;
+            label5.Text = "Descripción de devolución:";
             // 
             // btnsalir
             // 
@@ -226,6 +142,34 @@
             btnsalir.Text = "Salir";
             btnsalir.UseVisualStyleBackColor = false;
             btnsalir.Click += button2_Click;
+            // 
+            // btnconfirmardevolucion
+            // 
+            btnconfirmardevolucion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnconfirmardevolucion.BackColor = Color.FromArgb(3, 171, 229);
+            btnconfirmardevolucion.Cursor = Cursors.Hand;
+            btnconfirmardevolucion.FlatStyle = FlatStyle.Popup;
+            btnconfirmardevolucion.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            btnconfirmardevolucion.ForeColor = Color.Black;
+            btnconfirmardevolucion.Location = new Point(806, 698);
+            btnconfirmardevolucion.Margin = new Padding(3, 5, 3, 5);
+            btnconfirmardevolucion.Name = "btnconfirmardevolucion";
+            btnconfirmardevolucion.Size = new Size(129, 42);
+            btnconfirmardevolucion.TabIndex = 14;
+            btnconfirmardevolucion.Text = "Confirmar";
+            btnconfirmardevolucion.UseVisualStyleBackColor = false;
+            btnconfirmardevolucion.Click += btnconfirmardevolucion_Click_1;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            label3.ForeColor = Color.Black;
+            label3.Location = new Point(566, 123);
+            label3.Name = "label3";
+            label3.Size = new Size(80, 20);
+            label3.TabIndex = 46;
+            label3.Text = "Teléfono:";
             // 
             // btncancelar
             // 
@@ -245,63 +189,20 @@
             btncancelar.UseVisualStyleBackColor = false;
             btncancelar.Click += button3_Click;
             // 
-            // btnbuscar
+            // DGDETALLESDEVENTA
             // 
-            btnbuscar.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
-            btnbuscar.Location = new Point(512, 64);
-            btnbuscar.Margin = new Padding(3, 2, 3, 2);
-            btnbuscar.Name = "btnbuscar";
-            btnbuscar.Size = new Size(49, 41);
-            btnbuscar.SizeMode = PictureBoxSizeMode.StretchImage;
-            btnbuscar.TabIndex = 40;
-            btnbuscar.TabStop = false;
-            btnbuscar.Click += btnbuscar_Click;
-            // 
-            // txttelefonodelcliente
-            // 
-            txttelefonodelcliente.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txttelefonodelcliente.Location = new Point(675, 120);
-            txttelefonodelcliente.Margin = new Padding(3, 5, 3, 5);
-            txttelefonodelcliente.Name = "txttelefonodelcliente";
-            txttelefonodelcliente.ReadOnly = true;
-            txttelefonodelcliente.Size = new Size(139, 27);
-            txttelefonodelcliente.TabIndex = 41;
-            txttelefonodelcliente.TextChanged += textBox5_TextChanged;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.BackColor = Color.Transparent;
-            label8.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label8.ForeColor = Color.Black;
-            label8.Location = new Point(71, 123);
-            label8.Name = "label8";
-            label8.Size = new Size(67, 20);
-            label8.TabIndex = 42;
-            label8.Text = "Cliente:";
-            label8.Click += label8_Click;
-            // 
-            // txtnombrecliente
-            // 
-            txtnombrecliente.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtnombrecliente.Location = new Point(144, 120);
-            txtnombrecliente.Margin = new Padding(3, 5, 3, 5);
-            txtnombrecliente.Name = "txtnombrecliente";
-            txtnombrecliente.ReadOnly = true;
-            txtnombrecliente.Size = new Size(317, 27);
-            txtnombrecliente.TabIndex = 43;
-            // 
-            // label5
-            // 
-            label5.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            label5.AutoSize = true;
-            label5.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label5.ForeColor = Color.Black;
-            label5.Location = new Point(34, 556);
-            label5.Name = "label5";
-            label5.Size = new Size(209, 20);
-            label5.TabIndex = 44;
-            label5.Text = "Descripción de devolución:";
+            DGDETALLESDEVENTA.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            DGDETALLESDEVENTA.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DGDETALLESDEVENTA.BackgroundColor = Color.FromArgb(238, 238, 238);
+            DGDETALLESDEVENTA.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGDETALLESDEVENTA.Location = new Point(17, 171);
+            DGDETALLESDEVENTA.Margin = new Padding(3, 5, 3, 5);
+            DGDETALLESDEVENTA.Name = "DGDETALLESDEVENTA";
+            DGDETALLESDEVENTA.RowHeadersWidth = 51;
+            DGDETALLESDEVENTA.RowTemplate.Height = 24;
+            DGDETALLESDEVENTA.Size = new Size(1051, 276);
+            DGDETALLESDEVENTA.TabIndex = 5;
+            DGDETALLESDEVENTA.CellEndEdit += DGDETALLESDEVENTA_CellEndEdit;
             // 
             // txtdescripcion
             // 
@@ -312,16 +213,17 @@
             txtdescripcion.Size = new Size(275, 27);
             txtdescripcion.TabIndex = 45;
             // 
-            // label3
+            // label1
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label3.ForeColor = Color.Black;
-            label3.Location = new Point(566, 123);
-            label3.Name = "label3";
-            label3.Size = new Size(80, 20);
-            label3.TabIndex = 46;
-            label3.Text = "Teléfono:";
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Font = new Font("Calisto MT", 14F, FontStyle.Bold);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(317, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(411, 28);
+            label1.TabIndex = 0;
+            label1.Text = "Proceso de solicitud de devoluciones ";
             // 
             // btnanularfactura
             // 
@@ -339,6 +241,62 @@
             btnanularfactura.Text = "Anular Factura";
             btnanularfactura.UseVisualStyleBackColor = false;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(71, 73);
+            label2.Name = "label2";
+            label2.Size = new Size(125, 20);
+            label2.TabIndex = 1;
+            label2.Text = "Buscar Factura:";
+            label2.Click += label2_Click;
+            // 
+            // txtnombrecliente
+            // 
+            txtnombrecliente.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            txtnombrecliente.Location = new Point(144, 120);
+            txtnombrecliente.Margin = new Padding(3, 5, 3, 5);
+            txtnombrecliente.Name = "txtnombrecliente";
+            txtnombrecliente.ReadOnly = true;
+            txtnombrecliente.Size = new Size(317, 27);
+            txtnombrecliente.TabIndex = 43;
+            // 
+            // txtbusquedafactura
+            // 
+            txtbusquedafactura.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            txtbusquedafactura.Location = new Point(202, 70);
+            txtbusquedafactura.Margin = new Padding(3, 5, 3, 5);
+            txtbusquedafactura.Name = "txtbusquedafactura";
+            txtbusquedafactura.Size = new Size(295, 27);
+            txtbusquedafactura.TabIndex = 3;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.Transparent;
+            label8.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            label8.ForeColor = Color.Black;
+            label8.Location = new Point(71, 123);
+            label8.Name = "label8";
+            label8.Size = new Size(67, 20);
+            label8.TabIndex = 42;
+            label8.Text = "Cliente:";
+            label8.Click += label8_Click;
+            // 
+            // btnbuscar
+            // 
+            btnbuscar.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
+            btnbuscar.Location = new Point(512, 64);
+            btnbuscar.Margin = new Padding(3, 2, 3, 2);
+            btnbuscar.Name = "btnbuscar";
+            btnbuscar.Size = new Size(49, 41);
+            btnbuscar.SizeMode = PictureBoxSizeMode.StretchImage;
+            btnbuscar.TabIndex = 40;
+            btnbuscar.TabStop = false;
+            btnbuscar.Click += btnbuscar_Click;
+            // 
             // panel1
             // 
             panel1.BackColor = Color.White;
@@ -353,7 +311,7 @@
             panel1.Controls.Add(DGDETALLESDEVENTA);
             panel1.Controls.Add(btncancelar);
             panel1.Controls.Add(label3);
-            panel1.Controls.Add(btnconfirmarcambio);
+            panel1.Controls.Add(btnconfirmardevolucion);
             panel1.Controls.Add(btnsalir);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(txttelefonodelcliente);
@@ -390,31 +348,25 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtbusquedafactura;
-        private System.Windows.Forms.DataGridView DGDETALLESDEVENTA;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox CBMOTIVO;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtmontodevolucion;
-        private System.Windows.Forms.Button btnconfirmarcambio;
-        private System.Windows.Forms.Button btnsalir;
-        private System.Windows.Forms.Button btncancelar;
-        private System.Windows.Forms.PictureBox btnbuscar;
-        private System.Windows.Forms.TextBox txttelefonodelcliente;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox txtnombrecliente;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtdescripcion;
+        private TextBox txtmontodevolucion;
+        private ComboBox CBMOTIVO;
+        private Label label7;
+        private Label label4;
+        private TextBox txttelefonodelcliente;
+        private Label label5;
+        private Button btnsalir;
+        private Button btnconfirmardevolucion;
         private Label label3;
+        private Button btncancelar;
+        private DataGridView DGDETALLESDEVENTA;
+        private TextBox txtdescripcion;
+        private Label label1;
         private Button btnanularfactura;
+        private Label label2;
+        private TextBox txtnombrecliente;
+        private TextBox txtbusquedafactura;
+        private Label label8;
+        private PictureBox btnbuscar;
         private Panel panel1;
-        private DataGridViewTextBoxColumn CodigoProducto;
-        private DataGridViewTextBoxColumn ModeloProducto;
-        private DataGridViewTextBoxColumn Precio;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn Subtotal;
-        private DataGridViewTextBoxColumn cantidadDevuelta;
     }
 }

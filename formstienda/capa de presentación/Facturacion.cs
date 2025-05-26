@@ -330,7 +330,7 @@ namespace formstienda
                     Cantidad = cantidadVendida,
                     Precio = row.Cells["Precio"].Value?.ToString() ?? producto.PrecioVenta.ToString("N2"),
                     CedulaCliente = cedulaClienteActual,
-                    SubTotal = CalcularSubtotal(),
+                    SubTotal =cantidadVendida*producto.PrecioVenta ,
                 };
 
                 producto.StockActual -= cantidadVendida;
@@ -405,7 +405,7 @@ namespace formstienda
 
                 if (VentaServicio.AgregarVentaConDetallesYCredito(venta, detalles, facturaCredito, detalleCreditos))
                 {
-                    MessageBox.Show("Venta al crédito guardados correctamente.");
+                    MessageBox.Show("Venta al crédito guardada correctamente.");
                     LimpiarFormulario();
                     cedulaClienteActual = string.Empty;
                     CargarNumeroFactura();

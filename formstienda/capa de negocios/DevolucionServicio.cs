@@ -20,6 +20,7 @@ namespace formstienda.capa_de_negocios
                     return _contexto.Venta
                         .Include(v => v.CedulaClienteNavigation)
                         .Include(v => v.DetalleDeVenta)
+                            .ThenInclude(d => d.CodigoProductoNavigation) // <--- Importante
                         .FirstOrDefault(v => v.IdVenta == idVenta && v.TipoPago == "Contado");
                 }
             }
