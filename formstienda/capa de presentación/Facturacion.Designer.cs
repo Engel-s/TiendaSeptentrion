@@ -35,17 +35,17 @@
             facturafecha = new System.Windows.Forms.Timer(components);
             txtfaltante = new TextBox();
             dateTimePicker1 = new DateTimePicker();
-            label18 = new Label();
+            lbldolares = new Label();
             txtstock = new TextBox();
             txtpago = new TextBox();
             label14 = new Label();
-            label16 = new Label();
+            lblcordoba = new Label();
             label17 = new Label();
             rbcredito = new RadioButton();
             rbcontado = new RadioButton();
-            textBox22 = new TextBox();
+            txtcolillainss = new TextBox();
             lblcolillainss = new Label();
-            checkBox1 = new CheckBox();
+            GENERICOCHECK = new CheckBox();
             txtbuscarcliente = new TextBox();
             txtcategoria = new TextBox();
             txtmarca = new TextBox();
@@ -65,13 +65,13 @@
             label12 = new Label();
             label11 = new Label();
             pictureBox3 = new PictureBox();
-            label2 = new Label();
+            lblnombre = new Label();
             button4 = new Button();
             btnnuevo = new Button();
             btnguardar = new Button();
             Busquedacliente = new PictureBox();
             label1 = new Label();
-            label6 = new Label();
+            lblcambio = new Label();
             label3 = new Label();
             dgmostrar = new DataGridView();
             CodigoProducto = new DataGridViewTextBoxColumn();
@@ -96,12 +96,17 @@
             label20 = new Label();
             label21 = new Label();
             label22 = new Label();
-            lbltelefonocliente = new Label();
-            lblcliente = new TextBox();
+            lblcedula = new Label();
+            txtcedula = new TextBox();
             lblinteres = new Label();
             txtinteresparaloscreditos = new TextBox();
             lblnumeroplazos = new Label();
             cbnumerodeplazos = new ComboBox();
+            btnagregarnuevocliente = new Button();
+            LBLTELEFONODELNUEVOCLIENTE = new Label();
+            TXTTELEFONODELNUEVOCLIENTE = new TextBox();
+            lbldireccion = new Label();
+            txtdireccion = new TextBox();
             ((System.ComponentModel.ISupportInitialize)fechafactura).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -132,36 +137,37 @@
             // txtfaltante
             // 
             txtfaltante.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txtfaltante.Location = new Point(1169, 570);
+            txtfaltante.Location = new Point(1159, 612);
             txtfaltante.Margin = new Padding(2, 5, 2, 5);
             txtfaltante.Name = "txtfaltante";
             txtfaltante.Size = new Size(134, 27);
             txtfaltante.TabIndex = 124;
             txtfaltante.TextChanged += txtfaltante_TextChanged;
             txtfaltante.KeyDown += txtfaltante_KeyDown;
+            txtfaltante.KeyPress += txtfaltante_KeyPress;
             txtfaltante.KeyUp += txtfaltante_KeyUp;
             // 
             // dateTimePicker1
             // 
             dateTimePicker1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            dateTimePicker1.Location = new Point(992, 70);
+            dateTimePicker1.Location = new Point(992, 65);
             dateTimePicker1.Margin = new Padding(2, 5, 2, 5);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(296, 27);
             dateTimePicker1.TabIndex = 148;
             // 
-            // label18
+            // lbldolares
             // 
-            label18.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label18.AutoSize = true;
-            label18.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label18.ForeColor = Color.Black;
-            label18.Location = new Point(1169, 545);
-            label18.Margin = new Padding(2, 0, 2, 0);
-            label18.Name = "label18";
-            label18.Size = new Size(58, 20);
-            label18.TabIndex = 122;
-            label18.Text = "Dólar:";
+            lbldolares.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lbldolares.AutoSize = true;
+            lbldolares.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbldolares.ForeColor = Color.Black;
+            lbldolares.Location = new Point(1159, 587);
+            lbldolares.Margin = new Padding(2, 0, 2, 0);
+            lbldolares.Name = "lbldolares";
+            lbldolares.Size = new Size(58, 20);
+            lbldolares.TabIndex = 122;
+            lbldolares.Text = "Dólar:";
             // 
             // txtstock
             // 
@@ -175,13 +181,14 @@
             // txtpago
             // 
             txtpago.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txtpago.Location = new Point(1169, 513);
+            txtpago.Location = new Point(1159, 555);
             txtpago.Margin = new Padding(2, 5, 2, 5);
             txtpago.Name = "txtpago";
             txtpago.Size = new Size(134, 27);
             txtpago.TabIndex = 115;
             txtpago.TextChanged += txtpago_TextChanged;
             txtpago.KeyDown += txtpago_KeyDown;
+            txtpago.KeyPress += txtpago_KeyPress;
             txtpago.KeyUp += txtpago_KeyUp;
             // 
             // label14
@@ -196,18 +203,18 @@
             label14.TabIndex = 146;
             label14.Text = "Stock actual:";
             // 
-            // label16
+            // lblcordoba
             // 
-            label16.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label16.AutoSize = true;
-            label16.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label16.ForeColor = Color.Black;
-            label16.Location = new Point(1167, 488);
-            label16.Margin = new Padding(2, 0, 2, 0);
-            label16.Name = "label16";
-            label16.Size = new Size(81, 20);
-            label16.TabIndex = 114;
-            label16.Text = "Córdoba:";
+            lblcordoba.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblcordoba.AutoSize = true;
+            lblcordoba.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblcordoba.ForeColor = Color.Black;
+            lblcordoba.Location = new Point(1157, 530);
+            lblcordoba.Margin = new Padding(2, 0, 2, 0);
+            lblcordoba.Name = "lblcordoba";
+            lblcordoba.Size = new Size(81, 20);
+            lblcordoba.TabIndex = 114;
+            lblcordoba.Text = "Córdoba:";
             // 
             // label17
             // 
@@ -236,6 +243,7 @@
             rbcredito.TabStop = true;
             rbcredito.Text = "Crédito";
             rbcredito.UseVisualStyleBackColor = true;
+            rbcredito.CheckedChanged += rbcredito_CheckedChanged;
             // 
             // rbcontado
             // 
@@ -251,15 +259,17 @@
             rbcontado.TabStop = true;
             rbcontado.Text = "Contado";
             rbcontado.UseVisualStyleBackColor = true;
+            rbcontado.CheckedChanged += rbcontado_CheckedChanged;
             // 
-            // textBox22
+            // txtcolillainss
             // 
-            textBox22.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            textBox22.Location = new Point(1030, 310);
-            textBox22.Margin = new Padding(2, 5, 2, 5);
-            textBox22.Name = "textBox22";
-            textBox22.Size = new Size(188, 27);
-            textBox22.TabIndex = 143;
+            txtcolillainss.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtcolillainss.Location = new Point(1030, 310);
+            txtcolillainss.Margin = new Padding(2, 5, 2, 5);
+            txtcolillainss.Name = "txtcolillainss";
+            txtcolillainss.ReadOnly = true;
+            txtcolillainss.Size = new Size(188, 27);
+            txtcolillainss.TabIndex = 143;
             // 
             // lblcolillainss
             // 
@@ -274,17 +284,18 @@
             lblcolillainss.TabIndex = 142;
             lblcolillainss.Text = "Colillas INSS:";
             // 
-            // checkBox1
+            // GENERICOCHECK
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.ForeColor = Color.Black;
-            checkBox1.Location = new Point(122, 74);
-            checkBox1.Margin = new Padding(2);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(94, 24);
-            checkBox1.TabIndex = 139;
-            checkBox1.Text = "Genérico ";
-            checkBox1.UseVisualStyleBackColor = true;
+            GENERICOCHECK.AutoSize = true;
+            GENERICOCHECK.ForeColor = Color.Black;
+            GENERICOCHECK.Location = new Point(122, 74);
+            GENERICOCHECK.Margin = new Padding(2);
+            GENERICOCHECK.Name = "GENERICOCHECK";
+            GENERICOCHECK.Size = new Size(94, 24);
+            GENERICOCHECK.TabIndex = 139;
+            GENERICOCHECK.Text = "Genérico ";
+            GENERICOCHECK.UseVisualStyleBackColor = true;
+            GENERICOCHECK.CheckedChanged += GENERICOCHECK_CheckedChanged;
             // 
             // txtbuscarcliente
             // 
@@ -324,7 +335,7 @@
             // txtcambio
             // 
             txtcambio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txtcambio.Location = new Point(1169, 637);
+            txtcambio.Location = new Point(1158, 680);
             txtcambio.Margin = new Padding(2, 5, 2, 5);
             txtcambio.Name = "txtcambio";
             txtcambio.ReadOnly = true;
@@ -343,7 +354,7 @@
             // txttotal
             // 
             txttotal.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txttotal.Location = new Point(1167, 456);
+            txttotal.Location = new Point(1157, 498);
             txttotal.Margin = new Padding(2, 5, 2, 5);
             txttotal.Name = "txttotal";
             txttotal.ReadOnly = true;
@@ -481,17 +492,17 @@
             pictureBox3.TabIndex = 123;
             pictureBox3.TabStop = false;
             // 
-            // label2
+            // lblnombre
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(118, 108);
-            label2.Margin = new Padding(2, 0, 2, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(155, 20);
-            label2.TabIndex = 96;
-            label2.Text = "Nombre del cliente: ";
+            lblnombre.AutoSize = true;
+            lblnombre.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblnombre.ForeColor = Color.Black;
+            lblnombre.Location = new Point(118, 108);
+            lblnombre.Margin = new Padding(2, 0, 2, 0);
+            lblnombre.Name = "lblnombre";
+            lblnombre.Size = new Size(155, 20);
+            lblnombre.TabIndex = 96;
+            lblnombre.Text = "Nombre del cliente: ";
             // 
             // button4
             // 
@@ -567,18 +578,18 @@
             label1.TabIndex = 95;
             label1.Text = "N° de Factura:";
             // 
-            // label6
+            // lblcambio
             // 
-            label6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label6.AutoSize = true;
-            label6.Font = new Font("Calisto MT", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.Black;
-            label6.Location = new Point(1163, 611);
-            label6.Margin = new Padding(2, 0, 2, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(85, 22);
-            label6.TabIndex = 99;
-            label6.Text = "Cambio:";
+            lblcambio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblcambio.AutoSize = true;
+            lblcambio.Font = new Font("Calisto MT", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblcambio.ForeColor = Color.Black;
+            lblcambio.Location = new Point(1153, 653);
+            lblcambio.Margin = new Padding(2, 0, 2, 0);
+            lblcambio.Name = "lblcambio";
+            lblcambio.Size = new Size(85, 22);
+            lblcambio.TabIndex = 99;
+            lblcambio.Text = "Cambio:";
             // 
             // label3
             // 
@@ -586,7 +597,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Calisto MT", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(901, 70);
+            label3.Location = new Point(901, 65);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
             label3.Size = new Size(68, 22);
@@ -664,7 +675,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Calisto MT", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(1163, 425);
+            label5.Location = new Point(1153, 467);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
             label5.Size = new Size(135, 22);
@@ -827,26 +838,25 @@
             label22.TabIndex = 158;
             label22.Text = "Buscar producto:";
             // 
-            // lbltelefonocliente
+            // lblcedula
             // 
-            lbltelefonocliente.AutoSize = true;
-            lbltelefonocliente.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbltelefonocliente.ForeColor = Color.Black;
-            lbltelefonocliente.Location = new Point(782, 111);
-            lbltelefonocliente.Margin = new Padding(2, 0, 2, 0);
-            lbltelefonocliente.Name = "lbltelefonocliente";
-            lbltelefonocliente.Size = new Size(65, 20);
-            lbltelefonocliente.TabIndex = 159;
-            lbltelefonocliente.Text = "Cédula ";
+            lblcedula.AutoSize = true;
+            lblcedula.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblcedula.ForeColor = Color.Black;
+            lblcedula.Location = new Point(782, 111);
+            lblcedula.Margin = new Padding(2, 0, 2, 0);
+            lblcedula.Name = "lblcedula";
+            lblcedula.Size = new Size(65, 20);
+            lblcedula.TabIndex = 159;
+            lblcedula.Text = "Cédula ";
             // 
-            // lblcliente
+            // txtcedula
             // 
-            lblcliente.Location = new Point(870, 108);
-            lblcliente.Margin = new Padding(2, 5, 2, 5);
-            lblcliente.Name = "lblcliente";
-            lblcliente.ReadOnly = true;
-            lblcliente.Size = new Size(176, 27);
-            lblcliente.TabIndex = 160;
+            txtcedula.Location = new Point(870, 108);
+            txtcedula.Margin = new Padding(2, 5, 2, 5);
+            txtcedula.Name = "txtcedula";
+            txtcedula.Size = new Size(176, 27);
+            txtcedula.TabIndex = 160;
             // 
             // lblinteres
             // 
@@ -885,13 +895,75 @@
             // 
             // cbnumerodeplazos
             // 
+            cbnumerodeplazos.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbnumerodeplazos.FormattingEnabled = true;
-            cbnumerodeplazos.Items.AddRange(new object[] { "Cédula", "Telefono" });
+            cbnumerodeplazos.Items.AddRange(new object[] { "1 MES", "2 MESES", "3 MESES" });
             cbnumerodeplazos.Location = new Point(1030, 384);
             cbnumerodeplazos.Margin = new Padding(2, 5, 2, 5);
             cbnumerodeplazos.Name = "cbnumerodeplazos";
             cbnumerodeplazos.Size = new Size(188, 28);
             cbnumerodeplazos.TabIndex = 164;
+            // 
+            // btnagregarnuevocliente
+            // 
+            btnagregarnuevocliente.BackColor = Color.FromArgb(3, 171, 229);
+            btnagregarnuevocliente.Cursor = Cursors.Hand;
+            btnagregarnuevocliente.FlatAppearance.BorderColor = Color.Black;
+            btnagregarnuevocliente.FlatAppearance.BorderSize = 2;
+            btnagregarnuevocliente.FlatStyle = FlatStyle.Popup;
+            btnagregarnuevocliente.Font = new Font("Calisto MT", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnagregarnuevocliente.ForeColor = Color.Black;
+            btnagregarnuevocliente.Location = new Point(1063, 100);
+            btnagregarnuevocliente.Margin = new Padding(2, 5, 2, 5);
+            btnagregarnuevocliente.Name = "btnagregarnuevocliente";
+            btnagregarnuevocliente.Size = new Size(106, 42);
+            btnagregarnuevocliente.TabIndex = 165;
+            btnagregarnuevocliente.Text = "Nuevo";
+            btnagregarnuevocliente.TextImageRelation = TextImageRelation.TextAboveImage;
+            btnagregarnuevocliente.UseVisualStyleBackColor = false;
+            btnagregarnuevocliente.Click += btnagregarnuevocliente_Click;
+            // 
+            // LBLTELEFONODELNUEVOCLIENTE
+            // 
+            LBLTELEFONODELNUEVOCLIENTE.AutoSize = true;
+            LBLTELEFONODELNUEVOCLIENTE.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            LBLTELEFONODELNUEVOCLIENTE.ForeColor = Color.Black;
+            LBLTELEFONODELNUEVOCLIENTE.Location = new Point(782, 155);
+            LBLTELEFONODELNUEVOCLIENTE.Margin = new Padding(2, 0, 2, 0);
+            LBLTELEFONODELNUEVOCLIENTE.Name = "LBLTELEFONODELNUEVOCLIENTE";
+            LBLTELEFONODELNUEVOCLIENTE.Size = new Size(74, 20);
+            LBLTELEFONODELNUEVOCLIENTE.TabIndex = 166;
+            LBLTELEFONODELNUEVOCLIENTE.Text = "Teléfono";
+            // 
+            // TXTTELEFONODELNUEVOCLIENTE
+            // 
+            TXTTELEFONODELNUEVOCLIENTE.Location = new Point(870, 148);
+            TXTTELEFONODELNUEVOCLIENTE.Margin = new Padding(2, 5, 2, 5);
+            TXTTELEFONODELNUEVOCLIENTE.Name = "TXTTELEFONODELNUEVOCLIENTE";
+            TXTTELEFONODELNUEVOCLIENTE.ReadOnly = true;
+            TXTTELEFONODELNUEVOCLIENTE.Size = new Size(176, 27);
+            TXTTELEFONODELNUEVOCLIENTE.TabIndex = 167;
+            // 
+            // lbldireccion
+            // 
+            lbldireccion.AutoSize = true;
+            lbldireccion.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbldireccion.ForeColor = Color.Black;
+            lbldireccion.Location = new Point(446, 151);
+            lbldireccion.Margin = new Padding(2, 0, 2, 0);
+            lbldireccion.Name = "lbldireccion";
+            lbldireccion.Size = new Size(88, 20);
+            lbldireccion.TabIndex = 168;
+            lbldireccion.Text = "Dirección:";
+            // 
+            // txtdireccion
+            // 
+            txtdireccion.Location = new Point(541, 148);
+            txtdireccion.Margin = new Padding(2, 5, 2, 5);
+            txtdireccion.Name = "txtdireccion";
+            txtdireccion.ReadOnly = true;
+            txtdireccion.Size = new Size(213, 27);
+            txtdireccion.TabIndex = 169;
             // 
             // Factura
             // 
@@ -899,12 +971,17 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(238, 238, 238);
             ClientSize = new Size(1314, 882);
+            Controls.Add(txtdireccion);
+            Controls.Add(lbldireccion);
+            Controls.Add(TXTTELEFONODELNUEVOCLIENTE);
+            Controls.Add(LBLTELEFONODELNUEVOCLIENTE);
+            Controls.Add(btnagregarnuevocliente);
             Controls.Add(cbnumerodeplazos);
             Controls.Add(lblnumeroplazos);
             Controls.Add(txtinteresparaloscreditos);
             Controls.Add(lblinteres);
-            Controls.Add(lblcliente);
-            Controls.Add(lbltelefonocliente);
+            Controls.Add(txtcedula);
+            Controls.Add(lblcedula);
             Controls.Add(label22);
             Controls.Add(label21);
             Controls.Add(label20);
@@ -915,17 +992,17 @@
             Controls.Add(CBproductos);
             Controls.Add(txtfaltante);
             Controls.Add(dateTimePicker1);
-            Controls.Add(label18);
+            Controls.Add(lbldolares);
             Controls.Add(txtstock);
             Controls.Add(txtpago);
             Controls.Add(label14);
-            Controls.Add(label16);
+            Controls.Add(lblcordoba);
             Controls.Add(label17);
             Controls.Add(rbcredito);
             Controls.Add(rbcontado);
-            Controls.Add(textBox22);
+            Controls.Add(txtcolillainss);
             Controls.Add(lblcolillainss);
-            Controls.Add(checkBox1);
+            Controls.Add(GENERICOCHECK);
             Controls.Add(txtbuscarcliente);
             Controls.Add(txtcategoria);
             Controls.Add(txtmarca);
@@ -945,13 +1022,13 @@
             Controls.Add(label12);
             Controls.Add(label11);
             Controls.Add(pictureBox3);
-            Controls.Add(label2);
+            Controls.Add(lblnombre);
             Controls.Add(button4);
             Controls.Add(btnnuevo);
             Controls.Add(btnguardar);
             Controls.Add(Busquedacliente);
             Controls.Add(label1);
-            Controls.Add(label6);
+            Controls.Add(lblcambio);
             Controls.Add(label3);
             Controls.Add(dgmostrar);
             Controls.Add(label5);
@@ -987,17 +1064,17 @@
         private System.Windows.Forms.Timer facturafecha;
         private System.Windows.Forms.TextBox txtfaltante;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label lbldolares;
         private System.Windows.Forms.TextBox txtstock;
         private System.Windows.Forms.TextBox txtpago;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label lblcordoba;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.RadioButton rbcredito;
         private System.Windows.Forms.RadioButton rbcontado;
-        private System.Windows.Forms.TextBox textBox22;
+        private System.Windows.Forms.TextBox txtcolillainss;
         private System.Windows.Forms.Label lblcolillainss;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox GENERICOCHECK;
         private System.Windows.Forms.TextBox txtbuscarcliente;
         private System.Windows.Forms.TextBox txtcategoria;
         private System.Windows.Forms.TextBox txtmarca;
@@ -1017,13 +1094,13 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblnombre;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btnnuevo;
         private System.Windows.Forms.Button btnguardar;
         private System.Windows.Forms.PictureBox Busquedacliente;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblcambio;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dgmostrar;
         private System.Windows.Forms.Label label5;
@@ -1040,8 +1117,8 @@
         private ComboBox CBmarcas;
         private ComboBox CBproductos;
         private Label label22;
-        private TextBox lblcliente;
-        private Label lbltelefonocliente;
+        private TextBox txtcedula;
+        private Label lblcedula;
         private DataGridViewTextBoxColumn CodigoProducto;
         private DataGridViewTextBoxColumn Modelo;
         private DataGridViewTextBoxColumn Categoria;
@@ -1054,5 +1131,10 @@
         private TextBox txtinteresparaloscreditos;
         private Label lblinteres;
         private ComboBox cbnumerodeplazos;
+        private Button btnagregarnuevocliente;
+        private TextBox TXTTELEFONODELNUEVOCLIENTE;
+        private Label LBLTELEFONODELNUEVOCLIENTE;
+        private TextBox txtdireccion;
+        private Label lbldireccion;
     }
 }

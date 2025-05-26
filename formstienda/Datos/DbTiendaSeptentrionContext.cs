@@ -151,11 +151,17 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
         modelBuilder.Entity<Compra>(entity =>
         {
+<<<<<<< HEAD
             entity.HasKey(e => e.IdCompra).HasName("PK__Compra__661E0ED03276DA7F");
+=======
+            entity.HasKey(e => e.IdCompra).HasName("PK__Compra__661E0ED050DEF6CA");
+>>>>>>> ventas
 
             entity.ToTable("Compra");
 
-            entity.Property(e => e.IdCompra).HasColumnName("Id_Compra");
+            entity.Property(e => e.IdCompra)
+                .ValueGeneratedNever()
+                .HasColumnName("Id_Compra");
             entity.Property(e => e.CodigoRuc)
                 .HasMaxLength(20)
                 .IsUnicode(false)
@@ -163,7 +169,10 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.FechaCompra)
                 .HasColumnType("datetime")
                 .HasColumnName("Fecha_Compra");
+<<<<<<< HEAD
             entity.Property(e => e.NumeroFactura).HasColumnName("Numero_Factura");
+=======
+>>>>>>> ventas
             entity.Property(e => e.TotalCompra).HasColumnName("Total_Compra");
 
             entity.HasOne(d => d.CodigoRucNavigation).WithMany(p => p.Compras)
@@ -199,7 +208,11 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.HasOne(d => d.IdCompraNavigation).WithMany(p => p.DetalleCompras)
                 .HasForeignKey(d => d.IdCompra)
                 .OnDelete(DeleteBehavior.ClientSetNull)
+<<<<<<< HEAD
                 .HasConstraintName("Id_Compra");
+=======
+                .HasConstraintName("FK__Detalle_C__Id_Co__5AEE82B9");
+>>>>>>> ventas
         });
 
         modelBuilder.Entity<DetalleCredito>(entity =>

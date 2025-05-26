@@ -21,7 +21,7 @@ namespace formstienda
         public Login()
         {
             InitializeComponent();
-            
+
         }
 
         private bool showpassword = false;
@@ -32,11 +32,62 @@ namespace formstienda
         private extern static void SendMessage(System.IntPtr hwnd, int wmsg,
             int wparam, int lparam);
 
+        public static class UsuarioActivo
+        {
+            private static Usuario _usuarioActual;
+
+            public static Usuario ObtenerUsuarioActual()
+            {
+                return _usuarioActual;
+            }
+
+            public static void EstablecerUsuarioActual(Usuario usuario)
+            {
+                _usuarioActual = usuario;
+            }
+
+            public static string ObtenerNombreCompletoUsuario()
+            {
+                return _usuarioActual != null
+                    ? $"{_usuarioActual.NombreUsuario} {_usuarioActual.ApellidoUsuario}"
+                    : "Usuario no identificado";
+            }
+
+            public static void LimpiarUsuarioActual()
+            {
+                _usuarioActual = null;
+            }
+
+            public static bool HayUsuarioLogueado()
+            {
+                return _usuarioActual != null;
+            }
+
+            public static string ObtenerNombreUsuario()
+            {
+                return _usuarioActual?.NombreUsuario;
+            }
+
+            public static string ObtenerRolUsuario()
+            {
+                return _usuarioActual?.RolUsuario;
+            }
+
+            public static int? ObtenerIdUsuario()
+            {
+                return _usuarioActual?.IdUsuario;
+            }
+            public static string? ObtenerUsuarioLogueo()
+            {
+                return _usuarioActual?.UsuarioLogueo;
+            }
+        }
+
         private void sendlogin_Click(object sender, EventArgs e)
         {
 
         }
-          
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -113,11 +164,14 @@ namespace formstienda
                 return;
             }
 
-            if(usuario.EstadoUsuario == false)
+            if (usuario.EstadoUsuario == false)
             {
                 MessageBox.Show($"El usuario {usuario.NombreUsuario} esta inactivo, activelo nuevamente o ingrese con otro usuario");
                 return;
             }
+
+            // Establecer el usuario activo
+            UsuarioActivo.EstablecerUsuarioActual(usuario);
 
             MessageBox.Show($"Bienvenido {usuario.NombreUsuario} al sistema");
             this.Hide();
@@ -126,7 +180,14 @@ namespace formstienda
             Apertura_Caja apertura = new Apertura_Caja();
             apertura.Show();
             this.Hide();
+        }
 
+        public static void CerrarSesion()
+        {
+            UsuarioActivo.LimpiarUsuarioActual();
+            // Redirigir al formulario de login
+            Login loginForm = new Login();
+            loginForm.Show();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -143,11 +204,13 @@ namespace formstienda
 
         private void txtusuario_Enter(object sender, EventArgs e)
         {
-            if(txtusername.Text=="Usuario:")
+            if (txtusername.Text == "Usuario:")
             {
                 txtusername.Text = "";
-            }    
+            }
         }
+
+
 
         private void txtusuario_Leave(object sender, EventArgs e)
         {
@@ -162,7 +225,7 @@ namespace formstienda
         private void txtcontraseña_Enter(object sender, EventArgs e)
         {
 
-         
+
 
         }
 

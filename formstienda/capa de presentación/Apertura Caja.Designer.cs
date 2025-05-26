@@ -97,6 +97,7 @@
             txtMontoApertura.Name = "txtMontoApertura";
             txtMontoApertura.Size = new Size(216, 27);
             txtMontoApertura.TabIndex = 4;
+            txtMontoApertura.KeyPress += txtMontoApertura_KeyPress;
             // 
             // txtTasaCambio
             // 
@@ -105,6 +106,7 @@
             txtTasaCambio.Name = "txtTasaCambio";
             txtTasaCambio.Size = new Size(216, 27);
             txtTasaCambio.TabIndex = 5;
+            txtTasaCambio.KeyPress += txtTasaCambio_KeyPress;
             // 
             // btnAbrirCaja
             // 

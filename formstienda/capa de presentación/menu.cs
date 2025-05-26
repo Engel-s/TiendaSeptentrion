@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static formstienda.Login;
 
 namespace formstienda.capa_de_presentación
 {
@@ -50,7 +51,10 @@ namespace formstienda.capa_de_presentación
 
         private void Menu_Inicio_Load(object sender, EventArgs e)
         {
-
+            AbrirformInPanel(new menuprincipal());
+            string usuario;
+            usuario = UsuarioActivo.ObtenerNombreUsuario();
+            lblusuario.Text = usuario;
         }
 
 
@@ -66,10 +70,7 @@ namespace formstienda.capa_de_presentación
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void PanelContenedor_Paint(object sender, PaintEventArgs e)
         {
@@ -84,8 +85,7 @@ namespace formstienda.capa_de_presentación
         }
         public void AbrirformInPanel(Form formHijo)
         {
-            lblfecha.Visible = false;
-            lblhora.Visible = false;
+          
             if (PanelContenedor.Controls.Count > 0)
                 PanelContenedor.Controls.RemoveAt(0); // Elimina el formulario previo
 
@@ -97,7 +97,7 @@ namespace formstienda.capa_de_presentación
             PanelContenedor.Tag = formHijo;
 
             formHijo.Show(); // Muestra el formulario
-            
+
         }
 
         private void iconButton1_Click(object sender, EventArgs e)
@@ -143,6 +143,7 @@ namespace formstienda.capa_de_presentación
         {
 
         }
+   
         private void FormResize(Form formHijo)
         {
             formHijo.WindowState = FormWindowState.Maximized;
@@ -210,8 +211,7 @@ namespace formstienda.capa_de_presentación
 
         private void timerhora_Tick(object sender, EventArgs e)
         {
-            lblhora.Text = DateTime.Now.ToString("hh.mm");
-            lblfecha.Text = DateTime.Now.ToShortDateString();
+            
         }
 
         private void btnminimizar_Click(object sender, EventArgs e)
@@ -232,6 +232,11 @@ namespace formstienda.capa_de_presentación
         private void lblfecha_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lblpantallainfo_Click(object sender, EventArgs e)
+        {
+            AbrirformInPanel(new menuprincipal());
         }
     }
 }
