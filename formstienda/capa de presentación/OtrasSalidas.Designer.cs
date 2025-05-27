@@ -402,6 +402,7 @@
             Controls.Add(textBox11);
             Controls.Add(label18);
             Controls.Add(label17);
+            ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2, 3, 2, 3);
             Name = "OtrasSalidas";
