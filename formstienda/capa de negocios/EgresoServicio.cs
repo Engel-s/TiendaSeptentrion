@@ -57,7 +57,7 @@ namespace formstienda.Servicios
             }
         }
 
-        #region Métodos Privados de Validación
+        
 
         private void ValidarUsuarioLogueado()
         {
@@ -113,11 +113,7 @@ namespace formstienda.Servicios
             if (fechaEgreso < apertura.FechaApertura)
                 throw new ArgumentException("La fecha de egreso no puede ser anterior a la fecha de apertura");
         }
-
-        #endregion
-
-        #region Métodos Privados de Operación
-
+         
         private ArqueoCaja ObtenerOCrearArqueoCaja(int idApertura, int idUsuario)
         {
            
@@ -150,11 +146,7 @@ namespace formstienda.Servicios
 
             return arqueo;
         }
-
-        #endregion
-
-        #region Métodos de Consulta
-
+        
         public decimal ObtenerTotalCajaCordobas(DateOnly fecha)
         {
             var apertura = ListarAperturaCaja(fecha).FirstOrDefault();
@@ -271,6 +263,5 @@ namespace formstienda.Servicios
                 .ToList();
         }
 
-        #endregion
     }
 }
