@@ -226,6 +226,25 @@ namespace formstienda
                         sobranteCordoba: string.IsNullOrEmpty(txtSobranteCordobas.Text) ? null : float.Parse(txtSobranteCordobas.Text),
                         sobranteDolar: string.IsNullOrEmpty(txtSobranteDolares.Text) ? null : float.Parse(txtSobranteDolares.Text)
                     );
+
+                    var aperturasAbiertas = contexto.AperturaCajas
+                        .Where(a => a.EstadoApertura != "Cerrada")
+                         .ToList();
+
+                    if (!aperturasAbiertas.Any())
+                    {
+                        MessageBox.Show("Caja cerrada.");
+                        return;
+                    }
+
+                    // Cambiar el estado a "Cerrada"
+                    foreach (var apertura in aperturasAbiertas)
+                    {
+                        apertura.EstadoApertura = "Cerrada";
+                    }
+
+                    contexto.SaveChanges();
+
                 }
                 MessageBox.Show("Datos guardados correctamente.");
                 BloquearBotones();
