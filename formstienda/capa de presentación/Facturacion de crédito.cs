@@ -208,128 +208,77 @@ namespace formstienda.capa_de_presentación
         private void btnGuardar_Click(object sender, EventArgs e)
         {
 
-
+            // Validar selección de fila
             if (Tabla_Credito.CurrentRow == null)
             {
-                MessageBox.Show("Seleccione un crédito.");
+                MessageBox.Show("Seleccione una cuota.");
                 return;
             }
 
-            foreach (DataGridViewColumn col in Tabla_Credito.Columns)
-            {
-                Console.WriteLine(col.Name);
-            }
-
-            decimal abono = decimal.Parse(txtTotalAbonado.Text);
+            // Obtener datos de la pantalla
+            decimal abono = decimal.Parse(txtCordobas.Text); // O el textbox que usas para el abono
             int idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
 
             using (var context = new DbTiendaSeptentrionContext())
             {
-                var credito = context.DetalleCreditos
-                    .Include(c => c.IdCreditoNavigation)
-                    .FirstOrDefault(c => c.IdDetalleCredito == idDetalleCredito);
+                // Cargar el detalle de crédito (cuota)
+                var detalle = context.DetalleCreditos
+                    .Include(d => d.IdCreditoNavigation)
+                    .FirstOrDefault(d => d.IdDetalleCredito == idDetalleCredito);
 
-                if (credito == null)
+                if (detalle == null)
                 {
-                    MessageBox.Show("Crédito no encontrado.");
+                    MessageBox.Show("Detalle de crédito no encontrado.");
                     return;
                 }
 
-                // Si hay atraso, incrementar interés
-                if (DateTime.Now > credito.FechaPago)
-                {
-                    decimal interesDecimal = Convert.ToDecimal(credito.InteresPagado);
-                    interesDecimal += 0.03m;
-                    credito.InteresPagado = (float)interesDecimal;
-                }
-
-                decimal saldoAnterior = Convert.ToDecimal(credito.ValorCuota);
+                // Actualizar abono y saldo
+                decimal saldoAnterior = Convert.ToDecimal(detalle.ValorCuota);
                 decimal cambio = 0;
 
-                // Si el abono es mayor que el saldo, calcular cambio
                 if (abono >= saldoAnterior)
                 {
                     cambio = abono - saldoAnterior;
-                    credito.AbonoCapital += (float)saldoAnterior;
-                    credito.ValorCuota = 0;
-                    MessageBox.Show("¡Crédito saldado!");
+                    detalle.AbonoCapital += (float)saldoAnterior;
+                    detalle.ValorCuota = 0;
+                    MessageBox.Show("¡Cuota saldada!");
                 }
                 else
                 {
-                    credito.AbonoCapital += (float)abono;
-                    credito.ValorCuota -= (float)abono;
-                    MessageBox.Show($"Saldo restante a pagar: {credito.ValorCuota:C2}");
+                    detalle.AbonoCapital += (float)abono;
+                    detalle.ValorCuota -= (float)abono;
+                    MessageBox.Show($"Saldo restante a pagar: {detalle.ValorCuota:C2}");
                 }
 
-                credito.CambioDevuelto = (float?)cambio;
+                // ACTUALIZA LA FECHA DE PAGO AL DÍA DE HOY
+                detalle.FechaPago = DateTime.Now;
 
+                // --- Actualizar la factura 
+                var factura = detalle.IdCreditoNavigation;
+                factura.TotalAbonado = context.DetalleCreditos
+                    .Where(d => d.IdCredito == factura.IdCredito)
+                    .Sum(d => d.AbonoCapital);
+
+                factura.NuevoSaldo = (factura.MontoCredito + factura.InteresMensual * factura.PlazosMeses) - factura.TotalAbonado;
+
+                // Guarda los cambios
                 context.SaveChanges();
 
-                txtCambio.Text = cambio > 0 ? cambio.ToString("C2") : "0.00";
+                // Refresca la tabla visual (muy importante)
+                var lista = context.DetalleCreditos
+                    .Where(d => d.IdCredito == detalle.IdCredito)
+                    .ToList();
+                Tabla_Credito.DataSource = lista;
 
-                Tabla_Credito_CellContentClick(null, null);
+                // Actualiza campos de la pantalla
+                txtCambio.Text = cambio > 0 ? cambio.ToString("C2") : "0.00";
+                txtTotalAbonado.Text = factura.TotalAbonado.ToString("N2");
             }
         }
+
         private void btnPagar_Click(object sender, EventArgs e)
         {
-
-            if (Tabla_Credito.CurrentRow == null)
-            {
-                MessageBox.Show("Seleccione un crédito.");
-                return;
-            }
-
-            int idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
-            decimal abono = decimal.Parse(txtTotalAbonado.Text);
-
-            using (var context = new DbTiendaSeptentrionContext())
-            {
-                var credito = context.DetalleCreditos
-                    .Include(c => c.IdCreditoNavigation)
-                    .FirstOrDefault(c => c.IdDetalleCredito == idDetalleCredito);
-
-                if (credito == null)
-                {
-                    MessageBox.Show("Crédito no encontrado.");
-                    return;
-                }
-
-                // Si hay atraso, incrementar interés
-                if (DateTime.Now > credito.FechaPago)
-                {
-                    decimal interesDecimal = Convert.ToDecimal(credito.InteresPagado);
-                    interesDecimal += 0.03m;
-                    credito.InteresPagado = (float)interesDecimal;
-                }
-
-                decimal saldoAnterior = Convert.ToDecimal(credito.ValorCuota);
-                decimal cambio = 0;
-
-                // Si el abono es mayor que el saldo, calcular cambio
-                if (abono >= saldoAnterior)
-                {
-                    cambio = abono - saldoAnterior;
-                    credito.AbonoCapital += (float)saldoAnterior;
-                    credito.ValorCuota = 0;
-                    MessageBox.Show("¡Crédito saldado!");
-                }
-                else
-                {
-                    credito.AbonoCapital += (float)abono;
-                    credito.ValorCuota -= (float)abono;
-                    MessageBox.Show($"Saldo restante a pagar: {credito.ValorCuota:C2}");
-                }
-
-                credito.CambioDevuelto = (float?)cambio;
-
-                context.SaveChanges();
-
-                txtCambio.Text = cambio > 0 ? cambio.ToString("C2") : "0.00";
-
-                Tabla_Credito_CellContentClick(null, null);
-            }
         }
-
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {

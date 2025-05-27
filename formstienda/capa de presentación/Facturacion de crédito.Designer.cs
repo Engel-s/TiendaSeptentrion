@@ -65,9 +65,9 @@
             label1.ForeColor = Color.Black;
             label1.Location = new Point(281, 118);
             label1.Name = "label1";
-            label1.Size = new Size(145, 22);
+            label1.Size = new Size(147, 22);
             label1.TabIndex = 0;
-            label1.Text = "Buscar cliente:";
+            label1.Text = "Buscar crèdito:";
             // 
             // pictureBox1
             // 

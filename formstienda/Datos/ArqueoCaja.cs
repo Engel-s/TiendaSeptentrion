@@ -13,7 +13,7 @@ public partial class ArqueoCaja
 
     public float TotalEfectivoCordoba { get; set; }
 
-    public float TotalEfectivoDolar { get; set; }
+    public float? TotalEfectivoDolar { get; set; }
 
     public float? FaltanteCordoba { get; set; }
 
@@ -22,6 +22,8 @@ public partial class ArqueoCaja
     public float? SobranteCordoba { get; set; }
 
     public float? SobranteDolar { get; set; }
+
+    public DateTime FechaArqueo { get; set; }
 
     public virtual ICollection<Egreso> Egresos { get; set; } = new List<Egreso>();
 
