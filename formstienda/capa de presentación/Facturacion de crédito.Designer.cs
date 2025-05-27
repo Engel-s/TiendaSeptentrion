@@ -163,6 +163,7 @@
             txtTotalAbonado.Name = "txtTotalAbonado";
             txtTotalAbonado.Size = new Size(147, 27);
             txtTotalAbonado.TabIndex = 45;
+            txtTotalAbonado.TextChanged += txtTotalAbonado_TextChanged;
             // 
             // txtCordobas
             // 
@@ -227,6 +228,7 @@
             btnCancelar.TabIndex = 51;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = false;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // pictureBox4
             // 
@@ -292,7 +294,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(430, 613);
+            checkBox1.Location = new Point(417, 601);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(119, 24);
             checkBox1.TabIndex = 57;

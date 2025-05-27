@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace formstienda.capa_de_presentación
 {
@@ -21,6 +23,7 @@ namespace formstienda.capa_de_presentación
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+
 
         }
 
@@ -56,8 +59,28 @@ namespace formstienda.capa_de_presentación
                 return;
             }
 
+            if (Tabla_Credito.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una cuota.");
+                return;
+            }
+
+            int idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
+
+
             using (var context = new DbTiendaSeptentrionContext())
             {
+                var detalle = context.DetalleCreditos
+        .FirstOrDefault(d => d.IdDetalleCredito == idDetalleCredito);
+
+                if (detalle == null)
+                {
+                    MessageBox.Show("Detalle no encontrado");
+                    return;
+                }
+
+                decimal saldoRestante = Convert.ToDecimal(detalle.ValorCuota);
+
                 // Buscar la venta por IdVenta 
                 var factura = context.Venta.FirstOrDefault(f => f.IdVenta == numeroFactura);
                 if (factura == null)
@@ -88,7 +111,7 @@ namespace formstienda.capa_de_presentación
                 credito.AbonoCapital = (float)abonoCapital;
 
                 // Calcular nuevo saldo pendiente restando el total abonado al saldo original
-                decimal saldoOriginal = Convert.ToDecimal(credito.ValorCuota); 
+                decimal saldoOriginal = Convert.ToDecimal(credito.ValorCuota);
                 decimal nuevoSaldo = saldoOriginal - abonoCapital;
                 if (nuevoSaldo < 0)
                     nuevoSaldo = 0;
@@ -97,9 +120,16 @@ namespace formstienda.capa_de_presentación
 
                 context.SaveChanges();
 
-                MessageBox.Show($"Saldo restante a pagar: {credito.ValorCuota:C2}");
+                CultureInfo nic = CultureInfo.CreateSpecificCulture("es-NI");
 
-               
+                // Para dólares (USA)
+                CultureInfo usa = CultureInfo.CreateSpecificCulture("en-US");
+
+                // Ejemplo en mensaje:
+                saldoRestante = Convert.ToDecimal(detalle.ValorCuota);
+                MessageBox.Show($"Saldo restante a pagar: {saldoRestante.ToString("C2", nic)}");
+
+
                 Tabla_Credito_CellContentClick(null, null);
             }
 
@@ -111,7 +141,7 @@ namespace formstienda.capa_de_presentación
         }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            
+
             string criterio = txtBusqueda.Text.Trim();
 
             using (var context = new DbTiendaSeptentrionContext())
@@ -216,7 +246,26 @@ namespace formstienda.capa_de_presentación
             }
 
             // Obtener datos de la pantalla
-            decimal abono = decimal.Parse(txtCordobas.Text); // O el textbox que usas para el abono
+
+            if (Tabla_Credito.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una cuota.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtTotalAbonado.Text))
+            {
+                MessageBox.Show("Por favor, ingrese un monto válido para el abono.");
+                return;
+            }
+
+            if (!decimal.TryParse(txtTotalAbonado.Text, out decimal abono))
+            {
+                MessageBox.Show("El monto ingresado no es un número válido.");
+                return;
+            }
+
+            // Aquí continúa tu lógica con la variable abono ya validada y convertida
             int idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
 
             using (var context = new DbTiendaSeptentrionContext())
@@ -244,9 +293,15 @@ namespace formstienda.capa_de_presentación
                     MessageBox.Show("¡Cuota saldada!");
                 }
                 else
-                {
+                {// Actualizar abono y saldo de la cuota
                     detalle.AbonoCapital += (float)abono;
                     detalle.ValorCuota -= (float)abono;
+                    var facturaCredito = detalle.IdCreditoNavigation; // <-- OK
+                    facturaCredito.TotalAbonado = context.DetalleCreditos
+                        .Where(d => d.IdCredito == facturaCredito.IdCredito)
+                        .Sum(d => d.AbonoCapital);
+
+                    facturaCredito.NuevoSaldo = (facturaCredito.MontoCredito + facturaCredito.InteresMensual * facturaCredito.PlazosMeses) - facturaCredito.TotalAbonado;
                     MessageBox.Show($"Saldo restante a pagar: {detalle.ValorCuota:C2}");
                 }
 
@@ -266,13 +321,20 @@ namespace formstienda.capa_de_presentación
 
                 // Refresca la tabla visual (muy importante)
                 var lista = context.DetalleCreditos
-                    .Where(d => d.IdCredito == detalle.IdCredito)
-                    .ToList();
+                .Where(d => d.IdCredito == detalle.IdCredito)
+                .ToList();
                 Tabla_Credito.DataSource = lista;
 
                 // Actualiza campos de la pantalla
                 txtCambio.Text = cambio > 0 ? cambio.ToString("C2") : "0.00";
                 txtTotalAbonado.Text = factura.TotalAbonado.ToString("N2");
+
+                txtCordobas.Clear();
+                txtDolares.Clear();
+                txtTotalAbonado.Clear();
+                txtCambio.Clear();
+
+
             }
         }
 
@@ -300,7 +362,7 @@ namespace formstienda.capa_de_presentación
             {
                 var resultado = context.FacturaCreditos
              .Where(f => f.IdCredito > 0)
-             .Select(f => new 
+             .Select(f => new
              {
                  f.IdVenta,
                  f.FechaInicio,
@@ -315,6 +377,19 @@ namespace formstienda.capa_de_presentación
             }
         }
 
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            txtCordobas.Clear();
+            txtDolares.Clear();
+            txtTotalAbonado.Clear();
+
+        }
+
+        private void txtTotalAbonado_TextChanged(object sender, EventArgs e)
+        {
+            txtTotalAbonado.ReadOnly = true;
+        }
     }
-    }
+}
+
 
