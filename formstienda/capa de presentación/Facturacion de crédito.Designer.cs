@@ -80,7 +80,7 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 37;
             pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
+            pictureBox1.Click += btnBuscar_Click;
             // 
             // txtBusqueda
             // 
@@ -90,7 +90,6 @@
             txtBusqueda.Name = "txtBusqueda";
             txtBusqueda.Size = new Size(165, 27);
             txtBusqueda.TabIndex = 38;
-            txtBusqueda.TextChanged += textBox1_TextChanged;
             // 
             // pictureBox2
             // 
@@ -117,7 +116,6 @@
             Tabla_Credito.RowTemplate.Height = 28;
             Tabla_Credito.Size = new Size(1001, 402);
             Tabla_Credito.TabIndex = 41;
-            Tabla_Credito.CellContentClick += Tabla_Credito_CellContentClick;
             // 
             // label3
             // 
@@ -161,9 +159,9 @@
             txtTotalAbonado.Location = new Point(220, 598);
             txtTotalAbonado.Margin = new Padding(3, 2, 3, 2);
             txtTotalAbonado.Name = "txtTotalAbonado";
+            txtTotalAbonado.ReadOnly = true;
             txtTotalAbonado.Size = new Size(147, 27);
             txtTotalAbonado.TabIndex = 45;
-            txtTotalAbonado.TextChanged += txtTotalAbonado_TextChanged;
             // 
             // txtCordobas
             // 
@@ -268,7 +266,7 @@
             btnSalir.TabIndex = 54;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = false;
-            btnSalir.Click += button3_Click;
+            btnSalir.Click += btnSalir_Click;
             // 
             // pictureBox6
             // 
@@ -288,6 +286,7 @@
             txtCambio.Location = new Point(882, 650);
             txtCambio.Margin = new Padding(3, 2, 3, 2);
             txtCambio.Name = "txtCambio";
+            txtCambio.ReadOnly = true;
             txtCambio.Size = new Size(147, 27);
             txtCambio.TabIndex = 56;
             // 
@@ -300,7 +299,7 @@
             checkBox1.TabIndex = 57;
             checkBox1.Text = "Pago Dólares";
             checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            checkBox1.Click += checkBoxMoneda_CheckedChanged;
             // 
             // Facturacion_de_crédito
             // 
