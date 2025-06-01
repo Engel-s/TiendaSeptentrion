@@ -32,6 +32,8 @@
             btnSalir = new Button();
             DGREPORTEINVENTARIO = new DataGridView();
             label1 = new Label();
+            btnGenerarPDF = new Button();
+            this.btnGenerarPDF.Click += new System.EventHandler(this.btnGenerarPDF_Click);
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DGREPORTEINVENTARIO).BeginInit();
             SuspendLayout();
@@ -41,6 +43,7 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10.5969906F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 89.40301F));
+            tableLayoutPanel1.Controls.Add(btnGenerarPDF, 0, 1);
             tableLayoutPanel1.Controls.Add(btnSalir, 0, 0);
             tableLayoutPanel1.Controls.Add(DGREPORTEINVENTARIO, 1, 1);
             tableLayoutPanel1.Controls.Add(label1, 1, 0);
@@ -56,13 +59,15 @@
             // btnSalir
             // 
             btnSalir.BackColor = Color.DeepSkyBlue;
-            btnSalir.Dock = DockStyle.Fill;
+            btnSalir.Dock = DockStyle.Top;
+            btnSalir.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnSalir.Location = new Point(3, 3);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(89, 52);
             btnSalir.TabIndex = 0;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = false;
+            btnSalir.Click += btnSalir_Click;
             // 
             // DGREPORTEINVENTARIO
             // 
@@ -86,6 +91,18 @@
             label1.TabIndex = 2;
             label1.Text = "Inventario Actual";
             // 
+            // btnGenerarPDF
+            // 
+            btnGenerarPDF.BackColor = Color.DeepSkyBlue;
+            btnGenerarPDF.Dock = DockStyle.Bottom;
+            btnGenerarPDF.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGenerarPDF.Location = new Point(3, 400);
+            btnGenerarPDF.Name = "btnGenerarPDF";
+            btnGenerarPDF.Size = new Size(89, 52);
+            btnGenerarPDF.TabIndex = 3;
+            btnGenerarPDF.Text = "Generar PDF";
+            btnGenerarPDF.UseVisualStyleBackColor = false;
+            // 
             // ReporteDeInventario
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -107,5 +124,6 @@
         private Button btnSalir;
         private DataGridView DGREPORTEINVENTARIO;
         private Label label1;
+        private Button btnGenerarPDF;
     }
 }
