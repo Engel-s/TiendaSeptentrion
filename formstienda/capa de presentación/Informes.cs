@@ -1,4 +1,5 @@
-﻿using System;
+﻿using formstienda.capa_de_presentación;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,6 +26,12 @@ namespace formstienda
         private void Informes_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnGenerarReporteInventario_Click(object sender, EventArgs e)
+        {
+            ReporteDeInventario reporte = new ReporteDeInventario();
+            reporte.Show();
         }
     }
 }

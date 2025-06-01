@@ -606,7 +606,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Codigo_Producto");
             entity.Property(e => e.EstadoStock)
-                .HasMaxLength(27)
+                .HasMaxLength(33)
                 .IsUnicode(false)
                 .HasColumnName("Estado_Stock");
             entity.Property(e => e.Marca)

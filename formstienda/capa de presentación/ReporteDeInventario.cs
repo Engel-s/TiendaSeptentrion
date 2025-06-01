@@ -15,6 +15,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using iText.Kernel.Geom;
+using iText.Layout.Borders;
 
 namespace formstienda.capa_de_presentación
 {
@@ -218,6 +219,7 @@ namespace formstienda.capa_de_presentación
             PdfFont font = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA);
             PdfFont boldFont = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA_BOLD);
 
+            // Título del reporte
             Paragraph title = new Paragraph("REPORTE DE INVENTARIO ACTUAL")
                 .SetFont(boldFont)
                 .SetFontSize(18)
@@ -225,6 +227,7 @@ namespace formstienda.capa_de_presentación
                 .SetMarginBottom(20);
             document.Add(title);
 
+            // Fecha de generación
             Paragraph fecha = new Paragraph($"Generado el: {DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")}")
                 .SetFont(font)
                 .SetFontSize(9)
@@ -232,9 +235,16 @@ namespace formstienda.capa_de_presentación
                 .SetMarginBottom(15);
             document.Add(fecha);
 
-            Table table = new Table(DGREPORTEINVENTARIO.Columns.Count, true);
-            table.SetWidth(UnitValue.CreatePercentValue(100));
+            // Creación de la tabla con bordes completos
+            Table table = new Table(DGREPORTEINVENTARIO.Columns.Count);
+            table.UseAllAvailableWidth();
 
+            // Configuración explícita de todos los bordes
+            table.SetBorder(new SolidBorder(1)); // Borde exterior completo
+            
+            table.SetMarginBottom(10); // Espacio después de la tabla
+
+            // Encabezados de la tabla
             foreach (DataGridViewColumn column in DGREPORTEINVENTARIO.Columns)
             {
                 Cell cell = new Cell()
@@ -244,10 +254,12 @@ namespace formstienda.capa_de_presentación
                     .SetBackgroundColor(new DeviceRgb(0, 120, 215))
                     .SetTextAlignment(TextAlignment.CENTER)
                     .SetVerticalAlignment(VerticalAlignment.MIDDLE)
-                    .SetPadding(5);
+                    .SetPadding(5)
+                    .SetBorder(new SolidBorder(1)); // Borde para cada celda de encabezado
                 table.AddHeaderCell(cell);
             }
 
+            // Datos de la tabla
             foreach (DataGridViewRow row in DGREPORTEINVENTARIO.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -277,7 +289,8 @@ namespace formstienda.capa_de_presentación
                         .Add(cellParagraph)
                         .SetTextAlignment(GetPdfAlignment(cell.OwningColumn.DefaultCellStyle.Alignment))
                         .SetVerticalAlignment(VerticalAlignment.MIDDLE)
-                        .SetPadding(5);
+                        .SetPadding(5)
+                        .SetBorder(new SolidBorder(1)); // Borde para cada celda de datos
 
                     if (row.Cells["colEstado"].Value?.ToString() == "BAJO")
                     {
@@ -294,31 +307,16 @@ namespace formstienda.capa_de_presentación
 
             document.Add(table);
 
+            // Total de productos
             Paragraph totalProductos = new Paragraph($"Total de productos: {DGREPORTEINVENTARIO.Rows.Count - 1}")
                 .SetFont(font)
                 .SetFontSize(9)
-                .SetMarginTop(15);
+                .SetMarginTop(5);
             document.Add(totalProductos);
 
             document.Close();
         }
 
-        private float[] GetColumnWidths()
-        {
-            float[] widths = new float[DGREPORTEINVENTARIO.Columns.Count];
-            for (int i = 0; i < DGREPORTEINVENTARIO.Columns.Count; i++)
-            {
-                if (DGREPORTEINVENTARIO.Columns[i].Tag is float porcentaje)
-                {
-                    widths[i] = porcentaje;
-                }
-                else
-                {
-                    widths[i] = 1f / DGREPORTEINVENTARIO.Columns.Count;
-                }
-            }
-            return widths;
-        }
 
         private TextAlignment GetPdfAlignment(DataGridViewContentAlignment alignment)
         {

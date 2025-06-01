@@ -1010,6 +1010,7 @@
             btnGenerarReporteInventario.TabIndex = 4;
             btnGenerarReporteInventario.Text = "Listar inventario";
             btnGenerarReporteInventario.UseVisualStyleBackColor = false;
+            btnGenerarReporteInventario.Click += btnGenerarReporteInventario_Click;
             // 
             // label25
             // 
