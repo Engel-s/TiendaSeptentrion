@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using iText.Kernel.Geom;
 using iText.Layout.Borders;
+using iText.Kernel.Pdf.Canvas;
 
 namespace formstienda.capa_de_presentación
 {
@@ -243,7 +244,7 @@ namespace formstienda.capa_de_presentación
                 MessageBox.Show("Error al cargar el logo: " + ex.Message,
                               "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                        
+
             // Título del reporte
             Paragraph title = new Paragraph("REPORTE DE INVENTARIO ACTUAL")
                 .SetFont(boldFont)
@@ -267,7 +268,7 @@ namespace formstienda.capa_de_presentación
 
             // Configuración explícita de todos los bordes
             table.SetBorder(new SolidBorder(1));
-            
+
             table.SetMarginBottom(10); // Espacio después de la tabla
 
             // Encabezados de la tabla
@@ -304,7 +305,7 @@ namespace formstienda.capa_de_presentación
 
                     if (cell.OwningColumn.Name == "colEstado")
                     {
-                        cellValue = cellValue.ToUpper(); 
+                        cellValue = cellValue.ToUpper();
 
                         // Personalización del texto según el estado
                         if (cellValue.Contains("PRONTO"))
@@ -323,7 +324,7 @@ namespace formstienda.capa_de_presentación
                         .SetMultipliedLeading(1.4f)
                         .SetTextAlignment(TextAlignment.CENTER);
 
-                    
+
                     Cell pdfCell = new Cell()
                         .Add(cellParagraph)
                         .SetTextAlignment(GetPdfAlignment(cell.OwningColumn.DefaultCellStyle.Alignment))
@@ -352,11 +353,42 @@ namespace formstienda.capa_de_presentación
                 .SetFontSize(9)
                 .SetMarginTop(5);
             document.Add(totalProductos);
+            
+            // Cargar imagen para marca de agua
+            byte[] watermarkImgBytes;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                formstienda.Properties.Resources.logo_actualizado_removebg_preview.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                watermarkImgBytes = ms.ToArray();
+            }
 
+            // Configuración de marca de agua más ancha
+            float baseSize = 350; // Tamaño base
+            float widthScale = 1.8f; // 1.8 veces más ancho que alto (ajusta este valor)
+            float watermarkWidth = baseSize * widthScale;
+            float watermarkHeight = baseSize;
+
+            iText.Layout.Element.Image watermark = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(watermarkImgBytes))
+                .SetOpacity(0.1f) // Opacidad reducida
+                .SetWidth(watermarkWidth)
+                .SetHeight(watermarkHeight)
+                .SetFixedPosition(
+                    pdf.GetDefaultPageSize().GetWidth() / 2 - (watermarkWidth / 2),
+                    pdf.GetDefaultPageSize().GetHeight() / 2 - (watermarkHeight / 2),
+                    watermarkWidth);
+
+            // Agregar a todas las páginas
+            for (int i = 1; i <= pdf.GetNumberOfPages(); i++)
+            {
+                PdfPage page = pdf.GetPage(i);
+                PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdf);
+                new Canvas(canvas, page.GetPageSize())
+                    .Add(watermark)
+                    .Close();
+            }
+            
             document.Close();
         }
-
-
 
 
         private TextAlignment GetPdfAlignment(DataGridViewContentAlignment alignment)
