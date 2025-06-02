@@ -214,23 +214,49 @@ namespace formstienda.capa_de_presentación
             PdfWriter writer = new PdfWriter(filePath);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf, PageSize.A4.Rotate());
-            document.SetMargins(20, 20, 30, 30);
+            document.SetMargins(30, 20, 50, 30);
 
             PdfFont font = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA);
             PdfFont boldFont = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA_BOLD);
 
+            //Agregar el logo desde los recursos del proyecto
+            try
+            {
+                System.Drawing.Image img = formstienda.Properties.Resources.logo_actualizado_removebg_preview;
+                byte[] imgBytes;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    imgBytes = ms.ToArray();
+                }
+
+                // Posicionamiento mejorado del logo
+                iText.Layout.Element.Image logo = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(imgBytes))
+                    .SetWidth(200)
+                    .SetFixedPosition(30, pdf.GetDefaultPageSize().GetTop() - 110)
+                    .SetMarginTop(0);
+
+                document.Add(logo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el logo: " + ex.Message,
+                              "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+                        
             // Título del reporte
             Paragraph title = new Paragraph("REPORTE DE INVENTARIO ACTUAL")
                 .SetFont(boldFont)
                 .SetFontSize(18)
                 .SetTextAlignment(TextAlignment.CENTER)
-                .SetMarginBottom(20);
+                .SetMarginTop(10)
+                .SetMarginBottom(15);
             document.Add(title);
 
             // Fecha de generación
             Paragraph fecha = new Paragraph($"Generado el: {DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")}")
                 .SetFont(font)
-                .SetFontSize(9)
+                .SetFontSize(10)
                 .SetTextAlignment(TextAlignment.RIGHT)
                 .SetMarginBottom(15);
             document.Add(fecha);
@@ -240,7 +266,7 @@ namespace formstienda.capa_de_presentación
             table.UseAllAvailableWidth();
 
             // Configuración explícita de todos los bordes
-            table.SetBorder(new SolidBorder(1)); // Borde exterior completo
+            table.SetBorder(new SolidBorder(1));
             
             table.SetMarginBottom(10); // Espacio después de la tabla
 
@@ -251,7 +277,7 @@ namespace formstienda.capa_de_presentación
                     .Add(new Paragraph(column.HeaderText)
                         .SetFont(boldFont)
                         .SetFontSize(10))
-                    .SetBackgroundColor(new DeviceRgb(0, 120, 215))
+                    .SetBackgroundColor(new DeviceRgb(3, 171, 229))
                     .SetTextAlignment(TextAlignment.CENTER)
                     .SetVerticalAlignment(VerticalAlignment.MIDDLE)
                     .SetPadding(5)
@@ -276,21 +302,34 @@ namespace formstienda.capa_de_presentación
                         }
                     }
 
-                    Paragraph cellParagraph = new Paragraph(cellValue)
-                        .SetFont(font)
-                        .SetFontSize(9);
-
-                    if (row.Cells["colEstado"].Value?.ToString() == "CRÍTICO")
+                    if (cell.OwningColumn.Name == "colEstado")
                     {
-                        cellParagraph.SetFont(boldFont).SetFontColor(DeviceRgb.WHITE);
+                        cellValue = cellValue.ToUpper(); 
+
+                        // Personalización del texto según el estado
+                        if (cellValue.Contains("PRONTO"))
+                        {
+                            cellValue = "REQUIERE\nREABASTECIMIENTO\nPRONTO";
+                        }
+                        else if (cellValue.Contains("URGENTE"))
+                        {
+                            cellValue = "REQUIERE\nREABASTECIMIENTO\nURGENTE";
+                        }
                     }
 
+                    Paragraph cellParagraph = new Paragraph(cellValue)
+                        .SetFont(font)
+                        .SetFontSize(9)
+                        .SetMultipliedLeading(1.4f)
+                        .SetTextAlignment(TextAlignment.CENTER);
+
+                    
                     Cell pdfCell = new Cell()
                         .Add(cellParagraph)
                         .SetTextAlignment(GetPdfAlignment(cell.OwningColumn.DefaultCellStyle.Alignment))
                         .SetVerticalAlignment(VerticalAlignment.MIDDLE)
                         .SetPadding(5)
-                        .SetBorder(new SolidBorder(1)); // Borde para cada celda de datos
+                        .SetBorder(new SolidBorder(1));
 
                     if (row.Cells["colEstado"].Value?.ToString() == "BAJO")
                     {
@@ -308,7 +347,7 @@ namespace formstienda.capa_de_presentación
             document.Add(table);
 
             // Total de productos
-            Paragraph totalProductos = new Paragraph($"Total de productos: {DGREPORTEINVENTARIO.Rows.Count - 1}")
+            Paragraph totalProductos = new Paragraph($"Total de productos: {DGREPORTEINVENTARIO.Rows.Count - 0}")
                 .SetFont(font)
                 .SetFontSize(9)
                 .SetMarginTop(5);
@@ -316,6 +355,8 @@ namespace formstienda.capa_de_presentación
 
             document.Close();
         }
+
+
 
 
         private TextAlignment GetPdfAlignment(DataGridViewContentAlignment alignment)
