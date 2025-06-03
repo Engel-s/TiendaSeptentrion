@@ -23,7 +23,21 @@ namespace formstienda.ViewModels
         private float _precioCompra;
         private double _subtotal;
         private double _totalCompra;
+        private string _nombremarca;
+        private string _nombrecategoria;
         public string NombreCompleto => $"{NombreProveedor} {ApellidoProveedor}";
+
+
+        public string NombreMarca
+        {
+            get => _nombremarca;
+            set { _nombremarca = value; OnPropertyChanged(); }
+        }
+        public string NombreCategoria
+        {
+            get => _nombrecategoria;
+            set { _nombrecategoria = value; OnPropertyChanged(); }
+        }
 
         public int IdDetalleCompra
         {

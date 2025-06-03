@@ -156,40 +156,46 @@ namespace formstienda.capa_de_presentación
                     document.Add(new Paragraph("\n"));
 
                     //crear tabla
-                    float[] anchos = { 0.8f, 1f, 1.2f, 1.8f, 0.8f, 1f, 1f, 1.2f };
+                    float[] anchos = { 1f, 0.8f, 1f, 1.8f, 0.8f, 0.8f, 1.5f , 0.8f, 1f, 1.2f };
                     var tabla = new Table(UnitValue.CreatePercentArray(anchos))
                         .UseAllAvailableWidth();
 
                     var colorEncabezado = new DeviceRgb(3, 171, 229);
 
                     //encabezados
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Factura").SetFont(boldFont).SetFontSize(10)
-                        .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
                     tabla.AddHeaderCell(new Cell().Add(new Paragraph("Fecha").SetFont(boldFont).SetFontSize(10)
+                        .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
+                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Factura").SetFont(boldFont).SetFontSize(10)
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
                     tabla.AddHeaderCell(new Cell().Add(new Paragraph("Proveedor").SetFont(boldFont).SetFontSize(10)
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
                     tabla.AddHeaderCell(new Cell().Add(new Paragraph("Producto").SetFont(boldFont).SetFontSize(10)
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Cantidad").SetFont(boldFont).SetFontSize(10)
+                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Categoria").SetFont(boldFont).SetFontSize(10)
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("P. Unitario").SetFont(boldFont)
+                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Marca").SetFont(boldFont).SetFontSize(10)
+                        .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
+                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Precio compra").SetFont(boldFont).SetFontSize(10)
+                        .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
+                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Cantidad").SetFont(boldFont)
                         .SetFontSize(10).SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
                     tabla.AddHeaderCell(new Cell().Add(new Paragraph("Subtotal").SetFont(boldFont).SetFontSize(10)
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Total Factura").SetFont(boldFont).SetFontSize(10)
+                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Total factura").SetFont(boldFont).SetFontSize(10)
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
 
                     //filas 
 
                     foreach (var compra in listaFiltrada)
                     {
-                        tabla.AddCell(Celda(compra.NumeroFactura));
                         tabla.AddCell(Celda(compra.FechaCompra.ToString("dd/MM/yyyy")));
+                        tabla.AddCell(Celda(compra.NumeroFactura));
                         tabla.AddCell(Celda($"{compra.NombreProveedor}  {compra.ApellidoProveedor}"));
                         tabla.AddCell(Celda($"{compra.NombreProducto} - {compra.CodigoProducto}"));
-                        tabla.AddCell(Celda(compra.CantidadCompra));
+                        tabla.AddCell(Celda(compra.NombreCategoria));
+                        tabla.AddCell(Celda(compra.NombreMarca));
                         tabla.AddCell(Celda(compra.PrecioCompra.ToString("C", monedaNic)));
+                        tabla.AddCell(Celda(compra.CantidadCompra));
                         tabla.AddCell(Celda(compra.SubtotalCompra.ToString("C", monedaNic)));
                         tabla.AddCell(Celda(compra.TotalCompra.ToString("C", monedaNic)));
                     }
@@ -211,12 +217,28 @@ namespace formstienda.capa_de_presentación
 
         private void FormReportesCompras_Load(object sender, EventArgs e)
         {
-            try
+            /*try
             {
                 string rutaPDF = GenerarReporte(_fechaInicio, _fechaFin, rutaPdf, _rucProveedor);
                 if (!string.IsNullOrEmpty(rutaPDF) && File.Exists(rutaPDF))
                 {
                     webView21.Source = new Uri(rutaPDF);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar el reporte: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }*/
+            try
+            {
+                if (!File.Exists(rutaPdf)) // Para no generar si ya existe
+                {
+                    GenerarReporte(_fechaInicio, _fechaFin, rutaPdf, _rucProveedor);
+                }
+
+                if (File.Exists(rutaPdf))
+                {
+                    webView21.Source = new Uri(rutaPdf);
                 }
             }
             catch (Exception ex)

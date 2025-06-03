@@ -145,6 +145,8 @@ namespace formstienda.capa_de_negocios
                                 ApellidoProveedor = d.IdCompraNavigation.CodigoRucNavigation.ApellidoProveedor,
                                 RucProveedor = d.IdCompraNavigation.CodigoRucNavigation.CodigoRuc,
                                 CodigoProducto = d.CodigoProducto,
+                                NombreMarca = d.CodigoProductoNavigation.IdMarcaNavigation.Marca1,
+                                NombreCategoria = d.CodigoProductoNavigation.IdCategoriaNavigation.Categoria,
                                 NombreProducto = d.CodigoProductoNavigation.ModeloProducto,
                                 CantidadCompra = d.CantidadCompra,
                                 PrecioCompra = d.PrecioCompra,

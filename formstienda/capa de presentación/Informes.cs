@@ -52,7 +52,7 @@ namespace formstienda
 
         private void button3_Click(object sender, EventArgs e)
         {
-            DateTime fechaInicio = dptInicio.Value.Date;
+            /*DateTime fechaInicio = dptInicio.Value.Date;
             DateTime fechaFin = dtpFin.Value.Date;
 
             string proveedorSeleccionado = (cmbproveedor.SelectedValue as string)?.Trim();
@@ -77,6 +77,26 @@ namespace formstienda
                         FormReportesCompras visor = new FormReportesCompras(fechaInicio, fechaFin, rutaGenerada, proveedorSeleccionado);
                         visor.Show();
                     }
+                }
+            }*/
+            DateTime fechaInicio = dptInicio.Value.Date;
+            DateTime fechaFin = dtpFin.Value.Date;
+
+            string proveedorSeleccionado = (cmbproveedor.SelectedValue as string)?.Trim();
+
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                saveDialog.Title = "Guardar reporte de compras";
+                saveDialog.FileName = $"ReporteCompras_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string rutaPDF = saveDialog.FileName;
+
+                    // Solo crear el formulario que mostrará el PDF
+                    FormReportesCompras visor = new FormReportesCompras(fechaInicio, fechaFin, rutaPDF, proveedorSeleccionado);
+                    visor.Show();
                 }
             }
         }

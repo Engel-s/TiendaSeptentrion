@@ -237,9 +237,18 @@ namespace formstienda
         {
             dtgcompras.Columns["IdDetalleCompra"].Visible = false;
             dtgcompras.Columns["IdCompra"].Visible = false;
-            dtgcompras.Columns["NombreProducto"].HeaderText = "Producto";
-
+            dtgcompras.Columns["NombreProveedor"].Visible = false;
+            dtgcompras.Columns["ApellidoProveedor"].Visible = false;
+            dtgcompras.Columns["FechaCompra"].Visible = false;
+            dtgcompras.Columns["RucProveedor"].Visible = false;
+            dtgcompras.Columns["NombreMarca"].Visible = false;
+            dtgcompras.Columns["NombreCategoria"].Visible = false;
+            dtgcompras.Columns["TotalCompra"].Visible = false;
             dtgcompras.Columns["CodigoProducto"].Visible = false;
+            dtgcompras.Columns["NumeroFactura"].Visible = false;
+            dtgcompras.Columns["NombreCompleto"].Visible = false;
+
+            dtgcompras.Columns["NombreProducto"].HeaderText = "Producto";
             dtgcompras.Columns["CantidadCompra"].HeaderText = "Cantidad";
             dtgcompras.Columns["PrecioCompra"].HeaderText = "Precio de compra";
             dtgcompras.Columns["SubtotalCompra"].HeaderText = "Subtotal";
