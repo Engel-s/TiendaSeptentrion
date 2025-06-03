@@ -115,12 +115,12 @@ namespace formstienda.capa_de_presentación
             document.Add(headerDiv);
 
             // Crear tabla con las mismas columnas que tenía el DataGridView
-            Table table = new Table(7); // 7 columnas como en el original
+            Table table = new Table(7); 
             table.UseAllAvailableWidth();
             table.SetBorder(new SolidBorder(1));
             table.SetMarginBottom(10);
 
-            // Encabezados de tabla (manteniendo los mismos que en el DataGridView original)
+            // Encabezados de tabla
             string[] headers = { "CÓDIGO", "PRODUCTO", "CATEGORÍA", "MARCA", "PRECIO VENTA", "STOCK ACTUAL", "VALOR TOTAL" };
             foreach (string header in headers)
             {
@@ -174,7 +174,7 @@ namespace formstienda.capa_de_presentación
                     .SetPadding(5)
                     .SetBorder(new SolidBorder(1)));
 
-                // Precio Venta (formato monetario)
+                // Precio Venta
                 table.AddCell(new Cell()
                     .Add(new Paragraph(item.PrecioVenta.ToString("C", _nicaraguaCulture))
                         .SetFont(font)
@@ -192,7 +192,7 @@ namespace formstienda.capa_de_presentación
                     .SetPadding(5)
                     .SetBorder(new SolidBorder(1)));
 
-                // Valor Total (formato monetario)
+                // Valor Total
                 table.AddCell(new Cell()
                     .Add(new Paragraph(string.Format(_nicaraguaCulture, "{0:C}", item.ValorTotalInventario))
                         .SetFont(font)
