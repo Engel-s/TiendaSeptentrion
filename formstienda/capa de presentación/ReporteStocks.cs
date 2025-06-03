@@ -17,43 +17,45 @@ using Microsoft.EntityFrameworkCore;
 using iText.Kernel.Geom;
 using iText.Layout.Borders;
 using iText.Kernel.Pdf.Canvas;
+using Path = System.IO.Path;
 
 namespace formstienda.capa_de_presentación
 {
-    public partial class ReporteDeInventario : Form
+    public partial class ReporteStocks : Form
     {
         private DbTiendaSeptentrionContext _context;
         private bool _isMaximized = false;
         private readonly CultureInfo _nicaraguaCulture = new CultureInfo("es-NI");
 
-        public ReporteDeInventario()
+        public ReporteStocks()
         {
             InitializeComponent();
             _context = new DbTiendaSeptentrionContext();
         }
 
-        private void ReporteDeInventario_Load(object sender, EventArgs e)
+        private void ReporteStocks_Load(object sender, EventArgs e)
         {
-
+            // Generar el reporte al cargar el formulario
+            string tempFilePath = Path.Combine(Path.GetTempPath(), "ReporteStockProximoAgotarse.pdf");
+            GenerarPDFStock(tempFilePath);
+            MostrarPDF(tempFilePath);
         }
 
         public void MostrarPDF(string rutaPDF)
         {
-            webViewInventario.Source = new Uri(rutaPDF);
+            webViewStock.Source = new Uri(rutaPDF);
         }
 
-
-        private void btnSalir_Click(object sender, EventArgs e)
+        private void btnSalirStock_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        public void GenerarPDF(string filePath)
+        public void GenerarPDFStock(string filePath)
         {
             // Obtener datos directamente de la base de datos
-            var inventario = _context.VistaInventarioActuals.ToList();
-            int totalProductos = inventario.Count;
-            decimal totalInventario = (decimal)inventario.Sum(item => item.ValorTotalInventario);
+            var productosProximosAgotarse = _context.VistaStockProximoAgotarses.ToList();
+            int totalProductos = productosProximosAgotarse.Count;
 
             PdfWriter writer = new PdfWriter(filePath);
             PdfDocument pdf = new PdfDocument(writer);
@@ -98,7 +100,7 @@ namespace formstienda.capa_de_presentación
                 .SetFontSize(18)
                 .SetMarginBottom(5));
 
-            headerDiv.Add(new Paragraph("Reporte de Inventario")
+            headerDiv.Add(new Paragraph("Reporte de Productos Próximos a Agotarse")
                 .SetFont(boldFont)
                 .SetFontSize(16)
                 .SetMarginBottom(5));
@@ -114,13 +116,14 @@ namespace formstienda.capa_de_presentación
 
             document.Add(headerDiv);
 
-            Table table = new Table(7);
+            // Tabla con 5 columnas
+            Table table = new Table(5);
             table.UseAllAvailableWidth();
             table.SetBorder(new SolidBorder(1));
             table.SetMarginBottom(10);
 
             // Encabezados de tabla
-            string[] headers = { "CÓDIGO", "PRODUCTO", "CATEGORÍA", "MARCA", "PRECIO VENTA", "STOCK ACTUAL", "VALOR TOTAL" };
+            string[] headers = { "CÓDIGO", "PRODUCTO", "CATEGORÍA", "MARCA", "STOCK ACTUAL" };
             foreach (string header in headers)
             {
                 table.AddHeaderCell(new Cell()
@@ -135,7 +138,7 @@ namespace formstienda.capa_de_presentación
             }
 
             // Datos de la tabla
-            foreach (var item in inventario)
+            foreach (var item in productosProximosAgotarse)
             {
                 // Código
                 table.AddCell(new Cell()
@@ -173,30 +176,12 @@ namespace formstienda.capa_de_presentación
                     .SetPadding(5)
                     .SetBorder(new SolidBorder(1)));
 
-                // Precio Venta
-                table.AddCell(new Cell()
-                    .Add(new Paragraph(item.PrecioVenta.ToString("C", _nicaraguaCulture))
-                        .SetFont(font)
-                        .SetFontSize(9))
-                    .SetTextAlignment(TextAlignment.RIGHT)
-                    .SetPadding(5)
-                    .SetBorder(new SolidBorder(1)));
-
                 // Stock Actual
                 table.AddCell(new Cell()
-                    .Add(new Paragraph(item.StockActual.ToString())
+                    .Add(new Paragraph(item.StockActual?.ToString() ?? "0")
                         .SetFont(font)
                         .SetFontSize(9))
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .SetPadding(5)
-                    .SetBorder(new SolidBorder(1)));
-
-                // Valor Total
-                table.AddCell(new Cell()
-                    .Add(new Paragraph(string.Format(_nicaraguaCulture, "{0:C}", item.ValorTotalInventario))
-                        .SetFont(font)
-                        .SetFontSize(9))
-                    .SetTextAlignment(TextAlignment.RIGHT)
                     .SetPadding(5)
                     .SetBorder(new SolidBorder(1)));
             }
@@ -241,22 +226,7 @@ namespace formstienda.capa_de_presentación
                 Console.WriteLine("Error al crear marca de agua: " + ex.Message);
             }
 
-            // Total de inversión
-            float pageWidth = pdf.GetDefaultPageSize().GetWidth();
-            document.Add(new Paragraph($"Inversión Total: {totalInventario.ToString("C", _nicaraguaCulture)}")
-                .SetFont(boldFont)
-                .SetFontSize(12)
-                .SetFixedPosition(pageWidth - 230, 30, 200)
-                .SetPadding(5)
-                .SetBorder(new SolidBorder(1))
-                .SetTextAlignment(TextAlignment.LEFT));
-
             document.Close();
-        }
-
-        private void webViewInventario_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

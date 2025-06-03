@@ -118,10 +118,8 @@
             panel42 = new Panel();
             panel43 = new Panel();
             panel44 = new Panel();
-            label32 = new Label();
             label31 = new Label();
-            button9 = new Button();
-            button8 = new Button();
+            btnGenerarReporteStock = new Button();
             label33 = new Label();
             panel45 = new Panel();
             label34 = new Label();
@@ -1186,7 +1184,7 @@
             label30.BackColor = Color.FromArgb(3, 171, 229);
             label30.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label30.ForeColor = Color.Black;
-            label30.Location = new Point(-4, 18);
+            label30.Location = new Point(5, 18);
             label30.Margin = new Padding(2, 0, 2, 0);
             label30.Name = "label30";
             label30.Size = new Size(228, 20);
@@ -1234,10 +1232,8 @@
             // 
             panel44.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel44.BorderStyle = BorderStyle.FixedSingle;
-            panel44.Controls.Add(label32);
             panel44.Controls.Add(label31);
-            panel44.Controls.Add(button9);
-            panel44.Controls.Add(button8);
+            panel44.Controls.Add(btnGenerarReporteStock);
             panel44.Controls.Add(label33);
             panel44.Controls.Add(panel45);
             panel44.Controls.Add(panel46);
@@ -1252,49 +1248,28 @@
             panel44.Size = new Size(248, 352);
             panel44.TabIndex = 13;
             // 
-            // label32
-            // 
-            label32.AutoSize = true;
-            label32.ForeColor = Color.Black;
-            label32.Location = new Point(74, 202);
-            label32.Margin = new Padding(2, 0, 2, 0);
-            label32.Name = "label32";
-            label32.Size = new Size(138, 20);
-            label32.TabIndex = 10;
-            label32.Text = "Stock agotados";
-            // 
             // label31
             // 
             label31.AutoSize = true;
             label31.ForeColor = Color.Black;
-            label31.Location = new Point(13, 88);
+            label31.Location = new Point(54, 89);
             label31.Margin = new Padding(2, 0, 2, 0);
             label31.Name = "label31";
-            label31.Size = new Size(223, 20);
+            label31.Size = new Size(138, 20);
             label31.TabIndex = 9;
-            label31.Text = "Stock proximo a agotarse";
+            label31.Text = "Stock agotados";
             // 
-            // button9
+            // btnGenerarReporteStock
             // 
-            button9.BackColor = Color.FromArgb(3, 171, 229);
-            button9.Location = new Point(64, 245);
-            button9.Margin = new Padding(2, 5, 2, 5);
-            button9.Name = "button9";
-            button9.Size = new Size(126, 38);
-            button9.TabIndex = 8;
-            button9.Text = "Generar";
-            button9.UseVisualStyleBackColor = false;
-            // 
-            // button8
-            // 
-            button8.BackColor = Color.FromArgb(3, 171, 229);
-            button8.Location = new Point(64, 132);
-            button8.Margin = new Padding(2, 5, 2, 5);
-            button8.Name = "button8";
-            button8.Size = new Size(126, 38);
-            button8.TabIndex = 4;
-            button8.Text = "Generar";
-            button8.UseVisualStyleBackColor = false;
+            btnGenerarReporteStock.BackColor = Color.FromArgb(3, 171, 229);
+            btnGenerarReporteStock.Location = new Point(60, 150);
+            btnGenerarReporteStock.Margin = new Padding(2, 5, 2, 5);
+            btnGenerarReporteStock.Name = "btnGenerarReporteStock";
+            btnGenerarReporteStock.Size = new Size(126, 59);
+            btnGenerarReporteStock.TabIndex = 4;
+            btnGenerarReporteStock.Text = "Generar Reporte";
+            btnGenerarReporteStock.UseVisualStyleBackColor = false;
+            btnGenerarReporteStock.Click += btnGenerarReporteStock_Click;
             // 
             // label33
             // 
@@ -1322,7 +1297,7 @@
             label34.BackColor = Color.FromArgb(3, 171, 229);
             label34.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label34.ForeColor = Color.Black;
-            label34.Location = new Point(32, 18);
+            label34.Location = new Point(45, 18);
             label34.Margin = new Padding(2, 0, 2, 0);
             label34.Name = "label34";
             label34.Size = new Size(164, 20);
@@ -2087,10 +2062,8 @@
         private System.Windows.Forms.Panel panel42;
         private System.Windows.Forms.Panel panel43;
         private System.Windows.Forms.Panel panel44;
-        private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button btnGenerarReporteStock;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Panel panel45;
         private System.Windows.Forms.Label label34;

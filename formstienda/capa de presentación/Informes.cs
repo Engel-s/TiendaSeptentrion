@@ -32,15 +32,15 @@ namespace formstienda
         {
             try
             {
-                
+
                 string tempFilePath = Path.Combine(
                     Path.GetTempPath(),
                     $"Reporte_Inventario_{DateTime.Now:yyyyMMddHHmmss}.pdf"
                 );
-                                
+
                 ReporteDeInventario reporte = new ReporteDeInventario();
                 reporte.GenerarPDF(tempFilePath);
-                                
+
                 reporte.MostrarPDF(tempFilePath);
                 reporte.Show();
 
@@ -51,6 +51,37 @@ namespace formstienda
             {
                 MessageBox.Show($"Error: {ex.Message}", "Error",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnGenerarReporteStock_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string tempFilePath = Path.Combine(
+                    Path.GetTempPath(),
+                    $"Reporte_Stock_Proximo_Agotarse_{DateTime.Now:yyyyMMddHHmmss}.pdf"
+                );
+
+                // Crear instancia del formulario de reporte
+                ReporteStocks reporte = new ReporteStocks();
+
+                // Generar y mostrar el reporte
+                reporte.GenerarPDFStock(tempFilePath);
+                reporte.MostrarPDF(tempFilePath);
+                reporte.Show();
+
+                MessageBox.Show("Reporte de productos próximos a agotarse generado con éxito",
+                              "Éxito",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el reporte: {ex.Message}",
+                              "Error",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
         }
     }
