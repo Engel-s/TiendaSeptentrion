@@ -14,6 +14,7 @@ using formstienda.capa_de_presentación;
 using formstienda.Datos;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System.Globalization;
+using formstienda.ViewModels;
 
 namespace formstienda
 {
@@ -21,7 +22,6 @@ namespace formstienda
     {
         private MarcaServicio? marcaServicio;
         private BindingList<Marca> listamarcas;
-        //private BindingList<Marca> listaMarcas;
 
 
         private CategoriaServicio? categoriaServicio;
@@ -35,7 +35,7 @@ namespace formstienda
         private BindingList<Compra> listacompra;
 
         private DetalleCompraServicio? detalleCompraServicio;
-        private BindingList<DetalleCompra> listadetallecompra;
+        private BindingList<DetalleCompraViewModel> listadetallecompra;
 
         private ProveedorServicio? proveedorServicio;
 
@@ -183,31 +183,6 @@ namespace formstienda
         }
         private void FiltrarProductos()
         {
-            /*try
-            {
-                // Conversión segura
-                int idCategoria = Convert.ToInt32(cmbcategoria.SelectedValue);
-                int idMarca = Convert.ToInt32(cmbmarcas.SelectedValue);
-
-                // Filtrar productos
-                var productosFiltrados = listaproductosfiltrados
-                    .Where(p => p.IdCategoria == idCategoria && p.IdMarca == idMarca)
-                    .ToList();
-
-                // Cargar productos filtrados al ComboBox
-                cmbproducto.DataSource = productosFiltrados;
-                cmbproducto.DisplayMember = "ModeloProducto";
-                cmbproducto.ValueMember = "CodigoProducto";
-                cmbproducto.SelectedIndex = -1;
-
-                // Limpiar campos
-                txtprecioventa.Clear();
-                txtcodigoproducto.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al filtrar productos: " + ex.Message);
-            }*/
             try
             {
                 if (cmbcategoria.SelectedValue == null || cmbmarcas.SelectedValue == null)
@@ -256,91 +231,18 @@ namespace formstienda
         {
 
         }
-        private void label4_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox7_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox12_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void ColumnasPersonalizadas()
         {
             dtgcompras.Columns["IdDetalleCompra"].Visible = false;
             dtgcompras.Columns["IdCompra"].Visible = false;
-            dtgcompras.Columns["CodigoProducto"].HeaderText = "Modelo producto";
+            dtgcompras.Columns["NombreProducto"].HeaderText = "Producto";
+
+            dtgcompras.Columns["CodigoProducto"].Visible = false;
             dtgcompras.Columns["CantidadCompra"].HeaderText = "Cantidad";
             dtgcompras.Columns["PrecioCompra"].HeaderText = "Precio de compra";
             dtgcompras.Columns["SubtotalCompra"].HeaderText = "Subtotal";
-            dtgcompras.Columns["CodigoProductoNavigation"].Visible = false;
-            dtgcompras.Columns["IdCompraNavigation"].Visible = false;
         }
 
         private void FormCompras_Load(object sender, EventArgs e)
@@ -364,7 +266,8 @@ namespace formstienda
             compraServicio = new CompraServicio();
 
             listacompra = new BindingList<Compra>(compraServicio.ListarCompra());
-            listadetallecompra = new BindingList<DetalleCompra>();
+            listadetallecompra = new BindingList<DetalleCompraViewModel>();
+
             productoServicio = new ProductoServicio();
             listaproductosfiltrados = new BindingList<Producto>(productoServicio.ListarProductos());
 
@@ -426,11 +329,6 @@ namespace formstienda
 
         private void cmbproducto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            /*if (cmbproducto.SelectedItem is Producto productoSeleccionado)
-            {
-                txtprecioventa.Text = productoSeleccionado.PrecioVenta.ToString("C", new CultureInfo("es-NI"));
-                txtcodigoproducto.Text = productoSeleccionado.CodigoProducto.ToString();
-            }*/
             if (cmbproducto.SelectedItem is Producto productoSeleccionado)
             {
                 // Obtener los IDs seleccionados de categoría y marca
@@ -602,24 +500,83 @@ namespace formstienda
                             }
                         }
 
-
-                        DetalleCompra detallecompra = new DetalleCompra
+                        var detalleExistente = listadetallecompra.FirstOrDefault(d =>
+                        d.CodigoProducto == codigoProducto &&
+                        d.IdCompra == listacompra.Last().IdCompra);
+                        
+                        if (detalleExistente != null)
                         {
-                            IdCompra = listacompra.Last().IdCompra,
-                            CodigoProducto = codigoProducto,
-                            CantidadCompra = cantidad,
-                            PrecioCompra = precioCompra,
-                            SubtotalCompra = cantidad * precioCompra,
-                        };
+                            if (precioCompra != detalleExistente.PrecioCompra)
+                            {
+                                var confirmacion = MessageBox.Show(
+                                    $"¿Desea cambiar el precio de compra de {detalleExistente.PrecioCompra:C} " +
+                                    $"a {precioCompra:C}?",
+                                    "Confirmar cambio de precio",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Question);
+                                
+                                if (confirmacion != DialogResult.Yes)
+                                {
+                                    return;
+                                }
+
+                                // Valida que el nuevo precio sea positivo
+                                if (precioCompra <= 0)
+                                {
+                                    MessageBox.Show("El precio debe ser mayor a cero", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+
+                            //Actualiza producto existente
+                            int cantidadAnterior = detalleExistente.CantidadCompra;
+                            detalleExistente.CantidadCompra += cantidad;
+                            detalleExistente.PrecioCompra = precioCompra; // Actualizar precio si cambió
+                            
+
+                            // Actualizar en la base de datos
+                            detalleCompraServicio.ActualizarDetalleCompra(
+                                detalleExistente.IdDetalleCompra,
+                                detalleExistente.CantidadCompra,
+                                precioCompra
+                            );
+
+                            // Ajustar stock (solo actualiza diferencias)
+                            productoServicio.AumentarStock(codigoProducto, cantidad);
+                        }
+                        else
+                        {
+                            DetalleCompra detallecompra = new DetalleCompra
+                            {
+                                IdCompra = listacompra.Last().IdCompra,
+                                CodigoProducto = codigoProducto,
+                                CantidadCompra = cantidad,
+                                PrecioCompra = precioCompra,
+                                SubtotalCompra = cantidad * precioCompra,
+                            };
+                            
+                            var registroCompra = detalleCompraServicio.AgregarDetalleCompra(detallecompra);
+
+                            // Agregar a la lista de ViewModels
+                            listadetallecompra.Add(new DetalleCompraViewModel
+                            {
+                                IdDetalleCompra = detallecompra.IdDetalleCompra,
+                                IdCompra = detallecompra.IdCompra,
+                                CodigoProducto = detallecompra.CodigoProducto,
+                                NombreProducto = productoSeleccionado.ModeloProducto,
+                                CantidadCompra = detallecompra.CantidadCompra,
+                                PrecioCompra = detallecompra.PrecioCompra,
+                            });
+
+                            // Aumentar stock
+                            productoServicio.AumentarStock(codigoProducto, cantidad);
+                        }
 
                         txtprecioventa.ReadOnly = true;
 
-                        var registroCompra = detalleCompraServicio.AgregarDetalleCompra(detallecompra);
-                        listadetallecompra.Add(detallecompra);
-
                         txtsubtotalcompra.Text = listadetallecompra
                                                                     .Where(x => x.IdCompra == listacompra.Last().IdCompra)
-                                                                    .Sum(x => x.SubtotalCompra).ToString("C");
+                                                                    .Sum(x => x.SubtotalCompra).ToString("C",  new CultureInfo ("es-NI"));
                         productoServicio.AumentarStock(codigoProducto, cantidad);
                     }
                     else
@@ -681,7 +638,7 @@ namespace formstienda
                 var compraActual = listacompra.Last();
 
                 // Intenta convertir el texto del subtotal a float
-                if (float.TryParse(txtsubtotalcompra.Text, System.Globalization.NumberStyles.Currency, null, out float totalCompra))
+                if (float.TryParse(txtsubtotalcompra.Text.Replace("C$", "").Replace("S/.", "").Replace(",", "").Trim(), System.Globalization.NumberStyles.Currency, null, out float totalCompra))
                 {
                     compraActual.TotalCompra = totalCompra;
 
@@ -780,9 +737,6 @@ namespace formstienda
             txtcodigoproducto.Clear();
 
             newcompra = true;
-            /*int nuevoNumeroFactura = compraServicio.ObtenerUltimoIdCompra();
-            txtnumerofactura.Text = (nuevoNumeroFactura + 1).ToString();*/
-
             Desactivarcampos();
         }
 
