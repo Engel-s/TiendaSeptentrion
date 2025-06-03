@@ -30,8 +30,28 @@ namespace formstienda
 
         private void btnGenerarReporteInventario_Click(object sender, EventArgs e)
         {
-            ReporteDeInventario reporte = new ReporteDeInventario();
-            reporte.Show();
+            try
+            {
+                
+                string tempFilePath = Path.Combine(
+                    Path.GetTempPath(),
+                    $"Reporte_Inventario_{DateTime.Now:yyyyMMddHHmmss}.pdf"
+                );
+                                
+                ReporteDeInventario reporte = new ReporteDeInventario();
+                reporte.GenerarPDF(tempFilePath);
+                                
+                reporte.MostrarPDF(tempFilePath);
+                reporte.Show();
+
+                MessageBox.Show("Reporte generado", "Éxito",
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

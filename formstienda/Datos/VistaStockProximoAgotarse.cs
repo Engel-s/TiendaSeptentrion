@@ -13,13 +13,7 @@ public partial class VistaStockProximoAgotarse
 
     public string Marca { get; set; } = null!;
 
-    public float PrecioVenta { get; set; }
-
     public int? StockActual { get; set; }
 
     public int? StockMinimo { get; set; }
-
-    public int? Diferencia { get; set; }
-
-    public string EstadoReabastecimiento { get; set; } = null!;
 }

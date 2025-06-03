@@ -30,12 +30,10 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             btnSalir = new Button();
-            DGREPORTEINVENTARIO = new DataGridView();
             label1 = new Label();
-            btnGenerarPDF = new Button();
-            this.btnGenerarPDF.Click += new System.EventHandler(this.btnGenerarPDF_Click);
+            webViewInventario = new Microsoft.Web.WebView2.WinForms.WebView2();
             tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)DGREPORTEINVENTARIO).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)webViewInventario).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -43,10 +41,9 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10.5969906F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 89.40301F));
-            tableLayoutPanel1.Controls.Add(btnGenerarPDF, 0, 1);
             tableLayoutPanel1.Controls.Add(btnSalir, 0, 0);
-            tableLayoutPanel1.Controls.Add(DGREPORTEINVENTARIO, 1, 1);
             tableLayoutPanel1.Controls.Add(label1, 1, 0);
+            tableLayoutPanel1.Controls.Add(webViewInventario, 1, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -69,16 +66,6 @@
             btnSalir.UseVisualStyleBackColor = false;
             btnSalir.Click += btnSalir_Click;
             // 
-            // DGREPORTEINVENTARIO
-            // 
-            DGREPORTEINVENTARIO.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            DGREPORTEINVENTARIO.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGREPORTEINVENTARIO.Location = new Point(98, 61);
-            DGREPORTEINVENTARIO.Name = "DGREPORTEINVENTARIO";
-            DGREPORTEINVENTARIO.RowHeadersWidth = 51;
-            DGREPORTEINVENTARIO.Size = new Size(796, 391);
-            DGREPORTEINVENTARIO.TabIndex = 1;
-            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -91,17 +78,17 @@
             label1.TabIndex = 2;
             label1.Text = "Inventario Actual";
             // 
-            // btnGenerarPDF
+            // webViewInventario
             // 
-            btnGenerarPDF.BackColor = Color.DeepSkyBlue;
-            btnGenerarPDF.Dock = DockStyle.Bottom;
-            btnGenerarPDF.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGenerarPDF.Location = new Point(3, 400);
-            btnGenerarPDF.Name = "btnGenerarPDF";
-            btnGenerarPDF.Size = new Size(89, 52);
-            btnGenerarPDF.TabIndex = 3;
-            btnGenerarPDF.Text = "Generar PDF";
-            btnGenerarPDF.UseVisualStyleBackColor = false;
+            webViewInventario.AllowExternalDrop = true;
+            webViewInventario.CreationProperties = null;
+            webViewInventario.DefaultBackgroundColor = Color.White;
+            webViewInventario.Dock = DockStyle.Fill;
+            webViewInventario.Location = new Point(98, 61);
+            webViewInventario.Name = "webViewInventario";
+            webViewInventario.Size = new Size(796, 391);
+            webViewInventario.TabIndex = 3;
+            webViewInventario.ZoomFactor = 1D;
             // 
             // ReporteDeInventario
             // 
@@ -114,7 +101,7 @@
             Load += ReporteDeInventario_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)DGREPORTEINVENTARIO).EndInit();
+            ((System.ComponentModel.ISupportInitialize)webViewInventario).EndInit();
             ResumeLayout(false);
         }
 
@@ -122,8 +109,7 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private Button btnSalir;
-        private DataGridView DGREPORTEINVENTARIO;
         private Label label1;
-        private Button btnGenerarPDF;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webViewInventario;
     }
 }

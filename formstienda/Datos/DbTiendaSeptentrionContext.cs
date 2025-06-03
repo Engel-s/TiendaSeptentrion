@@ -605,10 +605,6 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Codigo_Producto");
-            entity.Property(e => e.EstadoStock)
-                .HasMaxLength(33)
-                .IsUnicode(false)
-                .HasColumnName("Estado_Stock");
             entity.Property(e => e.Marca)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -617,7 +613,6 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false);
             entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
-            entity.Property(e => e.StockMinimo).HasColumnName("Stock_Minimo");
             entity.Property(e => e.ValorTotalInventario).HasColumnName("Valor_Total_Inventario");
         });
 
@@ -668,14 +663,9 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Codigo_Producto");
-            entity.Property(e => e.EstadoReabastecimiento)
-                .HasMaxLength(33)
-                .IsUnicode(false)
-                .HasColumnName("Estado_Reabastecimiento");
             entity.Property(e => e.Marca)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
             entity.Property(e => e.Producto)
                 .HasMaxLength(200)
                 .IsUnicode(false);

@@ -34,184 +34,27 @@ namespace formstienda.capa_de_presentación
 
         private void ReporteDeInventario_Load(object sender, EventArgs e)
         {
-            ConfigurarDataGridView();
-            CargarDatosInventario();
-            this.Resize += ReporteDeInventario_Resize;
-            this.SizeChanged += ReporteDeInventario_SizeChanged;
+           
         }
-
-        private void ConfigurarDataGridView()
+                
+        public void MostrarPDF(string rutaPDF)
         {
-            DGREPORTEINVENTARIO.AutoGenerateColumns = false;
-            DGREPORTEINVENTARIO.AllowUserToAddRows = false;
-            DGREPORTEINVENTARIO.AllowUserToDeleteRows = false;
-            DGREPORTEINVENTARIO.ReadOnly = true;
-            DGREPORTEINVENTARIO.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DGREPORTEINVENTARIO.MultiSelect = false;
-            DGREPORTEINVENTARIO.AllowUserToResizeColumns = true;
-            DGREPORTEINVENTARIO.AllowUserToResizeRows = false;
-            DGREPORTEINVENTARIO.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            DGREPORTEINVENTARIO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-
-            DGREPORTEINVENTARIO.Columns.Clear();
-
-            AgregarColumna("CodigoProducto", "CÓDIGO", "colCodigo", 100, DataGridViewContentAlignment.MiddleCenter, 0.08f);
-            AgregarColumna("Producto", "PRODUCTO", "colProducto", 150, DataGridViewContentAlignment.MiddleLeft, 0.20f);
-            AgregarColumna("Categoria", "CATEGORÍA", "colCategoria", 120, DataGridViewContentAlignment.MiddleLeft, 0.15f);
-            AgregarColumna("Marca", "MARCA", "colMarca", 100, DataGridViewContentAlignment.MiddleLeft, 0.12f);
-            AgregarColumnaMonetaria("PrecioVenta", "PRECIO VENTA", "colPrecio", 100, 0.12f);
-            AgregarColumna("StockActual", "STOCK ACTUAL", "colStockActual", 150, DataGridViewContentAlignment.MiddleCenter, 0.08f);
-            AgregarColumna("StockMinimo", "STOCK MÍNIMO", "colStockMinimo", 150, DataGridViewContentAlignment.MiddleCenter, 0.08f);
-            AgregarColumna("EstadoStock", "ESTADO", "colEstado", 300, DataGridViewContentAlignment.MiddleCenter, 0.08f);
-            AgregarColumnaMonetaria("ValorTotalInventario", "VALOR TOTAL", "colValorTotal", 100, 0.12f);
-
-            AjustarAnchoColumnas();
+           webViewInventario.Source = new Uri(rutaPDF);
         }
 
-        private void AgregarColumna(string dataProperty, string headerText, string name,
-                                   int minWidth, DataGridViewContentAlignment alignment, float porcentaje)
-        {
-            DGREPORTEINVENTARIO.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                DataPropertyName = dataProperty,
-                HeaderText = headerText,
-                Name = name,
-                MinimumWidth = minWidth,
-                DefaultCellStyle = new DataGridViewCellStyle { Alignment = alignment },
-                Tag = porcentaje
-            });
-        }
-
-        private void AgregarColumnaMonetaria(string dataProperty, string headerText, string name,
-                                            int minWidth, float porcentaje)
-        {
-            var columna = new DataGridViewTextBoxColumn()
-            {
-                DataPropertyName = dataProperty,
-                HeaderText = headerText,
-                Name = name,
-                MinimumWidth = minWidth,
-                Tag = porcentaje
-            };
-
-            columna.DefaultCellStyle = new DataGridViewCellStyle
-            {
-                Format = "C",
-                FormatProvider = _nicaraguaCulture,
-                Alignment = DataGridViewContentAlignment.MiddleRight,
-            };
-
-            DGREPORTEINVENTARIO.Columns.Add(columna);
-        }
-
-        private void CargarDatosInventario()
-        {
-            try
-            {
-                var inventario = _context.VistaInventarioActuals.ToList();
-                DGREPORTEINVENTARIO.DataSource = inventario;
-                AplicarFormatoCondicional();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar el inventario: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void AplicarFormatoCondicional()
-        {
-            foreach (DataGridViewRow row in DGREPORTEINVENTARIO.Rows)
-            {
-                if (row.Cells["colEstado"].Value?.ToString() == "BAJO")
-                {
-                    row.DefaultCellStyle.BackColor = System.Drawing.Color.LightSalmon;
-                    row.DefaultCellStyle.ForeColor = System.Drawing.Color.DarkRed;
-                }
-                else if (row.Cells["colEstado"].Value?.ToString() == "CRÍTICO")
-                {
-                    row.DefaultCellStyle.BackColor = System.Drawing.Color.Red;
-                    row.DefaultCellStyle.ForeColor = System.Drawing.Color.White;
-                }
-            }
-        }
-
-        private void ReporteDeInventario_SizeChanged(object sender, EventArgs e)
-        {
-            _isMaximized = this.WindowState == FormWindowState.Maximized;
-
-            if (_isMaximized)
-            {
-                DGREPORTEINVENTARIO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            }
-            else
-            {
-                DGREPORTEINVENTARIO.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-                AjustarAnchoColumnas();
-            }
-        }
-
-        private void ReporteDeInventario_Resize(object sender, EventArgs e)
-        {
-            if (!_isMaximized && DGREPORTEINVENTARIO.Columns.Count > 0)
-            {
-                AjustarAnchoColumnas();
-            }
-        }
-
-        private void AjustarAnchoColumnas()
-        {
-            if (DGREPORTEINVENTARIO.Columns.Count == 0) return;
-
-            int totalWidth = DGREPORTEINVENTARIO.ClientSize.Width;
-
-            if (DGREPORTEINVENTARIO.ScrollBars == ScrollBars.Vertical ||
-                DGREPORTEINVENTARIO.ScrollBars == ScrollBars.Both)
-            {
-                totalWidth -= SystemInformation.VerticalScrollBarWidth;
-            }
-
-            foreach (DataGridViewColumn col in DGREPORTEINVENTARIO.Columns)
-            {
-                if (col.Tag != null && col.Tag is float porcentaje)
-                {
-                    col.Width = (int)(totalWidth * porcentaje);
-                }
-            }
-        }
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
-        private void btnGenerarPDF_Click(object sender, EventArgs e)
+                
+        public void GenerarPDF(string filePath)
         {
-            try
-            {
-                SaveFileDialog saveFileDialog = new SaveFileDialog
-                {
-                    Filter = "PDF files (*.pdf)|*.pdf",
-                    Title = "Guardar reporte de inventario",
-                    FileName = $"Reporte_Inventario_{DateTime.Now:yyyyMMddHHmmss}.pdf"
-                };
+            // Obtener datos directamente de la base de datos
+            var inventario = _context.VistaInventarioActuals.ToList();
+            int totalProductos = inventario.Count;
+            decimal totalInventario = (decimal)inventario.Sum(item => item.ValorTotalInventario);
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    GenerarPDF(saveFileDialog.FileName);
-                    MessageBox.Show("Reporte generado exitosamente", "Éxito",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al generar el PDF: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void GenerarPDF(string filePath)
-        {
             PdfWriter writer = new PdfWriter(filePath);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf, PageSize.A4.Rotate());
@@ -220,7 +63,7 @@ namespace formstienda.capa_de_presentación
             PdfFont font = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA);
             PdfFont boldFont = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA_BOLD);
 
-            //Agregar el logo desde los recursos del proyecto
+            // Agregar el logo
             try
             {
                 System.Drawing.Image img = formstienda.Properties.Resources.logo_actualizado_removebg_preview;
@@ -231,10 +74,9 @@ namespace formstienda.capa_de_presentación
                     imgBytes = ms.ToArray();
                 }
 
-                // Posicionamiento mejorado del logo
                 iText.Layout.Element.Image logo = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(imgBytes))
-                    .SetWidth(200)
-                    .SetFixedPosition(30, pdf.GetDefaultPageSize().GetTop() - 110)
+                    .SetWidth(215)
+                    .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 200, pdf.GetDefaultPageSize().GetTop() - 150)
                     .SetMarginTop(0);
 
                 document.Add(logo);
@@ -245,182 +87,173 @@ namespace formstienda.capa_de_presentación
                               "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Título del reporte
-            Paragraph title = new Paragraph("REPORTE DE INVENTARIO ACTUAL")
-                .SetFont(boldFont)
-                .SetFontSize(18)
-                .SetTextAlignment(TextAlignment.CENTER)
+            // Encabezado del documento
+            Div headerDiv = new Div()
+                .SetTextAlignment(TextAlignment.LEFT)
                 .SetMarginTop(10)
                 .SetMarginBottom(15);
-            document.Add(title);
 
-            // Fecha de generación
-            Paragraph fecha = new Paragraph($"Generado el: {DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")}")
+            headerDiv.Add(new Paragraph("Tienda El Septentrión")
+                .SetFont(boldFont)
+                .SetFontSize(18)
+                .SetMarginBottom(5));
+
+            headerDiv.Add(new Paragraph("Reporte de Inventario")
+                .SetFont(boldFont)
+                .SetFontSize(16)
+                .SetMarginBottom(5));
+
+            headerDiv.Add(new Paragraph($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")}")
+                .SetFont(font)
+                .SetFontSize(10));
+
+            headerDiv.Add(new Paragraph($"Total de productos: {totalProductos}")
                 .SetFont(font)
                 .SetFontSize(10)
-                .SetTextAlignment(TextAlignment.RIGHT)
-                .SetMarginBottom(15);
-            document.Add(fecha);
+                .SetMarginBottom(10));
 
-            // Creación de la tabla con bordes completos
-            Table table = new Table(DGREPORTEINVENTARIO.Columns.Count);
+            document.Add(headerDiv);
+
+            // Crear tabla con las mismas columnas que tenía el DataGridView
+            Table table = new Table(7); // 7 columnas como en el original
             table.UseAllAvailableWidth();
-
-            // Configuración explícita de todos los bordes
             table.SetBorder(new SolidBorder(1));
+            table.SetMarginBottom(10);
 
-            table.SetMarginBottom(10); // Espacio después de la tabla
-
-            // Encabezados de la tabla
-            foreach (DataGridViewColumn column in DGREPORTEINVENTARIO.Columns)
+            // Encabezados de tabla (manteniendo los mismos que en el DataGridView original)
+            string[] headers = { "CÓDIGO", "PRODUCTO", "CATEGORÍA", "MARCA", "PRECIO VENTA", "STOCK ACTUAL", "VALOR TOTAL" };
+            foreach (string header in headers)
             {
-                Cell cell = new Cell()
-                    .Add(new Paragraph(column.HeaderText)
+                table.AddHeaderCell(new Cell()
+                    .Add(new Paragraph(header)
                         .SetFont(boldFont)
                         .SetFontSize(10))
                     .SetBackgroundColor(new DeviceRgb(3, 171, 229))
                     .SetTextAlignment(TextAlignment.CENTER)
                     .SetVerticalAlignment(VerticalAlignment.MIDDLE)
                     .SetPadding(5)
-                    .SetBorder(new SolidBorder(1)); // Borde para cada celda de encabezado
-                table.AddHeaderCell(cell);
+                    .SetBorder(new SolidBorder(1)));
             }
 
             // Datos de la tabla
-            foreach (DataGridViewRow row in DGREPORTEINVENTARIO.Rows)
+            foreach (var item in inventario)
             {
-                if (row.IsNewRow) continue;
-
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    string cellValue = cell.Value?.ToString() ?? string.Empty;
-
-                    if (cell.OwningColumn.Name == "colPrecio" || cell.OwningColumn.Name == "colValorTotal")
-                    {
-                        if (decimal.TryParse(cellValue.Replace("C$", "").Trim(), out decimal valor))
-                        {
-                            cellValue = valor.ToString("C", _nicaraguaCulture);
-                        }
-                    }
-
-                    if (cell.OwningColumn.Name == "colEstado")
-                    {
-                        cellValue = cellValue.ToUpper();
-
-                        // Personalización del texto según el estado
-                        if (cellValue.Contains("PRONTO"))
-                        {
-                            cellValue = "REQUIERE\nREABASTECIMIENTO\nPRONTO";
-                        }
-                        else if (cellValue.Contains("URGENTE"))
-                        {
-                            cellValue = "REQUIERE\nREABASTECIMIENTO\nURGENTE";
-                        }
-                    }
-
-                    Paragraph cellParagraph = new Paragraph(cellValue)
+                // Código
+                table.AddCell(new Cell()
+                    .Add(new Paragraph(item.CodigoProducto)
                         .SetFont(font)
-                        .SetFontSize(9)
-                        .SetMultipliedLeading(1.4f)
-                        .SetTextAlignment(TextAlignment.CENTER);
+                        .SetFontSize(9))
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetPadding(5)
+                    .SetBorder(new SolidBorder(1)));
 
+                // Producto
+                table.AddCell(new Cell()
+                    .Add(new Paragraph(item.Producto)
+                        .SetFont(font)
+                        .SetFontSize(9))
+                    .SetTextAlignment(TextAlignment.LEFT)
+                    .SetPadding(5)
+                    .SetBorder(new SolidBorder(1)));
 
-                    Cell pdfCell = new Cell()
-                        .Add(cellParagraph)
-                        .SetTextAlignment(GetPdfAlignment(cell.OwningColumn.DefaultCellStyle.Alignment))
-                        .SetVerticalAlignment(VerticalAlignment.MIDDLE)
-                        .SetPadding(5)
-                        .SetBorder(new SolidBorder(1));
+                // Categoría
+                table.AddCell(new Cell()
+                    .Add(new Paragraph(item.Categoria)
+                        .SetFont(font)
+                        .SetFontSize(9))
+                    .SetTextAlignment(TextAlignment.LEFT)
+                    .SetPadding(5)
+                    .SetBorder(new SolidBorder(1)));
 
-                    if (row.Cells["colEstado"].Value?.ToString() == "BAJO")
-                    {
-                        pdfCell.SetBackgroundColor(new DeviceRgb(255, 160, 122));
-                    }
-                    else if (row.Cells["colEstado"].Value?.ToString() == "CRÍTICO")
-                    {
-                        pdfCell.SetBackgroundColor(new DeviceRgb(255, 0, 0));
-                    }
+                // Marca
+                table.AddCell(new Cell()
+                    .Add(new Paragraph(item.Marca)
+                        .SetFont(font)
+                        .SetFontSize(9))
+                    .SetTextAlignment(TextAlignment.LEFT)
+                    .SetPadding(5)
+                    .SetBorder(new SolidBorder(1)));
 
-                    table.AddCell(pdfCell);
-                }
+                // Precio Venta (formato monetario)
+                table.AddCell(new Cell()
+                    .Add(new Paragraph(item.PrecioVenta.ToString("C", _nicaraguaCulture))
+                        .SetFont(font)
+                        .SetFontSize(9))
+                    .SetTextAlignment(TextAlignment.RIGHT)
+                    .SetPadding(5)
+                    .SetBorder(new SolidBorder(1)));
+
+                // Stock Actual
+                table.AddCell(new Cell()
+                    .Add(new Paragraph(item.StockActual.ToString())
+                        .SetFont(font)
+                        .SetFontSize(9))
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetPadding(5)
+                    .SetBorder(new SolidBorder(1)));
+
+                // Valor Total (formato monetario)
+                table.AddCell(new Cell()
+                    .Add(new Paragraph(string.Format(_nicaraguaCulture, "{0:C}", item.ValorTotalInventario))
+                        .SetFont(font)
+                        .SetFontSize(9))
+                    .SetTextAlignment(TextAlignment.RIGHT)
+                    .SetPadding(5)
+                    .SetBorder(new SolidBorder(1)));
             }
 
             document.Add(table);
 
-            // Total de productos
-            Paragraph totalProductos = new Paragraph($"Total de productos: {DGREPORTEINVENTARIO.Rows.Count - 0}")
-                .SetFont(font)
-                .SetFontSize(9)
-                .SetMarginTop(5);
-            document.Add(totalProductos);
-            
-            // Cargar imagen para marca de agua
-            byte[] watermarkImgBytes;
-            using (MemoryStream ms = new MemoryStream())
+            // Marca de agua
+            try
             {
-                formstienda.Properties.Resources.logo_actualizado_removebg_preview.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                watermarkImgBytes = ms.ToArray();
+                byte[] watermarkImgBytes;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    formstienda.Properties.Resources.logo_actualizado_removebg_preview.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    watermarkImgBytes = ms.ToArray();
+                }
+
+                float baseSize = 350;
+                float widthScale = 1.8f;
+                float watermarkWidth = baseSize * widthScale;
+                float watermarkHeight = baseSize;
+
+                iText.Layout.Element.Image watermark = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(watermarkImgBytes))
+                    .SetOpacity(0.1f)
+                    .SetWidth(watermarkWidth)
+                    .SetHeight(watermarkHeight)
+                    .SetFixedPosition(
+                        pdf.GetDefaultPageSize().GetWidth() / 2 - (watermarkWidth / 2),
+                        pdf.GetDefaultPageSize().GetHeight() / 2 - (watermarkHeight / 2),
+                        watermarkWidth);
+
+                for (int i = 1; i <= pdf.GetNumberOfPages(); i++)
+                {
+                    PdfPage page = pdf.GetPage(i);
+                    PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdf);
+                    new Canvas(canvas, page.GetPageSize())
+                        .Add(watermark)
+                        .Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al crear marca de agua: " + ex.Message);
             }
 
-            // Configuración de marca de agua más ancha
-            float baseSize = 350; // Tamaño base
-            float widthScale = 1.8f; // 1.8 veces más ancho que alto (ajusta este valor)
-            float watermarkWidth = baseSize * widthScale;
-            float watermarkHeight = baseSize;
+            // Total de inversión
+            float pageWidth = pdf.GetDefaultPageSize().GetWidth();
+            document.Add(new Paragraph($"Inversión Total: {totalInventario.ToString("C", _nicaraguaCulture)}")
+                .SetFont(boldFont)
+                .SetFontSize(12)
+                .SetFixedPosition(pageWidth - 230, 30, 200)
+                .SetPadding(5)
+                .SetBorder(new SolidBorder(1))
+                .SetTextAlignment(TextAlignment.LEFT));
 
-            iText.Layout.Element.Image watermark = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(watermarkImgBytes))
-                .SetOpacity(0.1f) // Opacidad reducida
-                .SetWidth(watermarkWidth)
-                .SetHeight(watermarkHeight)
-                .SetFixedPosition(
-                    pdf.GetDefaultPageSize().GetWidth() / 2 - (watermarkWidth / 2),
-                    pdf.GetDefaultPageSize().GetHeight() / 2 - (watermarkHeight / 2),
-                    watermarkWidth);
-
-            // Agregar a todas las páginas
-            for (int i = 1; i <= pdf.GetNumberOfPages(); i++)
-            {
-                PdfPage page = pdf.GetPage(i);
-                PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdf);
-                new Canvas(canvas, page.GetPageSize())
-                    .Add(watermark)
-                    .Close();
-            }
-            
             document.Close();
         }
-
-
-        private TextAlignment GetPdfAlignment(DataGridViewContentAlignment alignment)
-        {
-            switch (alignment)
-            {
-                case DataGridViewContentAlignment.TopLeft:
-                case DataGridViewContentAlignment.MiddleLeft:
-                case DataGridViewContentAlignment.BottomLeft:
-                    return TextAlignment.LEFT;
-
-                case DataGridViewContentAlignment.TopCenter:
-                case DataGridViewContentAlignment.MiddleCenter:
-                case DataGridViewContentAlignment.BottomCenter:
-                    return TextAlignment.CENTER;
-
-                case DataGridViewContentAlignment.TopRight:
-                case DataGridViewContentAlignment.MiddleRight:
-                case DataGridViewContentAlignment.BottomRight:
-                    return TextAlignment.RIGHT;
-
-                default:
-                    return TextAlignment.LEFT;
-            }
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            this.Resize -= ReporteDeInventario_Resize;
-            this.SizeChanged -= ReporteDeInventario_SizeChanged;
-            base.OnFormClosing(e);
-            _context?.Dispose();
-        }
+               
     }
 }

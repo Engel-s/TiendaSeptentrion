@@ -1008,7 +1008,7 @@
             btnGenerarReporteInventario.Name = "btnGenerarReporteInventario";
             btnGenerarReporteInventario.Size = new Size(113, 59);
             btnGenerarReporteInventario.TabIndex = 4;
-            btnGenerarReporteInventario.Text = "Listar inventario";
+            btnGenerarReporteInventario.Text = "Generar Reporte";
             btnGenerarReporteInventario.UseVisualStyleBackColor = false;
             btnGenerarReporteInventario.Click += btnGenerarReporteInventario_Click;
             // 

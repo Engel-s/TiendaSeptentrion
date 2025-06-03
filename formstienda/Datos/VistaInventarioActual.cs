@@ -17,9 +17,5 @@ public partial class VistaInventarioActual
 
     public int? StockActual { get; set; }
 
-    public int? StockMinimo { get; set; }
-
-    public string EstadoStock { get; set; } = null!;
-
     public float? ValorTotalInventario { get; set; }
 }
