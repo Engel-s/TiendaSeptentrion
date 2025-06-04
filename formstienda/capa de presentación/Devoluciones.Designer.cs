@@ -62,7 +62,7 @@
             txtmontodevolucion.ReadOnly = true;
             txtmontodevolucion.Size = new Size(275, 27);
             txtmontodevolucion.TabIndex = 13;
-            txtmontodevolucion.TextChanged += textBox4_TextChanged;
+
             // 
             // CBMOTIVO
             // 
@@ -88,7 +88,7 @@
             label7.Size = new Size(170, 20);
             label7.TabIndex = 12;
             label7.Text = "Monto de devolución:";
-            label7.Click += label7_Click;
+
             // 
             // label4
             // 
@@ -101,7 +101,7 @@
             label4.Size = new Size(174, 20);
             label4.TabIndex = 6;
             label4.Text = "Motivo de devolución:";
-            label4.Click += label4_Click;
+ 
             // 
             // txttelefonodelcliente
             // 
@@ -112,7 +112,7 @@
             txttelefonodelcliente.ReadOnly = true;
             txttelefonodelcliente.Size = new Size(139, 27);
             txttelefonodelcliente.TabIndex = 41;
-            txttelefonodelcliente.TextChanged += textBox5_TextChanged;
+
             // 
             // label5
             // 
@@ -187,7 +187,7 @@
             btncancelar.TabIndex = 16;
             btncancelar.Text = "Cancelar ";
             btncancelar.UseVisualStyleBackColor = false;
-            btncancelar.Click += button3_Click;
+
             // 
             // DGDETALLESDEVENTA
             // 
@@ -251,7 +251,7 @@
             label2.Size = new Size(125, 20);
             label2.TabIndex = 1;
             label2.Text = "Buscar Factura:";
-            label2.Click += label2_Click;
+
             // 
             // txtnombrecliente
             // 
@@ -283,7 +283,7 @@
             label8.Size = new Size(67, 20);
             label8.TabIndex = 42;
             label8.Text = "Cliente:";
-            label8.Click += label8_Click;
+
             // 
             // btnbuscar
             // 

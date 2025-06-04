@@ -116,7 +116,7 @@ namespace formstienda.Servicios
 
         #endregion
 
-        #region Métodos Privados de Operación
+        
 
         private ArqueoCaja ObtenerOCrearArqueoCaja(int idApertura, int idUsuario)
         {
@@ -151,7 +151,7 @@ namespace formstienda.Servicios
             return arqueo;
         }
 
-        #endregion
+       //
 
         #region Métodos de Consulta
 
@@ -168,14 +168,15 @@ namespace formstienda.Servicios
                 .Where(p => p.TotalCordobas > 0)
                 .Sum(p => p.TotalCordobas);
 
-            decimal totalDevoluciones = (decimal)ListarDevolucion(fecha)
-                .Sum(d => d.MontoDevolucion);
+            decimal totalDevoluciones = (decimal)ListarDetallesDevolucion(fecha)
+                .Sum(d => d.MontoDevuelto);
 
             decimal totalEgresos = (decimal)_contexto.Egresos
                 .Where(e => e.FechaEgreso == fecha)
                 .Sum(e => e.CantidadEgresadaCordoba);
 
-            return montoApertura + totalVentas + totalCreditos - totalDevoluciones - totalEgresos;
+            //return montoApertura + totalVentas + totalCreditos - totalDevoluciones - totalEgresos;
+            return montoApertura + totalVentas + totalCreditos  - totalEgresos;
         }
 
         public decimal ObtenerTotalCajaDolares(DateOnly fecha)
@@ -196,7 +197,7 @@ namespace formstienda.Servicios
         }
 
         public decimal ObtenerTotalBrutoCordobas(DateOnly fecha)
-        {           
+        {
             decimal totalVentas = (decimal)ListarTotalVenta(fecha)
                 .Where(v => v.PagoCordobas.HasValue)
                 .Sum(v => v.PagoCordobas.Value);
@@ -205,10 +206,11 @@ namespace formstienda.Servicios
                 .Where(p => p.TotalCordobas > 0)
                 .Sum(p => p.TotalCordobas);
 
-            decimal totalDevoluciones = (decimal)ListarDevolucion(fecha)
-                .Sum(d => d.MontoDevolucion);
-                        
+            decimal totalDevoluciones = (decimal)ListarDetallesDevolucion(fecha)
+                .Sum(d => d.MontoDevuelto);
+
             return totalVentas + totalCreditos - totalDevoluciones;
+        
         }
 
         public decimal ObtenerTotalBrutoDolares(DateOnly fecha)
@@ -254,10 +256,17 @@ namespace formstienda.Servicios
                 .ToList();
         }
 
-        public List<Devolucion> ListarDevolucion(DateOnly fechaActual)
+       public List <DevolucionVenta> ListarDevolucion(DateOnly fechaActual)
         {
-            return _contexto.Devolucions
+            return _contexto.DevolucionVentas
                 .Where(a => a.FechaDevolucion == fechaActual)
+                .AsNoTracking()
+                .ToList();
+        }
+        public List <DetalleDevolucion> ListarDetallesDevolucion(DateOnly fecha)
+        {
+            return _contexto.DetalleDevolucions
+             .Where(a => a.FechaDevolucion==fecha)
                 .AsNoTracking()
                 .ToList();
         }

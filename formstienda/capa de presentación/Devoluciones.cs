@@ -22,15 +22,6 @@ namespace formstienda
             DGDETALLESDEVENTA.CellEndEdit += DGDETALLESDEVENTA_CellEndEdit;
         }
 
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -45,56 +36,6 @@ namespace formstienda
             ConfigurarColumnasDevolucion();
             btnanularfactura.Visible = false;
         }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-
-
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
@@ -142,15 +83,9 @@ namespace formstienda
             }
 
             // Asociar el evento solo una vez
-     
         }
 
-
-        
-
-
-
-
+    
         private void label6_Click_1(object sender, EventArgs e)
         {
 
@@ -262,17 +197,23 @@ namespace formstienda
                     }
 
                     // Registrar devolución
-                    var devolucion = new Devolucion
+                    var devolucion = new DevolucionVenta
                     {
                         IdVenta = idVenta,
                         CedulaCliente = cedulaCliente,
-                        CantidadDevuelta = cantidadDevuelta,
                         MotivoDevolucion = motivo,
                         DescripcionDevolucion = descripcion,
-                        MontoDevolucion = montoDevolucion,
                         FechaDevolucion = DateOnly.FromDateTime(DateTime.Now)
+
                     };
-                    contexto.Devolucions.Add(devolucion);
+                    contexto.DevolucionVentas.Add(devolucion);
+                    var detalledevolucion = new DetalleDevolucion
+                    {
+                        IdDetalleDevolucion = idDetalle,
+                        InformacionProducto = detalle.CodigoProducto,
+                        CantidadDevuelta=cantidadDevuelta,
+                        MontoDevuelto=Convert.ToDecimal(montoDevolucion),
+                    };
                     // Supongamos que ya calculaste este:
                     decimal montoTotalCordoba = (decimal)totalMontoDevolucion;
 
