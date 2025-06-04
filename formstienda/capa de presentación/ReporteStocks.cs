@@ -35,10 +35,8 @@ namespace formstienda.capa_de_presentación
 
         private void ReporteStocks_Load(object sender, EventArgs e)
         {
-            // Generar el reporte al cargar el formulario
-            string tempFilePath = Path.Combine(Path.GetTempPath(), "ReporteStockProximoAgotarse.pdf");
-            GenerarPDFStock(tempFilePath);
-            MostrarPDF(tempFilePath);
+
+            
         }
 
         public void MostrarPDF(string rutaPDF)
@@ -227,6 +225,13 @@ namespace formstienda.capa_de_presentación
             }
 
             document.Close();
+        }
+
+        private void ReporteStocks_Load_1(object sender, EventArgs e)
+        {
+            string tempFilePath = Path.Combine(Path.GetTempPath(), "ReporteStockProximoAgotarse.pdf");
+            GenerarPDFStock(tempFilePath);
+            MostrarPDF(tempFilePath);
         }
     }
 }

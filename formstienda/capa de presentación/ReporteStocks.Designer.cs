@@ -98,6 +98,7 @@
             Controls.Add(tableLayoutPanel1);
             Name = "ReporteStocks";
             Text = "ReporteStocks";
+            Load += ReporteStocks_Load_1;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)webViewStock).EndInit();

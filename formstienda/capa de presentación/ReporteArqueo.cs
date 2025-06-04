@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using iText.Kernel.Geom;
 using iText.Layout.Borders;
+using iText.Kernel.Pdf.Canvas;
 
 namespace formstienda.capa_de_presentación
 {
@@ -267,7 +268,7 @@ namespace formstienda.capa_de_presentación
                         .SetFont(boldFont)
                         .SetFontSize(10))
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .SetBackgroundColor(new DeviceRgb(221, 221, 221)) // Fondo gris claro
+                    .SetBackgroundColor(new DeviceRgb(221, 221, 221))
                     .SetPadding(5)
                     .SetBorder(new SolidBorder(1)));
 
@@ -360,6 +361,45 @@ namespace formstienda.capa_de_presentación
                     .SetBorder(new SolidBorder(1)));
 
                 document.Add(table);
+
+                // Marca de agua
+                try
+                {
+                    byte[] watermarkImgBytes;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        formstienda.Properties.Resources.logo_actualizado_removebg_preview.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        watermarkImgBytes = ms.ToArray();
+                    }
+
+                    float baseSize = 350;
+                    float widthScale = 1.8f;
+                    float watermarkWidth = baseSize * widthScale;
+                    float watermarkHeight = baseSize;
+
+                    iText.Layout.Element.Image watermark = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(watermarkImgBytes))
+                        .SetOpacity(0.1f)
+                        .SetWidth(watermarkWidth)
+                        .SetHeight(watermarkHeight)
+                        .SetFixedPosition(
+                            pdf.GetDefaultPageSize().GetWidth() / 2 - (watermarkWidth / 2),
+                            pdf.GetDefaultPageSize().GetHeight() / 2 - (watermarkHeight / 2),
+                            watermarkWidth);
+
+                    for (int i = 1; i <= pdf.GetNumberOfPages(); i++)
+                    {
+                        PdfPage page = pdf.GetPage(i);
+                        PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdf);
+                        new Canvas(canvas, page.GetPageSize())
+                            .Add(watermark)
+                            .Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error al crear marca de agua: " + ex.Message);
+                }
+
                 document.Close();
             }
             catch (Exception ex)
