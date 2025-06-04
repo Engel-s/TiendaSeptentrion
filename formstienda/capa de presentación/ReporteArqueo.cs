@@ -131,8 +131,8 @@ namespace formstienda.capa_de_presentación
 
                 document.Add(headerDiv);
 
-                // Crear tabla con 9 columnas
-                Table table = new Table(9);
+                // Crear tabla con 10 columnas
+                Table table = new Table(10);
                 table.UseAllAvailableWidth();
                 table.SetBorder(new SolidBorder(1));
                 table.SetMarginBottom(20);
@@ -140,6 +140,7 @@ namespace formstienda.capa_de_presentación
                 // Encabezados de tabla
                 string[] headers = {
                     "FECHA",
+                    "USUARIO",
                     "TOTAL VENDIDO C$",
                     "TOTAL VENDIDO $",
                     "TOTAL EN CAJA C$",
@@ -174,6 +175,18 @@ namespace formstienda.capa_de_presentación
                         .SetTextAlignment(TextAlignment.CENTER)
                         .SetPadding(5)
                         .SetBorder(new SolidBorder(1)));
+
+                    // Usuario
+                    table.AddCell(new Cell()
+                        .Add(new Paragraph(item.Cajero)
+                            .SetFont(font)
+                            .SetFontSize(9))
+                            
+                        .SetTextAlignment(TextAlignment.LEFT)
+                        .SetPadding(5)
+                        .SetBorder(new SolidBorder(1))
+                        .SetWidth(80));
+
 
                     // Total Vendido Córdoba
                     table.AddCell(new Cell()
@@ -257,6 +270,14 @@ namespace formstienda.capa_de_presentación
                     .SetBackgroundColor(new DeviceRgb(221, 221, 221)) // Fondo gris claro
                     .SetPadding(5)
                     .SetBorder(new SolidBorder(1)));
+
+                //Celda Vacia
+                table.AddCell(new Cell()
+                    .Add(new Paragraph(""))
+                    .SetBackgroundColor(new DeviceRgb(221, 221, 221))
+                    .SetPadding(5)
+                    .SetBorder(new SolidBorder(1)));
+
 
                 // Total Vendido Córdoba
                 table.AddCell(new Cell()
@@ -357,6 +378,11 @@ namespace formstienda.capa_de_presentación
         private void ReporteArqueo_Load(object sender, EventArgs e)
         {
             // Evento load del formulario
+        }
+
+        private void btnSalirArqueo_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

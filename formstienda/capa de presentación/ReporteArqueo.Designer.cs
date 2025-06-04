@@ -64,6 +64,7 @@
             btnSalirArqueo.TabIndex = 0;
             btnSalirArqueo.Text = "Salir";
             btnSalirArqueo.UseVisualStyleBackColor = false;
+            btnSalirArqueo.Click += btnSalirArqueo_Click;
             // 
             // label1
             // 
@@ -80,9 +81,9 @@
             // webViewArqueo
             // 
             webViewArqueo.AllowExternalDrop = true;
+            webViewArqueo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             webViewArqueo.CreationProperties = null;
             webViewArqueo.DefaultBackgroundColor = Color.White;
-            webViewArqueo.Dock = DockStyle.Fill;
             webViewArqueo.Location = new Point(87, 61);
             webViewArqueo.Name = "webViewArqueo";
             webViewArqueo.Size = new Size(710, 386);
