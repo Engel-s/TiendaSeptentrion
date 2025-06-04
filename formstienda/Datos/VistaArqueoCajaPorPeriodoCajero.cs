@@ -9,14 +9,6 @@ public partial class VistaArqueoCajaPorPeriodoCajero
 
     public string Cajero { get; set; } = null!;
 
-    public int IdApertura { get; set; }
-
-    public DateOnly FechaApertura { get; set; }
-
-    public TimeOnly HoraApertura { get; set; }
-
-    public float MontoApertura { get; set; }
-
     public float TotalEfectivoCordoba { get; set; }
 
     public float TotalEfectivoDolar { get; set; }
@@ -30,8 +22,4 @@ public partial class VistaArqueoCajaPorPeriodoCajero
     public float? SobranteDolar { get; set; }
 
     public DateTime FechaArqueo { get; set; }
-
-    public float TotalVentasCordobas { get; set; }
-
-    public float TotalVentasDolares { get; set; }
 }

@@ -1,4 +1,5 @@
 ﻿using formstienda.capa_de_presentación;
+using formstienda.Datos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,9 @@ namespace formstienda
         public Informes()
         {
             InitializeComponent();
+            dateTimePickerFechaInicial.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
+            dateTimePickerFechaFinal.Value = DateTime.Today;
+
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -25,7 +29,39 @@ namespace formstienda
 
         private void Informes_Load(object sender, EventArgs e)
         {
+            CargarUsuariosEnComboBox();
+        }
 
+        private void CargarUsuariosEnComboBox()
+        {
+            try
+            {
+                // Obtener todos los usuarios activos desde la base de datos
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    var usuarios = context.Usuarios
+                        .Where(u => u.EstadoUsuario)
+                        .OrderBy(u => u.NombreUsuario)
+                        .ToList();
+
+                    
+                    cmbUsuarioReporte.Items.Clear();
+                    cmbUsuarioReporte.Items.Add("");
+
+                    // Añadir los nombres completos de los usuarios
+                    foreach (var usuario in usuarios)
+                    {
+                        cmbUsuarioReporte.Items.Add($"{usuario.NombreUsuario} {usuario.ApellidoUsuario}");
+                    }
+                                     
+                    cmbUsuarioReporte.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los usuarios: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnGenerarReporteInventario_Click(object sender, EventArgs e)
@@ -82,6 +118,52 @@ namespace formstienda
                               "Error",
                               MessageBoxButtons.OK,
                               MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnGenerarArqueo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Validar fechas
+                if (dateTimePickerFechaInicial.Value > dateTimePickerFechaFinal.Value)
+                {
+                    MessageBox.Show("La fecha inicial no puede ser mayor que la fecha final", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (dateTimePickerFechaInicial.Value < DateTime.Today.AddYears(-1) ||
+                    dateTimePickerFechaFinal.Value > DateTime.Today)
+                {
+                    MessageBox.Show("Las fechas deben estar dentro del último año y no pueden ser futuras", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string tempFilePath = Path.Combine(
+                    Path.GetTempPath(),
+                    $"Reporte_Arqueo_{DateTime.Now:yyyyMMddHHmmss}.pdf"
+                );
+
+                // Crear instancia del formulario de reporte con los parámetros
+                ReporteArqueo reporte = new ReporteArqueo(
+                    dateTimePickerFechaInicial.Value,
+                    dateTimePickerFechaFinal.Value,
+                    cmbUsuarioReporte.Text.Trim()
+                );
+
+                // Generar y mostrar el reporte
+                reporte.GenerarPDF(tempFilePath);
+                reporte.MostrarPDF(tempFilePath);
+                reporte.Show();
+
+                MessageBox.Show("Reporte de arqueo generado con éxito", "Éxito",
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

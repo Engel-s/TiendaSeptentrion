@@ -576,20 +576,14 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.FaltanteCordoba).HasColumnName("Faltante_Cordoba");
             entity.Property(e => e.FaltanteDolar).HasColumnName("Faltante_Dolar");
-            entity.Property(e => e.FechaApertura).HasColumnName("Fecha_Apertura");
             entity.Property(e => e.FechaArqueo)
                 .HasColumnType("datetime")
                 .HasColumnName("Fecha_Arqueo");
-            entity.Property(e => e.HoraApertura).HasColumnName("Hora_Apertura");
-            entity.Property(e => e.IdApertura).HasColumnName("Id_Apertura");
             entity.Property(e => e.IdArqueoCaja).HasColumnName("Id_Arqueo_Caja");
-            entity.Property(e => e.MontoApertura).HasColumnName("Monto_Apertura");
             entity.Property(e => e.SobranteCordoba).HasColumnName("Sobrante_Cordoba");
             entity.Property(e => e.SobranteDolar).HasColumnName("Sobrante_Dolar");
             entity.Property(e => e.TotalEfectivoCordoba).HasColumnName("Total_Efectivo_Cordoba");
             entity.Property(e => e.TotalEfectivoDolar).HasColumnName("Total_Efectivo_Dolar");
-            entity.Property(e => e.TotalVentasCordobas).HasColumnName("Total_Ventas_Cordobas");
-            entity.Property(e => e.TotalVentasDolares).HasColumnName("Total_Ventas_Dolares");
         });
 
         modelBuilder.Entity<VistaInventarioActual>(entity =>
