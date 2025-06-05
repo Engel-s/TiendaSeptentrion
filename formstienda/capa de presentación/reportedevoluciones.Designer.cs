@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            iconButton1 = new FontAwesome.Sharp.IconButton();
+            btnsalir = new FontAwesome.Sharp.IconButton();
             label1 = new Label();
             webviewdevoluciones = new Microsoft.Web.WebView2.WinForms.WebView2();
             tableLayoutPanel1.SuspendLayout();
@@ -41,7 +41,7 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.181818F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 83.8181839F));
-            tableLayoutPanel1.Controls.Add(iconButton1, 0, 0);
+            tableLayoutPanel1.Controls.Add(btnsalir, 0, 0);
             tableLayoutPanel1.Controls.Add(label1, 1, 0);
             tableLayoutPanel1.Controls.Add(webviewdevoluciones, 1, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
@@ -53,20 +53,21 @@
             tableLayoutPanel1.Size = new Size(1100, 659);
             tableLayoutPanel1.TabIndex = 0;
             // 
-            // iconButton1
+            // btnsalir
             // 
-            iconButton1.BackColor = Color.FromArgb(3, 171, 229);
-            iconButton1.Font = new Font("Century Gothic", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            iconButton1.ForeColor = Color.Black;
-            iconButton1.IconChar = FontAwesome.Sharp.IconChar.None;
-            iconButton1.IconColor = Color.Black;
-            iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconButton1.Location = new Point(3, 3);
-            iconButton1.Name = "iconButton1";
-            iconButton1.Size = new Size(167, 64);
-            iconButton1.TabIndex = 0;
-            iconButton1.Text = "Salir";
-            iconButton1.UseVisualStyleBackColor = false;
+            btnsalir.BackColor = Color.FromArgb(3, 171, 229);
+            btnsalir.Font = new Font("Century Gothic", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnsalir.ForeColor = Color.Black;
+            btnsalir.IconChar = FontAwesome.Sharp.IconChar.None;
+            btnsalir.IconColor = Color.Black;
+            btnsalir.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnsalir.Location = new Point(3, 3);
+            btnsalir.Name = "btnsalir";
+            btnsalir.Size = new Size(167, 64);
+            btnsalir.TabIndex = 0;
+            btnsalir.Text = "Salir";
+            btnsalir.UseVisualStyleBackColor = false;
+            btnsalir.Click += btnsalir_Click;
             // 
             // label1
             // 
@@ -110,7 +111,7 @@
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private FontAwesome.Sharp.IconButton iconButton1;
+        private FontAwesome.Sharp.IconButton btnsalir;
         private Label label1;
         private Microsoft.Web.WebView2.WinForms.WebView2 webviewdevoluciones;
     }

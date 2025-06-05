@@ -224,36 +224,51 @@ namespace formstienda.capa_de_presentación
         private void OtrasSalidas_Load(object sender, EventArgs e)
         {
             // Cargar datos existentes si es necesario
-            CargarSalidasExistentes();
+            ////CargarSalidasExistentes();
         }
 
-        private void CargarSalidasExistentes()
-        {
-            try
-            {
-                var salidas = _contexto.OtrasSalidasDeInventarios
-                    .Include(s => s.CodigoProductoNavigation)
-                    .Take(50) // Limitar a las últimas 50 salidas
-                    .ToList();
+        //private void CargarSalidasExistentes()
+        //{
+        //    try
+        //    {
+        //        // Limpiar la lista existente primero
+        //        _salidasList.Clear();
 
-                foreach (var salida in salidas)
-                {
-                    _salidasList.Add(new SalidaViewModel
-                    {
-                        Codigo = salida.CodigoProducto,
-                        NombreProducto = salida.CodigoProductoNavigation?.ModeloProducto ?? "N/A",
-                        Cantidad = salida.CantidadSalir,
-                        Motivo = salida.MotivoSalida,
-                        Descripcion = salida.DescripcionSalida
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar salidas existentes: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        //        // Consulta optimizada con join para obtener los datos necesarios
+        //        var salidasConProductos = (
+        //            from salida in _contexto.OtrasSalidasDeInventarios
+        //            join producto in _contexto.Productos
+        //            on salida.CodigoProductoNavigation equals producto.CodigoProducto
+        //            orderby salida.FechaSalida descending
+        //            select new
+        //            {
+        //                salida.CodigoProductoNavigation,
+        //                producto.ModeloProducto,
+        //                salida.CantidadSalir,
+        //                salida.MotivoSalida,
+        //                salida.DescripcionSalida,
+        //                salida.FechaSalida
+        //            }).Take(50).ToList();
+
+        //        foreach (var item in salidasConProductos)
+        //        {
+        //            _salidasList.Add(new SalidaViewModel
+        //            {
+        //                Codigo = item.CodigoProductoNavigation,
+        //                NombreProducto = item.ModeloProducto,
+        //                Cantidad = item.CantidadSalir,
+        //                Motivo = item.MotivoSalida,
+        //                Descripcion = item.DescripcionSalida,
+        //                 = item.FechaSalida.ToString("dd/MM/yyyy")
+        //            });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Error al cargar salidas existentes: {ex.Message}", "Error",
+        //                       MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
 
         private void button1_Click(object sender, EventArgs e)
         {

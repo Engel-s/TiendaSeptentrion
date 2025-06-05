@@ -15,5 +15,5 @@ public partial class OtrasSalidasDeInventario
 
     public string DescripcionSalida { get; set; } = null!;
 
-    public virtual Producto CodigoProductoNavigation { get; set; } = null!;
+    public DateOnly FechaSalida { get; set; }
 }

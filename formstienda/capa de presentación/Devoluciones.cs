@@ -184,7 +184,9 @@ namespace formstienda
                             CodigoProducto = detalle.CodigoProducto,
                             CantidadSalir = cantidadDevuelta,
                             MotivoSalida = motivo,
-                            DescripcionSalida = descripcion
+                            DescripcionSalida = descripcion,
+                            FechaSalida=DateOnly.FromDateTime(DateTime.Now)
+                            
                         };
                         contexto.OtrasSalidasDeInventarios.Add(salida);
 

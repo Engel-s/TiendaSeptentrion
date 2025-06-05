@@ -77,22 +77,62 @@ namespace formstienda.capa_de_presentación
                 var fontBold = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
                 var fontNormal = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
+                // ===== ENCABEZADO CON LOGO =====
+                string rutaImagen = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources\logo_actualizado-removebg-preview.png");
+
+                if (File.Exists(rutaImagen))
+                {
+                    var imgData = iText.IO.Image.ImageDataFactory.Create(rutaImagen);
+                    var imagen = new iText.Layout.Element.Image(imgData)
+                        .SetWidth(300)
+                        .SetHeight(200)
+                          .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 250, // X desde la derecha
+                  pdf.GetDefaultPageSize().GetHeight() - 200); // Y desde arriba
+
+                    var titulo = new Paragraph("Tienda El Septentrión")
+                        .SetFont(fontBold)
+                        .SetFontSize(20)
+                        .SetTextAlignment(TextAlignment.LEFT);
+
+                    Table encabezadoTabla = new Table(new float[] { 4, 1 }).UseAllAvailableWidth();
+                    encabezadoTabla.SetMarginBottom(10);
+
+                    encabezadoTabla.AddCell(new Cell().Add(titulo)
+                        .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                        .SetBorder(Border.NO_BORDER));
+
+                    encabezadoTabla.AddCell(new Cell().Add(imagen)
+                        .SetTextAlignment(TextAlignment.RIGHT)
+                        .SetBorder(Border.NO_BORDER));
+
+                    doc.Add(encabezadoTabla);
+                }
+                else
+                {
+                    var titulo = new Paragraph("Tienda El Septentrión")
+                        .SetFont(fontBold)
+                        .SetFontSize(20);
+                    doc.Add(titulo);
+                }
+
+                // ===== TITULO Y FILTROS DE REPORTE =====
                 doc.Add(new Paragraph("Reporte de Devoluciones")
                     .SetFont(fontBold)
                     .SetFontSize(18));
 
-                doc.Add(new Paragraph($"Fecha: {DateTime.Now}"));
+                doc.Add(new Paragraph($"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}"));
                 doc.Add(new Paragraph($"Desde: {fechaInicio:dd/MM/yyyy} - Hasta: {fechaFin:dd/MM/yyyy}"));
                 doc.Add(new Paragraph($"Registros: {devoluciones.Count}"));
                 doc.Add(new Paragraph("\n"));
 
+                // ===== TABLA DE DATOS =====
                 var columnas = new float[] { 1.2f, 1.2f, 2f, 2.5f, 1.5f, 1.5f, 2f, 2f, 1.5f, 1.2f, 1.5f, 1.5f };
                 var tabla = new Table(columnas).UseAllAvailableWidth();
 
                 string[] headers = {
-                    "Fecha", "Factura", "Cliente", "Producto", "Categoría", "Marca",
-                    "Motivo", "Descripción", "Precio", "Cantidad", "Subtotal", "Total devolución"
-                };
+        "Fecha", "Factura", "Cliente", "Producto", "Categoría", "Marca",
+        "Motivo", "Descripción", "Precio", "Cantidad", "Subtotal", "Total devolución"
+    };
 
                 foreach (var h in headers)
                 {
@@ -132,6 +172,7 @@ namespace formstienda.capa_de_presentación
                 doc.Add(tabla);
                 doc.Close();
             }
+
         }
 
         private Cell Celda(string contenido)
@@ -162,6 +203,11 @@ namespace formstienda.capa_de_presentación
 
             if (File.Exists(_rutaPdf))
                 webviewdevoluciones.Source = new Uri(_rutaPdf);
+        }
+
+        private void btnsalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
