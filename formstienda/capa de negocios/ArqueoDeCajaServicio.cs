@@ -10,10 +10,9 @@ namespace formstienda.capa_de_negocios
 {
     internal class ArqueoDeCajaServicio
     {
-        // Contexto de base de datos
+        
         private readonly DbTiendaSeptentrionContext _contexto;
 
-        // Constructor
         public ArqueoDeCajaServicio(DbTiendaSeptentrionContext contexto)
         {
             _contexto = contexto ?? throw new ArgumentNullException(nameof(contexto));
@@ -21,12 +20,10 @@ namespace formstienda.capa_de_negocios
 
         public float ObtenerTotalVentasDelDia()
         {
-            // Obtener la fecha actual (sin hora)
             DateOnly fechaActual = DateOnly.FromDateTime(DateTime.Today);
 
-            // Filtrar ventas del día y sumar sus totales
             float totalVentas = _contexto.Venta
-                .Where(v => v.FechaVenta == fechaActual)
+                .Where(v => v.FechaVenta == fechaActual && v.TipoPago == "Contado")
                 .Sum(v => v.TotalVenta);
 
             return totalVentas;

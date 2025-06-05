@@ -214,7 +214,7 @@ namespace formstienda
                         CantidadDevuelta=cantidadDevuelta,
                         MontoDevuelto=Convert.ToDecimal(montoDevolucion),
                     };
-                    // Supongamos que ya calculaste este:
+                
                     decimal montoTotalCordoba = (decimal)totalMontoDevolucion;
 
                     // Registrar egreso por la devolución SOLO si el monto es menor a 2000
@@ -353,7 +353,7 @@ namespace formstienda
                     precio,
                     cantidad,
                     precio * cantidad,
-                    0 // valor inicial para la devolución
+                    0 // 
                 );
             }
         }

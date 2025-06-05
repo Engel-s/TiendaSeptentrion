@@ -57,7 +57,7 @@ namespace formstienda.Servicios
             }
         }
 
-        #region Métodos Privados de Validación
+        
 
         private void ValidarUsuarioLogueado()
         {
@@ -113,11 +113,7 @@ namespace formstienda.Servicios
             if (fechaEgreso < apertura.FechaApertura)
                 throw new ArgumentException("La fecha de egreso no puede ser anterior a la fecha de apertura");
         }
-
-        #endregion
-
-        
-
+         
         private ArqueoCaja ObtenerOCrearArqueoCaja(int idApertura, int idUsuario)
         {
            
@@ -150,11 +146,7 @@ namespace formstienda.Servicios
 
             return arqueo;
         }
-
-       //
-
-        #region Métodos de Consulta
-
+        
         public decimal ObtenerTotalCajaCordobas(DateOnly fecha)
         {
             var apertura = ListarAperturaCaja(fecha).FirstOrDefault();
@@ -168,15 +160,14 @@ namespace formstienda.Servicios
                 .Where(p => p.TotalCordobas > 0)
                 .Sum(p => p.TotalCordobas);
 
-            decimal totalDevoluciones = (decimal)ListarDetallesDevolucion(fecha)
-                .Sum(d => d.MontoDevuelto);
+            decimal totalDevoluciones = (decimal)ListarDevolucion(fecha)
+                .Sum(d => d.MontoDevolucion);
 
             decimal totalEgresos = (decimal)_contexto.Egresos
                 .Where(e => e.FechaEgreso == fecha)
                 .Sum(e => e.CantidadEgresadaCordoba);
 
-            //return montoApertura + totalVentas + totalCreditos - totalDevoluciones - totalEgresos;
-            return montoApertura + totalVentas + totalCreditos  - totalEgresos;
+            return montoApertura + totalVentas + totalCreditos - totalDevoluciones - totalEgresos;
         }
 
         public decimal ObtenerTotalCajaDolares(DateOnly fecha)
@@ -197,7 +188,7 @@ namespace formstienda.Servicios
         }
 
         public decimal ObtenerTotalBrutoCordobas(DateOnly fecha)
-        {
+        {           
             decimal totalVentas = (decimal)ListarTotalVenta(fecha)
                 .Where(v => v.PagoCordobas.HasValue)
                 .Sum(v => v.PagoCordobas.Value);
@@ -206,11 +197,10 @@ namespace formstienda.Servicios
                 .Where(p => p.TotalCordobas > 0)
                 .Sum(p => p.TotalCordobas);
 
-            decimal totalDevoluciones = (decimal)ListarDetallesDevolucion(fecha)
-                .Sum(d => d.MontoDevuelto);
-
+            decimal totalDevoluciones = (decimal)ListarDevolucion(fecha)
+                .Sum(d => d.MontoDevolucion);
+                        
             return totalVentas + totalCreditos - totalDevoluciones;
-        
         }
 
         public decimal ObtenerTotalBrutoDolares(DateOnly fecha)
@@ -256,17 +246,10 @@ namespace formstienda.Servicios
                 .ToList();
         }
 
-       public List <DevolucionVenta> ListarDevolucion(DateOnly fechaActual)
+        public List<Devolucion> ListarDevolucion(DateOnly fechaActual)
         {
-            return _contexto.DevolucionVentas
+            return _contexto.Devolucions
                 .Where(a => a.FechaDevolucion == fechaActual)
-                .AsNoTracking()
-                .ToList();
-        }
-        public List <DetalleDevolucion> ListarDetallesDevolucion(DateOnly fecha)
-        {
-            return _contexto.DetalleDevolucions
-             .Where(a => a.FechaDevolucion==fecha)
                 .AsNoTracking()
                 .ToList();
         }
@@ -280,6 +263,5 @@ namespace formstienda.Servicios
                 .ToList();
         }
 
-        #endregion
     }
 }
