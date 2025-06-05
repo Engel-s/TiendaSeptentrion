@@ -76,6 +76,14 @@ namespace formstienda.capa_de_presentación
                 Name = "colDescripcion",
                 Width = 250
             });
+
+            DGOTRASSALIDAS.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = "Fecha",
+                HeaderText = "Fecha de Salida",
+                Name = "colFecha",
+                Width = 120
+            });
         }
 
         private void CargarMotivos()
@@ -171,10 +179,11 @@ namespace formstienda.capa_de_presentación
                     // Crear registro de salida
                     var salida = new OtrasSalidasDeInventario
                     {
-                        CodigoProducto = producto.CodigoProducto,
+                        CodigoProductoNavigation = producto.CodigoProducto,
                         CantidadSalir = cantidad,
                         MotivoSalida = cmbMotivo.SelectedItem.ToString(),
                         DescripcionSalida = txtDescripcion.Text,
+                        FechaSalida = DateOnly.FromDateTime(DateTime.Now)
                     };
 
                     // Actualizar stock
@@ -192,7 +201,8 @@ namespace formstienda.capa_de_presentación
                         NombreProducto = producto.ModeloProducto,
                         Cantidad = cantidad,
                         Motivo = salida.MotivoSalida,
-                        Descripcion = salida.DescripcionSalida
+                        Descripcion = salida.DescripcionSalida,
+                        Fecha = salida.FechaSalida.ToString("dd/MM/yyyy")
                     });
 
                     transaction.Commit();
@@ -231,20 +241,35 @@ namespace formstienda.capa_de_presentación
         {
             try
             {
-                var salidas = _contexto.OtrasSalidasDeInventarios
-                    .Include(s => s.CodigoProductoNavigation)
-                    .Take(50) // Limitar a las últimas 50 salidas
-                    .ToList();
+                // Limpiar la lista existente primero
+                _salidasList.Clear();
 
-                foreach (var salida in salidas)
+                // Consulta optimizada con join para obtener los datos necesarios
+                var salidasConProductos = (
+                    from salida in _contexto.OtrasSalidasDeInventarios
+                    join producto in _contexto.Productos
+                    on salida.CodigoProductoNavigation equals producto.CodigoProducto
+                    orderby salida.FechaSalida descending
+                    select new
+                    {
+                        salida.CodigoProductoNavigation,
+                        producto.ModeloProducto,
+                        salida.CantidadSalir,
+                        salida.MotivoSalida,
+                        salida.DescripcionSalida,
+                        salida.FechaSalida
+                    }).Take(50).ToList();
+
+                foreach (var item in salidasConProductos)
                 {
                     _salidasList.Add(new SalidaViewModel
                     {
-                        Codigo = salida.CodigoProducto,
-                        NombreProducto = salida.CodigoProductoNavigation?.ModeloProducto ?? "N/A",
-                        Cantidad = salida.CantidadSalir,
-                        Motivo = salida.MotivoSalida,
-                        Descripcion = salida.DescripcionSalida
+                        Codigo = item.CodigoProductoNavigation,
+                        NombreProducto = item.ModeloProducto,
+                        Cantidad = item.CantidadSalir,
+                        Motivo = item.MotivoSalida,
+                        Descripcion = item.DescripcionSalida,
+                        Fecha = item.FechaSalida.ToString("dd/MM/yyyy")
                     });
                 }
             }
@@ -275,5 +300,7 @@ namespace formstienda.capa_de_presentación
         public int Cantidad { get; set; }
         public string Motivo { get; set; }
         public string Descripcion { get; set; }
+
+        public string Fecha { get; set; }
     }
 }

@@ -79,6 +79,7 @@
             iconButton1.TabIndex = 1;
             iconButton1.Text = "Salir";
             iconButton1.UseVisualStyleBackColor = false;
+            iconButton1.Click += iconButton1_Click;
             // 
             // webview
             // 

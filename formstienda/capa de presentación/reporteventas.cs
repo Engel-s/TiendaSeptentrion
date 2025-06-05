@@ -155,5 +155,10 @@ namespace formstienda.capa_de_presentación
             if (File.Exists(_rutaPdf))
                 webview.Source = new Uri(_rutaPdf);
         }
+
+        private void iconButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -11,7 +11,7 @@ public partial class VistaArqueoCajaPorPeriodoCajero
 
     public float TotalEfectivoCordoba { get; set; }
 
-    public float TotalEfectivoDolar { get; set; }
+    public float? TotalEfectivoDolar { get; set; }
 
     public float? FaltanteCordoba { get; set; }
 

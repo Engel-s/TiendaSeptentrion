@@ -181,7 +181,7 @@ namespace formstienda
                         // Producto dañado: registra salida especial y resta del stock
                         var salida = new OtrasSalidasDeInventario
                         {
-                            CodigoProducto = detalle.CodigoProducto,
+                            CodigoProductoNavigation = detalle.CodigoProducto,
                             CantidadSalir = cantidadDevuelta,
                             MotivoSalida = motivo,
                             DescripcionSalida = descripcion

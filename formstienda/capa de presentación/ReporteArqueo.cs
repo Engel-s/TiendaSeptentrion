@@ -200,12 +200,12 @@ namespace formstienda.capa_de_presentación
 
                     // Total Vendido Dólar
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.TotalEfectivoDolar.ToString("C", CultureInfo.GetCultureInfo("en-US")))
+                        .Add(new Paragraph(item.TotalEfectivoDolar?.ToString("C", CultureInfo.GetCultureInfo("en-US")) ?? "-"))
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)
                         .SetPadding(5)
-                        .SetBorder(new SolidBorder(1)));
+                        .SetBorder(new SolidBorder(1));
 
                     // Total en Caja Córdoba
                     table.AddCell(new Cell()
@@ -218,12 +218,12 @@ namespace formstienda.capa_de_presentación
 
                     // Total en Caja Dólar
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.TotalEfectivoDolar.ToString("C", CultureInfo.GetCultureInfo("en-US")))
+                        .Add(new Paragraph(item.TotalEfectivoDolar?.ToString("C", CultureInfo.GetCultureInfo("en-US")) ?? "-"))
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)
                         .SetPadding(5)
-                        .SetBorder(new SolidBorder(1)));
+                        .SetBorder(new SolidBorder(1));
 
                     // Sobrante Córdoba
                     table.AddCell(new Cell()

@@ -14,7 +14,7 @@ namespace formstienda
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Informes());
+            Application.Run(new Login());
             Application.ApplicationExit += (s, e) => CacheArqueo.Limpiar();
         }
     }

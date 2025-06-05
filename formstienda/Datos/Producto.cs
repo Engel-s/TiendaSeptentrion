@@ -28,6 +28,4 @@ public partial class Producto
     public virtual Categorium IdCategoriaNavigation { get; set; } = null!;
 
     public virtual Marca IdMarcaNavigation { get; set; } = null!;
-
-    public virtual ICollection<OtrasSalidasDeInventario> OtrasSalidasDeInventarios { get; set; } = new List<OtrasSalidasDeInventario>();
 }
