@@ -47,19 +47,29 @@ namespace formstienda.capa_de_presentación
         {
             try
             {
-                var salidas = _context.VistaSalidasInventarioPorPeriodoMotivos.AsQueryable()
-                    .Where(s => s.FechaSalida >= _fechaInicial && s.FechaSalida <= _fechaFinal);
+                // Convertir las fechas DateTime a DateOnly para la comparación
+                DateOnly fechaInicialDateOnly = DateOnly.FromDateTime(_fechaInicial);
+                DateOnly fechaFinalDateOnly = DateOnly.FromDateTime(_fechaFinal);
+
+                // Primero obtener los datos como lista y luego filtrar en memoria
+                var listaSalidas = _context.VistaSalidasInventarioPorPeriodoMotivos
+                    .AsEnumerable()
+                    .Where(s => s.FechaSalida >= fechaInicialDateOnly &&
+                               s.FechaSalida <= fechaFinalDateOnly)
+                    .ToList();
 
                 if (!string.IsNullOrEmpty(_motivoSeleccionado))
                 {
-                    salidas = salidas.Where(s => s.MotivoSalida == _motivoSeleccionado);
+                    listaSalidas = listaSalidas
+                        .Where(s => s.MotivoSalida == _motivoSeleccionado)
+                        .ToList();
                 }
 
-                var listaSalidas = salidas.OrderBy(s => s.FechaSalida).ToList();
-
+                // Ordenar por fecha
+                listaSalidas = listaSalidas.OrderBy(s => s.FechaSalida).ToList();
+                               
                 // Calcular totales
                 decimal totalCantidad = listaSalidas.Sum(s => s.CantidadSalir);
-                
 
                 // Crear PDF
                 PdfWriter writer = new PdfWriter(filePath);
@@ -160,7 +170,7 @@ namespace formstienda.capa_de_presentación
                 {
                     // 1. FECHA
                     table.AddCell(new Cell()
-                       .Add(new Paragraph(item.FechaSalida?.ToString("dd/MM/yyyy") ?? string.Empty)
+                       .Add(new Paragraph(item.FechaSalida.ToString("dd/MM/yyyy") ?? string.Empty)
                        .SetFont(font)
                        .SetFontSize(9))
                        .SetTextAlignment(TextAlignment.CENTER)
@@ -273,7 +283,7 @@ namespace formstienda.capa_de_presentación
 
         private void webViewOtrasSalidas_Click(object sender, EventArgs e)
         {
-
+            // Implementación vacía
         }
 
         private void btnSalirOtrasSalidas_Click(object sender, EventArgs e)
@@ -283,7 +293,7 @@ namespace formstienda.capa_de_presentación
 
         private void ReporteOtrasSalidas_Load(object sender, EventArgs e)
         {
-
+            // Implementación vacía
         }
     }
 }

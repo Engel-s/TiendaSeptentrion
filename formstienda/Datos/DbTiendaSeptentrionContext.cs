@@ -63,11 +63,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-<<<<<<< HEAD
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-I4VC35H;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
-=======
-        => optionsBuilder.UseSqlServer("Server=RYUUGA-NOXUS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
->>>>>>> 349a0128b8dd2ab45515b6696e207d2bce011130
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -398,14 +394,14 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
         modelBuilder.Entity<OtrasSalidasDeInventario>(entity =>
         {
-            entity.HasKey(e => new { e.IdInventario, e.CodigoProductoNavigation }).HasName("PK__Otras sa__39BB980219759120");
+            entity.HasKey(e => new { e.IdInventario, e.CodigoProducto }).HasName("PK__Otras sa__39BB980219759120");
 
             entity.ToTable("Otras_salidas_de_inventario");
 
             entity.Property(e => e.IdInventario)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("Id_Inventario");
-            entity.Property(e => e.CodigoProductoNavigation)
+            entity.Property(e => e.CodigoProducto)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Codigo_Producto");
@@ -633,9 +629,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("Descripcion_Salida");
-            entity.Property(e => e.FechaSalida)
-                .HasColumnType("datetime")
-                .HasColumnName("Fecha_Salida");
+            entity.Property(e => e.FechaSalida).HasColumnName("Fecha_Salida");
             entity.Property(e => e.IdInventario).HasColumnName("Id_Inventario");
             entity.Property(e => e.Marca)
                 .HasMaxLength(100)

@@ -176,10 +176,10 @@ namespace formstienda.capa_de_presentación
                         return;
                     }
 
-                    // Crear registro de salida
+                    // Crear registro de salida - ahora usando directamente el código del producto
                     var salida = new OtrasSalidasDeInventario
                     {
-                        CodigoProductoNavigation = producto.CodigoProducto,
+                        CodigoProducto = producto.CodigoProducto, // Usamos directamente el código
                         CantidadSalir = cantidad,
                         MotivoSalida = cmbMotivo.SelectedItem.ToString(),
                         DescripcionSalida = txtDescripcion.Text,
@@ -230,14 +230,12 @@ namespace formstienda.capa_de_presentación
             cmbMotivo.SelectedIndex = 0;
         }
 
-        
         private void OtrasSalidas_Load(object sender, EventArgs e)
         {
             // Cargar datos existentes si es necesario
-            ////CargarSalidasExistentes();
+            CargarSalidasExistentes();
         }
 
-<<<<<<< HEAD
         private void CargarSalidasExistentes()
         {
             try
@@ -249,11 +247,11 @@ namespace formstienda.capa_de_presentación
                 var salidasConProductos = (
                     from salida in _contexto.OtrasSalidasDeInventarios
                     join producto in _contexto.Productos
-                    on salida.CodigoProductoNavigation equals producto.CodigoProducto
+                    on salida.CodigoProducto equals producto.CodigoProducto // Cambiado a CodigoProducto
                     orderby salida.FechaSalida descending
                     select new
                     {
-                        salida.CodigoProductoNavigation,
+                        salida.CodigoProducto,
                         producto.ModeloProducto,
                         salida.CantidadSalir,
                         salida.MotivoSalida,
@@ -265,7 +263,7 @@ namespace formstienda.capa_de_presentación
                 {
                     _salidasList.Add(new SalidaViewModel
                     {
-                        Codigo = item.CodigoProductoNavigation,
+                        Codigo = item.CodigoProducto,
                         NombreProducto = item.ModeloProducto,
                         Cantidad = item.CantidadSalir,
                         Motivo = item.MotivoSalida,
@@ -280,60 +278,15 @@ namespace formstienda.capa_de_presentación
                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-=======
-        //private void CargarSalidasExistentes()
-        //{
-        //    try
-        //    {
-        //        // Limpiar la lista existente primero
-        //        _salidasList.Clear();
-
-        //        // Consulta optimizada con join para obtener los datos necesarios
-        //        var salidasConProductos = (
-        //            from salida in _contexto.OtrasSalidasDeInventarios
-        //            join producto in _contexto.Productos
-        //            on salida.CodigoProductoNavigation equals producto.CodigoProducto
-        //            orderby salida.FechaSalida descending
-        //            select new
-        //            {
-        //                salida.CodigoProductoNavigation,
-        //                producto.ModeloProducto,
-        //                salida.CantidadSalir,
-        //                salida.MotivoSalida,
-        //                salida.DescripcionSalida,
-        //                salida.FechaSalida
-        //            }).Take(50).ToList();
-
-        //        foreach (var item in salidasConProductos)
-        //        {
-        //            _salidasList.Add(new SalidaViewModel
-        //            {
-        //                Codigo = item.CodigoProductoNavigation,
-        //                NombreProducto = item.ModeloProducto,
-        //                Cantidad = item.CantidadSalir,
-        //                Motivo = item.MotivoSalida,
-        //                Descripcion = item.DescripcionSalida,
-        //                 = item.FechaSalida.ToString("dd/MM/yyyy")
-        //            });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error al cargar salidas existentes: {ex.Message}", "Error",
-        //                       MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
->>>>>>> 349a0128b8dd2ab45515b6696e207d2bce011130
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        
         private void label2_Click(object sender, EventArgs e)
         {
-
+           
         }
     }
 
@@ -345,7 +298,6 @@ namespace formstienda.capa_de_presentación
         public int Cantidad { get; set; }
         public string Motivo { get; set; }
         public string Descripcion { get; set; }
-
         public string Fecha { get; set; }
     }
 }

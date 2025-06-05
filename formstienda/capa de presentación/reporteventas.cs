@@ -195,11 +195,7 @@ namespace formstienda.capa_de_presentación
                 webview.Source = new Uri(_rutaPdf);
         }
 
-<<<<<<< HEAD
-        private void iconButton1_Click(object sender, EventArgs e)
-=======
         private void btnsalir_Click(object sender, EventArgs e)
->>>>>>> 349a0128b8dd2ab45515b6696e207d2bce011130
         {
             this.Close();
         }

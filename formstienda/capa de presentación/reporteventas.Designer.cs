@@ -67,21 +67,6 @@
             // 
             // btnsalir
             // 
-<<<<<<< HEAD
-            iconButton1.BackColor = Color.FromArgb(3, 171, 229);
-            iconButton1.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            iconButton1.ForeColor = Color.Black;
-            iconButton1.IconChar = FontAwesome.Sharp.IconChar.None;
-            iconButton1.IconColor = Color.Black;
-            iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconButton1.Location = new Point(3, 3);
-            iconButton1.Name = "iconButton1";
-            iconButton1.Size = new Size(138, 51);
-            iconButton1.TabIndex = 1;
-            iconButton1.Text = "Salir";
-            iconButton1.UseVisualStyleBackColor = false;
-            iconButton1.Click += iconButton1_Click;
-=======
             btnsalir.BackColor = Color.FromArgb(3, 171, 229);
             btnsalir.Font = new Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnsalir.ForeColor = Color.Black;
@@ -95,7 +80,6 @@
             btnsalir.Text = "Salir";
             btnsalir.UseVisualStyleBackColor = false;
             btnsalir.Click += btnsalir_Click;
->>>>>>> 349a0128b8dd2ab45515b6696e207d2bce011130
             // 
             // webview
             // 

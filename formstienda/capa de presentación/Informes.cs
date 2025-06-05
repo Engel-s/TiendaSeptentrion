@@ -189,7 +189,54 @@ namespace formstienda
             visor.Show();
         }
 
-<<<<<<< HEAD
+        
+
+        // Cargar motivos en el ComboBox
+        private void CargarMotivosEnComboBox()
+        {
+            try
+            {
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    var motivos = context.VistaSalidasInventarioPorPeriodoMotivos
+                        .Select(s => s.MotivoSalida)
+                        .Distinct()
+                        .OrderBy(m => m)
+                        .ToList();
+
+                    cmbMotivo.Items.Clear();
+                    cmbMotivo.Items.Add("");
+
+                    foreach (var motivo in motivos)
+                    {
+                        cmbMotivo.Items.Add(motivo);
+                    }
+
+                    cmbMotivo.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los motivos: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnreportdevoluciones_Click(object sender, EventArgs e)
+        {
+            DateTime fechainicio = dtfechainiciodevoluciones.Value.Date;
+            DateTime fechafin = dtfechafinaldevoluciones.Value.Date;
+            string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string nombreArchivo = $"ReporteDevoluciones_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            string rutaPdf = Path.Combine(rutaEscritorio, nombreArchivo);
+
+            // 3️⃣ Crear y mostrar el formulario del visor con WebView
+            var visionador = new reportedevoluciones(fechainicio, fechafin, rutaPdf);
+            visionador.Show();
+
+
+        }
+
         private void btnMotivo_Click(object sender, EventArgs e)
         {
             try
@@ -228,53 +275,6 @@ namespace formstienda
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        // Cargar motivos en el ComboBox
-        private void CargarMotivosEnComboBox()
-        {
-            try
-            {
-                using (var context = new DbTiendaSeptentrionContext())
-                {
-                    var motivos = context.VistaSalidasInventarioPorPeriodoMotivos
-                        .Select(s => s.MotivoSalida)
-                        .Distinct()
-                        .OrderBy(m => m)
-                        .ToList();
-
-                    cmbMotivo.Items.Clear();
-                    cmbMotivo.Items.Add("");
-
-                    foreach (var motivo in motivos)
-                    {
-                        cmbMotivo.Items.Add(motivo);
-                    }
-
-                    cmbMotivo.SelectedIndex = 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar los motivos: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-
-            
-=======
-        private void btnreportdevoluciones_Click(object sender, EventArgs e)
-        {
-            DateTime fechainicio = dtfechainiciodevoluciones.Value.Date;
-            DateTime fechafin = dtfechafinaldevoluciones.Value.Date;
-            string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string nombreArchivo = $"ReporteDevoluciones_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
-            string rutaPdf = Path.Combine(rutaEscritorio, nombreArchivo);
-
-            // 3️⃣ Crear y mostrar el formulario del visor con WebView
-            var visionador = new reportedevoluciones(fechainicio, fechafin, rutaPdf);
-            visionador.Show();
->>>>>>> 349a0128b8dd2ab45515b6696e207d2bce011130
-
-        }
     }
+
 }
