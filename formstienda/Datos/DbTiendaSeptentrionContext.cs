@@ -402,16 +402,11 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("Descripcion_Salida");
+            entity.Property(e => e.FechaSalida).HasColumnName("Fecha_Salida");
             entity.Property(e => e.MotivoSalida)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Motivo_Salida");
-
-            entity.HasOne(d => d.CodigoProductoNavigation).WithMany(p => p.OtrasSalidasDeInventarios)
-                .HasPrincipalKey(p => p.CodigoProducto)
-                .HasForeignKey(d => d.CodigoProducto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Otras sal__Codig__5FB337D6");
         });
 
         modelBuilder.Entity<Producto>(entity =>
