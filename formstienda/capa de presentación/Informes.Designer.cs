@@ -31,10 +31,10 @@
             panel1 = new Panel();
             label1 = new Label();
             panel2 = new Panel();
-            dateTimePicker2 = new DateTimePicker();
+            dtpickerventasfinal = new DateTimePicker();
             label5 = new Label();
-            button1 = new Button();
-            dateTimePicker1 = new DateTimePicker();
+            btngenerarinformeventas = new Button();
+            dtpickerventasinicio = new DateTimePicker();
             label4 = new Label();
             label3 = new Label();
             panel3 = new Panel();
@@ -218,10 +218,10 @@
             // 
             panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(dateTimePicker2);
+            panel2.Controls.Add(dtpickerventasfinal);
             panel2.Controls.Add(label5);
-            panel2.Controls.Add(button1);
-            panel2.Controls.Add(dateTimePicker1);
+            panel2.Controls.Add(btngenerarinformeventas);
+            panel2.Controls.Add(dtpickerventasinicio);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(panel3);
@@ -237,16 +237,16 @@
             panel2.Size = new Size(248, 352);
             panel2.TabIndex = 1;
             // 
-            // dateTimePicker2
+            // dtpickerventasfinal
             // 
-            dateTimePicker2.Format = DateTimePickerFormat.Custom;
-            dateTimePicker2.Location = new Point(30, 198);
-            dateTimePicker2.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker2.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(190, 26);
-            dateTimePicker2.TabIndex = 6;
-            dateTimePicker2.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            dtpickerventasfinal.Format = DateTimePickerFormat.Custom;
+            dtpickerventasfinal.Location = new Point(30, 198);
+            dtpickerventasfinal.Margin = new Padding(2, 5, 2, 5);
+            dtpickerventasfinal.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dtpickerventasfinal.Name = "dtpickerventasfinal";
+            dtpickerventasfinal.Size = new Size(190, 26);
+            dtpickerventasfinal.TabIndex = 6;
+            dtpickerventasfinal.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label5
             // 
@@ -259,27 +259,28 @@
             label5.TabIndex = 5;
             label5.Text = "Fecha final:";
             // 
-            // button1
+            // btngenerarinformeventas
             // 
-            button1.BackColor = Color.FromArgb(3, 171, 229);
-            button1.Location = new Point(76, 266);
-            button1.Margin = new Padding(2, 5, 2, 5);
-            button1.Name = "button1";
-            button1.Size = new Size(105, 46);
-            button1.TabIndex = 4;
-            button1.Text = "Generar";
-            button1.UseVisualStyleBackColor = false;
+            btngenerarinformeventas.BackColor = Color.FromArgb(3, 171, 229);
+            btngenerarinformeventas.Location = new Point(76, 266);
+            btngenerarinformeventas.Margin = new Padding(2, 5, 2, 5);
+            btngenerarinformeventas.Name = "btngenerarinformeventas";
+            btngenerarinformeventas.Size = new Size(105, 46);
+            btngenerarinformeventas.TabIndex = 4;
+            btngenerarinformeventas.Text = "Generar";
+            btngenerarinformeventas.UseVisualStyleBackColor = false;
+            btngenerarinformeventas.Click += btngenerarinformeventas_Click;
             // 
-            // dateTimePicker1
+            // dtpickerventasinicio
             // 
-            dateTimePicker1.Format = DateTimePickerFormat.Custom;
-            dateTimePicker1.Location = new Point(30, 115);
-            dateTimePicker1.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker1.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(190, 26);
-            dateTimePicker1.TabIndex = 3;
-            dateTimePicker1.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            dtpickerventasinicio.Format = DateTimePickerFormat.Custom;
+            dtpickerventasinicio.Location = new Point(30, 115);
+            dtpickerventasinicio.Margin = new Padding(2, 5, 2, 5);
+            dtpickerventasinicio.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dtpickerventasinicio.Name = "dtpickerventasinicio";
+            dtpickerventasinicio.Size = new Size(190, 26);
+            dtpickerventasinicio.TabIndex = 3;
+            dtpickerventasinicio.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label4
             // 
@@ -1769,10 +1770,10 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpickerventasinicio;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.Button btngenerarinformeventas;
+        private System.Windows.Forms.DateTimePicker dtpickerventasfinal;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;

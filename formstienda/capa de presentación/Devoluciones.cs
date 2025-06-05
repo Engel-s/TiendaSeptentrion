@@ -25,8 +25,6 @@ namespace formstienda
 
         private void button2_Click(object sender, EventArgs e)
         {
-
-
             this.Close();
         }
 
@@ -81,7 +79,6 @@ namespace formstienda
                     0 // CantidadDevuelta (editable por el usuario)
                 );
             }
-
             // Asociar el evento solo una vez
         }
 

@@ -31,7 +31,9 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             lblreport = new Label();
             iconButton1 = new FontAwesome.Sharp.IconButton();
+            webview = new Microsoft.Web.WebView2.WinForms.WebView2();
             tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)webview).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -41,6 +43,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 86.40351F));
             tableLayoutPanel1.Controls.Add(lblreport, 1, 0);
             tableLayoutPanel1.Controls.Add(iconButton1, 0, 0);
+            tableLayoutPanel1.Controls.Add(webview, 1, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -77,6 +80,19 @@
             iconButton1.Text = "Salir";
             iconButton1.UseVisualStyleBackColor = false;
             // 
+            // webview
+            // 
+            webview.AllowExternalDrop = true;
+            webview.CreationProperties = null;
+            webview.DefaultBackgroundColor = Color.White;
+            webview.Dock = DockStyle.Fill;
+            webview.ForeColor = Color.Black;
+            webview.Location = new Point(158, 79);
+            webview.Name = "webview";
+            webview.Size = new Size(979, 607);
+            webview.TabIndex = 2;
+            webview.ZoomFactor = 1D;
+            // 
             // reporteventas
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -86,8 +102,10 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "reporteventas";
             Text = "reporteventas";
+            Load += reporteventas_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)webview).EndInit();
             ResumeLayout(false);
         }
 
@@ -96,5 +114,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Label lblreport;
         private FontAwesome.Sharp.IconButton iconButton1;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webview;
     }
 }
