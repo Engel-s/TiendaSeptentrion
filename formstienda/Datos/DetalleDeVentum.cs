@@ -23,3 +23,4 @@ public partial class DetalleDeVentum
 
     public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }
+ 

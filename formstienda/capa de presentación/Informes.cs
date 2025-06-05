@@ -1,5 +1,6 @@
 ﻿using formstienda.capa_de_presentación;
 using formstienda.Datos;
+using formstienda.capa_de_presentación;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -171,6 +172,13 @@ namespace formstienda
             }
         }
 
+        }
+
+        private void btngenerarinformeventas_Click(object sender, EventArgs e)
+        {
+            DateTime fechaInicio = dtpickerventasinicio.Value.Date;
+            DateTime fechaFin = dtpickerventasfinal.Value.Date;
+
         private void btnMotivo_Click(object sender, EventArgs e)
         {
             try
@@ -239,6 +247,14 @@ namespace formstienda
                 MessageBox.Show($"Error al cargar los motivos: {ex.Message}", "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            // 2️⃣ Generar ruta PDF en el escritorio
+            string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string nombreArchivo = $"ReporteVentas_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            string rutaPdf = Path.Combine(rutaEscritorio, nombreArchivo);
+
+            // 3️⃣ Crear y mostrar el formulario del visor con WebView
+            var visor = new reporteventas(fechaInicio, fechaFin, rutaPdf);
+            visor.Show();
         }
     }
 }

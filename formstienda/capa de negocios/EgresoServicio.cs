@@ -160,8 +160,8 @@ namespace formstienda.Servicios
                 .Where(p => p.TotalCordobas > 0)
                 .Sum(p => p.TotalCordobas);
 
-            decimal totalDevoluciones = (decimal)ListarDevolucion(fecha)
-                .Sum(d => d.MontoDevolucion);
+            decimal totalDevoluciones = (decimal)Listardetallesdevolucion(fecha)
+                .Sum(d => d.MontoDevuelto);
 
             decimal totalEgresos = (decimal)_contexto.Egresos
                 .Where(e => e.FechaEgreso == fecha)
@@ -197,8 +197,8 @@ namespace formstienda.Servicios
                 .Where(p => p.TotalCordobas > 0)
                 .Sum(p => p.TotalCordobas);
 
-            decimal totalDevoluciones = (decimal)ListarDevolucion(fecha)
-                .Sum(d => d.MontoDevolucion);
+            decimal totalDevoluciones = (decimal)Listardetallesdevolucion(fecha)
+                .Sum(d => d.MontoDevuelto);
                         
             return totalVentas + totalCreditos - totalDevoluciones;
         }
@@ -246,13 +246,7 @@ namespace formstienda.Servicios
                 .ToList();
         }
 
-        public List<Devolucion> ListarDevolucion(DateOnly fechaActual)
-        {
-            return _contexto.Devolucions
-                .Where(a => a.FechaDevolucion == fechaActual)
-                .AsNoTracking()
-                .ToList();
-        }
+     
 
         public List<DetalleCredito> ListarPagosCredito(DateOnly fechaActual)
         {
@@ -262,6 +256,12 @@ namespace formstienda.Servicios
                 .AsNoTracking()
                 .ToList();
         }
-
+        public List<DetalleDevolucion> Listardetallesdevolucion(DateOnly fechaActual)
+        {
+            return _contexto.DetalleDevolucions
+                .Where(d => d.FechaDevolucion == fechaActual)
+                .AsNoTracking()
+                .ToList();
+        }
     }
 }

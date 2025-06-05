@@ -216,6 +216,25 @@ namespace formstienda
             {
                 using (var contexto = new DbTiendaSeptentrionContext())
                 {
+                    // Buscar todas las aperturas que aún no están cerradas
+                    var aperturasAbiertas = contexto.AperturaCajas
+                        .Where(a => a.EstadoApertura != "Cerrada")
+                        .ToList();
+
+                    if (!aperturasAbiertas.Any())
+                    {
+                        MessageBox.Show("No hay aperturas activas para cerrar.");
+                        return;
+                    }
+
+                    // Cambiar el estado a "Cerrada"
+                    foreach (var apertura in aperturasAbiertas)
+                    {
+                        apertura.EstadoApertura = "Cerrada";
+                    }
+
+                    contexto.SaveChanges();
+                   
                     var servicio = new ArqueoDeCajaServicio(contexto);
 
                     servicio.ActualizarArqueoCaja(
@@ -227,9 +246,7 @@ namespace formstienda
                         sobranteDolar: string.IsNullOrEmpty(txtSobranteDolares.Text) ? null : float.Parse(txtSobranteDolares.Text)
                     );
 
-                    var aperturasAbiertas = contexto.AperturaCajas
-                        .Where(a => a.EstadoApertura != "Cerrada")
-                         .ToList();
+             
 
                     if (!aperturasAbiertas.Any())
                     {
@@ -287,10 +304,10 @@ namespace formstienda
                     txtAperturaCaja.Text = aperturaHoy?.MontoApertura.ToString("N2") ?? "0.00";
 
                     // Cargar totales BRUTOS
-                    decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
+                   decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
                     decimal totalBrutoDolares = egresoServicio.ObtenerTotalBrutoDolares(fechaActual);
 
-                    txtTotalCajaCordobas.Text = totalBrutoCordobas.ToString("N2");
+                   txtTotalCajaCordobas.Text = totalBrutoCordobas.ToString("N2");
                     txtTotalCajaDolares.Text = totalBrutoDolares.ToString("N2");
 
                     // Cargar total de egresos
@@ -406,7 +423,7 @@ namespace formstienda
                     txtTotalEgresosCordobas.Text = totalEgresosCordobas.ToString("N2");
                     txtTotalEgresosDolares.Text = totalEgresosDolares.ToString("N2");
                                         
-                    decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
+                   decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
                     decimal totalBrutoDolares = egresoServicio.ObtenerTotalBrutoDolares(fechaActual);
 
                     txtTotalCajaCordobas.Text = totalBrutoCordobas.ToString("N2");

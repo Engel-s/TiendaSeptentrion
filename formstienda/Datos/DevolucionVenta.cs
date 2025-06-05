@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace formstienda.Datos;
 
-public partial class Devolucion
+public partial class DevolucionVenta
 {
     public int IdDevolucion { get; set; }
 
@@ -15,11 +15,9 @@ public partial class Devolucion
 
     public string DescripcionDevolucion { get; set; } = null!;
 
-    public float MontoDevolucion { get; set; }
-
-    public int CantidadDevuelta { get; set; }
-
     public DateOnly FechaDevolucion { get; set; }
+
+    public virtual ICollection<DetalleDevolucion> DetalleDevolucions { get; set; } = new List<DetalleDevolucion>();
 
     public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }
