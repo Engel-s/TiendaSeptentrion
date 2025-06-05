@@ -107,6 +107,10 @@
             TXTTELEFONODELNUEVOCLIENTE = new TextBox();
             lbldireccion = new Label();
             txtdireccion = new TextBox();
+            label2 = new Label();
+            label4 = new Label();
+            label6 = new Label();
+            label16 = new Label();
             ((System.ComponentModel.ISupportInitialize)fechafactura).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -137,10 +141,10 @@
             // txtfaltante
             // 
             txtfaltante.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txtfaltante.Location = new Point(1159, 612);
+            txtfaltante.Location = new Point(1188, 612);
             txtfaltante.Margin = new Padding(2, 5, 2, 5);
             txtfaltante.Name = "txtfaltante";
-            txtfaltante.Size = new Size(134, 27);
+            txtfaltante.Size = new Size(105, 27);
             txtfaltante.TabIndex = 124;
             txtfaltante.TextChanged += txtfaltante_TextChanged;
             txtfaltante.KeyDown += txtfaltante_KeyDown;
@@ -162,7 +166,7 @@
             lbldolares.AutoSize = true;
             lbldolares.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbldolares.ForeColor = Color.Black;
-            lbldolares.Location = new Point(1159, 587);
+            lbldolares.Location = new Point(1143, 587);
             lbldolares.Margin = new Padding(2, 0, 2, 0);
             lbldolares.Name = "lbldolares";
             lbldolares.Size = new Size(58, 20);
@@ -181,10 +185,10 @@
             // txtpago
             // 
             txtpago.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txtpago.Location = new Point(1159, 555);
+            txtpago.Location = new Point(1188, 556);
             txtpago.Margin = new Padding(2, 5, 2, 5);
             txtpago.Name = "txtpago";
-            txtpago.Size = new Size(134, 27);
+            txtpago.Size = new Size(105, 27);
             txtpago.TabIndex = 115;
             txtpago.TextChanged += txtpago_TextChanged;
             txtpago.KeyDown += txtpago_KeyDown;
@@ -209,7 +213,7 @@
             lblcordoba.AutoSize = true;
             lblcordoba.Font = new Font("Calisto MT", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblcordoba.ForeColor = Color.Black;
-            lblcordoba.Location = new Point(1157, 530);
+            lblcordoba.Location = new Point(1143, 531);
             lblcordoba.Margin = new Padding(2, 0, 2, 0);
             lblcordoba.Name = "lblcordoba";
             lblcordoba.Size = new Size(81, 20);
@@ -335,11 +339,12 @@
             // txtcambio
             // 
             txtcambio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txtcambio.Location = new Point(1158, 680);
+            txtcambio.BorderStyle = BorderStyle.None;
+            txtcambio.Location = new Point(1185, 671);
             txtcambio.Margin = new Padding(2, 5, 2, 5);
             txtcambio.Name = "txtcambio";
             txtcambio.ReadOnly = true;
-            txtcambio.Size = new Size(134, 27);
+            txtcambio.Size = new Size(105, 20);
             txtcambio.TabIndex = 111;
             // 
             // txtnombrecliente
@@ -354,11 +359,13 @@
             // txttotal
             // 
             txttotal.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txttotal.Location = new Point(1157, 498);
+            txttotal.BackColor = Color.FromArgb(238, 238, 238);
+            txttotal.BorderStyle = BorderStyle.None;
+            txttotal.Location = new Point(1188, 498);
             txttotal.Margin = new Padding(2, 5, 2, 5);
             txttotal.Name = "txttotal";
             txttotal.ReadOnly = true;
-            txttotal.Size = new Size(134, 27);
+            txttotal.Size = new Size(105, 20);
             txttotal.TabIndex = 109;
             // 
             // txtnumerofactura
@@ -584,7 +591,7 @@
             lblcambio.AutoSize = true;
             lblcambio.Font = new Font("Calisto MT", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblcambio.ForeColor = Color.Black;
-            lblcambio.Location = new Point(1153, 653);
+            lblcambio.Location = new Point(1139, 644);
             lblcambio.Margin = new Padding(2, 0, 2, 0);
             lblcambio.Name = "lblcambio";
             lblcambio.Size = new Size(85, 22);
@@ -675,7 +682,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Calisto MT", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(1153, 467);
+            label5.Location = new Point(1143, 471);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
             label5.Size = new Size(135, 22);
@@ -965,12 +972,60 @@
             txtdireccion.Size = new Size(213, 27);
             txtdireccion.TabIndex = 169;
             // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
+            label2.Location = new Point(1138, 612);
+            label2.Name = "label2";
+            label2.Size = new Size(44, 23);
+            label2.TabIndex = 170;
+            label2.Text = "US$";
+            // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label4.AutoSize = true;
+            label4.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
+            label4.Location = new Point(1139, 556);
+            label4.Name = "label4";
+            label4.Size = new Size(37, 23);
+            label4.TabIndex = 171;
+            label4.Text = "C$";
+            // 
+            // label6
+            // 
+            label6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label6.AutoSize = true;
+            label6.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
+            label6.Location = new Point(1139, 498);
+            label6.Name = "label6";
+            label6.Size = new Size(37, 23);
+            label6.TabIndex = 172;
+            label6.Text = "C$";
+            // 
+            // label16
+            // 
+            label16.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label16.AutoSize = true;
+            label16.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
+            label16.Location = new Point(1143, 671);
+            label16.Name = "label16";
+            label16.Size = new Size(37, 23);
+            label16.TabIndex = 173;
+            label16.Text = "C$";
+            // 
             // Factura
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(238, 238, 238);
             ClientSize = new Size(1314, 882);
+            Controls.Add(label16);
+            Controls.Add(label6);
+            Controls.Add(label4);
+            Controls.Add(label2);
             Controls.Add(txtdireccion);
             Controls.Add(lbldireccion);
             Controls.Add(TXTTELEFONODELNUEVOCLIENTE);
@@ -1136,5 +1191,9 @@
         private Label LBLTELEFONODELNUEVOCLIENTE;
         private TextBox txtdireccion;
         private Label lbldireccion;
+        private Label label2;
+        private Label label16;
+        private Label label6;
+        private Label label4;
     }
 }

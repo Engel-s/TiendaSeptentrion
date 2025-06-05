@@ -42,5 +42,19 @@ namespace formstienda
             var visor = new reporteventas(fechaInicio, fechaFin, rutaPdf);
             visor.Show();
         }
+
+        private void btnreportdevoluciones_Click(object sender, EventArgs e)
+        {
+            DateTime fechainicio = dtfechainiciodevoluciones.Value.Date;
+            DateTime fechafin = dtfechafinaldevoluciones.Value.Date;
+            string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string nombreArchivo = $"ReporteDevoluciones_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            string rutaPdf = Path.Combine(rutaEscritorio, nombreArchivo);
+
+            // 3️⃣ Crear y mostrar el formulario del visor con WebView
+            var visionador = new reportedevoluciones(fechainicio, fechafin, rutaPdf);
+            visionador.Show();
+
+        }
     }
 }

@@ -201,17 +201,22 @@ namespace formstienda
                         MotivoDevolucion = motivo,
                         DescripcionDevolucion = descripcion,
                         FechaDevolucion = DateOnly.FromDateTime(DateTime.Now)
-
                     };
                     contexto.DevolucionVentas.Add(devolucion);
+                    contexto.SaveChanges(); // Guardamos primero para que obtenga el IdDevolucion generado
+
+                    // Luego asociamos
                     var detalledevolucion = new DetalleDevolucion
                     {
-                        IdDetalleDevolucion = idDetalle,
+                        IdDevolucion = devolucion.IdDevolucion, // <--- FK asociada
                         InformacionProducto = detalle.CodigoProducto,
-                        CantidadDevuelta=cantidadDevuelta,
-                        MontoDevuelto=Convert.ToDecimal(montoDevolucion),
+                        CantidadDevuelta = cantidadDevuelta,
+                        MontoDevuelto = Convert.ToDecimal(montoDevolucion),
+                        FechaDevolucion=DateOnly.FromDateTime(DateTime.Now)
                     };
-                
+                    contexto.DetalleDevolucions.Add(detalledevolucion);
+
+
                     decimal montoTotalCordoba = (decimal)totalMontoDevolucion;
 
                     // Registrar egreso por la devolución SOLO si el monto es menor a 2000

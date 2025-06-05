@@ -43,10 +43,10 @@
             panel6 = new Panel();
             panel7 = new Panel();
             panel8 = new Panel();
-            dateTimePicker3 = new DateTimePicker();
+            dtfechafinaldevoluciones = new DateTimePicker();
             label6 = new Label();
-            button2 = new Button();
-            dateTimePicker4 = new DateTimePicker();
+            btnreportdevoluciones = new Button();
+            dtfechainiciodevoluciones = new DateTimePicker();
             label7 = new Label();
             label8 = new Label();
             panel9 = new Panel();
@@ -357,10 +357,10 @@
             // 
             panel8.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel8.BorderStyle = BorderStyle.FixedSingle;
-            panel8.Controls.Add(dateTimePicker3);
+            panel8.Controls.Add(dtfechafinaldevoluciones);
             panel8.Controls.Add(label6);
-            panel8.Controls.Add(button2);
-            panel8.Controls.Add(dateTimePicker4);
+            panel8.Controls.Add(btnreportdevoluciones);
+            panel8.Controls.Add(dtfechainiciodevoluciones);
             panel8.Controls.Add(label7);
             panel8.Controls.Add(label8);
             panel8.Controls.Add(panel9);
@@ -376,16 +376,16 @@
             panel8.Size = new Size(248, 352);
             panel8.TabIndex = 8;
             // 
-            // dateTimePicker3
+            // dtfechafinaldevoluciones
             // 
-            dateTimePicker3.Format = DateTimePickerFormat.Custom;
-            dateTimePicker3.Location = new Point(30, 198);
-            dateTimePicker3.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker3.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker3.Name = "dateTimePicker3";
-            dateTimePicker3.Size = new Size(190, 26);
-            dateTimePicker3.TabIndex = 6;
-            dateTimePicker3.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            dtfechafinaldevoluciones.Format = DateTimePickerFormat.Custom;
+            dtfechafinaldevoluciones.Location = new Point(30, 198);
+            dtfechafinaldevoluciones.Margin = new Padding(2, 5, 2, 5);
+            dtfechafinaldevoluciones.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dtfechafinaldevoluciones.Name = "dtfechafinaldevoluciones";
+            dtfechafinaldevoluciones.Size = new Size(190, 26);
+            dtfechafinaldevoluciones.TabIndex = 6;
+            dtfechafinaldevoluciones.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label6
             // 
@@ -398,27 +398,28 @@
             label6.TabIndex = 5;
             label6.Text = "Fecha final:";
             // 
-            // button2
+            // btnreportdevoluciones
             // 
-            button2.BackColor = Color.FromArgb(3, 171, 229);
-            button2.Location = new Point(76, 266);
-            button2.Margin = new Padding(2, 5, 2, 5);
-            button2.Name = "button2";
-            button2.Size = new Size(114, 44);
-            button2.TabIndex = 4;
-            button2.Text = "Generar";
-            button2.UseVisualStyleBackColor = false;
+            btnreportdevoluciones.BackColor = Color.FromArgb(3, 171, 229);
+            btnreportdevoluciones.Location = new Point(76, 266);
+            btnreportdevoluciones.Margin = new Padding(2, 5, 2, 5);
+            btnreportdevoluciones.Name = "btnreportdevoluciones";
+            btnreportdevoluciones.Size = new Size(94, 44);
+            btnreportdevoluciones.TabIndex = 4;
+            btnreportdevoluciones.Text = "Generar";
+            btnreportdevoluciones.UseVisualStyleBackColor = false;
+            btnreportdevoluciones.Click += btnreportdevoluciones_Click;
             // 
-            // dateTimePicker4
+            // dtfechainiciodevoluciones
             // 
-            dateTimePicker4.Format = DateTimePickerFormat.Custom;
-            dateTimePicker4.Location = new Point(30, 115);
-            dateTimePicker4.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker4.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker4.Name = "dateTimePicker4";
-            dateTimePicker4.Size = new Size(190, 26);
-            dateTimePicker4.TabIndex = 3;
-            dateTimePicker4.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            dtfechainiciodevoluciones.Format = DateTimePickerFormat.Custom;
+            dtfechainiciodevoluciones.Location = new Point(30, 115);
+            dtfechainiciodevoluciones.Margin = new Padding(2, 5, 2, 5);
+            dtfechainiciodevoluciones.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dtfechainiciodevoluciones.Name = "dtfechainiciodevoluciones";
+            dtfechainiciodevoluciones.Size = new Size(190, 26);
+            dtfechainiciodevoluciones.TabIndex = 3;
+            dtfechainiciodevoluciones.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label7
             // 
@@ -457,7 +458,7 @@
             label9.BackColor = Color.FromArgb(3, 171, 229);
             label9.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label9.ForeColor = Color.Black;
-            label9.Location = new Point(-6, 15);
+            label9.Location = new Point(6, 16);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
             label9.Size = new Size(228, 20);
@@ -1793,10 +1794,10 @@
         private System.Windows.Forms.Panel panel18;
         private System.Windows.Forms.Panel panel19;
         private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.DateTimePicker dateTimePicker3;
+        private System.Windows.Forms.DateTimePicker dtfechafinaldevoluciones;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker4;
+        private System.Windows.Forms.Button btnreportdevoluciones;
+        private System.Windows.Forms.DateTimePicker dtfechainiciodevoluciones;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Panel panel9;
