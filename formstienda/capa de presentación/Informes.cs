@@ -23,7 +23,6 @@ namespace formstienda
         public Informes()
         {
             InitializeComponent();
-<<<<<<< HEAD
             dateTimePickerFechaInicial.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
             dateTimePickerFechaFinal.Value = DateTime.Today;
             dateTimePickerFechaInicialMotivo.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
@@ -31,9 +30,7 @@ namespace formstienda
             CargarUsuariosEnComboBox();
             CargarMotivosEnComboBox();
 
-=======
             _proveedores = new BindingList<Proveedor>();
->>>>>>> 2a346beb73daf9492f9331842ab8b1ff551b377b
         }
 
         private void cargarproveedores()
@@ -60,9 +57,7 @@ namespace formstienda
 
         private void Informes_Load(object sender, EventArgs e)
         {
-<<<<<<< HEAD
             CargarUsuariosEnComboBox();
-=======
             cargarproveedores();
         }
 
@@ -95,7 +90,6 @@ namespace formstienda
                     visor.Show();
                 }
             }
->>>>>>> 2a346beb73daf9492f9331842ab8b1ff551b377b
         }
 
         private void CargarUsuariosEnComboBox()

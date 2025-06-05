@@ -561,16 +561,6 @@
             // 
             // btnreportecompras
             // 
-<<<<<<< HEAD
-            button3.BackColor = Color.FromArgb(3, 171, 229);
-            button3.Location = new Point(76, 285);
-            button3.Margin = new Padding(2, 5, 2, 5);
-            button3.Name = "button3";
-            button3.Size = new Size(88, 38);
-            button3.TabIndex = 4;
-            button3.Text = "Generar";
-            button3.UseVisualStyleBackColor = false;
-=======
             btnreportecompras.BackColor = Color.FromArgb(3, 171, 229);
             btnreportecompras.Location = new Point(76, 285);
             btnreportecompras.Margin = new Padding(2, 5, 2, 5);
@@ -580,7 +570,6 @@
             btnreportecompras.Text = "Generar";
             btnreportecompras.UseVisualStyleBackColor = false;
             btnreportecompras.Click += button3_Click;
->>>>>>> 2a346beb73daf9492f9331842ab8b1ff551b377b
             // 
             // dptInicio
             // 
