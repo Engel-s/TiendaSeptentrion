@@ -10,14 +10,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using formstienda.capa_de_negocios;
+using formstienda.capa_de_presentación;
+using formstienda.Datos;
 
 namespace formstienda
 {
     public partial class Informes : Form
     {
+        private ProveedorServicio _proveedorServicio;
+        private BindingList<Proveedor> _proveedores;
         public Informes()
         {
             InitializeComponent();
+<<<<<<< HEAD
             dateTimePickerFechaInicial.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
             dateTimePickerFechaFinal.Value = DateTime.Today;
             dateTimePickerFechaInicialMotivo.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
@@ -25,8 +31,28 @@ namespace formstienda
             CargarUsuariosEnComboBox();
             CargarMotivosEnComboBox();
 
+=======
+            _proveedores = new BindingList<Proveedor>();
+>>>>>>> 2a346beb73daf9492f9331842ab8b1ff551b377b
         }
 
+        private void cargarproveedores()
+        {
+            try
+            {
+                ProveedorServicio proveedorservicio = new ProveedorServicio();
+                var proveedor = proveedorservicio.ListarProveedores();
+
+                cmbproveedor.DataSource = proveedor;
+                cmbproveedor.DisplayMember = "NombreProveedor";
+                cmbproveedor.ValueMember = "CodigoRuc";
+                cmbproveedor.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar proveedores: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -34,7 +60,42 @@ namespace formstienda
 
         private void Informes_Load(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             CargarUsuariosEnComboBox();
+=======
+            cargarproveedores();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            DateTime fechaInicio = dptInicio.Value.Date;
+            DateTime fechaFin = dtpFin.Value.Date;
+            
+            if (fechaFin > DateTime.Today)
+            {
+                MessageBox.Show("La fecha final no puede ser mayor a la fecha actual.", "Fecha no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string proveedorSeleccionado = (cmbproveedor.SelectedValue as string)?.Trim();
+
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                saveDialog.Title = "Guardar reporte de compras";
+                saveDialog.FileName = $"ReporteCompras_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string rutaPDF = saveDialog.FileName;
+
+                    // Solo crea el formulario del pdf
+                    FormReportesCompras visor = new FormReportesCompras(fechaInicio, fechaFin, rutaPDF, proveedorSeleccionado);
+                    visor.Show();
+                }
+            }
+>>>>>>> 2a346beb73daf9492f9331842ab8b1ff551b377b
         }
 
         private void CargarUsuariosEnComboBox()

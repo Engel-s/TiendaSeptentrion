@@ -117,6 +117,6 @@ namespace formstienda.capa_de_negocios
                     .FirstOrDefault(p => (p.NombreProveedor + " " + p.ApellidoProveedor).ToLower() == NombreCompleto.ToLower());
                 return proveedor != null ? proveedor.CodigoRuc : "0" ;
             }
-        }
+       }
     }
 }

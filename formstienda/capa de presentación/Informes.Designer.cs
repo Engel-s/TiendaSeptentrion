@@ -55,12 +55,12 @@
             panel12 = new Panel();
             panel13 = new Panel();
             panel14 = new Panel();
-            comboBox1 = new ComboBox();
+            cmbproveedor = new ComboBox();
             label14 = new Label();
-            dateTimePicker5 = new DateTimePicker();
+            dtpFin = new DateTimePicker();
             label10 = new Label();
-            button3 = new Button();
-            dateTimePicker6 = new DateTimePicker();
+            btnreportecompras = new Button();
+            dptInicio = new DateTimePicker();
             label11 = new Label();
             label12 = new Label();
             panel15 = new Panel();
@@ -202,7 +202,7 @@
             // 
             // label1
             // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new Font("Times New Roman", 19.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(514, 14);
@@ -495,12 +495,12 @@
             panel14.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel14.BackColor = Color.White;
             panel14.BorderStyle = BorderStyle.FixedSingle;
-            panel14.Controls.Add(comboBox1);
+            panel14.Controls.Add(cmbproveedor);
             panel14.Controls.Add(label14);
-            panel14.Controls.Add(dateTimePicker5);
+            panel14.Controls.Add(dtpFin);
             panel14.Controls.Add(label10);
-            panel14.Controls.Add(button3);
-            panel14.Controls.Add(dateTimePicker6);
+            panel14.Controls.Add(btnreportecompras);
+            panel14.Controls.Add(dptInicio);
             panel14.Controls.Add(label11);
             panel14.Controls.Add(label12);
             panel14.Controls.Add(panel15);
@@ -516,14 +516,15 @@
             panel14.Size = new Size(248, 352);
             panel14.TabIndex = 9;
             // 
-            // comboBox1
+            // cmbproveedor
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(30, 245);
-            comboBox1.Margin = new Padding(2, 5, 2, 5);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(190, 28);
-            comboBox1.TabIndex = 9;
+            cmbproveedor.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbproveedor.FormattingEnabled = true;
+            cmbproveedor.Location = new Point(30, 245);
+            cmbproveedor.Margin = new Padding(2, 5, 2, 5);
+            cmbproveedor.Name = "cmbproveedor";
+            cmbproveedor.Size = new Size(190, 28);
+            cmbproveedor.TabIndex = 9;
             // 
             // label14
             // 
@@ -536,16 +537,16 @@
             label14.TabIndex = 8;
             label14.Text = "Proveedor :";
             // 
-            // dateTimePicker5
+            // dtpFin
             // 
-            dateTimePicker5.Format = DateTimePickerFormat.Custom;
-            dateTimePicker5.Location = new Point(30, 175);
-            dateTimePicker5.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker5.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker5.Name = "dateTimePicker5";
-            dateTimePicker5.Size = new Size(190, 26);
-            dateTimePicker5.TabIndex = 6;
-            dateTimePicker5.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            dtpFin.Format = DateTimePickerFormat.Custom;
+            dtpFin.Location = new Point(30, 175);
+            dtpFin.Margin = new Padding(2, 5, 2, 5);
+            dtpFin.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dtpFin.Name = "dtpFin";
+            dtpFin.Size = new Size(190, 26);
+            dtpFin.TabIndex = 6;
+            dtpFin.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label10
             // 
@@ -558,8 +559,9 @@
             label10.TabIndex = 5;
             label10.Text = "Fecha final:";
             // 
-            // button3
+            // btnreportecompras
             // 
+<<<<<<< HEAD
             button3.BackColor = Color.FromArgb(3, 171, 229);
             button3.Location = new Point(76, 285);
             button3.Margin = new Padding(2, 5, 2, 5);
@@ -568,17 +570,28 @@
             button3.TabIndex = 4;
             button3.Text = "Generar";
             button3.UseVisualStyleBackColor = false;
+=======
+            btnreportecompras.BackColor = Color.FromArgb(3, 171, 229);
+            btnreportecompras.Location = new Point(76, 285);
+            btnreportecompras.Margin = new Padding(2, 5, 2, 5);
+            btnreportecompras.Name = "btnreportecompras";
+            btnreportecompras.Size = new Size(88, 38);
+            btnreportecompras.TabIndex = 4;
+            btnreportecompras.Text = "Generar";
+            btnreportecompras.UseVisualStyleBackColor = false;
+            btnreportecompras.Click += button3_Click;
+>>>>>>> 2a346beb73daf9492f9331842ab8b1ff551b377b
             // 
-            // dateTimePicker6
+            // dptInicio
             // 
-            dateTimePicker6.Format = DateTimePickerFormat.Custom;
-            dateTimePicker6.Location = new Point(30, 100);
-            dateTimePicker6.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker6.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker6.Name = "dateTimePicker6";
-            dateTimePicker6.Size = new Size(190, 26);
-            dateTimePicker6.TabIndex = 3;
-            dateTimePicker6.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            dptInicio.Format = DateTimePickerFormat.Custom;
+            dptInicio.Location = new Point(30, 100);
+            dptInicio.Margin = new Padding(2, 5, 2, 5);
+            dptInicio.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dptInicio.Name = "dptInicio";
+            dptInicio.Size = new Size(190, 26);
+            dptInicio.TabIndex = 3;
+            dptInicio.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label11
             // 
@@ -844,7 +857,7 @@
             panel32.Controls.Add(panel36);
             panel32.Controls.Add(panel37);
             panel32.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
-            panel32.Location = new Point(314, 485);
+            panel32.Location = new Point(27, 480);
             panel32.Margin = new Padding(2, 5, 2, 5);
             panel32.MaximumSize = new Size(248, 352);
             panel32.MinimumSize = new Size(248, 352);
@@ -951,7 +964,7 @@
             panel38.Controls.Add(panel42);
             panel38.Controls.Add(panel43);
             panel38.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
-            panel38.Location = new Point(598, 482);
+            panel38.Location = new Point(315, 480);
             panel38.Margin = new Padding(2, 5, 2, 5);
             panel38.MaximumSize = new Size(248, 352);
             panel38.MinimumSize = new Size(248, 352);
@@ -1121,7 +1134,7 @@
             panel44.Controls.Add(panel48);
             panel44.Controls.Add(panel49);
             panel44.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
-            panel44.Location = new Point(882, 486);
+            panel44.Location = new Point(598, 480);
             panel44.Margin = new Padding(2, 5, 2, 5);
             panel44.MaximumSize = new Size(248, 352);
             panel44.MinimumSize = new Size(248, 352);
@@ -1383,7 +1396,7 @@
             panel56.Controls.Add(panel58);
             panel56.Controls.Add(panel60);
             panel56.Controls.Add(panel61);
-            panel56.Location = new Point(1171, 485);
+            panel56.Location = new Point(885, 481);
             panel56.Margin = new Padding(2, 5, 2, 5);
             panel56.MaximumSize = new Size(248, 352);
             panel56.MinimumSize = new Size(248, 352);
@@ -1676,7 +1689,6 @@
             Controls.Add(panel44);
             Controls.Add(panel38);
             Controls.Add(panel32);
-            Controls.Add(panel26);
             Controls.Add(panel20);
             Controls.Add(panel14);
             Controls.Add(panel8);
@@ -1760,10 +1772,10 @@
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel14;
-        private System.Windows.Forms.DateTimePicker dateTimePicker5;
+        private System.Windows.Forms.DateTimePicker dtpFin;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker6;
+        private System.Windows.Forms.Button btnreportecompras;
+        private System.Windows.Forms.DateTimePicker dptInicio;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Panel panel15;
@@ -1784,7 +1796,7 @@
         private System.Windows.Forms.Panel panel10;
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmbproveedor;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel20;
         private System.Windows.Forms.DateTimePicker dateTimePickerFechaFinal;
