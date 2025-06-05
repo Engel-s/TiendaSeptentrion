@@ -19,6 +19,10 @@ namespace formstienda
             InitializeComponent();
             dateTimePickerFechaInicial.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
             dateTimePickerFechaFinal.Value = DateTime.Today;
+            dateTimePickerFechaInicialMotivo.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
+            dateTimePickerFechaFinalMotivo.Value = DateTime.Today;
+            CargarUsuariosEnComboBox();
+            CargarMotivosEnComboBox();
 
         }
 
@@ -44,7 +48,7 @@ namespace formstienda
                         .OrderBy(u => u.NombreUsuario)
                         .ToList();
 
-                    
+
                     cmbUsuarioReporte.Items.Clear();
                     cmbUsuarioReporte.Items.Add("");
 
@@ -53,7 +57,7 @@ namespace formstienda
                     {
                         cmbUsuarioReporte.Items.Add($"{usuario.NombreUsuario} {usuario.ApellidoUsuario}");
                     }
-                                     
+
                     cmbUsuarioReporte.SelectedIndex = 0;
                 }
             }
@@ -164,6 +168,76 @@ namespace formstienda
             {
                 MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnMotivo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Validar fechas
+                if (dateTimePickerFechaInicialMotivo.Value > dateTimePickerFechaFinalMotivo.Value)
+                {
+                    MessageBox.Show("La fecha inicial no puede ser mayor que la fecha final", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string tempFilePath = Path.Combine(
+                    Path.GetTempPath(),
+                    $"Reporte_Otras_Salidas_{DateTime.Now:yyyyMMddHHmmss}.pdf"
+                );
+
+                // Crear instancia del formulario de reporte con los parámetros
+                ReporteOtrasSalidas reporte = new ReporteOtrasSalidas(
+                    dateTimePickerFechaInicialMotivo.Value,
+                    dateTimePickerFechaFinalMotivo.Value,
+                    cmbMotivo.Text.Trim()
+                );
+
+                // Generar y mostrar el reporte
+                reporte.GenerarPDF(tempFilePath);
+                reporte.MostrarPDF(tempFilePath);
+                reporte.Show();
+
+                MessageBox.Show("Reporte de otras salidas generado con éxito", "Éxito",
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Cargar motivos en el ComboBox
+        private void CargarMotivosEnComboBox()
+        {
+            try
+            {
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    var motivos = context.VistaSalidasInventarioPorPeriodoMotivos
+                        .Select(s => s.MotivoSalida)
+                        .Distinct()
+                        .OrderBy(m => m)
+                        .ToList();
+
+                    cmbMotivo.Items.Clear();
+                    cmbMotivo.Items.Add("");
+
+                    foreach (var motivo in motivos)
+                    {
+                        cmbMotivo.Items.Add(motivo);
+                    }
+
+                    cmbMotivo.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los motivos: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
