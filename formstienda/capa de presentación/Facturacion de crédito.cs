@@ -12,6 +12,7 @@ namespace formstienda.capa_de_presentación
     {
         private readonly CreditoServicio _creditoServicio;
         private const decimal TasaCambioDolar = 36.5m;
+        //camio minimo
 
         public Facturacion_de_crédito()
         {
