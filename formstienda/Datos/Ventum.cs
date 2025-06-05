@@ -21,11 +21,13 @@ public partial class Ventum
 
     public float TotalVenta { get; set; }
 
+    public string? CambiosFactura { get; set; }
+
     public virtual Cliente CedulaClienteNavigation { get; set; } = null!;
 
     public virtual ICollection<DetalleDeVentum> DetalleDeVenta { get; set; } = new List<DetalleDeVentum>();
 
-    public virtual ICollection<Devolucion> Devolucions { get; set; } = new List<Devolucion>();
+    public virtual ICollection<DevolucionVenta> DevolucionVenta { get; set; } = new List<DevolucionVenta>();
 
     public virtual ICollection<FacturaCredito> FacturaCreditos { get; set; } = new List<FacturaCredito>();
 }
