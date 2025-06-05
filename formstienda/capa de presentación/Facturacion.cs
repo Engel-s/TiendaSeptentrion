@@ -281,7 +281,7 @@ namespace formstienda
             var tasa = tasaServicio.ObtenerTasaDeHoy();
             if (tasa == null)
             {
-                MessageBox.Show("No hay tasa de cambio registrada para hoy.");
+                MessageBox.Show("No hay tasa de cambio registrada para hoy."); //validar error al cargar tasa de cambio
                 return;
             }
 
@@ -380,7 +380,7 @@ namespace formstienda
                         TotalCordobas = 0,
                         TotalDolares = 0,
                         CambioDevuelto = 0,
-                        Observaciones = "Pendiente",
+                        Observaciones = "Pendiente de pago",
                         UsuarioRegistro = UsuarioActivo.ObtenerUsuarioLogueo() // usa la variable real del usuario logueado
                     });
 

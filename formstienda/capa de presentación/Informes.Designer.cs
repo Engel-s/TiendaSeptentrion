@@ -31,10 +31,10 @@
             panel1 = new Panel();
             label1 = new Label();
             panel2 = new Panel();
-            dateTimePicker2 = new DateTimePicker();
+            dtpickerventasfinal = new DateTimePicker();
             label5 = new Label();
-            button1 = new Button();
-            dateTimePicker1 = new DateTimePicker();
+            btngenerarinformeventas = new Button();
+            dtpickerventasinicio = new DateTimePicker();
             label4 = new Label();
             label3 = new Label();
             panel3 = new Panel();
@@ -146,28 +146,19 @@
             panel59 = new Panel();
             panel60 = new Panel();
             panel61 = new Panel();
-            panel62 = new Panel();
-            textBox1 = new TextBox();
-            button12 = new Button();
-            label44 = new Label();
-            label45 = new Label();
-            panel63 = new Panel();
-            label46 = new Label();
-            panel64 = new Panel();
-            panel65 = new Panel();
-            panel66 = new Panel();
-            panel67 = new Panel();
-            panel68 = new Panel();
-            textBox2 = new TextBox();
-            button13 = new Button();
-            label48 = new Label();
-            label49 = new Label();
-            panel69 = new Panel();
-            label50 = new Label();
-            panel70 = new Panel();
-            panel71 = new Panel();
-            panel72 = new Panel();
-            panel73 = new Panel();
+            panel31 = new Panel();
+            panel30 = new Panel();
+            panel28 = new Panel();
+            panel29 = new Panel();
+            panel27 = new Panel();
+            label22 = new Label();
+            label21 = new Label();
+            label20 = new Label();
+            dateTimePicker10 = new DateTimePicker();
+            button5 = new Button();
+            label19 = new Label();
+            dateTimePicker9 = new DateTimePicker();
+            panel26 = new Panel();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -194,12 +185,9 @@
             panel56.SuspendLayout();
             panel57.SuspendLayout();
             panel58.SuspendLayout();
-            panel62.SuspendLayout();
-            panel63.SuspendLayout();
-            panel64.SuspendLayout();
-            panel68.SuspendLayout();
-            panel69.SuspendLayout();
-            panel70.SuspendLayout();
+            panel28.SuspendLayout();
+            panel27.SuspendLayout();
+            panel26.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -230,10 +218,10 @@
             // 
             panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(dateTimePicker2);
+            panel2.Controls.Add(dtpickerventasfinal);
             panel2.Controls.Add(label5);
-            panel2.Controls.Add(button1);
-            panel2.Controls.Add(dateTimePicker1);
+            panel2.Controls.Add(btngenerarinformeventas);
+            panel2.Controls.Add(dtpickerventasinicio);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(panel3);
@@ -249,16 +237,16 @@
             panel2.Size = new Size(248, 352);
             panel2.TabIndex = 1;
             // 
-            // dateTimePicker2
+            // dtpickerventasfinal
             // 
-            dateTimePicker2.Format = DateTimePickerFormat.Custom;
-            dateTimePicker2.Location = new Point(30, 198);
-            dateTimePicker2.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker2.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(190, 26);
-            dateTimePicker2.TabIndex = 6;
-            dateTimePicker2.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            dtpickerventasfinal.Format = DateTimePickerFormat.Custom;
+            dtpickerventasfinal.Location = new Point(30, 198);
+            dtpickerventasfinal.Margin = new Padding(2, 5, 2, 5);
+            dtpickerventasfinal.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dtpickerventasfinal.Name = "dtpickerventasfinal";
+            dtpickerventasfinal.Size = new Size(190, 26);
+            dtpickerventasfinal.TabIndex = 6;
+            dtpickerventasfinal.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label5
             // 
@@ -271,27 +259,28 @@
             label5.TabIndex = 5;
             label5.Text = "Fecha final:";
             // 
-            // button1
+            // btngenerarinformeventas
             // 
-            button1.BackColor = Color.FromArgb(3, 171, 229);
-            button1.Location = new Point(76, 266);
-            button1.Margin = new Padding(2, 5, 2, 5);
-            button1.Name = "button1";
-            button1.Size = new Size(78, 38);
-            button1.TabIndex = 4;
-            button1.Text = "Generar";
-            button1.UseVisualStyleBackColor = false;
+            btngenerarinformeventas.BackColor = Color.FromArgb(3, 171, 229);
+            btngenerarinformeventas.Location = new Point(76, 266);
+            btngenerarinformeventas.Margin = new Padding(2, 5, 2, 5);
+            btngenerarinformeventas.Name = "btngenerarinformeventas";
+            btngenerarinformeventas.Size = new Size(105, 46);
+            btngenerarinformeventas.TabIndex = 4;
+            btngenerarinformeventas.Text = "Generar";
+            btngenerarinformeventas.UseVisualStyleBackColor = false;
+            btngenerarinformeventas.Click += btngenerarinformeventas_Click;
             // 
-            // dateTimePicker1
+            // dtpickerventasinicio
             // 
-            dateTimePicker1.Format = DateTimePickerFormat.Custom;
-            dateTimePicker1.Location = new Point(30, 115);
-            dateTimePicker1.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker1.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(190, 26);
-            dateTimePicker1.TabIndex = 3;
-            dateTimePicker1.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            dtpickerventasinicio.Format = DateTimePickerFormat.Custom;
+            dtpickerventasinicio.Location = new Point(30, 115);
+            dtpickerventasinicio.Margin = new Padding(2, 5, 2, 5);
+            dtpickerventasinicio.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dtpickerventasinicio.Name = "dtpickerventasinicio";
+            dtpickerventasinicio.Size = new Size(190, 26);
+            dtpickerventasinicio.TabIndex = 3;
+            dtpickerventasinicio.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label4
             // 
@@ -415,7 +404,7 @@
             button2.Location = new Point(76, 266);
             button2.Margin = new Padding(2, 5, 2, 5);
             button2.Name = "button2";
-            button2.Size = new Size(78, 38);
+            button2.Size = new Size(114, 44);
             button2.TabIndex = 4;
             button2.Text = "Generar";
             button2.UseVisualStyleBackColor = false;
@@ -1549,245 +1538,153 @@
             panel61.Size = new Size(244, 12);
             panel61.TabIndex = 4;
             // 
-            // panel62
+            // panel31
             // 
-            panel62.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            panel62.BorderStyle = BorderStyle.FixedSingle;
-            panel62.Controls.Add(textBox1);
-            panel62.Controls.Add(button12);
-            panel62.Controls.Add(label44);
-            panel62.Controls.Add(label45);
-            panel62.Controls.Add(panel63);
-            panel62.Controls.Add(panel64);
-            panel62.Controls.Add(panel66);
-            panel62.Controls.Add(panel67);
-            panel62.Location = new Point(1445, 108);
-            panel62.Margin = new Padding(2, 5, 2, 5);
-            panel62.MaximumSize = new Size(248, 352);
-            panel62.MinimumSize = new Size(248, 352);
-            panel62.Name = "panel62";
-            panel62.Size = new Size(248, 352);
-            panel62.TabIndex = 15;
+            panel31.BackColor = Color.FromArgb(3, 171, 229);
+            panel31.Location = new Point(0, 338);
+            panel31.Margin = new Padding(2, 5, 2, 5);
+            panel31.Name = "panel31";
+            panel31.Size = new Size(244, 12);
+            panel31.TabIndex = 4;
             // 
-            // textBox1
+            // panel30
             // 
-            textBox1.Location = new Point(26, 168);
-            textBox1.Margin = new Padding(2, 5, 2, 5);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(190, 27);
-            textBox1.TabIndex = 8;
+            panel30.BackColor = Color.FromArgb(3, 171, 229);
+            panel30.Location = new Point(0, 0);
+            panel30.Margin = new Padding(2, 5, 2, 5);
+            panel30.Name = "panel30";
+            panel30.Size = new Size(10, 352);
+            panel30.TabIndex = 4;
             // 
-            // button12
+            // panel28
             // 
-            button12.BackColor = Color.FromArgb(3, 171, 229);
-            button12.Location = new Point(66, 202);
-            button12.Margin = new Padding(2, 5, 2, 5);
-            button12.Name = "button12";
-            button12.Size = new Size(106, 38);
-            button12.TabIndex = 4;
-            button12.Text = "Generar";
-            button12.UseVisualStyleBackColor = false;
+            panel28.BackColor = Color.FromArgb(3, 171, 229);
+            panel28.Controls.Add(panel29);
+            panel28.Location = new Point(236, 0);
+            panel28.Margin = new Padding(2, 5, 2, 5);
+            panel28.Name = "panel28";
+            panel28.Size = new Size(10, 350);
+            panel28.TabIndex = 2;
             // 
-            // label44
+            // panel29
             // 
-            label44.AutoSize = true;
-            label44.ForeColor = Color.Black;
-            label44.Location = new Point(26, 138);
-            label44.Margin = new Padding(2, 0, 2, 0);
-            label44.Name = "label44";
-            label44.Size = new Size(97, 20);
-            label44.TabIndex = 2;
-            label44.Text = "N. de factura:";
+            panel29.BackColor = Color.FromArgb(3, 171, 229);
+            panel29.Location = new Point(0, 0);
+            panel29.Margin = new Padding(2, 5, 2, 5);
+            panel29.Name = "panel29";
+            panel29.Size = new Size(10, 350);
+            panel29.TabIndex = 3;
             // 
-            // label45
+            // panel27
             // 
-            label45.AutoSize = true;
-            label45.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold);
-            label45.Location = new Point(26, 42);
-            label45.Margin = new Padding(2, 0, 2, 0);
-            label45.Name = "label45";
-            label45.Size = new Size(0, 20);
-            label45.TabIndex = 1;
+            panel27.BackColor = Color.FromArgb(3, 171, 229);
+            panel27.Controls.Add(label22);
+            panel27.Location = new Point(0, 0);
+            panel27.Margin = new Padding(2, 5, 2, 5);
+            panel27.Name = "panel27";
+            panel27.Size = new Size(246, 58);
+            panel27.TabIndex = 7;
             // 
-            // panel63
+            // label22
             // 
-            panel63.BackColor = Color.FromArgb(3, 171, 229);
-            panel63.Controls.Add(label46);
-            panel63.Location = new Point(0, 0);
-            panel63.Margin = new Padding(2, 5, 2, 5);
-            panel63.Name = "panel63";
-            panel63.Size = new Size(246, 58);
-            panel63.TabIndex = 7;
+            label22.AutoSize = true;
+            label22.BackColor = Color.FromArgb(3, 171, 229);
+            label22.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label22.ForeColor = Color.Black;
+            label22.Location = new Point(14, 18);
+            label22.Margin = new Padding(2, 0, 2, 0);
+            label22.Name = "label22";
+            label22.Size = new Size(191, 20);
+            label22.TabIndex = 0;
+            label22.Text = " Reporte de compras:";
             // 
-            // label46
+            // label21
             // 
-            label46.AutoSize = true;
-            label46.BackColor = Color.FromArgb(3, 171, 229);
-            label46.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label46.ForeColor = Color.Black;
-            label46.Location = new Point(34, 5);
-            label46.Margin = new Padding(2, 0, 2, 0);
-            label46.Name = "label46";
-            label46.Size = new Size(164, 40);
-            label46.TabIndex = 0;
-            label46.Text = " Reporte de venta \r\n      especifica:";
+            label21.AutoSize = true;
+            label21.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold);
+            label21.Location = new Point(26, 42);
+            label21.Margin = new Padding(2, 0, 2, 0);
+            label21.Name = "label21";
+            label21.Size = new Size(0, 20);
+            label21.TabIndex = 1;
             // 
-            // panel64
+            // label20
             // 
-            panel64.BackColor = Color.FromArgb(3, 171, 229);
-            panel64.Controls.Add(panel65);
-            panel64.Location = new Point(236, 0);
-            panel64.Margin = new Padding(2, 5, 2, 5);
-            panel64.Name = "panel64";
-            panel64.Size = new Size(10, 350);
-            panel64.TabIndex = 2;
+            label20.AutoSize = true;
+            label20.ForeColor = Color.Black;
+            label20.Location = new Point(26, 90);
+            label20.Margin = new Padding(2, 0, 2, 0);
+            label20.Name = "label20";
+            label20.Size = new Size(122, 20);
+            label20.TabIndex = 2;
+            label20.Text = "Fecha inicial:";
             // 
-            // panel65
+            // dateTimePicker10
             // 
-            panel65.BackColor = Color.FromArgb(3, 171, 229);
-            panel65.Location = new Point(0, 0);
-            panel65.Margin = new Padding(2, 5, 2, 5);
-            panel65.Name = "panel65";
-            panel65.Size = new Size(10, 350);
-            panel65.TabIndex = 3;
+            dateTimePicker10.Format = DateTimePickerFormat.Custom;
+            dateTimePicker10.Location = new Point(30, 115);
+            dateTimePicker10.Margin = new Padding(2, 5, 2, 5);
+            dateTimePicker10.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dateTimePicker10.Name = "dateTimePicker10";
+            dateTimePicker10.Size = new Size(190, 26);
+            dateTimePicker10.TabIndex = 3;
+            dateTimePicker10.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
-            // panel66
+            // button5
             // 
-            panel66.BackColor = Color.FromArgb(3, 171, 229);
-            panel66.Location = new Point(0, 0);
-            panel66.Margin = new Padding(2, 5, 2, 5);
-            panel66.Name = "panel66";
-            panel66.Size = new Size(10, 352);
-            panel66.TabIndex = 4;
+            button5.BackColor = Color.FromArgb(3, 171, 229);
+            button5.Location = new Point(76, 266);
+            button5.Margin = new Padding(2, 5, 2, 5);
+            button5.Name = "button5";
+            button5.Size = new Size(78, 38);
+            button5.TabIndex = 4;
+            button5.Text = "Generar";
+            button5.UseVisualStyleBackColor = false;
             // 
-            // panel67
+            // label19
             // 
-            panel67.BackColor = Color.FromArgb(3, 171, 229);
-            panel67.Location = new Point(0, 338);
-            panel67.Margin = new Padding(2, 5, 2, 5);
-            panel67.Name = "panel67";
-            panel67.Size = new Size(244, 12);
-            panel67.TabIndex = 4;
+            label19.AutoSize = true;
+            label19.ForeColor = Color.Black;
+            label19.Location = new Point(26, 170);
+            label19.Margin = new Padding(2, 0, 2, 0);
+            label19.Name = "label19";
+            label19.Size = new Size(108, 20);
+            label19.TabIndex = 5;
+            label19.Text = "Fecha final:";
             // 
-            // panel68
+            // dateTimePicker9
             // 
-            panel68.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            panel68.BorderStyle = BorderStyle.FixedSingle;
-            panel68.Controls.Add(textBox2);
-            panel68.Controls.Add(button13);
-            panel68.Controls.Add(label48);
-            panel68.Controls.Add(label49);
-            panel68.Controls.Add(panel69);
-            panel68.Controls.Add(panel70);
-            panel68.Controls.Add(panel72);
-            panel68.Controls.Add(panel73);
-            panel68.Location = new Point(1171, 481);
-            panel68.Margin = new Padding(2, 5, 2, 5);
-            panel68.MaximumSize = new Size(248, 352);
-            panel68.MinimumSize = new Size(248, 352);
-            panel68.Name = "panel68";
-            panel68.Size = new Size(248, 352);
-            panel68.TabIndex = 16;
+            dateTimePicker9.Format = DateTimePickerFormat.Custom;
+            dateTimePicker9.Location = new Point(30, 198);
+            dateTimePicker9.Margin = new Padding(2, 5, 2, 5);
+            dateTimePicker9.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            dateTimePicker9.Name = "dateTimePicker9";
+            dateTimePicker9.Size = new Size(190, 26);
+            dateTimePicker9.TabIndex = 6;
+            dateTimePicker9.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
-            // textBox2
+            // panel26
             // 
-            textBox2.Location = new Point(32, 158);
-            textBox2.Margin = new Padding(2, 5, 2, 5);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(174, 27);
-            textBox2.TabIndex = 8;
-            // 
-            // button13
-            // 
-            button13.BackColor = Color.FromArgb(3, 171, 229);
-            button13.Location = new Point(78, 202);
-            button13.Margin = new Padding(2, 5, 2, 5);
-            button13.Name = "button13";
-            button13.Size = new Size(102, 38);
-            button13.TabIndex = 4;
-            button13.Text = "Generar";
-            button13.UseVisualStyleBackColor = false;
-            // 
-            // label48
-            // 
-            label48.AutoSize = true;
-            label48.ForeColor = Color.Black;
-            label48.Location = new Point(34, 135);
-            label48.Margin = new Padding(2, 0, 2, 0);
-            label48.Name = "label48";
-            label48.Size = new Size(102, 20);
-            label48.TabIndex = 2;
-            label48.Text = "N. de compra:";
-            // 
-            // label49
-            // 
-            label49.AutoSize = true;
-            label49.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold);
-            label49.Location = new Point(26, 42);
-            label49.Margin = new Padding(2, 0, 2, 0);
-            label49.Name = "label49";
-            label49.Size = new Size(0, 20);
-            label49.TabIndex = 1;
-            // 
-            // panel69
-            // 
-            panel69.BackColor = Color.FromArgb(3, 171, 229);
-            panel69.Controls.Add(label50);
-            panel69.Location = new Point(0, 0);
-            panel69.Margin = new Padding(2, 5, 2, 5);
-            panel69.Name = "panel69";
-            panel69.Size = new Size(246, 58);
-            panel69.TabIndex = 7;
-            // 
-            // label50
-            // 
-            label50.AutoSize = true;
-            label50.BackColor = Color.FromArgb(3, 171, 229);
-            label50.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label50.ForeColor = Color.Black;
-            label50.Location = new Point(32, 5);
-            label50.Margin = new Padding(2, 0, 2, 0);
-            label50.Name = "label50";
-            label50.Size = new Size(175, 40);
-            label50.TabIndex = 0;
-            label50.Text = " Reporte de compra\r\n      especifica:";
-            // 
-            // panel70
-            // 
-            panel70.BackColor = Color.FromArgb(3, 171, 229);
-            panel70.Controls.Add(panel71);
-            panel70.Location = new Point(236, 0);
-            panel70.Margin = new Padding(2, 5, 2, 5);
-            panel70.Name = "panel70";
-            panel70.Size = new Size(10, 350);
-            panel70.TabIndex = 2;
-            // 
-            // panel71
-            // 
-            panel71.BackColor = Color.FromArgb(3, 171, 229);
-            panel71.Location = new Point(0, 0);
-            panel71.Margin = new Padding(2, 5, 2, 5);
-            panel71.Name = "panel71";
-            panel71.Size = new Size(10, 350);
-            panel71.TabIndex = 3;
-            // 
-            // panel72
-            // 
-            panel72.BackColor = Color.FromArgb(3, 171, 229);
-            panel72.Location = new Point(0, 0);
-            panel72.Margin = new Padding(2, 5, 2, 5);
-            panel72.Name = "panel72";
-            panel72.Size = new Size(10, 352);
-            panel72.TabIndex = 4;
-            // 
-            // panel73
-            // 
-            panel73.BackColor = Color.FromArgb(3, 171, 229);
-            panel73.Location = new Point(0, 338);
-            panel73.Margin = new Padding(2, 5, 2, 5);
-            panel73.Name = "panel73";
-            panel73.Size = new Size(244, 12);
-            panel73.TabIndex = 4;
+            panel26.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            panel26.BorderStyle = BorderStyle.FixedSingle;
+            panel26.Controls.Add(dateTimePicker9);
+            panel26.Controls.Add(label19);
+            panel26.Controls.Add(button5);
+            panel26.Controls.Add(dateTimePicker10);
+            panel26.Controls.Add(label20);
+            panel26.Controls.Add(label21);
+            panel26.Controls.Add(panel27);
+            panel26.Controls.Add(panel28);
+            panel26.Controls.Add(panel30);
+            panel26.Controls.Add(panel31);
+            panel26.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            panel26.Location = new Point(26, 482);
+            panel26.Margin = new Padding(2, 5, 2, 5);
+            panel26.MaximumSize = new Size(248, 352);
+            panel26.MinimumSize = new Size(248, 352);
+            panel26.Name = "panel26";
+            panel26.Size = new Size(248, 352);
+            panel26.TabIndex = 10;
             // 
             // Informes
             // 
@@ -1797,8 +1694,6 @@
             BackColor = Color.White;
             ClientSize = new Size(1736, 868);
             Controls.Add(panel50);
-            Controls.Add(panel68);
-            Controls.Add(panel62);
             Controls.Add(panel56);
             Controls.Add(panel44);
             Controls.Add(panel38);
@@ -1860,16 +1755,11 @@
             panel57.ResumeLayout(false);
             panel57.PerformLayout();
             panel58.ResumeLayout(false);
-            panel62.ResumeLayout(false);
-            panel62.PerformLayout();
-            panel63.ResumeLayout(false);
-            panel63.PerformLayout();
-            panel64.ResumeLayout(false);
-            panel68.ResumeLayout(false);
-            panel68.PerformLayout();
-            panel69.ResumeLayout(false);
-            panel69.PerformLayout();
-            panel70.ResumeLayout(false);
+            panel28.ResumeLayout(false);
+            panel27.ResumeLayout(false);
+            panel27.PerformLayout();
+            panel26.ResumeLayout(false);
+            panel26.PerformLayout();
             ResumeLayout(false);
 
         }
@@ -1881,10 +1771,10 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpickerventasinicio;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.Button btngenerarinformeventas;
+        private System.Windows.Forms.DateTimePicker dtpickerventasfinal;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
@@ -1994,27 +1884,18 @@
         private System.Windows.Forms.Panel panel53;
         private System.Windows.Forms.Panel panel54;
         private System.Windows.Forms.Panel panel55;
-        private System.Windows.Forms.Panel panel68;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Label label48;
-        private System.Windows.Forms.Label label49;
-        private System.Windows.Forms.Panel panel69;
-        private System.Windows.Forms.Label label50;
-        private System.Windows.Forms.Panel panel70;
-        private System.Windows.Forms.Panel panel71;
-        private System.Windows.Forms.Panel panel72;
-        private System.Windows.Forms.Panel panel73;
-        private System.Windows.Forms.Panel panel62;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Label label44;
-        private System.Windows.Forms.Label label45;
-        private System.Windows.Forms.Panel panel63;
-        private System.Windows.Forms.Label label46;
-        private System.Windows.Forms.Panel panel64;
-        private System.Windows.Forms.Panel panel65;
-        private System.Windows.Forms.Panel panel66;
-        private System.Windows.Forms.Panel panel67;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private Panel panel31;
+        private Panel panel30;
+        private Panel panel28;
+        private Panel panel29;
+        private Panel panel27;
+        private Label label22;
+        private Label label21;
+        private Label label20;
+        private DateTimePicker dateTimePicker10;
+        private Button button5;
+        private Label label19;
+        private DateTimePicker dateTimePicker9;
+        private Panel panel26;
     }
 }
