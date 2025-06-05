@@ -5,6 +5,8 @@ using System.Data;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using static formstienda.Login;
+using System.Linq;
+
 
 
 namespace formstienda
@@ -240,6 +242,7 @@ namespace formstienda
             rbcontado.Checked = true;
 
             ocultarderegistro();
+         
 
 
 
@@ -464,10 +467,29 @@ namespace formstienda
 
         private void AgregarAlDataGridView(ProductoSeleccionado producto)
         {
-            // Agregar producto al DataGridView
+            foreach (DataGridViewRow fila in dgmostrar.Rows)
+            {
+                if (fila.Cells[0].Value != null && fila.Cells[0].Value.ToString() == producto.CodigoProducto)
+                {
+                    // Sumar cantidades
+                    int cantidadExistente = Convert.ToInt32(fila.Cells[5].Value); // columna de cantidad
+                    int nuevaCantidad = cantidadExistente + producto.Cantidad;
+                    fila.Cells[5].Value = nuevaCantidad;
+
+                    // Recalcular subtotal
+                    decimal precio = Convert.ToDecimal(fila.Cells[4].Value); // columna de precio
+                    fila.Cells[6].Value = precio * nuevaCantidad;
+
+                    // Salir porque ya se actualizó la fila existente
+                    ActualizarTotal();
+                    return;
+                }
+            }
+
+            // Si no existe, agregar nueva fila
             dgmostrar.Rows.Add(producto.CodigoProducto, producto.ModeloProducto, producto.Marca, producto.Categoria, producto.PrecioVenta, producto.Cantidad, producto.Subtotal);
 
-            // Actualizar total
+            // Actualizar total general
             ActualizarTotal();
         }
 
@@ -488,31 +510,36 @@ namespace formstienda
         {
             if (productoSeleccionadoTemporal != null)
             {
-                // Validar cantidad ingresada
                 if (!int.TryParse(txtcantidad.Text, out int cantidadIngresada) || cantidadIngresada <= 0)
                 {
                     MessageBox.Show("Ingrese una cantidad válida.");
                     return;
                 }
 
-                // Validar stock disponible
                 if (cantidadIngresada > productoSeleccionadoTemporal.stockactualproducto)
                 {
                     MessageBox.Show($"Stock insuficiente para {productoSeleccionadoTemporal.ModeloProducto}. Disponible: {productoSeleccionadoTemporal.stockactualproducto}");
                     return;
                 }
 
-                // Asignar la cantidad al producto antes de agregar
+                // Restar stock en la lista original
+                var productoOriginal = Listaproducto.FirstOrDefault(p => p.CodigoProducto == productoSeleccionadoTemporal.CodigoProducto);
+                if (productoOriginal != null)
+                {
+                    productoOriginal.StockActual -= cantidadIngresada;
+                    productoSeleccionadoTemporal.stockactualproducto = (int)productoOriginal.StockActual;
+                }
+
                 productoSeleccionadoTemporal.Cantidad = cantidadIngresada;
 
-                // Agregar el producto al DataGridView
                 AgregarAlDataGridView(productoSeleccionadoTemporal);
 
-                // Limpiar la selección temporal
                 productoSeleccionadoTemporal = null;
 
-                // Limpiar campos de texto
                 LimpiarCampos();
+
+                // Actualiza combos y muestra stock actualizado
+                CargarCombos(Listaproducto.ToList());
             }
             else
             {
@@ -689,11 +716,13 @@ namespace formstienda
         private void txtpago_TextChanged(object sender, EventArgs e)
         {
             CalcularCambio();
+  
         }
 
         private void txtfaltante_TextChanged(object sender, EventArgs e)
         {
             CalcularCambio();
+    
         }
 
         private void CalcularCambio()
@@ -913,6 +942,7 @@ namespace formstienda
             LimpiarFormulario();
             
         }
+
 
 
     }

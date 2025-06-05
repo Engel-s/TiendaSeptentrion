@@ -234,9 +234,10 @@ namespace formstienda.capa_de_presentación
         private void OtrasSalidas_Load(object sender, EventArgs e)
         {
             // Cargar datos existentes si es necesario
-            CargarSalidasExistentes();
+            ////CargarSalidasExistentes();
         }
 
+<<<<<<< HEAD
         private void CargarSalidasExistentes()
         {
             try
@@ -279,6 +280,50 @@ namespace formstienda.capa_de_presentación
                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+=======
+        //private void CargarSalidasExistentes()
+        //{
+        //    try
+        //    {
+        //        // Limpiar la lista existente primero
+        //        _salidasList.Clear();
+
+        //        // Consulta optimizada con join para obtener los datos necesarios
+        //        var salidasConProductos = (
+        //            from salida in _contexto.OtrasSalidasDeInventarios
+        //            join producto in _contexto.Productos
+        //            on salida.CodigoProductoNavigation equals producto.CodigoProducto
+        //            orderby salida.FechaSalida descending
+        //            select new
+        //            {
+        //                salida.CodigoProductoNavigation,
+        //                producto.ModeloProducto,
+        //                salida.CantidadSalir,
+        //                salida.MotivoSalida,
+        //                salida.DescripcionSalida,
+        //                salida.FechaSalida
+        //            }).Take(50).ToList();
+
+        //        foreach (var item in salidasConProductos)
+        //        {
+        //            _salidasList.Add(new SalidaViewModel
+        //            {
+        //                Codigo = item.CodigoProductoNavigation,
+        //                NombreProducto = item.ModeloProducto,
+        //                Cantidad = item.CantidadSalir,
+        //                Motivo = item.MotivoSalida,
+        //                Descripcion = item.DescripcionSalida,
+        //                 = item.FechaSalida.ToString("dd/MM/yyyy")
+        //            });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Error al cargar salidas existentes: {ex.Message}", "Error",
+        //                       MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
+>>>>>>> 349a0128b8dd2ab45515b6696e207d2bce011130
 
         private void button1_Click(object sender, EventArgs e)
         {
