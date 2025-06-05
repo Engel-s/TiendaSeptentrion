@@ -92,11 +92,7 @@ namespace formstienda.capa_de_presentación
                         .SetFontSize(15);
                         
 
-                    /*var titulo = new Paragraph("Tienda El Septentrión")
-                        .SetFont(boldFont)
-                        .SetFontSize(20);*/
-
-                    // RUTA A LA IMAGEN
+                    //ruta imagen
                     string rutaImagen = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources\logo_actualizado-removebg-preview.png");
 
                     // Verifica que la imagen exista
@@ -107,17 +103,16 @@ namespace formstienda.capa_de_presentación
                         var imagen = new iText.Layout.Element.Image(imgData)
                                         .SetWidth(300)
                                         .SetHeight(200)
-                                        //.SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.RIGHT);
                                         .SetFixedPosition(pdfDoc.GetDefaultPageSize().GetWidth() - 250, // X desde la derecha
                                       pdfDoc.GetDefaultPageSize().GetHeight() - 200); // Y desde arriba
 
-                        // Crear texto del título
+                        // Texto del título
                         var titulo = new Paragraph("Tienda El Septentrión")
                                         .SetFont(boldFont)
                                         .SetFontSize(20)
                                         .SetTextAlignment(TextAlignment.LEFT);
 
-                        // Crear tabla con 2 columnas: imagen + texto
+                        //Tabla con 2 columnas: imagen y texto
                         Table encabezadoTabla = new Table(new float[] { 4, 1 }).UseAllAvailableWidth();
                         encabezadoTabla.SetMarginBottom(10);
 
@@ -129,12 +124,12 @@ namespace formstienda.capa_de_presentación
                                         .SetTextAlignment(TextAlignment.RIGHT)
                                         .SetBorder(Border.NO_BORDER));
 
-                        // Agregar al documento
+                     
                         document.Add(encabezadoTabla);
                     }
                     else
                     {
-                        // Si no existe la imagen, solo agrega el título como antes
+                        
                         var titulo = new Paragraph("Tienda El Septentrión")
                                         .SetFont(boldFont)
                                         .SetFontSize(20);
@@ -217,18 +212,6 @@ namespace formstienda.capa_de_presentación
 
         private void FormReportesCompras_Load(object sender, EventArgs e)
         {
-            /*try
-            {
-                string rutaPDF = GenerarReporte(_fechaInicio, _fechaFin, rutaPdf, _rucProveedor);
-                if (!string.IsNullOrEmpty(rutaPDF) && File.Exists(rutaPDF))
-                {
-                    webView21.Source = new Uri(rutaPDF);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar el reporte: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
             try
             {
                 if (!File.Exists(rutaPdf)) // Para no generar si ya existe

@@ -232,9 +232,9 @@ namespace formstienda
 
         }
 
-
         private void ColumnasPersonalizadas()
         {
+            // Ocultar columnas innecesarias
             dtgcompras.Columns["IdDetalleCompra"].Visible = false;
             dtgcompras.Columns["IdCompra"].Visible = false;
             dtgcompras.Columns["NombreProveedor"].Visible = false;
@@ -248,11 +248,86 @@ namespace formstienda
             dtgcompras.Columns["NumeroFactura"].Visible = false;
             dtgcompras.Columns["NombreCompleto"].Visible = false;
 
-            dtgcompras.Columns["NombreProducto"].HeaderText = "Producto";
-            dtgcompras.Columns["CantidadCompra"].HeaderText = "Cantidad";
-            dtgcompras.Columns["PrecioCompra"].HeaderText = "Precio de compra";
-            dtgcompras.Columns["SubtotalCompra"].HeaderText = "Subtotal";
+            // Ocultar propiedades numéricas sin formato
+            if (dtgcompras.Columns["PrecioCompra"] != null)
+                dtgcompras.Columns["PrecioCompra"].Visible = false;
+
+            if (dtgcompras.Columns["SubtotalCompra"] != null)
+                dtgcompras.Columns["SubtotalCompra"].Visible = false;
+
+            // Configurar columnas visibles y formateadas
+            if (dtgcompras.Columns["NombreProducto"] != null)
+            {
+                dtgcompras.Columns["NombreProducto"].HeaderText = "Producto";
+                dtgcompras.Columns["NombreProducto"].DisplayIndex = 0;
+            }
+
+            if (dtgcompras.Columns["PrecioCompraFormateado"] != null)
+            {
+                dtgcompras.Columns["PrecioCompraFormateado"].Visible = true;
+                dtgcompras.Columns["PrecioCompraFormateado"].HeaderText = "Precio de compra";
+                dtgcompras.Columns["PrecioCompraFormateado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dtgcompras.Columns["PrecioCompraFormateado"].DisplayIndex = 1;
+            }
+
+            if (dtgcompras.Columns["CantidadCompra"] != null)
+            {
+                dtgcompras.Columns["CantidadCompra"].HeaderText = "Cantidad";
+                dtgcompras.Columns["CantidadCompra"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dtgcompras.Columns["CantidadCompra"].DisplayIndex = 2;
+            }
+
+            if (dtgcompras.Columns["SubtotalFormateado"] != null)
+            {
+                dtgcompras.Columns["SubtotalFormateado"].Visible = true;
+                dtgcompras.Columns["SubtotalFormateado"].HeaderText = "Subtotal";
+                dtgcompras.Columns["SubtotalFormateado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dtgcompras.Columns["SubtotalFormateado"].DisplayIndex = 3;
+            }
         }
+
+
+        private void dtgcompras_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dtgcompras.Columns[e.ColumnIndex].Name == "PrecioCompra" ||
+                dtgcompras.Columns[e.ColumnIndex].Name == "SubtotalCompra")
+            {
+                if (e.Value != null)
+                {
+                    
+                    if (decimal.TryParse(e.Value.ToString(), out decimal value))
+                    {
+                        
+                        e.Value = value.ToString("C", new CultureInfo("es-NI"));
+                        e.FormattingApplied = true;
+                    }
+                }
+            }
+        }
+
+        private void dtgcompras_CellParsing(object sender, DataGridViewCellParsingEventArgs e)
+        {
+            if (dtgcompras.Columns[e.ColumnIndex].Name == "PrecioCompra" ||
+                dtgcompras.Columns[e.ColumnIndex].Name == "SubtotalCompra")
+            {
+                if (e.Value != null)
+                {
+                    string valueStr = e.Value.ToString();
+                    valueStr = valueStr.Replace("C$", "").Replace("S/.", "").Trim();
+
+                    if (decimal.TryParse(valueStr, out decimal value))
+                    {
+                        e.Value = value;
+                        e.ParsingApplied = true;
+                    }
+                    else
+                    {
+                        e.ParsingApplied = false;
+                    }
+                }
+            }
+        }
+
 
         private void FormCompras_Load(object sender, EventArgs e)
         {
@@ -280,9 +355,12 @@ namespace formstienda
             productoServicio = new ProductoServicio();
             listaproductosfiltrados = new BindingList<Producto>(productoServicio.ListarProductos());
 
-
+            dtgcompras.AutoGenerateColumns = true;
             dtgcompras.DataSource = listadetallecompra;
             ColumnasPersonalizadas();
+
+            dtgcompras.CellFormatting += dtgcompras_CellFormatting;
+            dtgcompras.CellParsing += dtgcompras_CellParsing;
 
         }
 
@@ -443,7 +521,8 @@ namespace formstienda
                     return;
                 }
 
-                //float preciocompra = float.Parse(txtpreciocompra.Text);
+                
+
                 if (precioVenta <= precioCompra)
                 {
                     MessageBox.Show("El precio de compra no puede ser mayor o igual al precio de venta",
@@ -540,8 +619,10 @@ namespace formstienda
                             //Actualiza producto existente
                             int cantidadAnterior = detalleExistente.CantidadCompra;
                             detalleExistente.CantidadCompra += cantidad;
-                            detalleExistente.PrecioCompra = precioCompra; // Actualizar precio si cambió
-                            
+                            detalleExistente.PrecioCompra = precioCompra; // Actualizar precio si cambia
+                            listadetallecompra.ResetBindings(); 
+                            dtgcompras.Refresh();
+
 
                             // Actualizar en la base de datos
                             detalleCompraServicio.ActualizarDetalleCompra(
