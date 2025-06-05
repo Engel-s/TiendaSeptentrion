@@ -412,12 +412,12 @@ namespace formstienda.capa_de_presentación
 
         private void webViewArqueo_Click(object sender, EventArgs e)
         {
-            // Evento click del webView
+          
         }
 
         private void ReporteArqueo_Load(object sender, EventArgs e)
         {
-            // Evento load del formulario
+           
         }
 
         private void btnSalirArqueo_Click(object sender, EventArgs e)
