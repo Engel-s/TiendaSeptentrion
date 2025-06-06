@@ -212,6 +212,20 @@ namespace formstienda
                     cmbUsuarioReporte.Text.Trim()
                 );
 
+                var menuForm = this.MdiParent as menu;
+                if (menuForm == null)
+                {
+                    menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+                }
+                if (menuForm != null) 
+                {
+                    menuForm.AbrirformInPanel(new ReporteArqueo(
+                        dateTimePickerFechaInicial.Value,
+                        dateTimePickerFechaFinal.Value,
+                        cmbUsuarioReporte.Text.Trim()
+                    ));
+                }
+
                 // Generar y mostrar el reporte
                 reporte.GenerarPDF(tempFilePath);
                 reporte.MostrarPDF(tempFilePath);
@@ -219,6 +233,8 @@ namespace formstienda
 
                 MessageBox.Show("Reporte de arqueo generado con éxito", "Éxito",
                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                this.Close(); // Cerrar el formulario de informes después de generar el reporte
             }
             catch (Exception ex)
             {
@@ -234,12 +250,12 @@ namespace formstienda
             DateTime fechaInicio = dtpickerventasinicio.Value.Date;
             DateTime fechaFin = dtpickerventasfinal.Value.Date;
 
-            // 2️⃣ Generar ruta PDF en el escritorio
+            // Generar ruta PDF en el escritorio
             string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string nombreArchivo = $"ReporteVentas_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
             string rutaPdf = Path.Combine(rutaEscritorio, nombreArchivo);
 
-            // 3️⃣ Crear y mostrar el formulario del visor con WebView
+            // Crear y mostrar el formulario del visor con WebView
             var visor = new reporteventas(fechaInicio, fechaFin, rutaPdf);
             visor.Show();
         }
@@ -272,8 +288,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar los motivos: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+              
             }
         }
 
@@ -285,7 +300,7 @@ namespace formstienda
             string nombreArchivo = $"ReporteDevoluciones_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
             string rutaPdf = Path.Combine(rutaEscritorio, nombreArchivo);
 
-            // 3️⃣ Crear y mostrar el formulario del visor con WebView
+            // Crear y mostrar el formulario del visor con WebView
             var visionador = new reportedevoluciones(fechainicio, fechafin, rutaPdf);
             visionador.Show();
 

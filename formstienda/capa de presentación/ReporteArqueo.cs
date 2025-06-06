@@ -50,6 +50,8 @@ namespace formstienda.capa_de_presentación
                 var arqueos = _context.VistaArqueoCajaPorPeriodoCajeros.AsQueryable()
                     .Where(a => a.FechaArqueo >= _fechaInicial && a.FechaArqueo <= _fechaFinal);
 
+                bool mostrarUsuario = string.IsNullOrEmpty(_usuarioSeleccionado);
+
                 if (!string.IsNullOrEmpty(_usuarioSeleccionado))
                 {
                     arqueos = arqueos.Where(a => a.Cajero.Contains(_usuarioSeleccionado));
@@ -132,16 +134,16 @@ namespace formstienda.capa_de_presentación
 
                 document.Add(headerDiv);
 
-                // Crear tabla con 10 columnas
-                Table table = new Table(10);
+                // Determinar número de columnas dependiendo del usuario
+                int columnCount = mostrarUsuario ? 10 : 9;
+                Table table = new Table(columnCount);
                 table.UseAllAvailableWidth();
                 table.SetBorder(new SolidBorder(1));
                 table.SetMarginBottom(20);
 
                 // Encabezados de tabla
-                string[] headers = {
+                List<string> headers = new List<string> {
                     "FECHA",
-                    "USUARIO",
                     "TOTAL VENDIDO C$",
                     "TOTAL VENDIDO $",
                     "TOTAL EN CAJA C$",
@@ -151,6 +153,11 @@ namespace formstienda.capa_de_presentación
                     "FALTANTE C$",
                     "FALTANTE $"
                 };
+
+                if (mostrarUsuario)
+                {
+                    headers.Insert(1, "USUARIO");
+                }
 
                 foreach (string header in headers)
                 {
@@ -178,16 +185,17 @@ namespace formstienda.capa_de_presentación
                         .SetBorder(new SolidBorder(1)));
 
                     // Usuario
-                    table.AddCell(new Cell()
-                        .Add(new Paragraph(item.Cajero)
+                    if (mostrarUsuario)
+                    {
+                        table.AddCell(new Cell()
+                            .Add(new Paragraph(item.Cajero)
                             .SetFont(font)
                             .SetFontSize(9))
-                            
-                        .SetTextAlignment(TextAlignment.LEFT)
-                        .SetPadding(5)
-                        .SetBorder(new SolidBorder(1))
-                        .SetWidth(80));
-
+                            .SetTextAlignment(TextAlignment.LEFT)
+                            .SetPadding(5)
+                            .SetBorder(new SolidBorder(1))
+                            .SetWidth(80));
+                    }
 
                     // Total Vendido Córdoba
                     table.AddCell(new Cell()
@@ -200,12 +208,12 @@ namespace formstienda.capa_de_presentación
 
                     // Total Vendido Dólar
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.TotalEfectivoDolar?.ToString("C", CultureInfo.GetCultureInfo("en-US")) ?? "-"))
+                        .Add(new Paragraph(item.TotalEfectivoDolar?.ToString("C", CultureInfo.GetCultureInfo("en-US")) ?? "-")
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)
-                        .SetPadding(5)
-                        .SetBorder(new SolidBorder(1));
+                        .SetPadding(5) 
+                        .SetBorder(new SolidBorder(1)));
 
                     // Total en Caja Córdoba
                     table.AddCell(new Cell()
@@ -218,12 +226,12 @@ namespace formstienda.capa_de_presentación
 
                     // Total en Caja Dólar
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.TotalEfectivoDolar?.ToString("C", CultureInfo.GetCultureInfo("en-US")) ?? "-"))
+                        .Add(new Paragraph(item.TotalEfectivoDolar?.ToString("C", CultureInfo.GetCultureInfo("en-US")) ?? "-")
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)
-                        .SetPadding(5)
-                        .SetBorder(new SolidBorder(1));
+                        .SetPadding(5) 
+                        .SetBorder(new SolidBorder(1)));
 
                     // Sobrante Córdoba
                     table.AddCell(new Cell()
@@ -272,13 +280,15 @@ namespace formstienda.capa_de_presentación
                     .SetPadding(5)
                     .SetBorder(new SolidBorder(1)));
 
-                //Celda Vacia
-                table.AddCell(new Cell()
-                    .Add(new Paragraph(""))
-                    .SetBackgroundColor(new DeviceRgb(221, 221, 221))
-                    .SetPadding(5)
-                    .SetBorder(new SolidBorder(1)));
-
+                // Celda vacía
+                if (mostrarUsuario)
+                {
+                    table.AddCell(new Cell()
+                        .Add(new Paragraph(""))
+                        .SetBackgroundColor(new DeviceRgb(221, 221, 221))
+                        .SetPadding(5)
+                        .SetBorder(new SolidBorder(1)));
+                }
 
                 // Total Vendido Córdoba
                 table.AddCell(new Cell()
