@@ -27,6 +27,8 @@ namespace formstienda
             dateTimePickerFechaFinal.Value = DateTime.Today;
             dateTimePickerFechaInicialMotivo.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
             dateTimePickerFechaFinalMotivo.Value = DateTime.Today;
+            dptInicio.Value = DateTime.Today.AddDays(-7); 
+            dtpFin.Value = DateTime.Today;                
             CargarUsuariosEnComboBox();
             CargarMotivosEnComboBox();
 
@@ -63,10 +65,9 @@ namespace formstienda
 
         private void button3_Click(object sender, EventArgs e)
         {
-
-            DateTime fechaInicio = dptInicio.Value.Date;
+            /*DateTime fechaInicio = dptInicio.Value.Date;
             DateTime fechaFin = dtpFin.Value.Date;
-            
+
             if (fechaFin > DateTime.Today)
             {
                 MessageBox.Show("La fecha final no puede ser mayor a la fecha actual.", "Fecha no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -75,21 +76,50 @@ namespace formstienda
 
             string proveedorSeleccionado = (cmbproveedor.SelectedValue as string)?.Trim();
 
-            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            // Generar ruta temporal para el PDF
+            string rutaTemporal = Path.Combine(
+                Path.GetTempPath(),
+                $"ReporteCompras_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
+            );
+
+            // Crear y mostrar el formulario de vista previa
+            FormReportesCompras visor = new FormReportesCompras(fechaInicio, fechaFin, rutaTemporal, proveedorSeleccionado);
+            visor.Show();*/
+        
+            DateTime fechaInicio = dptInicio.Value.Date;
+            DateTime fechaFin = dtpFin.Value.Date;
+
+            if (fechaFin > DateTime.Today)
             {
-                saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
-                saveDialog.Title = "Guardar reporte de compras";
-                saveDialog.FileName = $"ReporteCompras_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
-
-                if (saveDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string rutaPDF = saveDialog.FileName;
-
-                    // Solo crea el formulario del pdf
-                    FormReportesCompras visor = new FormReportesCompras(fechaInicio, fechaFin, rutaPDF, proveedorSeleccionado);
-                    visor.Show();
-                }
+                MessageBox.Show("La fecha final no puede ser mayor a la fecha actual.", "Fecha no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            string proveedorSeleccionado = (cmbproveedor.SelectedValue as string)?.Trim();
+
+            // Generar ruta temporal para el PDF
+            string rutaTemporal = Path.Combine(
+                Path.GetTempPath(),
+                $"ReporteCompras_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
+            );
+
+            //Aqui se busca la instancia del formulario de menu
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+
+            if (menuForm != null)
+            {
+                // con esto se abre el reporte dentro del panel del formulario de menu
+                menuForm.AbrirformInPanel(new FormReportesCompras(fechaInicio, fechaFin, rutaTemporal, proveedorSeleccionado));
+            }
+
+            // para cerrar el formulario de informes
+            this.Close();
+       
+
         }
 
         private void CargarUsuariosEnComboBox()

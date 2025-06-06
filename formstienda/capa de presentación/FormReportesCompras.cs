@@ -61,7 +61,7 @@ namespace formstienda.capa_de_presentación
                 var compras = _detalleCompraServicio.ObtenerDetallesParaReportes()
                     .Where(c => c.FechaCompra.Date >= fechainicio.Date && c.FechaCompra.Date <= fechafin.Date)
                     .ToList();
-                
+
 
                 if (!string.IsNullOrEmpty(rucProveedor))
                 {
@@ -90,7 +90,7 @@ namespace formstienda.capa_de_presentación
                     var parrafo = new Paragraph("Reporte de Compras")
                         .SetFont(boldFont)
                         .SetFontSize(15);
-                        
+
 
                     //ruta imagen
                     string rutaImagen = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources\logo_actualizado-removebg-preview.png");
@@ -101,9 +101,9 @@ namespace formstienda.capa_de_presentación
                         // Cargar imagen
                         var imgData = iText.IO.Image.ImageDataFactory.Create(rutaImagen);
                         var imagen = new iText.Layout.Element.Image(imgData)
-                                        .SetWidth(300)
+                                        .SetWidth(350)
                                         .SetHeight(200)
-                                        .SetFixedPosition(pdfDoc.GetDefaultPageSize().GetWidth() - 250, // X desde la derecha
+                                        .SetFixedPosition(pdfDoc.GetDefaultPageSize().GetWidth() - 280, // X desde la derecha
                                       pdfDoc.GetDefaultPageSize().GetHeight() - 200); // Y desde arriba
 
                         // Texto del título
@@ -124,12 +124,11 @@ namespace formstienda.capa_de_presentación
                                         .SetTextAlignment(TextAlignment.RIGHT)
                                         .SetBorder(Border.NO_BORDER));
 
-                     
+
                         document.Add(encabezadoTabla);
                     }
                     else
                     {
-                        
                         var titulo = new Paragraph("Tienda El Septentrión")
                                         .SetFont(boldFont)
                                         .SetFontSize(20);
@@ -151,7 +150,7 @@ namespace formstienda.capa_de_presentación
                     document.Add(new Paragraph("\n"));
 
                     //crear tabla
-                    float[] anchos = { 1f, 0.8f, 1f, 1.8f, 0.8f, 0.8f, 1.5f , 0.8f, 1f, 1.2f };
+                    float[] anchos = { 1f, 1f, 1f, 1.8f, 1f, 1f, 1.5f, 1f, 1.8f };
                     var tabla = new Table(UnitValue.CreatePercentArray(anchos))
                         .UseAllAvailableWidth();
 
@@ -174,10 +173,10 @@ namespace formstienda.capa_de_presentación
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
                     tabla.AddHeaderCell(new Cell().Add(new Paragraph("Cantidad").SetFont(boldFont)
                         .SetFontSize(10).SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Subtotal").SetFont(boldFont).SetFontSize(10)
+                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Total").SetFont(boldFont).SetFontSize(10)
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Total factura").SetFont(boldFont).SetFontSize(10)
-                        .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
+                    //tabla.AddHeaderCell(new Cell().Add(new Paragraph("Total factura").SetFont(boldFont).SetFontSize(10)
+                    //.SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
 
                     //filas 
 
@@ -192,11 +191,21 @@ namespace formstienda.capa_de_presentación
                         tabla.AddCell(Celda(compra.PrecioCompra.ToString("C", monedaNic)));
                         tabla.AddCell(Celda(compra.CantidadCompra));
                         tabla.AddCell(Celda(compra.SubtotalCompra.ToString("C", monedaNic)));
-                        tabla.AddCell(Celda(compra.TotalCompra.ToString("C", monedaNic)));
+                        //tabla.AddCell(Celda(compra.TotalCompra.ToString("C", monedaNic)));
                     }
 
+                    double totalGeneral = listaFiltrada.Sum(c => c.SubtotalCompra);
 
                     document.Add(tabla);
+                    // Agregar el total general debajo de la tabla
+                    var totalGeneralParrafo = new Paragraph($"Total general: {totalGeneral.ToString("C", monedaNic)}")
+                        .SetFont(boldFont)
+                        .SetFontSize(12)
+                        .SetTextAlignment(TextAlignment.RIGHT)
+                        .SetMarginTop(10);
+
+                    document.Add(totalGeneralParrafo);
+
                     document.Close();
 
                     return rutapdf;
@@ -231,9 +240,48 @@ namespace formstienda.capa_de_presentación
 
         }
 
+        
         private void btnvolver_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void webView21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            label1.ForeColor = System.Drawing.Color.Black;
+
+        }
+        
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        // MÉTODO PARA LIMPIAR EL ARCHIVO TEMPORAL AL CERRAR EL FORMULARIO
+        /*protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            try
+            {
+                if (File.Exists(rutaPdf))
+                    File.Delete(rutaPdf);
+            }
+            catch(Exception ex) 
+            { 
+                MessageBox.Show($"Error al eliminar el archivo temporal: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }*/
     }
+
 }
