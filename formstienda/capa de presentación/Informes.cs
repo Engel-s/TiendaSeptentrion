@@ -65,27 +65,6 @@ namespace formstienda
 
         private void button3_Click(object sender, EventArgs e)
         {
-            /*DateTime fechaInicio = dptInicio.Value.Date;
-            DateTime fechaFin = dtpFin.Value.Date;
-
-            if (fechaFin > DateTime.Today)
-            {
-                MessageBox.Show("La fecha final no puede ser mayor a la fecha actual.", "Fecha no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            string proveedorSeleccionado = (cmbproveedor.SelectedValue as string)?.Trim();
-
-            // Generar ruta temporal para el PDF
-            string rutaTemporal = Path.Combine(
-                Path.GetTempPath(),
-                $"ReporteCompras_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
-            );
-
-            // Crear y mostrar el formulario de vista previa
-            FormReportesCompras visor = new FormReportesCompras(fechaInicio, fechaFin, rutaTemporal, proveedorSeleccionado);
-            visor.Show();*/
-        
             DateTime fechaInicio = dptInicio.Value.Date;
             DateTime fechaFin = dtpFin.Value.Date;
 

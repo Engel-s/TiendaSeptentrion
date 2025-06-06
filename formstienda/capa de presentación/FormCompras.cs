@@ -294,10 +294,10 @@ namespace formstienda
             {
                 if (e.Value != null)
                 {
-                    
+
                     if (decimal.TryParse(e.Value.ToString(), out decimal value))
                     {
-                        
+
                         e.Value = value.ToString("C", new CultureInfo("es-NI"));
                         e.FormattingApplied = true;
                     }
@@ -359,8 +359,23 @@ namespace formstienda
             dtgcompras.DataSource = listadetallecompra;
             ColumnasPersonalizadas();
 
+
             dtgcompras.CellFormatting += dtgcompras_CellFormatting;
             dtgcompras.CellParsing += dtgcompras_CellParsing;
+            dtgcompras.CellFormatting += dtgcompras_CellFormatting_1;
+            txtprecioventa.Validating += txtprecioventa_Validating;
+
+            dtgcompras.DefaultCellStyle.BackColor = Color.White;
+            dtgcompras.DefaultCellStyle.ForeColor = Color.Black;
+            dtgcompras.EnableHeadersVisualStyles = false;
+            dtgcompras.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+            dtgcompras.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+            System.Reflection.BindingFlags.NonPublic |
+            System.Reflection.BindingFlags.Instance |
+            System.Reflection.BindingFlags.SetProperty,
+            null, dtgcompras, new object[] { true });
 
         }
 
@@ -521,7 +536,7 @@ namespace formstienda
                     return;
                 }
 
-                
+
 
                 if (precioVenta <= precioCompra)
                 {
@@ -530,13 +545,7 @@ namespace formstienda
                     txtprecioventa.ReadOnly = false;
                     txtprecioventa.Enabled = true;
                     txtprecioventa.Focus();
-                    string patronPrecio = @"^\d+(\.\d{1,2})?$";
-                    if (!Regex.IsMatch(txtprecioventa.Text, patronPrecio))
-                    {
-                        MessageBox.Show("El formato del precio de venta es incorrecto.",
-                            "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
+                    return;
                 }
                 else
                 {
@@ -591,7 +600,7 @@ namespace formstienda
                         var detalleExistente = listadetallecompra.FirstOrDefault(d =>
                         d.CodigoProducto == codigoProducto &&
                         d.IdCompra == listacompra.Last().IdCompra);
-                        
+
                         if (detalleExistente != null)
                         {
                             if (precioCompra != detalleExistente.PrecioCompra)
@@ -602,7 +611,7 @@ namespace formstienda
                                     "Confirmar cambio de precio",
                                     MessageBoxButtons.YesNo,
                                     MessageBoxIcon.Question);
-                                
+
                                 if (confirmacion != DialogResult.Yes)
                                 {
                                     return;
@@ -616,11 +625,17 @@ namespace formstienda
                                 }
                             }
 
+                            if (dtgcompras.IsCurrentCellInEditMode)
+                            {
+                                dtgcompras.EndEdit();
+                            }
+
                             //Actualiza producto existente
                             int cantidadAnterior = detalleExistente.CantidadCompra;
                             detalleExistente.CantidadCompra += cantidad;
                             detalleExistente.PrecioCompra = precioCompra; // Actualizar precio si cambia
-                            listadetallecompra.ResetBindings(); 
+                            listadetallecompra.ResetBindings();
+                            //dtgcompras.Invalidate();
                             dtgcompras.Refresh();
 
 
@@ -644,7 +659,7 @@ namespace formstienda
                                 PrecioCompra = precioCompra,
                                 SubtotalCompra = cantidad * precioCompra,
                             };
-                            
+
                             var registroCompra = detalleCompraServicio.AgregarDetalleCompra(detallecompra);
 
                             // Agregar a la lista de ViewModels
@@ -666,7 +681,7 @@ namespace formstienda
 
                         txtsubtotalcompra.Text = listadetallecompra
                                                                     .Where(x => x.IdCompra == listacompra.Last().IdCompra)
-                                                                    .Sum(x => x.SubtotalCompra).ToString("C",  new CultureInfo ("es-NI"));
+                                                                    .Sum(x => x.SubtotalCompra).ToString("C", new CultureInfo("es-NI"));
                         productoServicio.AumentarStock(codigoProducto, cantidad);
                     }
                     else
@@ -735,7 +750,14 @@ namespace formstienda
                     // Llamar al método para actualizar en BD
                     compraServicio.ActualizarTotalCompra(compraActual.IdCompra, totalCompra);
 
-                    MessageBox.Show("Compra finalizada.");
+                    MessageBox.Show(
+                        "✅ ¡Compra finalizada con éxito!\n\n" +
+                        "Gracias por registrar tu compra en el sistema.\n" +
+                        "¡Que tengas un excelente día!",
+                        "Compra completada",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                 }
                 else
                 {
@@ -881,6 +903,25 @@ namespace formstienda
             if (cmbmarcas.SelectedIndex != -1 && cmbcategoria.SelectedIndex != -1)
             {
                 FiltrarProductos();
+            }
+        }
+
+        private void dtgcompras_CellFormatting_1(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            e.CellStyle.BackColor = Color.White;
+            e.CellStyle.ForeColor = Color.Black;
+        }
+
+        private void txtprecioventa_Validating(object sender, CancelEventArgs e)
+        {
+            string patronPrecio = @"^\d+(\.\d{1,2})?$";
+            string texto = txtprecioventa.Text.Replace("C$", "").Replace("S/.", "").Replace(",", "").Trim();
+
+            if (!string.IsNullOrEmpty(texto) && !Regex.IsMatch(texto, patronPrecio))
+            {
+                MessageBox.Show("El formato del precio de venta es incorrecto.",
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                e.Cancel = true;
             }
         }
     }

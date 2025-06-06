@@ -268,8 +268,8 @@ namespace formstienda.capa_de_presentación
             this.Close();
         }
 
-        // MÉTODO PARA LIMPIAR EL ARCHIVO TEMPORAL AL CERRAR EL FORMULARIO
-        /*protected override void OnFormClosed(FormClosedEventArgs e)
+        // METODO PARA LIMPIAR EL ARCHIVO TEMPORAL AL CERRAR EL FORMULARIO
+        protected override void OnFormClosed(FormClosedEventArgs e)
         {
             base.OnFormClosed(e);
             try
@@ -281,7 +281,7 @@ namespace formstienda.capa_de_presentación
             { 
                 MessageBox.Show($"Error al eliminar el archivo temporal: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }*/
+        }
     }
 
 }
