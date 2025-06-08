@@ -65,7 +65,7 @@ namespace formstienda
                     {
                         p.CodigoProducto,
                         p.ModeloProducto,
-                        PrecioVenta = $"C$ {p.PrecioVenta:N2}", // Formatear con símbolo y 2 decimales
+                        PrecioVenta = $"C$ {p.PrecioVenta:N2}",
                         p.StockActual,
                         p.StockMinimo,
                         Marca = p.IdMarcaNavigation?.Marca1 ?? "N/A",
@@ -121,8 +121,8 @@ namespace formstienda
                 var categorias = _categoriaServicio.ListarCategorias();
 
                 cmbCategoriaProduc.DataSource = categorias;
-                cmbCategoriaProduc.DisplayMember = "Categoria"; // el nombre de la categoría
-                cmbCategoriaProduc.ValueMember = "IdCategoria"; // opcional, por si luego necesitás el ID
+                cmbCategoriaProduc.DisplayMember = "Categoria"; 
+                cmbCategoriaProduc.ValueMember = "IdCategoria"; 
             }
             catch (Exception ex)
             {
@@ -138,8 +138,8 @@ namespace formstienda
                 var marcas = servicio.ListarMarcas();
 
                 cmbMarcProduct.DataSource = marcas;
-                cmbMarcProduct.DisplayMember = "Marca1"; // Solo muestra el nombre de la marca
-                cmbMarcProduct.ValueMember = "IdMarca"; // Este valor se usa internamente si necesitas el ID
+                cmbMarcProduct.DisplayMember = "Marca1"; 
+                cmbMarcProduct.ValueMember = "IdMarca"; 
             }
             catch (Exception ex)
             {
@@ -160,7 +160,7 @@ namespace formstienda
             {
                 DGMARCAS.Columns["IdMarca"].HeaderText = "ID";
                 DGMARCAS.Columns["Marca1"].HeaderText = "Nombre de Marca";
-                DGMARCAS.Columns["IdMarca"].ReadOnly = true; // ID no editable
+                DGMARCAS.Columns["IdMarca"].ReadOnly = true; 
 
             }
         }
@@ -178,7 +178,7 @@ namespace formstienda
             {
                 DGCATEGORIAS.Columns["IdCategoria"].HeaderText = "ID";
                 DGCATEGORIAS.Columns["Categoria"].HeaderText = "Nombre de Categoría";
-                DGCATEGORIAS.Columns["IdCategoria"].ReadOnly = true; // ID no editable
+                DGCATEGORIAS.Columns["IdCategoria"].ReadOnly = true; 
             }
         }
 
@@ -229,8 +229,6 @@ namespace formstienda
         //
 
 
-
-
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
@@ -268,7 +266,7 @@ namespace formstienda
                 {
                     // Id_Producto no se incluye porque es autoincremental
                     ModeloProducto = txtNombreProduct.Text.Trim(),
-                    CodigoProducto = txtCodigoProduct.Text.Trim(), // Asumiendo que es opcional
+                    CodigoProducto = txtCodigoProduct.Text.Trim(),
                     IdCategoria = Convert.ToInt32(cmbCategoriaProduc.SelectedValue),
                     IdMarca = Convert.ToInt32(cmbMarcProduct.SelectedValue),
                     PrecioVenta = Convert.ToInt32(precioVenta),
@@ -283,7 +281,7 @@ namespace formstienda
                     MessageBox.Show("Producto agregado correctamente");
                     LimpiarCampos();
                     ActualizarListaProductos();
-                    CargarProductos(); // Refrescar el DataGridView
+                    CargarProductos();
 
                 }
             }
@@ -318,7 +316,7 @@ namespace formstienda
 
             return sb.ToString();
         }
-        // Método para limpiar los campos (ejemplo)
+        // Método para limpiar los campos
         private void LimpiarCampos()
         {
             txtNombreProduct.Text = "";
@@ -331,7 +329,7 @@ namespace formstienda
             txtNombreProduct.Focus();
         }
 
-        // Método para actualizar la lista de productos (ejemplo)
+        // Método para actualizar la lista de productos
         private void ActualizarListaProductos()
         {
             ListaProductos = productoServicio.ListarProductos();
@@ -352,8 +350,8 @@ namespace formstienda
             if (_categoriaServicio.AgregarCategoria(nombreCategoria))
             {
                 txtNuevaCategoria.Clear();
-                CargarCategorias();       // Refrescar el DataGrid
-                CargarComboCategoria();   // Refrescar el ComboBox también
+                CargarCategorias();  
+                CargarComboCategoria();  
                 MessageBox.Show("Categoría agregada correctamente");
             }
             else
@@ -402,9 +400,9 @@ namespace formstienda
                     if (actualizado)
                     {
                         MessageBox.Show("Marca actualizada correctamente.");
-                        CargarMarcas();       // Refresca el grid de marcas
-                        CargarComboMarca();   // Refresca el ComboBox
-                        CargarProductos();    // Refresca la grilla de productos
+                        CargarMarcas();    
+                        CargarComboMarca();  
+                        CargarProductos();  
                     }
                     else
                     {
@@ -437,9 +435,9 @@ namespace formstienda
                     if (actualizado)
                     {
                         MessageBox.Show("Categoría actualizada correctamente.");
-                        CargarCategorias();       // Refrescar grilla de categorías
-                        CargarComboCategoria();   // Refrescar ComboBox
-                        CargarProductos();        // Refrescar grilla de productos para reflejar el cambio
+                        CargarCategorias();    
+                        CargarComboCategoria();  
+                        CargarProductos();   
                     }
                     else
                     {
@@ -498,11 +496,10 @@ namespace formstienda
                         break;
 
                     case 2: // Precio de venta
-                            // Eliminar el símbolo C$ si está presente para la edición
+                          
                         string precioActual = producto.PrecioVenta.ToString("0.00");
                         string nuevoPrecioStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo precio de venta (C$):", "Editar Producto", precioActual);
 
-                        // Eliminar el símbolo si el usuario lo copió
                         nuevoPrecioStr = nuevoPrecioStr.Replace("C$", "").Trim();
 
                         if (float.TryParse(nuevoPrecioStr, out float nuevoPrecio))
@@ -574,7 +571,7 @@ namespace formstienda
                     if (actualizado)
                     {
                         MessageBox.Show("Producto actualizado correctamente.");
-                        CargarProductos(); // Refrescar la grilla
+                        CargarProductos();
                     }
                     else
                     {
