@@ -64,8 +64,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar los usuarios: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+               
             }
         }
 
@@ -79,11 +78,15 @@ namespace formstienda
                     $"Reporte_Inventario_{DateTime.Now:yyyyMMddHHmmss}.pdf"
                 );
 
-                ReporteDeInventario reporte = new ReporteDeInventario();
-                reporte.GenerarPDF(tempFilePath);
-
-                reporte.MostrarPDF(tempFilePath);
-                reporte.Show();
+                var menuForm = this.MdiParent as menu;
+                if (menuForm == null)
+                {
+                    menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+                }
+                if (menuForm != null)
+                {
+                    menuForm.AbrirformInPanel(new ReporteDeInventario());
+                }
 
                 MessageBox.Show("Reporte generado", "Éxito",
                               MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -104,25 +107,27 @@ namespace formstienda
                     $"Reporte_Stock_Proximo_Agotarse_{DateTime.Now:yyyyMMddHHmmss}.pdf"
                 );
 
-                // Crear instancia del formulario de reporte
-                ReporteStocks reporte = new ReporteStocks();
-
-                // Generar y mostrar el reporte
-                reporte.GenerarPDFStock(tempFilePath);
-                reporte.MostrarPDF(tempFilePath);
-                reporte.Show();
+                var menuForm = this.MdiParent as menu;
+                if (menuForm == null)
+                {
+                    menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+                }
+                if (menuForm != null)
+                {
+                    menuForm.AbrirformInPanel(new ReporteStocks());  
+                }
 
                 MessageBox.Show("Reporte de productos próximos a agotarse generado con éxito",
-                              "Éxito",
-                              MessageBoxButtons.OK,
-                              MessageBoxIcon.Information);
+                                  "Éxito",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al generar el reporte: {ex.Message}",
-                              "Error",
-                              MessageBoxButtons.OK,
-                              MessageBoxIcon.Error);
+                                  "Error",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Error);
             }
         }
 
@@ -137,10 +142,10 @@ namespace formstienda
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (dateTimePickerFechaInicial.Value < DateTime.Today.AddYears(-1) ||
+                if (dateTimePickerFechaInicial.Value < DateTime.Today.AddYears(-50) ||
                     dateTimePickerFechaFinal.Value > DateTime.Today)
                 {
-                    MessageBox.Show("Las fechas deben estar dentro del último año y no pueden ser futuras", "Error",
+                    MessageBox.Show("Las fechas deben estar dentro de los ultimos 50 Años", "Error",
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -149,21 +154,26 @@ namespace formstienda
                     Path.GetTempPath(),
                     $"Reporte_Arqueo_{DateTime.Now:yyyyMMddHHmmss}.pdf"
                 );
-
-                // Crear instancia del formulario de reporte con los parámetros
-                ReporteArqueo reporte = new ReporteArqueo(
-                    dateTimePickerFechaInicial.Value,
-                    dateTimePickerFechaFinal.Value,
-                    cmbUsuarioReporte.Text.Trim()
-                );
-
-                // Generar y mostrar el reporte
-                reporte.GenerarPDF(tempFilePath);
-                reporte.MostrarPDF(tempFilePath);
-                reporte.Show();
+                               
+                var menuForm = this.MdiParent as menu;
+                if (menuForm == null)
+                {
+                    menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+                }
+                if (menuForm != null) 
+                {
+                    menuForm.AbrirformInPanel(new ReporteArqueo(
+                        dateTimePickerFechaInicial.Value,
+                        dateTimePickerFechaFinal.Value,
+                        cmbUsuarioReporte.Text.Trim()
+                    ));
+                   
+                }
 
                 MessageBox.Show("Reporte de arqueo generado con éxito", "Éxito",
                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -206,17 +216,20 @@ namespace formstienda
                     $"Reporte_Otras_Salidas_{DateTime.Now:yyyyMMddHHmmss}.pdf"
                 );
 
-                // Crear instancia del formulario de reporte con los parámetros
-                ReporteOtrasSalidas reporte = new ReporteOtrasSalidas(
-                    dateTimePickerFechaInicialMotivo.Value,
-                    dateTimePickerFechaFinalMotivo.Value,
-                    cmbMotivo.Text.Trim()
-                );
+                var menuForm = this.MdiParent as menu;
+                if (menuForm == null)
+                {
+                    menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+                }
+                if (menuForm != null)
+                {
+                    menuForm.AbrirformInPanel(new ReporteOtrasSalidas(
+                        dateTimePickerFechaInicialMotivo.Value,
+                        dateTimePickerFechaFinalMotivo.Value,
+                        cmbMotivo.Text.Trim()
+                    ));
 
-                // Generar y mostrar el reporte
-                reporte.GenerarPDF(tempFilePath);
-                reporte.MostrarPDF(tempFilePath);
-                reporte.Show();
+                }
 
                 MessageBox.Show("Reporte de otras salidas generado con éxito", "Éxito",
                               MessageBoxButtons.OK, MessageBoxIcon.Information);

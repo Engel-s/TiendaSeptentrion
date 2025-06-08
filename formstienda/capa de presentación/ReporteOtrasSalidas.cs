@@ -278,12 +278,34 @@ namespace formstienda.capa_de_presentación
 
         private void btnSalirOtrasSalidas_Click(object sender, EventArgs e)
         {
+
+            // Cerrar el formulario actual y abrir el formulario Informes en el panel del menú principal :)
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Informes());
+            }
+
         }
 
         private void ReporteOtrasSalidas_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                string filePath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ReporteOtrasSalidas.pdf");
+                GenerarPDF(filePath);
+                MostrarPDF(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar el reporte: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
