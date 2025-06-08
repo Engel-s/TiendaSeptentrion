@@ -184,7 +184,7 @@ namespace formstienda.capa_de_presentación
                     // Crear registro de salida
                     var salida = new OtrasSalidasDeInventario
                     {
-                        CodigoProductoNavigation = producto.CodigoProducto,
+                        CodigoProducto = producto.CodigoProducto,
                         CantidadSalir = cantidad,
                         MotivoSalida = cmbMotivo.SelectedItem.ToString(),
                         DescripcionSalida = txtDescripcion.Text,
@@ -254,11 +254,11 @@ namespace formstienda.capa_de_presentación
                 var salidasConProductos = (
                     from salida in _contexto.OtrasSalidasDeInventarios
                     join producto in _contexto.Productos
-                    on salida.CodigoProductoNavigation equals producto.CodigoProducto
+                    on salida.CodigoProducto equals producto.CodigoProducto
                     orderby salida.FechaSalida descending
                     select new
                     {
-                        salida.CodigoProductoNavigation,
+                        salida.CodigoProducto,
                         producto.ModeloProducto,
                         salida.CantidadSalir,
                         salida.MotivoSalida,
@@ -270,7 +270,7 @@ namespace formstienda.capa_de_presentación
                 {
                     _salidasList.Add(new SalidaViewModel
                     {
-                        Codigo = item.CodigoProductoNavigation,
+                        Codigo = item.CodigoProducto,
                         NombreProducto = item.ModeloProducto,
                         Cantidad = item.CantidadSalir,
                         Motivo = item.MotivoSalida,

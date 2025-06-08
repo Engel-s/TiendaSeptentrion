@@ -394,14 +394,14 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
         modelBuilder.Entity<OtrasSalidasDeInventario>(entity =>
         {
-            entity.HasKey(e => new { e.IdInventario, e.CodigoProductoNavigation }).HasName("PK__Otras sa__39BB980219759120");
+            entity.HasKey(e => new { e.IdInventario, e.CodigoProducto }).HasName("PK__Otras sa__39BB980219759120");
 
             entity.ToTable("Otras_salidas_de_inventario");
 
             entity.Property(e => e.IdInventario)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("Id_Inventario");
-            entity.Property(e => e.CodigoProductoNavigation)
+            entity.Property(e => e.CodigoProducto)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("Codigo_Producto");
@@ -629,9 +629,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("Descripcion_Salida");
-            entity.Property(e => e.FechaSalida)
-                .HasColumnType("datetime")
-                .HasColumnName("Fecha_Salida");
+            entity.Property(e => e.FechaSalida).HasColumnName("Fecha_Salida");
             entity.Property(e => e.IdInventario).HasColumnName("Id_Inventario");
             entity.Property(e => e.Marca)
                 .HasMaxLength(100)

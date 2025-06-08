@@ -7,7 +7,7 @@ public partial class OtrasSalidasDeInventario
 {
     public int IdInventario { get; set; }
 
-    public string CodigoProductoNavigation { get; set; } = null!;
+    public string CodigoProducto { get; set; } = null!;
 
     public int CantidadSalir { get; set; }
 

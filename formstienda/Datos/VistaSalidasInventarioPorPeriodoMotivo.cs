@@ -21,5 +21,5 @@ public partial class VistaSalidasInventarioPorPeriodoMotivo
 
     public string DescripcionSalida { get; set; } = null!;
 
-    public DateTime? FechaSalida { get; set; }
+    public DateOnly FechaSalida { get; set; }
 }
