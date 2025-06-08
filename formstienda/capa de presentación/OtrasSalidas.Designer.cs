@@ -231,7 +231,7 @@
             // 
             cmbMotivo.FormattingEnabled = true;
             cmbMotivo.Items.AddRange(new object[] { "Defecto de fabrica", "Facturacion erronea", "Producto dañado", "Uso personal", "Patrocinio" });
-            cmbMotivo.Location = new Point(442, 134);
+            cmbMotivo.Location = new Point(393, 134);
             cmbMotivo.Margin = new Padding(2);
             cmbMotivo.Name = "cmbMotivo";
             cmbMotivo.Size = new Size(246, 28);
@@ -242,7 +242,7 @@
             label22.AutoSize = true;
             label22.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label22.ForeColor = Color.Black;
-            label22.Location = new Point(369, 137);
+            label22.Location = new Point(319, 137);
             label22.Margin = new Padding(2, 0, 2, 0);
             label22.Name = "label22";
             label22.Size = new Size(70, 20);
@@ -271,7 +271,7 @@
             // 
             // txtStockDisponible
             // 
-            txtStockDisponible.Location = new Point(906, 73);
+            txtStockDisponible.Location = new Point(875, 77);
             txtStockDisponible.Margin = new Padding(2);
             txtStockDisponible.Name = "txtStockDisponible";
             txtStockDisponible.ReadOnly = true;
@@ -283,7 +283,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(746, 76);
+            label2.Location = new Point(712, 80);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
             label2.Size = new Size(157, 20);

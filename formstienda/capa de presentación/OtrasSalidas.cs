@@ -76,6 +76,14 @@ namespace formstienda.capa_de_presentación
                 Name = "colDescripcion",
                 Width = 250
             });
+
+            DGOTRASSALIDAS.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = "Fecha",
+                HeaderText = "Fecha de Salida",
+                Name = "colFecha",
+                Width = 120
+            });
         }
 
         private void CargarMotivos()
@@ -168,13 +176,14 @@ namespace formstienda.capa_de_presentación
                         return;
                     }
 
-                    // Crear registro de salida
+                    // Crear registro de salida - ahora usando directamente el código del producto
                     var salida = new OtrasSalidasDeInventario
                     {
-                        CodigoProducto = producto.CodigoProducto,
+                        CodigoProducto = producto.CodigoProducto, // Usamos directamente el código
                         CantidadSalir = cantidad,
                         MotivoSalida = cmbMotivo.SelectedItem.ToString(),
                         DescripcionSalida = txtDescripcion.Text,
+                        FechaSalida = DateOnly.FromDateTime(DateTime.Now)
                     };
 
                     // Actualizar stock
@@ -192,7 +201,8 @@ namespace formstienda.capa_de_presentación
                         NombreProducto = producto.ModeloProducto,
                         Cantidad = cantidad,
                         Motivo = salida.MotivoSalida,
-                        Descripcion = salida.DescripcionSalida
+                        Descripcion = salida.DescripcionSalida,
+                        Fecha = salida.FechaSalida.ToString("dd/MM/yyyy")
                     });
 
                     transaction.Commit();
@@ -220,65 +230,63 @@ namespace formstienda.capa_de_presentación
             cmbMotivo.SelectedIndex = 0;
         }
 
-        
         private void OtrasSalidas_Load(object sender, EventArgs e)
         {
             // Cargar datos existentes si es necesario
-            ////CargarSalidasExistentes();
+            CargarSalidasExistentes();
         }
 
-        //private void CargarSalidasExistentes()
-        //{
-        //    try
-        //    {
-        //        // Limpiar la lista existente primero
-        //        _salidasList.Clear();
+        private void CargarSalidasExistentes()
+        {
+            try
+            {
+                // Limpiar la lista existente primero
+                _salidasList.Clear();
 
-        //        // Consulta optimizada con join para obtener los datos necesarios
-        //        var salidasConProductos = (
-        //            from salida in _contexto.OtrasSalidasDeInventarios
-        //            join producto in _contexto.Productos
-        //            on salida.CodigoProductoNavigation equals producto.CodigoProducto
-        //            orderby salida.FechaSalida descending
-        //            select new
-        //            {
-        //                salida.CodigoProductoNavigation,
-        //                producto.ModeloProducto,
-        //                salida.CantidadSalir,
-        //                salida.MotivoSalida,
-        //                salida.DescripcionSalida,
-        //                salida.FechaSalida
-        //            }).Take(50).ToList();
+                // Consulta optimizada con join para obtener los datos necesarios
+                var salidasConProductos = (
+                    from salida in _contexto.OtrasSalidasDeInventarios
+                    join producto in _contexto.Productos
+                    on salida.CodigoProducto equals producto.CodigoProducto // Cambiado a CodigoProducto
+                    orderby salida.FechaSalida descending
+                    select new
+                    {
+                        salida.CodigoProducto,
+                        producto.ModeloProducto,
+                        salida.CantidadSalir,
+                        salida.MotivoSalida,
+                        salida.DescripcionSalida,
+                        salida.FechaSalida
+                    }).Take(50).ToList();
 
-        //        foreach (var item in salidasConProductos)
-        //        {
-        //            _salidasList.Add(new SalidaViewModel
-        //            {
-        //                Codigo = item.CodigoProductoNavigation,
-        //                NombreProducto = item.ModeloProducto,
-        //                Cantidad = item.CantidadSalir,
-        //                Motivo = item.MotivoSalida,
-        //                Descripcion = item.DescripcionSalida,
-        //                 = item.FechaSalida.ToString("dd/MM/yyyy")
-        //            });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error al cargar salidas existentes: {ex.Message}", "Error",
-        //                       MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
+                foreach (var item in salidasConProductos)
+                {
+                    _salidasList.Add(new SalidaViewModel
+                    {
+                        Codigo = item.CodigoProducto,
+                        NombreProducto = item.ModeloProducto,
+                        Cantidad = item.CantidadSalir,
+                        Motivo = item.MotivoSalida,
+                        Descripcion = item.DescripcionSalida,
+                        Fecha = item.FechaSalida.ToString("dd/MM/yyyy")
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar salidas existentes: {ex.Message}", "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        
         private void label2_Click(object sender, EventArgs e)
         {
-
+           
         }
     }
 
@@ -290,5 +298,6 @@ namespace formstienda.capa_de_presentación
         public int Cantidad { get; set; }
         public string Motivo { get; set; }
         public string Descripcion { get; set; }
+        public string Fecha { get; set; }
     }
 }

@@ -75,5 +75,20 @@ namespace formstienda.capa_de_negocios
             _contexto.SaveChanges();
         }
 
+        public string ObtenerNombreUsuario()
+        {
+            int? idUsuarioActivo = Login.UsuarioActivo.ObtenerIdUsuario();
+            if (!idUsuarioActivo.HasValue)
+                throw new InvalidOperationException("Usuario no autenticado");
+
+            var usuario = _contexto.Usuarios
+                .FirstOrDefault(u => u.IdUsuario == idUsuarioActivo.Value);
+
+            if (usuario == null)
+                throw new InvalidOperationException("Usuario no encontrado en la base de datos");
+
+            return $"{usuario.NombreUsuario} {usuario.ApellidoUsuario}";
+        }
+
     }
 }

@@ -53,9 +53,17 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     public virtual DbSet<Ventum> Venta { get; set; }
 
+    public virtual DbSet<VistaArqueoCajaPorPeriodoCajero> VistaArqueoCajaPorPeriodoCajeros { get; set; }
+
+    public virtual DbSet<VistaInventarioActual> VistaInventarioActuals { get; set; }
+
+    public virtual DbSet<VistaSalidasInventarioPorPeriodoMotivo> VistaSalidasInventarioPorPeriodoMotivos { get; set; }
+
+    public virtual DbSet<VistaStockProximoAgotarse> VistaStockProximoAgotarses { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=RYUUGA-NOXUS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-I4VC35H;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -556,6 +564,106 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasForeignKey(d => d.CedulaCliente)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Venta__Cedula_Cl__6383C8BA");
+        });
+
+        modelBuilder.Entity<VistaArqueoCajaPorPeriodoCajero>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vista_Arqueo_Caja_Por_Periodo_Cajero");
+
+            entity.Property(e => e.Cajero)
+                .HasMaxLength(101)
+                .IsUnicode(false);
+            entity.Property(e => e.FaltanteCordoba).HasColumnName("Faltante_Cordoba");
+            entity.Property(e => e.FaltanteDolar).HasColumnName("Faltante_Dolar");
+            entity.Property(e => e.FechaArqueo)
+                .HasColumnType("datetime")
+                .HasColumnName("Fecha_Arqueo");
+            entity.Property(e => e.IdArqueoCaja).HasColumnName("Id_Arqueo_Caja");
+            entity.Property(e => e.SobranteCordoba).HasColumnName("Sobrante_Cordoba");
+            entity.Property(e => e.SobranteDolar).HasColumnName("Sobrante_Dolar");
+            entity.Property(e => e.TotalEfectivoCordoba).HasColumnName("Total_Efectivo_Cordoba");
+            entity.Property(e => e.TotalEfectivoDolar).HasColumnName("Total_Efectivo_Dolar");
+        });
+
+        modelBuilder.Entity<VistaInventarioActual>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vista_Inventario_Actual");
+
+            entity.Property(e => e.Categoria)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.CodigoProducto)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("Codigo_Producto");
+            entity.Property(e => e.Marca)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
+            entity.Property(e => e.Producto)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
+            entity.Property(e => e.ValorTotalInventario).HasColumnName("Valor_Total_Inventario");
+        });
+
+        modelBuilder.Entity<VistaSalidasInventarioPorPeriodoMotivo>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vista_Salidas_Inventario_Por_Periodo_Motivo");
+
+            entity.Property(e => e.CantidadSalir).HasColumnName("Cantidad_Salir");
+            entity.Property(e => e.Categoria)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.CodigoProducto)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("Codigo_Producto");
+            entity.Property(e => e.DescripcionSalida)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("Descripcion_Salida");
+            entity.Property(e => e.FechaSalida).HasColumnName("Fecha_Salida");
+            entity.Property(e => e.IdInventario).HasColumnName("Id_Inventario");
+            entity.Property(e => e.Marca)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.MotivoSalida)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Motivo_Salida");
+            entity.Property(e => e.Producto)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VistaStockProximoAgotarse>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vista_Stock_Proximo_Agotarse");
+
+            entity.Property(e => e.Categoria)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.CodigoProducto)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("Codigo_Producto");
+            entity.Property(e => e.Marca)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Producto)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
+            entity.Property(e => e.StockMinimo).HasColumnName("Stock_Minimo");
         });
 
         OnModelCreatingPartial(modelBuilder);
