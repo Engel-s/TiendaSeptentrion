@@ -280,8 +280,16 @@ namespace formstienda
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Egresos egresos = new Egresos();
-            egresos.Show();
+            this.Hide();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Egresos());
+            }
         }
 
         private void Arqueo_Caja_Load(object sender, EventArgs e)
@@ -447,8 +455,15 @@ namespace formstienda
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            ControldeEgresos egresos = new ControldeEgresos();
-            egresos.Show();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new ControldeEgresos());
+            }
         }
     }
 }

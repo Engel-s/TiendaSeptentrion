@@ -180,8 +180,17 @@ namespace formstienda.capa_de_presentación
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {
+        {            
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Arqueo_Caja());
+            }
         }
         private void ControldeEgresos_Load(object sender, EventArgs e)
         {

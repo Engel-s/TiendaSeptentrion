@@ -197,7 +197,7 @@ namespace formstienda
             DGPRODUCTOS.RowHeadersWidth = 51;
             DGPRODUCTOS.RowTemplate.Height = 24;
             DGPRODUCTOS.ScrollBars = ScrollBars.None;
-            DGPRODUCTOS.Size = new Size(1301, 415);
+            DGPRODUCTOS.Size = new Size(1301, 439);
             DGPRODUCTOS.TabIndex = 19;
             DGPRODUCTOS.CellContentClick += DGPRODUCTOS_CellContentClick;
             DGPRODUCTOS.CellDoubleClick += DGPRODUCTOS_CellDoubleClick;
@@ -245,7 +245,7 @@ namespace formstienda
             label9.Anchor = AnchorStyles.Top;
             label9.AutoSize = true;
             label9.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(808, 138);
+            label9.Location = new Point(798, 138);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
             label9.Size = new Size(73, 20);
@@ -297,7 +297,7 @@ namespace formstienda
             // 
             cmbMarcProduct.Anchor = AnchorStyles.Top;
             cmbMarcProduct.FormattingEnabled = true;
-            cmbMarcProduct.Location = new Point(1151, 75);
+            cmbMarcProduct.Location = new Point(1151, 70);
             cmbMarcProduct.Margin = new Padding(2);
             cmbMarcProduct.Name = "cmbMarcProduct";
             cmbMarcProduct.Size = new Size(192, 33);
@@ -308,7 +308,7 @@ namespace formstienda
             label5.Anchor = AnchorStyles.Top;
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(1084, 80);
+            label5.Location = new Point(1080, 77);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
             label5.Size = new Size(67, 20);
@@ -330,7 +330,7 @@ namespace formstienda
             label4.Anchor = AnchorStyles.Top;
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(786, 76);
+            label4.Location = new Point(775, 76);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
             label4.Size = new Size(96, 20);

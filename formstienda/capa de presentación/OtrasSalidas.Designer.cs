@@ -165,6 +165,7 @@
             DGOTRASSALIDAS.Location = new Point(26, 342);
             DGOTRASSALIDAS.Margin = new Padding(2);
             DGOTRASSALIDAS.Name = "DGOTRASSALIDAS";
+            DGOTRASSALIDAS.ReadOnly = true;
             DGOTRASSALIDAS.RowHeadersWidth = 51;
             DGOTRASSALIDAS.RowTemplate.Height = 24;
             DGOTRASSALIDAS.Size = new Size(1230, 352);
@@ -175,30 +176,35 @@
             dataGridViewTextBoxColumn3.HeaderText = "Código";
             dataGridViewTextBoxColumn3.MinimumWidth = 6;
             dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // Column11
             // 
             Column11.HeaderText = "Nombre del Producto";
             Column11.MinimumWidth = 6;
             Column11.Name = "Column11";
+            Column11.ReadOnly = true;
             // 
             // Column12
             // 
             Column12.HeaderText = "Cantidad";
             Column12.MinimumWidth = 6;
             Column12.Name = "Column12";
+            Column12.ReadOnly = true;
             // 
             // Column13
             // 
             Column13.HeaderText = "Motivo";
             Column13.MinimumWidth = 6;
             Column13.Name = "Column13";
+            Column13.ReadOnly = true;
             // 
             // descripcion
             // 
             descripcion.HeaderText = "Descripción";
             descripcion.MinimumWidth = 6;
             descripcion.Name = "descripcion";
+            descripcion.ReadOnly = true;
             // 
             // btnCancelar
             // 

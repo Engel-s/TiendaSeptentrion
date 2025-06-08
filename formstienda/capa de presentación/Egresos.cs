@@ -50,22 +50,7 @@ namespace formstienda.capa_de_presentación
                 this.Close();
             }
         }
-                
-        //private void CargarTotalesIniciales()
-        //{
-        //    try
-        //    {
-        //        _totalCordobas = _egresoservicio.ObtenerTotalCajaCordobas(_fechaActual);
-        //        _totalDolares = _egresoservicio.ObtenerTotalCajaDolares(_fechaActual);
-
-        //        ActualizarTextBoxSegunMoneda();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error al cargar totales iniciales: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
-
+                      
         private void Egresos_Load(object sender, EventArgs e)
         {
             
@@ -93,41 +78,7 @@ namespace formstienda.capa_de_presentación
             }
         }
 
-        //private void CargarTotalCajaCordoba()
-        //{
-        //    try
-        //    {
-        //        DateOnly fechaActual = DateOnly.FromDateTime(DateTime.Now);
-
-        //        var apertura = _egresoservicio.ListarAperturaCaja(fechaActual).FirstOrDefault();
-        //        decimal montoApertura = apertura?.MontoApertura != null ? (decimal)apertura.MontoApertura : 0m;
-
-        //        var ventas = _egresoservicio.ListarTotalVenta(fechaActual);
-        //        decimal totalVentasCordobas = ventas?
-        //            .Where(v => v?.PagoCordobas != null)
-        //            .Sum(v => (decimal)v.PagoCordobas.Value) ?? 0m;
-
-        //        var devoluciones = _egresoservicio.ListarDevolucion(fechaActual);
-        //        decimal totalDevoluciones = devoluciones?
-        //            .Where(d => d?.MontoDevolucion != null)
-        //            .Sum(d => (decimal)d.MontoDevolucion) ?? 0m;
-
-        //        var pagosCredito = _egresoservicio.ListarPagosCredito(fechaActual);
-        //        decimal totalCordobasAbonados = pagosCredito?
-        //            .Where(p => p?.TotalCordobas > 0)
-        //            .Sum(p => (decimal)p.TotalCordobas) ?? 0m;
-
-        //        decimal totalEgresos = _egresoservicio.ObtenerTotalEgresosCordobas(fechaActual);
-        //        decimal total = Math.Round(montoApertura + totalVentasCordobas + totalCordobasAbonados - totalDevoluciones - totalEgresos);
-
-        //        ActualizarTextBox(total, "Córdoba");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error al calcular caja: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        ActualizarTextBox(0m, "Córdoba");
-        //    }
-        //}
+       
 
         private void CargarTotalDolar()
         {
@@ -184,6 +135,15 @@ namespace formstienda.capa_de_presentación
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Arqueo_Caja());
+            }
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
