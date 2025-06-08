@@ -31,7 +31,9 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     public virtual DbSet<DetalleDeVentum> DetalleDeVenta { get; set; }
 
-    public virtual DbSet<Devolucion> Devolucions { get; set; }
+    public virtual DbSet<DetalleDevolucion> DetalleDevolucions { get; set; }
+
+    public virtual DbSet<DevolucionVenta> DevolucionVentas { get; set; }
 
     public virtual DbSet<Egreso> Egresos { get; set; }
 
@@ -53,7 +55,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-I4VC35H;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-QJJDVK7\\SQLEXPRESS;Initial Catalog=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -61,7 +63,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
         {
             entity.HasKey(e => e.IdApertura).HasName("PK__Apertura__1DCB12E5A07C562A");
 
-            entity.ToTable("Apertura caja");
+            entity.ToTable("Apertura_caja");
 
             entity.Property(e => e.IdApertura).HasColumnName("Id_Apertura");
             entity.Property(e => e.EstadoApertura)
@@ -77,7 +79,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
         {
             entity.HasKey(e => new { e.IdUsuario, e.IdApertura, e.IdArqueoCaja }).HasName("PK__Arqueo c__6F38EB3D03CAFB2F");
 
-            entity.ToTable("Arqueo caja");
+            entity.ToTable("Arqueo_caja");
 
             entity.Property(e => e.IdUsuario).HasColumnName("Id_usuario");
             entity.Property(e => e.IdApertura).HasColumnName("Id_Apertura");
@@ -270,38 +272,39 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasConstraintName("FK__Detalle_D__Id_Ve__5CD6CB2B");
         });
 
-        modelBuilder.Entity<Devolucion>(entity =>
+        modelBuilder.Entity<DetalleDevolucion>(entity =>
         {
-            entity.HasKey(e => new { e.IdDevolucion, e.IdVenta }).HasName("PK__Devoluci__6E35A86ECBDC050A");
+            entity.HasKey(e => e.IdDetalleDevolucion).HasName("PK__DetalleD__7060E873E603CAFB");
 
-            entity.ToTable("Devolucion");
+            entity.ToTable("DetalleDevolucion");
 
-            entity.Property(e => e.IdDevolucion)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("Id_Devolucion");
-            entity.Property(e => e.IdVenta).HasColumnName("Id_Venta");
-            entity.Property(e => e.CantidadDevuelta).HasColumnName("Cantidad_Devuelta");
+            entity.Property(e => e.InformacionProducto)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.MontoDevuelto).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.IdDevolucionNavigation).WithMany(p => p.DetalleDevolucions)
+                .HasForeignKey(d => d.IdDevolucion)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__DetalleDe__IdDev__7849DB76");
+        });
+
+        modelBuilder.Entity<DevolucionVenta>(entity =>
+        {
+            entity.HasKey(e => e.IdDevolucion).HasName("PK__Devoluci__7B3585A2B6FCE881");
+
             entity.Property(e => e.CedulaCliente)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("Cedula_Cliente");
-            entity.Property(e => e.DescripcionDevolucion)
-                .HasMaxLength(500)
-                .IsUnicode(false)
-                .HasColumnName("Descripcion_Devolucion");
-            entity.Property(e => e.FechaDevolucion)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnName("Fecha_Devolucion");
-            entity.Property(e => e.MontoDevolucion).HasColumnName("Monto_Devolucion");
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.DescripcionDevolucion).HasColumnType("text");
             entity.Property(e => e.MotivoDevolucion)
                 .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("Motivo_Devolucion");
+                .IsUnicode(false);
 
-            entity.HasOne(d => d.IdVentaNavigation).WithMany(p => p.Devolucions)
+            entity.HasOne(d => d.IdVentaNavigation).WithMany(p => p.DevolucionVenta)
                 .HasForeignKey(d => d.IdVenta)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Devolucio__Id_Ve__5DCAEF64");
+                .HasConstraintName("FK__Devolucio__IdVen__756D6ECB");
         });
 
         modelBuilder.Entity<Egreso>(entity =>
@@ -399,16 +402,11 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("Descripcion_Salida");
+            entity.Property(e => e.FechaSalida).HasColumnName("Fecha_Salida");
             entity.Property(e => e.MotivoSalida)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Motivo_Salida");
-
-            entity.HasOne(d => d.CodigoProductoNavigation).WithMany(p => p.OtrasSalidasDeInventarios)
-                .HasPrincipalKey(p => p.CodigoProducto)
-                .HasForeignKey(d => d.CodigoProducto)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Otras sal__Codig__5FB337D6");
         });
 
         modelBuilder.Entity<Producto>(entity =>
@@ -478,7 +476,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
         {
             entity.HasKey(e => e.IdTasaCambio).HasName("PK__Tasa de __D4136D0797B79FBB");
 
-            entity.ToTable("Tasa de cambio");
+            entity.ToTable("Tasa_de_cambio");
 
             entity.Property(e => e.IdTasaCambio).HasColumnName("Id_Tasa_Cambio");
             entity.Property(e => e.FechaCambio).HasColumnName("Fecha_Cambio");
@@ -517,7 +515,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Rol_Usuario");
             entity.Property(e => e.TelefonoUsuario)
-                .HasMaxLength(8)
+                .HasMaxLength(9)
                 .IsUnicode(false)
                 .HasColumnName("Telefono_Usuario");
             entity.Property(e => e.TokenRecuperacion)
@@ -538,6 +536,9 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("Id_Venta");
             entity.Property(e => e.CambioVenta).HasColumnName("Cambio_Venta");
+            entity.Property(e => e.CambiosFactura)
+                .HasMaxLength(500)
+                .IsUnicode(false);
             entity.Property(e => e.CedulaCliente)
                 .HasMaxLength(30)
                 .IsUnicode(false)

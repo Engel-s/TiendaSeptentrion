@@ -1,5 +1,7 @@
-﻿using formstienda.Datos;
-using formstienda.Capa_negocios;
+﻿using formstienda.Capa_negocios;
+using formstienda.Datos;
+using formstienda.Reporte;
+using iText.Commons.Actions.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Globalization;
@@ -12,7 +14,7 @@ namespace formstienda.capa_de_presentación
     {
         private readonly CreditoServicio _creditoServicio;
         private const decimal TasaCambioDolar = 36.5m;
-        //camio minimo 2
+
 
         public Facturacion_de_crédito()
         {
@@ -35,18 +37,33 @@ namespace formstienda.capa_de_presentación
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             ProcesarPago();
+
+            using var context = new DbTiendaSeptentrionContext();
+
+            // Obtener el registro que deseas actualizar (ajusta la consulta según tu estructura)
+            var registro = context.DetalleCreditos.Include(dc => dc.IdCreditoNavigation).FirstOrDefault(r => r.AbonoCapital == 0);
+
+            if (registro != null)
+            {
+                MessageBox.Show("PAGADO", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                registro.Observaciones = "Finalizado";
+
+                // Guardar cambios en la base de datos
+                context.SaveChanges();
+            }
+
         }
+
+        
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             LimpiarCamposPago();
         }
 
-       
+
         private void checkBoxMoneda_CheckedChanged(object sender, EventArgs e)
         {
-            txtDolares.Enabled = checkBox1.Checked;
-            txtCordobas.Enabled = !checkBox1.Checked;
         }
 
         private void txtCordobas_TextChanged(object sender, EventArgs e)
@@ -101,22 +118,25 @@ namespace formstienda.capa_de_presentación
             {
                 var creditos = context.DetalleCreditos
                     .Include(f => f.IdCreditoNavigation)
-                    .Where(f => f.IdDetalleCredito.ToString().Contains(criterio) && f.ValorCuota > 0)
+                    .Where(f => f.IdCreditoNavigation.IdVentaNavigation.IdVenta.ToString().Contains(criterio) && f.ValorCuota > 0)
                     .Select(f => new
                     {
+
                         f.IdDetalleCredito,
                         NFactura = f.IdCreditoNavigation.IdVenta,
+                        f.NumeroCuota,
                         f.FechaPago,
-                        Saldo = f.ValorCuota,
-                        f.AbonoCapital,
-                        NuevoSaldo = f.ValorCuota - f.AbonoCapital,
-                        f.InteresPagado,
-                        f.NumeroCuota
+                         f.ValorCuota,
+                        Saldo = f.AbonoCapital,
+                        NuevoSaldo =  f.AbonoCapital - f.ValorCuota ,
+                        f.Observaciones,
+                        Total = f.TotalCordobas + f.TotalDolares
                     })
                     .ToList();
 
                 Tabla_Credito.AutoGenerateColumns = true;
                 Tabla_Credito.DataSource = creditos;
+                Tabla_Credito.Columns[0].Visible = false;
             }
         }
 
@@ -125,36 +145,60 @@ namespace formstienda.capa_de_presentación
             if (!ValidarSeleccionCuota()) return;
             if (!ValidarMontoAbono()) return;
 
-            int idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
-            decimal abono = decimal.Parse(txtTotalAbonado.Text);
-
-            bool resultado = _creditoServicio.ProcesarPagoCredito(
-                idDetalleCredito,
-                abono,
-                checkBox1.Checked);
-
-            if (resultado)
+            int idDetalleCredito;
+            try
             {
-                MessageBox.Show("Pago procesado correctamente");
-                LimpiarCamposPago();
-                BuscarCreditos();
+                idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
             }
-            else
+            catch
             {
-                MessageBox.Show("Error al procesar el pago");
+                MessageBox.Show("No se pudo obtener el ID de la cuota seleccionada.");
+                return;
+            }
+
+            decimal abono;
+            if (!decimal.TryParse(txtTotalAbonado.Text, out abono))
+            {
+                MessageBox.Show("Monto abonado inválido.");
+                return;
+            }
+
+            try
+            {
+                bool resultado = _creditoServicio.ProcesarPagoCredito(
+                    idDetalleCredito,
+                    abono
+                    ,checkBox1.Checked);
+
+                if (resultado)
+                {
+                    MessageBox.Show("Pago procesado correctamente");
+                    LimpiarCamposPago();
+                    BuscarCreditos();
+                }
+                else
+                {
+                    MessageBox.Show("Error al procesar el pago");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inesperado: " + ex.Message);
             }
         }
 
         private void CargarCreditosPendientes()
         {
-            using (var context = new DbTiendaSeptentrionContext())
-            {
-                var creditos = context.DetalleCreditos
-                    .Where(d => d.ValorCuota > 0)
-                    .ToList();
-
-                Tabla_Credito.DataSource = creditos;
-            }
+            txtDolares.Enabled = true;
+            //using (var context = new DbTiendaSeptentrionContext())
+            //{
+            //    var creditos = context.DetalleCreditos
+            //        .Where(d => d.ValorCuota > 0)
+            //        .ToList();
+            //    ////////////////////////////////////////////////////////////////////////////////
+            //    Tabla_Credito.DataSource = creditos;
+            //    Tabla_Credito.Columns[0].Visible = false;
+            //}
         }
 
         #endregion
@@ -207,7 +251,7 @@ namespace formstienda.capa_de_presentación
             }
         }
 
-        
+
 
         private void LimpiarCamposPago()
         {
@@ -234,6 +278,18 @@ namespace formstienda.capa_de_presentación
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ReporteCredito reporteCredito = new ReporteCredito();
+            reporteCredito.Show();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

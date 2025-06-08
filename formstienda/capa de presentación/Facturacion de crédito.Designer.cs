@@ -48,6 +48,7 @@
             btnSalir = new Button();
             pictureBox6 = new PictureBox();
             txtCambio = new TextBox();
+            button1 = new Button();
             checkBox1 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -290,23 +291,32 @@
             txtCambio.Size = new Size(147, 27);
             txtCambio.TabIndex = 56;
             // 
+            // button1
+            // 
+            button1.Location = new Point(912, 66);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 58;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(417, 601);
+            checkBox1.Location = new Point(699, 239);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(119, 24);
-            checkBox1.TabIndex = 57;
-            checkBox1.Text = "Pago Dólares";
+            checkBox1.Size = new Size(101, 24);
+            checkBox1.TabIndex = 59;
+            checkBox1.Text = "checkBox1";
             checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.Click += checkBoxMoneda_CheckedChanged;
             // 
             // Facturacion_de_crédito
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1045, 793);
-            Controls.Add(checkBox1);
+            Controls.Add(button1);
             Controls.Add(txtCambio);
             Controls.Add(pictureBox6);
             Controls.Add(btnSalir);
@@ -326,6 +336,7 @@
             Controls.Add(txtBusqueda);
             Controls.Add(pictureBox1);
             Controls.Add(label1);
+            Controls.Add(checkBox1);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
@@ -365,6 +376,7 @@
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.PictureBox pictureBox6;
         private TextBox txtCambio;
+        private Button button1;
         private CheckBox checkBox1;
     }
 }

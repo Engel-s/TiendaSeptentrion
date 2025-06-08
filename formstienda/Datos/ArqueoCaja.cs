@@ -13,7 +13,7 @@ public partial class ArqueoCaja
 
     public float TotalEfectivoCordoba { get; set; }
 
-    public float TotalEfectivoDolar { get; set; }
+    public float? TotalEfectivoDolar { get; set; }
 
     public float? FaltanteCordoba { get; set; }
 

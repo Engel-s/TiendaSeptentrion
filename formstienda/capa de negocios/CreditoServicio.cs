@@ -45,11 +45,11 @@ namespace formstienda.Capa_negocios
                         var tasaCambioHoy = contexto.TasaDeCambios
                             .OrderByDescending(t => t.FechaCambio)
                             .FirstOrDefault(t => t.FechaCambio == DateOnly.FromDateTime(DateTime.Now));
-
-                        if (tasaCambioHoy == null)
-                        {
-                            throw new Exception("No se encontró tasa de cambio para hoy");
-                        }
+                        
+                        //if (tasaCambioHoy == null)
+                        //{
+                        //    throw new Exception("No se encontró tasa de cambio para hoy");
+                        //}
 
                         var detalle = contexto.DetalleCreditos
                             .Include(d => d.IdCreditoNavigation)
@@ -83,7 +83,6 @@ namespace formstienda.Capa_negocios
 
                         contexto.SaveChanges();
                         transaction.Commit();
-
                         return true;
                     }
                     catch (Exception ex)
