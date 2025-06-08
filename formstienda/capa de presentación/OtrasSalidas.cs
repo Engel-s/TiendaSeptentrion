@@ -88,8 +88,11 @@ namespace formstienda.capa_de_presentación
 
         private void CargarMotivos()
         {
+            // Cargar motivos en el ComboBox
+            cmbMotivo.Items.Clear();
             var motivos = new List<string>
             {
+                "",
                 "Defecto de fábrica",
                 "Facturación errónea",
                 "Producto dañado",
@@ -159,9 +162,11 @@ namespace formstienda.capa_de_presentación
                         return;
                     }
 
-                    if (cmbMotivo.SelectedItem == null)
+                    // Validación del motivo (verifica si es nulo o vacío)
+                    if (cmbMotivo.SelectedItem == null ||
+                        string.IsNullOrWhiteSpace(cmbMotivo.SelectedItem.ToString()))
                     {
-                        MessageBox.Show("Debe seleccionar un motivo", "Validación",
+                        MessageBox.Show("Debe seleccionar un motivo válido", "Validación",
                                       MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -221,6 +226,7 @@ namespace formstienda.capa_de_presentación
                 }
             }
         }
+        
 
         private void LimpiarCampos()
         {

@@ -183,7 +183,6 @@ namespace formstienda
         }
 
 
-
         private void btngenerarinformeventas_Click(object sender, EventArgs e)
         {
             DateTime fechaInicio = dtpickerventasinicio.Value.Date;
@@ -270,9 +269,6 @@ namespace formstienda
                 MessageBox.Show($"Error al cargar los motivos: {ex.Message}", "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-            
 
         }
     }
