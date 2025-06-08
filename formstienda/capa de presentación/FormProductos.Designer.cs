@@ -171,7 +171,7 @@ namespace formstienda
             // 
             // btnSalirProductos
             // 
-            btnSalirProductos.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnSalirProductos.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnSalirProductos.BackColor = Color.FromArgb(3, 171, 229);
             btnSalirProductos.FlatStyle = FlatStyle.Popup;
             btnSalirProductos.Location = new Point(1238, 776);
@@ -296,6 +296,7 @@ namespace formstienda
             // cmbMarcProduct
             // 
             cmbMarcProduct.Anchor = AnchorStyles.Top;
+            cmbMarcProduct.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbMarcProduct.FormattingEnabled = true;
             cmbMarcProduct.Location = new Point(1151, 70);
             cmbMarcProduct.Margin = new Padding(2);
@@ -318,6 +319,7 @@ namespace formstienda
             // cmbCategoriaProduc
             // 
             cmbCategoriaProduc.Anchor = AnchorStyles.Top;
+            cmbCategoriaProduc.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategoriaProduc.FormattingEnabled = true;
             cmbCategoriaProduc.Location = new Point(875, 70);
             cmbCategoriaProduc.Margin = new Padding(2);

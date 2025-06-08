@@ -112,7 +112,6 @@ namespace formstienda
             }
         }
 
-        //
         private void CargarComboCategoria()
         {
             try
@@ -121,15 +120,30 @@ namespace formstienda
                 var categorias = _categoriaServicio.ListarCategorias();
 
                 cmbCategoriaProduc.DataSource = categorias;
-                cmbCategoriaProduc.DisplayMember = "Categoria"; 
-                cmbCategoriaProduc.ValueMember = "IdCategoria"; 
+                cmbCategoriaProduc.DisplayMember = "Categoria";
+                cmbCategoriaProduc.ValueMember = "IdCategoria";
+
+                // Establecer el ComboBox en blanco inicialmente
+                cmbCategoriaProduc.SelectedIndex = -1;
+                cmbCategoriaProduc.Text = "Seleccione una categoría...";
+
+                // Opcional: cambiar el color del texto del placeholder
+                cmbCategoriaProduc.ForeColor = System.Drawing.Color.Gray;
+
+                // Evento para cambiar el color cuando seleccione algo
+                cmbCategoriaProduc.SelectedIndexChanged += (s, e) => {
+                    if (cmbCategoriaProduc.SelectedIndex != -1)
+                    {
+                        cmbCategoriaProduc.ForeColor = System.Drawing.Color.Black;
+                    }
+                };
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar categorías: " + ex.Message);
             }
         }
-        //cargar combos marcas
+
         private void CargarComboMarca()
         {
             try
@@ -138,15 +152,30 @@ namespace formstienda
                 var marcas = servicio.ListarMarcas();
 
                 cmbMarcProduct.DataSource = marcas;
-                cmbMarcProduct.DisplayMember = "Marca1"; 
-                cmbMarcProduct.ValueMember = "IdMarca"; 
+                cmbMarcProduct.DisplayMember = "Marca1";
+                cmbMarcProduct.ValueMember = "IdMarca";
+
+                // Configurar para que aparezca vacío inicialmente
+                cmbMarcProduct.SelectedIndex = -1;
+                cmbMarcProduct.Text = "Seleccione una marca...";
+
+                // Opcional: cambiar color del texto placeholder
+                cmbMarcProduct.ForeColor = Color.Gray;
+
+                // Restaurar color al seleccionar
+                cmbMarcProduct.SelectionChangeCommitted += (s, e) => {
+                    if (cmbMarcProduct.SelectedIndex != -1)
+                    {
+                        cmbMarcProduct.ForeColor = SystemColors.WindowText;
+                    }
+                };
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar combos: " + ex.Message);
+                MessageBox.Show("Error al cargar marcas: " + ex.Message);
             }
         }
-                
+
         //cargar las marcas
         private void CargarMarcas()
         {
@@ -580,9 +609,6 @@ namespace formstienda
                 }
             }
         }
-
-        // 
-        
 
         private void pbBuscarProducto_Click(object sender, EventArgs e)
         {
