@@ -69,9 +69,11 @@ namespace formstienda.capa_de_presentación
                     .Include(d => d.CodigoProductoNavigation.IdMarcaNavigation)
                     .Include(d => d.IdVentaNavigation)
                         .ThenInclude(v => v.CedulaClienteNavigation)
-                    .Where(d => d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
-                                d.IdVentaNavigation.FechaVenta <= fechaFinOnly)
-                    .ToList();
+                                 .Where(d => d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
+                                              d.IdVentaNavigation.FechaVenta <= fechaFinOnly &&
+                                                d.IdVentaNavigation.TipoPago == "Contado") // filtro
+                                 .ToList();
+
             }
 
 
@@ -132,13 +134,16 @@ namespace formstienda.capa_de_presentación
                 doc.Add(new Paragraph("\n"));
 
                 // ===== TABLA DE VENTAS =====
-                var columnas = new float[] { 1.2f, 1.2f, 1.8f, 2.5f, 1.5f, 1.5f, 1.5f, 1.2f, 1.5f, 1.5f };
+                // ===== TABLA DE VENTAS =====
+                // Quitamos la columna "Total venta" (de 10 → 9 columnas)
+                var columnas = new float[] { 1.2f, 1.2f, 1.8f, 2.5f, 1.5f, 1.5f, 1.5f, 1.2f, 1.5f };
                 var tabla = new Table(columnas).UseAllAvailableWidth();
 
+                // Eliminamos "Total venta" del encabezado
                 string[] headers = {
-        "Fecha", "Factura", "Cliente", "Producto", "Categoría",
-        "Marca", "Precio", "Cantidad", "Subtotal", "Total venta"
-    };
+    "Fecha", "Factura", "Cliente", "Producto", "Categoría",
+    "Marca", "Precio", "Cantidad", "Subtotal"
+};
 
                 foreach (var h in headers)
                 {
@@ -161,11 +166,22 @@ namespace formstienda.capa_de_presentación
                     tabla.AddCell(Celda(decimal.Parse(item.Precio ?? "0").ToString("C", cultura)));
                     tabla.AddCell(Celda(item.Cantidad.ToString()));
                     tabla.AddCell(Celda(item.SubTotal?.ToString("C", cultura) ?? "C$0.00"));
-                    tabla.AddCell(Celda(ventum.TotalVenta.ToString("C", cultura)));
+
+                    // Eliminado: tabla.AddCell(Celda(ventum.TotalVenta.ToString("C", cultura)));
                 }
 
                 doc.Add(tabla);
+
+                // ===== TOTAL VENTAS FINAL =====
+                double totalGeneral = ventas.Sum(v => v.SubTotal ?? 0);
+                var totalParagraph = new Paragraph($"\nTotal en ventas: {totalGeneral.ToString("C", cultura)}")
+                    .SetFont(font)
+                    .SetFontSize(12)
+                    .SetTextAlignment(TextAlignment.RIGHT);
+
+                doc.Add(totalParagraph);
                 doc.Close();
+
             }
 
         }
