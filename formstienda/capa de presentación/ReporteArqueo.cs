@@ -205,7 +205,7 @@ namespace formstienda.capa_de_presentación
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)
                         .SetPadding(5)
-                        .SetBorder(new SolidBorder(1)));
+                        .SetBorder(new SolidBorder(1));
 
                     // Total en Caja Córdoba
                     table.AddCell(new Cell()
@@ -223,7 +223,7 @@ namespace formstienda.capa_de_presentación
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)
                         .SetPadding(5)
-                        .SetBorder(new SolidBorder(1)));
+                        .SetBorder(new SolidBorder(1));
 
                     // Sobrante Córdoba
                     table.AddCell(new Cell()
