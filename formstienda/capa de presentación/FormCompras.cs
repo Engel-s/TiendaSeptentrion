@@ -365,6 +365,7 @@ namespace formstienda
             dtgcompras.CellFormatting += dtgcompras_CellFormatting_1;
             txtprecioventa.Validating += txtprecioventa_Validating;
 
+
             dtgcompras.DefaultCellStyle.BackColor = Color.White;
             dtgcompras.DefaultCellStyle.ForeColor = Color.Black;
             dtgcompras.EnableHeadersVisualStyles = false;
