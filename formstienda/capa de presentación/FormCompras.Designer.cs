@@ -144,16 +144,18 @@
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dtgcompras.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dtgcompras.ColumnHeadersHeight = 29;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.Transparent;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.White;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dtgcompras.DefaultCellStyle = dataGridViewCellStyle2;
             dtgcompras.Location = new Point(12, 432);
@@ -171,6 +173,7 @@
             dtgcompras.RowTemplate.Height = 28;
             dtgcompras.Size = new Size(1138, 337);
             dtgcompras.TabIndex = 69;
+            dtgcompras.CellFormatting += dtgcompras_CellFormatting_1;
             // 
             // btncancelar
             // 
@@ -222,6 +225,7 @@
             txtprecioventa.TabIndex = 88;
             txtprecioventa.TextChanged += textBox12_TextChanged_1;
             txtprecioventa.KeyPress += txtprecioventa_KeyPress;
+            txtprecioventa.Validating += txtprecioventa_Validating;
             // 
             // pictureBox2
             // 
