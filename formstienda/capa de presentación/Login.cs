@@ -10,15 +10,18 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using formstienda;
 using formstienda.capa_de_presentación;
+using formstienda.Datos;
+using formstienda.capa_de_negocios;
 
 namespace formstienda
 {
     public partial class Login : Form
     {
+        private AuthServicio _authServicio;
         public Login()
         {
             InitializeComponent();
-            
+
         }
 
         private bool showpassword = false;
@@ -29,11 +32,62 @@ namespace formstienda
         private extern static void SendMessage(System.IntPtr hwnd, int wmsg,
             int wparam, int lparam);
 
+        public static class UsuarioActivo
+        {
+            private static Usuario _usuarioActual;
+
+            public static Usuario ObtenerUsuarioActual()
+            {
+                return _usuarioActual;
+            }
+
+            public static void EstablecerUsuarioActual(Usuario usuario)
+            {
+                _usuarioActual = usuario;
+            }
+
+            public static string ObtenerNombreCompletoUsuario()
+            {
+                return _usuarioActual != null
+                    ? $"{_usuarioActual.NombreUsuario} {_usuarioActual.ApellidoUsuario}"
+                    : "Usuario no identificado";
+            }
+
+            public static void LimpiarUsuarioActual()
+            {
+                _usuarioActual = null;
+            }
+
+            public static bool HayUsuarioLogueado()
+            {
+                return _usuarioActual != null;
+            }
+
+            public static string ObtenerNombreUsuario()
+            {
+                return _usuarioActual?.NombreUsuario;
+            }
+
+            public static string ObtenerRolUsuario()
+            {
+                return _usuarioActual?.RolUsuario;
+            }
+
+            public static int? ObtenerIdUsuario()
+            {
+                return _usuarioActual?.IdUsuario;
+            }
+            public static string? ObtenerUsuarioLogueo()
+            {
+                return _usuarioActual?.UsuarioLogueo;
+            }
+        }
+
         private void sendlogin_Click(object sender, EventArgs e)
         {
 
         }
-          
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -67,7 +121,7 @@ namespace formstienda
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            _authServicio = new AuthServicio();
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -92,26 +146,65 @@ namespace formstienda
 
         private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
-            UserManager usermanager = UserManager.Instance; // Instancia de UserManager
-            string username = txtusername.Text; // capturan datos
-            string password = txtpassword.Text; // capturan datos
+            string usuariologueo = txtusername.Text.Trim();
+            string contraseña = txtpassword.Text.Trim();
 
-            usuarios userLog = usermanager.UserLog(username, password); // llaman al metodo pendejo que no daba
-
-            if (userLog != null)
+            if (string.IsNullOrEmpty(usuariologueo) || string.IsNullOrEmpty(contraseña))
             {
-                menu form = new menu();
-                form.Show();
-                Apertura_Caja apertura = new Apertura_Caja();
-                apertura.Show();
-
-                this.Hide();
-            }
-            else
-            {
-                MessageBox.Show("Usuario inexistente o incorrecto");// esas alertas seguro las cambio
+                MessageBox.Show(
+                    "⚠️ Por favor, ingresa tu usuario de logueo y contraseña para acceder al sistema.\n\n" +
+                    "Ambos campos son obligatorios.",
+                    "Campos requeridos",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
             }
 
+            var usuario = _authServicio.Validar_Credenciales(usuariologueo, contraseña);
+            if (usuario == null)
+            {
+                MessageBox.Show(
+                    "❌ Usuario o contraseña incorrectos.\n\n" +
+                    "Por favor, verifica tus datos e inténtalo nuevamente.",
+                    "Acceso denegado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
+
+            if (usuario.EstadoUsuario == false)
+            {
+                MessageBox.Show($"El usuario {usuario.NombreUsuario} esta inactivo, activelo nuevamente o ingrese con otro usuario");
+                return;
+            }
+
+            // Establecer el usuario activo
+            UsuarioActivo.EstablecerUsuarioActual(usuario);
+
+            MessageBox.Show(
+                $"¡Bienvenido(a) {usuario.NombreUsuario}!\n\n" +
+                "😊 Has ingresado correctamente al sistema.\n\n" +
+                "¡Te deseamos un excelente día de trabajo!",
+                "Acceso concedido",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
+            this.Hide();
+            menu form = new menu(usuario.RolUsuario);
+            form.Show();
+            Apertura_Caja apertura = new Apertura_Caja();
+            apertura.Show();
+            this.Hide();
+        }
+
+        public static void CerrarSesion()
+        {
+            UsuarioActivo.LimpiarUsuarioActual();
+            // Redirigir al formulario de login
+            Login loginForm = new Login();
+            loginForm.Show();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -128,11 +221,13 @@ namespace formstienda
 
         private void txtusuario_Enter(object sender, EventArgs e)
         {
-            if(txtusername.Text=="Usuario:")
+            if (txtusername.Text == "Usuario:")
             {
                 txtusername.Text = "";
-            }    
+            }
         }
+
+
 
         private void txtusuario_Leave(object sender, EventArgs e)
         {
@@ -147,7 +242,7 @@ namespace formstienda
         private void txtcontraseña_Enter(object sender, EventArgs e)
         {
 
-         
+
 
         }
 

@@ -31,31 +31,27 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Facturacion_de_crédito));
             label1 = new Label();
             pictureBox1 = new PictureBox();
-            textBox1 = new TextBox();
+            txtBusqueda = new TextBox();
             pictureBox2 = new PictureBox();
-            dataGridView1 = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
+            Tabla_Credito = new DataGridView();
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
-            button2 = new Button();
+            txtTotalAbonado = new TextBox();
+            txtCordobas = new TextBox();
+            btnGuardar = new Button();
             label6 = new Label();
-            textBox4 = new TextBox();
-            textBox5 = new TextBox();
-            button1 = new Button();
+            txtDolares = new TextBox();
+            btnCancelar = new Button();
             pictureBox4 = new PictureBox();
             pictureBox3 = new PictureBox();
-            button3 = new Button();
+            btnSalir = new Button();
             pictureBox6 = new PictureBox();
+            txtCambio = new TextBox();
+            checkBox1 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Tabla_Credito).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -84,16 +80,17 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 37;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
-            // textBox1
+            // txtBusqueda
             // 
-            textBox1.Anchor = AnchorStyles.Top;
-            textBox1.Location = new Point(470, 116);
-            textBox1.Margin = new Padding(3, 2, 3, 2);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(165, 27);
-            textBox1.TabIndex = 38;
-            textBox1.TextChanged += textBox1_TextChanged;
+            txtBusqueda.Anchor = AnchorStyles.Top;
+            txtBusqueda.Location = new Point(470, 116);
+            txtBusqueda.Margin = new Padding(3, 2, 3, 2);
+            txtBusqueda.Name = "txtBusqueda";
+            txtBusqueda.Size = new Size(165, 27);
+            txtBusqueda.TabIndex = 38;
+            txtBusqueda.TextChanged += textBox1_TextChanged;
             // 
             // pictureBox2
             // 
@@ -107,50 +104,20 @@
             pictureBox2.TabIndex = 39;
             pictureBox2.TabStop = false;
             // 
-            // dataGridView1
+            // Tabla_Credito
             // 
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5 });
-            dataGridView1.Location = new Point(28, 174);
-            dataGridView1.Margin = new Padding(3, 2, 3, 2);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.RowTemplate.Height = 28;
-            dataGridView1.Size = new Size(1001, 402);
-            dataGridView1.TabIndex = 41;
-            // 
-            // Column1
-            // 
-            Column1.HeaderText = "Nº Factura";
-            Column1.MinimumWidth = 8;
-            Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            Column2.HeaderText = "Fecha";
-            Column2.MinimumWidth = 8;
-            Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            Column3.HeaderText = "Saldo";
-            Column3.MinimumWidth = 8;
-            Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            Column4.HeaderText = "Abono";
-            Column4.MinimumWidth = 8;
-            Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            Column5.HeaderText = "Nuevo saldo";
-            Column5.MinimumWidth = 8;
-            Column5.Name = "Column5";
+            Tabla_Credito.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Tabla_Credito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Tabla_Credito.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            Tabla_Credito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            Tabla_Credito.Location = new Point(28, 162);
+            Tabla_Credito.Margin = new Padding(3, 2, 3, 2);
+            Tabla_Credito.Name = "Tabla_Credito";
+            Tabla_Credito.RowHeadersWidth = 62;
+            Tabla_Credito.RowTemplate.Height = 28;
+            Tabla_Credito.Size = new Size(1001, 402);
+            Tabla_Credito.TabIndex = 41;
+            Tabla_Credito.CellContentClick += Tabla_Credito_CellContentClick;
             // 
             // label3
             // 
@@ -170,7 +137,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(-1, 596);
+            label4.Location = new Point(1, 598);
             label4.Name = "label4";
             label4.Size = new Size(149, 22);
             label4.TabIndex = 43;
@@ -188,38 +155,40 @@
             label5.TabIndex = 44;
             label5.Text = "Dólares:";
             // 
-            // textBox2
+            // txtTotalAbonado
             // 
-            textBox2.Anchor = AnchorStyles.Bottom;
-            textBox2.Location = new Point(220, 598);
-            textBox2.Margin = new Padding(3, 2, 3, 2);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(147, 27);
-            textBox2.TabIndex = 45;
+            txtTotalAbonado.Anchor = AnchorStyles.Bottom;
+            txtTotalAbonado.Location = new Point(220, 598);
+            txtTotalAbonado.Margin = new Padding(3, 2, 3, 2);
+            txtTotalAbonado.Name = "txtTotalAbonado";
+            txtTotalAbonado.Size = new Size(147, 27);
+            txtTotalAbonado.TabIndex = 45;
             // 
-            // textBox3
+            // txtCordobas
             // 
-            textBox3.Anchor = AnchorStyles.Bottom;
-            textBox3.Location = new Point(221, 651);
-            textBox3.Margin = new Padding(3, 2, 3, 2);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(147, 27);
-            textBox3.TabIndex = 46;
+            txtCordobas.Anchor = AnchorStyles.Bottom;
+            txtCordobas.Location = new Point(221, 651);
+            txtCordobas.Margin = new Padding(3, 2, 3, 2);
+            txtCordobas.Name = "txtCordobas";
+            txtCordobas.Size = new Size(147, 27);
+            txtCordobas.TabIndex = 46;
+            txtCordobas.TextChanged += txtCordobas_TextChanged;
             // 
-            // button2
+            // btnGuardar
             // 
-            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button2.BackColor = Color.FromArgb(3, 171, 229);
-            button2.FlatStyle = FlatStyle.Popup;
-            button2.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.Black;
-            button2.Location = new Point(271, 733);
-            button2.Margin = new Padding(3, 2, 3, 2);
-            button2.Name = "button2";
-            button2.Size = new Size(141, 42);
-            button2.TabIndex = 48;
-            button2.Text = "Guardar";
-            button2.UseVisualStyleBackColor = false;
+            btnGuardar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnGuardar.BackColor = Color.FromArgb(3, 171, 229);
+            btnGuardar.FlatStyle = FlatStyle.Popup;
+            btnGuardar.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = Color.Black;
+            btnGuardar.Location = new Point(271, 733);
+            btnGuardar.Margin = new Padding(3, 2, 3, 2);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(141, 42);
+            btnGuardar.TabIndex = 48;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // label6
             // 
@@ -233,39 +202,31 @@
             label6.TabIndex = 49;
             label6.Text = "Cambio:";
             // 
-            // textBox4
+            // txtDolares
             // 
-            textBox4.Anchor = AnchorStyles.Bottom;
-            textBox4.Location = new Point(542, 651);
-            textBox4.Margin = new Padding(3, 2, 3, 2);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(147, 27);
-            textBox4.TabIndex = 47;
+            txtDolares.Anchor = AnchorStyles.Bottom;
+            txtDolares.Enabled = false;
+            txtDolares.Location = new Point(542, 651);
+            txtDolares.Margin = new Padding(3, 2, 3, 2);
+            txtDolares.Name = "txtDolares";
+            txtDolares.Size = new Size(147, 27);
+            txtDolares.TabIndex = 47;
+            txtDolares.TextChanged += txtDolares_TextChanged;
             // 
-            // textBox5
+            // btnCancelar
             // 
-            textBox5.Anchor = AnchorStyles.Bottom;
-            textBox5.Location = new Point(867, 653);
-            textBox5.Margin = new Padding(3, 2, 3, 2);
-            textBox5.Name = "textBox5";
-            textBox5.ReadOnly = true;
-            textBox5.Size = new Size(147, 27);
-            textBox5.TabIndex = 50;
-            // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button1.BackColor = Color.FromArgb(3, 171, 229);
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Black;
-            button1.Location = new Point(62, 731);
-            button1.Margin = new Padding(3, 2, 3, 2);
-            button1.Name = "button1";
-            button1.Size = new Size(141, 42);
-            button1.TabIndex = 51;
-            button1.Text = "Cancelar";
-            button1.UseVisualStyleBackColor = false;
+            btnCancelar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnCancelar.BackColor = Color.FromArgb(3, 171, 229);
+            btnCancelar.FlatStyle = FlatStyle.Popup;
+            btnCancelar.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelar.ForeColor = Color.Black;
+            btnCancelar.Location = new Point(62, 731);
+            btnCancelar.Margin = new Padding(3, 2, 3, 2);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(141, 42);
+            btnCancelar.TabIndex = 51;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.UseVisualStyleBackColor = false;
             // 
             // pictureBox4
             // 
@@ -291,21 +252,21 @@
             pictureBox3.TabIndex = 53;
             pictureBox3.TabStop = false;
             // 
-            // button3
+            // btnSalir
             // 
-            button3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button3.BackColor = Color.FromArgb(3, 171, 229);
-            button3.FlatStyle = FlatStyle.Popup;
-            button3.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.Black;
-            button3.Location = new Point(894, 744);
-            button3.Margin = new Padding(3, 2, 3, 2);
-            button3.Name = "button3";
-            button3.Size = new Size(119, 40);
-            button3.TabIndex = 54;
-            button3.Text = "Salir";
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            btnSalir.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnSalir.BackColor = Color.FromArgb(3, 171, 229);
+            btnSalir.FlatStyle = FlatStyle.Popup;
+            btnSalir.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSalir.ForeColor = Color.Black;
+            btnSalir.Location = new Point(894, 744);
+            btnSalir.Margin = new Padding(3, 2, 3, 2);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(119, 40);
+            btnSalir.TabIndex = 54;
+            btnSalir.Text = "Salir";
+            btnSalir.UseVisualStyleBackColor = false;
+            btnSalir.Click += button3_Click;
             // 
             // pictureBox6
             // 
@@ -319,28 +280,49 @@
             pictureBox6.TabIndex = 55;
             pictureBox6.TabStop = false;
             // 
+            // txtCambio
+            // 
+            txtCambio.Anchor = AnchorStyles.Bottom;
+            txtCambio.Location = new Point(882, 650);
+            txtCambio.Margin = new Padding(3, 2, 3, 2);
+            txtCambio.Name = "txtCambio";
+            txtCambio.Size = new Size(147, 27);
+            txtCambio.TabIndex = 56;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(430, 613);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(119, 24);
+            checkBox1.TabIndex = 57;
+            checkBox1.Text = "Pago Dólares";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
             // Facturacion_de_crédito
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1045, 793);
+            Controls.Add(checkBox1);
+            Controls.Add(txtCambio);
             Controls.Add(pictureBox6);
-            Controls.Add(button3);
+            Controls.Add(btnSalir);
             Controls.Add(pictureBox3);
             Controls.Add(pictureBox4);
-            Controls.Add(button1);
-            Controls.Add(textBox5);
+            Controls.Add(btnCancelar);
             Controls.Add(label6);
-            Controls.Add(button2);
-            Controls.Add(textBox4);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
+            Controls.Add(btnGuardar);
+            Controls.Add(txtDolares);
+            Controls.Add(txtCordobas);
+            Controls.Add(txtTotalAbonado);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(dataGridView1);
+            Controls.Add(Tabla_Credito);
             Controls.Add(pictureBox2);
-            Controls.Add(textBox1);
+            Controls.Add(txtBusqueda);
             Controls.Add(pictureBox1);
             Controls.Add(label1);
             ForeColor = Color.Black;
@@ -352,7 +334,7 @@
             Load += Facturacion_de_crédito_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Tabla_Credito).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
@@ -365,27 +347,23 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtBusqueda;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView Tabla_Credito;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox txtTotalAbonado;
+        private System.Windows.Forms.TextBox txtCordobas;
+        private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtDolares;
+        private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.PictureBox pictureBox6;
+        private TextBox txtCambio;
+        private CheckBox checkBox1;
     }
 }
