@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace formstienda.Datos;
+
+public partial class VistaInventarioActual
+{
+    public string CodigoProducto { get; set; } = null!;
+
+    public string Producto { get; set; } = null!;
+
+    public string Categoria { get; set; } = null!;
+
+    public string Marca { get; set; } = null!;
+
+    public float PrecioVenta { get; set; }
+
+    public int? StockActual { get; set; }
+
+    public float? ValorTotalInventario { get; set; }
+}

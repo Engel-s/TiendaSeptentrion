@@ -23,9 +23,9 @@ public partial class Usuario
 
     public string UsuarioLogueo { get; set; } = null!;
 
-    public DateTime? FechaRecuperacion { get; set; }
-
     public string? TokenRecuperacion { get; set; }
+
+    public DateTime? FechaRecuperacion { get; set; }
 
     public virtual ICollection<ArqueoCaja> ArqueoCajas { get; set; } = new List<ArqueoCaja>();
 }
