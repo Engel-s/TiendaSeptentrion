@@ -230,6 +230,7 @@
             // cmbestado
             // 
             cmbestado.Anchor = AnchorStyles.Top;
+            cmbestado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbestado.FormattingEnabled = true;
             cmbestado.Items.AddRange(new object[] { "Activo", "Inactivo" });
             cmbestado.Location = new Point(171, 249);
