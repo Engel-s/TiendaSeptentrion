@@ -44,20 +44,24 @@
             // 
             // label2
             // 
-            label2.AutoSize = true;
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label2.Font = new Font("Calisto MT", 20F, FontStyle.Bold);
+            label2.ForeColor = Color.Black;
             label2.Location = new Point(385, 9);
             label2.Name = "label2";
             label2.Size = new Size(142, 39);
             label2.TabIndex = 1;
             label2.Text = "Egresos ";
+            label2.TextAlign = ContentAlignment.TopCenter;
             // 
             // button2
             // 
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button2.BackColor = Color.FromArgb(3, 171, 229);
             button2.Cursor = Cursors.Hand;
             button2.FlatStyle = FlatStyle.Popup;
             button2.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            button2.ForeColor = Color.Black;
             button2.Location = new Point(773, 656);
             button2.Margin = new Padding(3, 2, 3, 2);
             button2.Name = "button2";
@@ -69,11 +73,13 @@
             // 
             // btnGuardarCordobas
             // 
+            btnGuardarCordobas.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnGuardarCordobas.BackColor = Color.FromArgb(3, 171, 229);
             btnGuardarCordobas.Cursor = Cursors.Hand;
             btnGuardarCordobas.FlatStyle = FlatStyle.Popup;
             btnGuardarCordobas.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            btnGuardarCordobas.Location = new Point(43, 560);
+            btnGuardarCordobas.ForeColor = Color.Black;
+            btnGuardarCordobas.Location = new Point(39, 656);
             btnGuardarCordobas.Margin = new Padding(3, 2, 3, 2);
             btnGuardarCordobas.Name = "btnGuardarCordobas";
             btnGuardarCordobas.Size = new Size(120, 44);
@@ -84,11 +90,13 @@
             // 
             // btnCancelarCordobas
             // 
+            btnCancelarCordobas.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnCancelarCordobas.BackColor = Color.FromArgb(3, 171, 229);
             btnCancelarCordobas.Cursor = Cursors.Hand;
             btnCancelarCordobas.FlatStyle = FlatStyle.Popup;
             btnCancelarCordobas.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            btnCancelarCordobas.Location = new Point(210, 560);
+            btnCancelarCordobas.ForeColor = Color.Black;
+            btnCancelarCordobas.Location = new Point(193, 656);
             btnCancelarCordobas.Margin = new Padding(3, 2, 3, 2);
             btnCancelarCordobas.Name = "btnCancelarCordobas";
             btnCancelarCordobas.Size = new Size(113, 44);
@@ -102,7 +110,7 @@
             txtMotivoEgreso.Location = new Point(263, 342);
             txtMotivoEgreso.Margin = new Padding(3, 2, 3, 2);
             txtMotivoEgreso.Name = "txtMotivoEgreso";
-            txtMotivoEgreso.Size = new Size(409, 69);
+            txtMotivoEgreso.Size = new Size(448, 93);
             txtMotivoEgreso.TabIndex = 78;
             txtMotivoEgreso.Text = "";
             // 
@@ -125,8 +133,10 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label4.AutoSize = true;
             label4.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Black;
             label4.Location = new Point(39, 343);
             label4.Name = "label4";
             label4.Size = new Size(184, 22);
@@ -135,8 +145,10 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Black;
             label3.Location = new Point(39, 264);
             label3.Name = "label3";
             label3.Size = new Size(183, 22);
@@ -145,8 +157,10 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Black;
             label1.Location = new Point(39, 205);
             label1.Name = "label1";
             label1.Size = new Size(113, 22);
@@ -155,8 +169,10 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label6.AutoSize = true;
             label6.Font = new Font("Calisto MT", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.Black;
             label6.Location = new Point(39, 157);
             label6.Name = "label6";
             label6.Size = new Size(211, 22);

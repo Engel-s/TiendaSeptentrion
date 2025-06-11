@@ -29,42 +29,32 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            btnSalir = new Button();
             label1 = new Label();
             webViewInventario = new Microsoft.Web.WebView2.WinForms.WebView2();
+            panel1 = new Panel();
+            btnSalir = new Button();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)webViewInventario).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10.5969906F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 89.40301F));
-            tableLayoutPanel1.Controls.Add(btnSalir, 0, 0);
-            tableLayoutPanel1.Controls.Add(label1, 1, 0);
-            tableLayoutPanel1.Controls.Add(webViewInventario, 1, 1);
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Controls.Add(label1, 0, 0);
+            tableLayoutPanel1.Controls.Add(webViewInventario, 0, 1);
+            tableLayoutPanel1.Controls.Add(panel1, 0, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 12.8919888F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 87.10802F));
+            tableLayoutPanel1.RowCount = 3;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 85F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
             tableLayoutPanel1.Size = new Size(897, 455);
             tableLayoutPanel1.TabIndex = 0;
-            // 
-            // btnSalir
-            // 
-            btnSalir.BackColor = Color.DeepSkyBlue;
-            btnSalir.Dock = DockStyle.Top;
-            btnSalir.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnSalir.Location = new Point(3, 3);
-            btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(89, 52);
-            btnSalir.TabIndex = 0;
-            btnSalir.Text = "Salir";
-            btnSalir.UseVisualStyleBackColor = false;
-            btnSalir.Click += btnSalir_Click;
             // 
             // label1
             // 
@@ -72,9 +62,9 @@
             label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(98, 0);
+            label1.Location = new Point(3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(796, 58);
+            label1.Size = new Size(891, 45);
             label1.TabIndex = 2;
             label1.Text = "Inventario Actual";
             // 
@@ -84,12 +74,35 @@
             webViewInventario.CreationProperties = null;
             webViewInventario.DefaultBackgroundColor = Color.White;
             webViewInventario.Dock = DockStyle.Fill;
-            webViewInventario.Location = new Point(98, 61);
+            webViewInventario.Location = new Point(3, 48);
             webViewInventario.Name = "webViewInventario";
-            webViewInventario.Size = new Size(796, 391);
+            webViewInventario.Size = new Size(891, 380);
             webViewInventario.TabIndex = 3;
             webViewInventario.ZoomFactor = 1D;
             webViewInventario.Click += webViewInventario_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(btnSalir);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 434);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(891, 18);
+            panel1.TabIndex = 4;
+            // 
+            // btnSalir
+            // 
+            btnSalir.BackColor = Color.DeepSkyBlue;
+            btnSalir.Dock = DockStyle.Right;
+            btnSalir.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSalir.ForeColor = Color.Black;
+            btnSalir.Location = new Point(802, 0);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(89, 18);
+            btnSalir.TabIndex = 1;
+            btnSalir.Text = "Salir";
+            btnSalir.UseVisualStyleBackColor = false;
+            btnSalir.Click += btnSalir_Click;
             // 
             // ReporteDeInventario
             // 
@@ -103,14 +116,16 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)webViewInventario).EndInit();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private Button btnSalir;
         private Label label1;
         private Microsoft.Web.WebView2.WinForms.WebView2 webViewInventario;
+        private Panel panel1;
+        private Button btnSalir;
     }
 }

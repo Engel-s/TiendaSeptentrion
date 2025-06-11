@@ -34,7 +34,6 @@ namespace formstienda
             txtBuscarProducto = new TextBox();
             txtNombreProduct = new TextBox();
             label14 = new Label();
-            label13 = new Label();
             btnSalirProductos = new Button();
             DGPRODUCTOS = new DataGridView();
             button2 = new Button();
@@ -99,7 +98,6 @@ namespace formstienda
             tabPage1.Controls.Add(txtBuscarProducto);
             tabPage1.Controls.Add(txtNombreProduct);
             tabPage1.Controls.Add(label14);
-            tabPage1.Controls.Add(label13);
             tabPage1.Controls.Add(btnSalirProductos);
             tabPage1.Controls.Add(DGPRODUCTOS);
             tabPage1.Controls.Add(button2);
@@ -131,7 +129,7 @@ namespace formstienda
             // txtBuscarProducto
             // 
             txtBuscarProducto.Anchor = AnchorStyles.Top;
-            txtBuscarProducto.Location = new Point(179, 257);
+            txtBuscarProducto.Location = new Point(196, 258);
             txtBuscarProducto.Margin = new Padding(2);
             txtBuscarProducto.Name = "txtBuscarProducto";
             txtBuscarProducto.Size = new Size(414, 30);
@@ -150,28 +148,16 @@ namespace formstienda
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label14.Location = new Point(18, 230);
+            label14.Location = new Point(18, 261);
             label14.Margin = new Padding(2, 0, 2, 0);
             label14.Name = "label14";
             label14.Size = new Size(176, 25);
             label14.TabIndex = 162;
             label14.Text = "Buscar producto:";
             // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.ForeColor = Color.Black;
-            label13.Location = new Point(18, 265);
-            label13.Margin = new Padding(2, 0, 2, 0);
-            label13.Name = "label13";
-            label13.Size = new Size(166, 20);
-            label13.TabIndex = 160;
-            label13.Text = "Buscar Productos:";
-            // 
             // btnSalirProductos
             // 
-            btnSalirProductos.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnSalirProductos.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnSalirProductos.BackColor = Color.FromArgb(3, 171, 229);
             btnSalirProductos.FlatStyle = FlatStyle.Popup;
             btnSalirProductos.Location = new Point(1238, 776);
@@ -197,7 +183,7 @@ namespace formstienda
             DGPRODUCTOS.RowHeadersWidth = 51;
             DGPRODUCTOS.RowTemplate.Height = 24;
             DGPRODUCTOS.ScrollBars = ScrollBars.None;
-            DGPRODUCTOS.Size = new Size(1301, 415);
+            DGPRODUCTOS.Size = new Size(1301, 439);
             DGPRODUCTOS.TabIndex = 19;
             DGPRODUCTOS.CellContentClick += DGPRODUCTOS_CellContentClick;
             DGPRODUCTOS.CellDoubleClick += DGPRODUCTOS_CellDoubleClick;
@@ -232,6 +218,7 @@ namespace formstienda
             // cmbEstado
             // 
             cmbEstado.Anchor = AnchorStyles.Top;
+            cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstado.FormattingEnabled = true;
             cmbEstado.Items.AddRange(new object[] { "Activo", "Inactivo" });
             cmbEstado.Location = new Point(878, 133);
@@ -245,7 +232,7 @@ namespace formstienda
             label9.Anchor = AnchorStyles.Top;
             label9.AutoSize = true;
             label9.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(808, 138);
+            label9.Location = new Point(798, 138);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
             label9.Size = new Size(73, 20);
@@ -296,8 +283,9 @@ namespace formstienda
             // cmbMarcProduct
             // 
             cmbMarcProduct.Anchor = AnchorStyles.Top;
+            cmbMarcProduct.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbMarcProduct.FormattingEnabled = true;
-            cmbMarcProduct.Location = new Point(1151, 75);
+            cmbMarcProduct.Location = new Point(1151, 70);
             cmbMarcProduct.Margin = new Padding(2);
             cmbMarcProduct.Name = "cmbMarcProduct";
             cmbMarcProduct.Size = new Size(192, 33);
@@ -308,7 +296,7 @@ namespace formstienda
             label5.Anchor = AnchorStyles.Top;
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(1084, 80);
+            label5.Location = new Point(1080, 77);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
             label5.Size = new Size(67, 20);
@@ -318,6 +306,7 @@ namespace formstienda
             // cmbCategoriaProduc
             // 
             cmbCategoriaProduc.Anchor = AnchorStyles.Top;
+            cmbCategoriaProduc.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCategoriaProduc.FormattingEnabled = true;
             cmbCategoriaProduc.Location = new Point(875, 70);
             cmbCategoriaProduc.Margin = new Padding(2);
@@ -330,7 +319,7 @@ namespace formstienda
             label4.Anchor = AnchorStyles.Top;
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(786, 76);
+            label4.Location = new Point(775, 76);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
             label4.Size = new Size(96, 20);
@@ -653,7 +642,6 @@ namespace formstienda
         private System.Windows.Forms.Button btnSalirMarcas;
         private ComboBox comboBox4;
         private ComboBox comboBox9;
-        private Label label13;
         private Label label14;
         private TextBox txtNombreProduct;
         private TextBox txtNuevaCategoria;

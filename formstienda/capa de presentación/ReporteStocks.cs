@@ -33,12 +33,6 @@ namespace formstienda.capa_de_presentación
             _context = new DbTiendaSeptentrionContext();
         }
 
-        private void ReporteStocks_Load(object sender, EventArgs e)
-        {
-
-            
-        }
-
         public void MostrarPDF(string rutaPDF)
         {
             webViewStock.Source = new Uri(rutaPDF);
@@ -46,7 +40,19 @@ namespace formstienda.capa_de_presentación
 
         private void btnSalirStock_Click(object sender, EventArgs e)
         {
+
+            // Cerrar el formulario actual y aprir el formulario Informes en el panel del menú principal :)
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Informes());
+            }
+
         }
 
         public void GenerarPDFStock(string filePath)

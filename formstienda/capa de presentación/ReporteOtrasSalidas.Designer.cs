@@ -29,42 +29,32 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            btnSalirOtrasSalidas = new Button();
             label1 = new Label();
             webViewOtrasSalidas = new Microsoft.Web.WebView2.WinForms.WebView2();
+            panel1 = new Panel();
+            btnSalirOtrasSalidas = new Button();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)webViewOtrasSalidas).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10.5969906F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 89.40301F));
-            tableLayoutPanel1.Controls.Add(btnSalirOtrasSalidas, 0, 0);
-            tableLayoutPanel1.Controls.Add(label1, 1, 0);
-            tableLayoutPanel1.Controls.Add(webViewOtrasSalidas, 1, 1);
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Controls.Add(label1, 0, 0);
+            tableLayoutPanel1.Controls.Add(webViewOtrasSalidas, 0, 1);
+            tableLayoutPanel1.Controls.Add(panel1, 0, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 12.8919888F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 87.10802F));
+            tableLayoutPanel1.RowCount = 3;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 85F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
             tableLayoutPanel1.Size = new Size(800, 450);
             tableLayoutPanel1.TabIndex = 2;
-            // 
-            // btnSalirOtrasSalidas
-            // 
-            btnSalirOtrasSalidas.BackColor = Color.DeepSkyBlue;
-            btnSalirOtrasSalidas.Dock = DockStyle.Top;
-            btnSalirOtrasSalidas.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnSalirOtrasSalidas.Location = new Point(3, 3);
-            btnSalirOtrasSalidas.Name = "btnSalirOtrasSalidas";
-            btnSalirOtrasSalidas.Size = new Size(78, 52);
-            btnSalirOtrasSalidas.TabIndex = 0;
-            btnSalirOtrasSalidas.Text = "Salir";
-            btnSalirOtrasSalidas.UseVisualStyleBackColor = false;
-            btnSalirOtrasSalidas.Click += btnSalirOtrasSalidas_Click;
             // 
             // label1
             // 
@@ -72,9 +62,9 @@
             label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(87, 0);
+            label1.Location = new Point(3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(710, 58);
+            label1.Size = new Size(794, 45);
             label1.TabIndex = 2;
             label1.Text = "Otras Salidas De Inventario";
             // 
@@ -85,12 +75,35 @@
             webViewOtrasSalidas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             webViewOtrasSalidas.CreationProperties = null;
             webViewOtrasSalidas.DefaultBackgroundColor = Color.White;
-            webViewOtrasSalidas.Location = new Point(87, 61);
+            webViewOtrasSalidas.Location = new Point(3, 48);
             webViewOtrasSalidas.Name = "webViewOtrasSalidas";
-            webViewOtrasSalidas.Size = new Size(710, 386);
+            webViewOtrasSalidas.Size = new Size(794, 376);
             webViewOtrasSalidas.TabIndex = 3;
             webViewOtrasSalidas.ZoomFactor = 1D;
             webViewOtrasSalidas.Click += webViewOtrasSalidas_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(btnSalirOtrasSalidas);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 430);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(794, 17);
+            panel1.TabIndex = 4;
+            // 
+            // btnSalirOtrasSalidas
+            // 
+            btnSalirOtrasSalidas.BackColor = Color.DeepSkyBlue;
+            btnSalirOtrasSalidas.Dock = DockStyle.Right;
+            btnSalirOtrasSalidas.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSalirOtrasSalidas.ForeColor = Color.Black;
+            btnSalirOtrasSalidas.Location = new Point(716, 0);
+            btnSalirOtrasSalidas.Name = "btnSalirOtrasSalidas";
+            btnSalirOtrasSalidas.Size = new Size(78, 17);
+            btnSalirOtrasSalidas.TabIndex = 1;
+            btnSalirOtrasSalidas.Text = "Salir";
+            btnSalirOtrasSalidas.UseVisualStyleBackColor = false;
+            btnSalirOtrasSalidas.Click += btnSalirOtrasSalidas_Click;
             // 
             // ReporteOtrasSalidas
             // 
@@ -104,14 +117,16 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)webViewOtrasSalidas).EndInit();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private Button btnSalirOtrasSalidas;
         private Label label1;
         private Microsoft.Web.WebView2.WinForms.WebView2 webViewOtrasSalidas;
+        private Panel panel1;
+        private Button btnSalirOtrasSalidas;
     }
 }

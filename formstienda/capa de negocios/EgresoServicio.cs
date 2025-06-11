@@ -246,7 +246,13 @@ namespace formstienda.Servicios
                 .ToList();
         }
 
-     
+        public List<DetalleDevolucion> ListarDevolucion(DateOnly fechaActual)
+        {
+            return _contexto.DetalleDevolucions
+                .Where(a => a.FechaDevolucion == fechaActual)
+                .AsNoTracking()
+                .ToList();
+        }
 
         public List<DetalleCredito> ListarPagosCredito(DateOnly fechaActual)
         {

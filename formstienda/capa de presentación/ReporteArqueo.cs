@@ -212,7 +212,7 @@ namespace formstienda.capa_de_presentación
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)
-                        .SetPadding(5) 
+                        .SetPadding(5)
                         .SetBorder(new SolidBorder(1)));
 
                     // Total en Caja Córdoba
@@ -230,7 +230,7 @@ namespace formstienda.capa_de_presentación
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)
-                        .SetPadding(5) 
+                        .SetPadding(5)
                         .SetBorder(new SolidBorder(1)));
 
                     // Sobrante Córdoba
@@ -422,17 +422,38 @@ namespace formstienda.capa_de_presentación
 
         private void webViewArqueo_Click(object sender, EventArgs e)
         {
-          
+
         }
 
         private void ReporteArqueo_Load(object sender, EventArgs e)
         {
-           
+            try
+            {
+                string filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"ReporteArqueo_{DateTime.Now:yyyyMMdd_HHmmss}.pdf");
+                GenerarPDF(filePath);
+                MostrarPDF(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar el reporte: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
-        private void btnSalirArqueo_Click(object sender, EventArgs e)
+        
+        private void btnSalirArqueo_Click_1(object sender, EventArgs e)
         {
+            // Cerrar el formulario actual y abrir el formulario Informes en el panel del menú principal :)
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Informes());
+            }
+
         }
     }
 }
