@@ -50,7 +50,6 @@
             label10 = new Label();
             txtapellidousuario = new TextBox();
             pcbusqueda = new PictureBox();
-            btneliminar = new Button();
             txttelefonousuario = new MaskedTextBox();
             mensajes = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)DGUSUARIOS).BeginInit();
@@ -87,7 +86,6 @@
             // 
             cbtipobusqueda.DropDownStyle = ComboBoxStyle.DropDownList;
             cbtipobusqueda.FormattingEnabled = true;
-            cbtipobusqueda.Items.AddRange(new object[] { "ID", "Nombre" });
             cbtipobusqueda.Location = new Point(166, 72);
             cbtipobusqueda.Margin = new Padding(2, 5, 2, 5);
             cbtipobusqueda.Name = "cbtipobusqueda";
@@ -109,7 +107,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(12, 127);
+            label3.Location = new Point(21, 128);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
             label3.Size = new Size(94, 25);
@@ -132,7 +130,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             label6.ForeColor = Color.Black;
-            label6.Location = new Point(11, 205);
+            label6.Location = new Point(11, 200);
             label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
             label6.Size = new Size(104, 25);
@@ -147,7 +145,7 @@
             button3.Cursor = Cursors.Hand;
             button3.FlatStyle = FlatStyle.Popup;
             button3.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(968, 235);
+            button3.Location = new Point(968, 203);
             button3.Margin = new Padding(2, 5, 2, 5);
             button3.Name = "button3";
             button3.Size = new Size(146, 40);
@@ -163,7 +161,7 @@
             btnnuevousuario.Cursor = Cursors.Hand;
             btnnuevousuario.FlatStyle = FlatStyle.Popup;
             btnnuevousuario.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnnuevousuario.Location = new Point(968, 185);
+            btnnuevousuario.Location = new Point(968, 124);
             btnnuevousuario.Margin = new Padding(2, 5, 2, 5);
             btnnuevousuario.Name = "btnnuevousuario";
             btnnuevousuario.Size = new Size(146, 40);
@@ -178,7 +176,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(536, 126);
+            label5.Location = new Point(518, 128);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
             label5.Size = new Size(131, 25);
@@ -242,7 +240,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             label7.ForeColor = Color.Black;
-            label7.Location = new Point(551, 212);
+            label7.Location = new Point(599, 213);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
             label7.Size = new Size(50, 25);
@@ -255,7 +253,7 @@
             label8.AutoSize = true;
             label8.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             label8.ForeColor = Color.Black;
-            label8.Location = new Point(551, 170);
+            label8.Location = new Point(563, 168);
             label8.Margin = new Padding(2, 0, 2, 0);
             label8.Name = "label8";
             label8.Size = new Size(86, 25);
@@ -268,7 +266,7 @@
             label9.AutoSize = true;
             label9.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             label9.ForeColor = Color.Black;
-            label9.Location = new Point(11, 241);
+            label9.Location = new Point(30, 235);
             label9.Margin = new Padding(2, 0, 2, 0);
             label9.Name = "label9";
             label9.Size = new Size(85, 25);
@@ -290,7 +288,7 @@
             label10.AutoSize = true;
             label10.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             label10.ForeColor = Color.Black;
-            label10.Location = new Point(10, 159);
+            label10.Location = new Point(18, 162);
             label10.Margin = new Padding(2, 0, 2, 0);
             label10.Name = "label10";
             label10.Size = new Size(97, 25);
@@ -316,22 +314,7 @@
             pcbusqueda.SizeMode = PictureBoxSizeMode.StretchImage;
             pcbusqueda.TabIndex = 46;
             pcbusqueda.TabStop = false;
-            // 
-            // btneliminar
-            // 
-            btneliminar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btneliminar.BackColor = Color.FromArgb(3, 171, 229);
-            btneliminar.Cursor = Cursors.Hand;
-            btneliminar.FlatStyle = FlatStyle.Popup;
-            btneliminar.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btneliminar.Location = new Point(968, 135);
-            btneliminar.Margin = new Padding(2, 5, 2, 5);
-            btneliminar.Name = "btneliminar";
-            btneliminar.Size = new Size(146, 40);
-            btneliminar.TabIndex = 47;
-            btneliminar.Text = "Eliminar";
-            btneliminar.UseVisualStyleBackColor = false;
-            btneliminar.Click += btneliminar_Click;
+            pcbusqueda.Click += pcbusqueda_Click;
             // 
             // txttelefonousuario
             // 
@@ -349,6 +332,7 @@
             mensajes.IsBalloon = true;
             mensajes.OwnerDraw = true;
             mensajes.ToolTipIcon = ToolTipIcon.Info;
+            mensajes.Popup += mensajes_Popup;
             // 
             // Usuarioadmin
             // 
@@ -357,7 +341,6 @@
             BackColor = Color.FromArgb(238, 238, 238);
             ClientSize = new Size(1273, 775);
             Controls.Add(txttelefonousuario);
-            Controls.Add(btneliminar);
             Controls.Add(pcbusqueda);
             Controls.Add(txtapellidousuario);
             Controls.Add(label10);
@@ -416,7 +399,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtapellidousuario;
         private PictureBox pictureBox1;
-        private Button btneliminar;
         private MaskedTextBox txttelefonousuario;
         private ToolTip mensajes;
         private Label lblbusqueda;

@@ -84,7 +84,7 @@
             MenuVertical.Location = new Point(0, 35);
             MenuVertical.Margin = new Padding(3, 4, 3, 4);
             MenuVertical.Name = "MenuVertical";
-            MenuVertical.Size = new Size(239, 847);
+            MenuVertical.Size = new Size(239, 964);
             MenuVertical.TabIndex = 1;
             MenuVertical.Paint += MenuVertical_Paint;
             // 
@@ -437,7 +437,7 @@
             panel2.Location = new Point(0, 0);
             panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1554, 35);
+            panel2.Size = new Size(1577, 35);
             panel2.TabIndex = 3;
             panel2.Paint += panel2_Paint;
             // 
@@ -451,7 +451,7 @@
             Salir.IconColor = Color.Black;
             Salir.IconFont = FontAwesome.Sharp.IconFont.Auto;
             Salir.IconSize = 28;
-            Salir.Location = new Point(1502, 3);
+            Salir.Location = new Point(1525, 3);
             Salir.Margin = new Padding(3, 4, 3, 4);
             Salir.Name = "Salir";
             Salir.Size = new Size(30, 28);
@@ -470,7 +470,7 @@
             maximizar.IconColor = Color.Black;
             maximizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             maximizar.IconSize = 31;
-            maximizar.Location = new Point(1448, 2);
+            maximizar.Location = new Point(1471, 2);
             maximizar.Margin = new Padding(3, 4, 3, 4);
             maximizar.Name = "maximizar";
             maximizar.Size = new Size(49, 31);
@@ -496,7 +496,7 @@
             // 
             btnminimizar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnminimizar.Image = (Image)resources.GetObject("btnminimizar.Image");
-            btnminimizar.Location = new Point(1397, 2);
+            btnminimizar.Location = new Point(1420, 2);
             btnminimizar.Margin = new Padding(3, 2, 3, 2);
             btnminimizar.Name = "btnminimizar";
             btnminimizar.Size = new Size(40, 28);
@@ -511,7 +511,7 @@
             PanelContenedor.Location = new Point(239, 35);
             PanelContenedor.Margin = new Padding(3, 4, 3, 4);
             PanelContenedor.Name = "PanelContenedor";
-            PanelContenedor.Size = new Size(1315, 847);
+            PanelContenedor.Size = new Size(1338, 964);
             PanelContenedor.TabIndex = 2;
             PanelContenedor.Paint += PanelContenedor_Paint;
             // 
@@ -524,7 +524,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1554, 882);
+            ClientSize = new Size(1577, 999);
             Controls.Add(PanelContenedor);
             Controls.Add(MenuVertical);
             Controls.Add(panel2);
