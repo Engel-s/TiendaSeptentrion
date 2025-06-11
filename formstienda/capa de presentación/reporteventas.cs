@@ -217,5 +217,10 @@ namespace formstienda.capa_de_presentación
         {
             this.Close();
         }
+
+        private void btnsalir_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
