@@ -63,7 +63,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=RYUUGA-NOXUS;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -503,7 +503,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Apellido_Usuario");
             entity.Property(e => e.ContraseñaUsuario)
-                .HasMaxLength(10)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("Contraseña_Usuario");
@@ -513,7 +513,9 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("Correo_Usuario");
             entity.Property(e => e.EstadoUsuario).HasColumnName("Estado_Usuario");
-            entity.Property(e => e.FechaRecuperacion).HasColumnName("Fecha_Recuperacion");
+            entity.Property(e => e.FechaRecuperacion)
+                .HasColumnType("datetime")
+                .HasColumnName("Fecha_Recuperacion");
             entity.Property(e => e.NombreUsuario)
                 .HasMaxLength(50)
                 .IsUnicode(false)

@@ -25,7 +25,7 @@ public partial class Usuario
 
     public string? TokenRecuperacion { get; set; }
 
-    public DateOnly? FechaRecuperacion { get; set; }
+    public DateTime? FechaRecuperacion { get; set; }
 
     public virtual ICollection<ArqueoCaja> ArqueoCajas { get; set; } = new List<ArqueoCaja>();
 }
