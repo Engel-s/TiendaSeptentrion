@@ -3,8 +3,11 @@ using formstienda.Datos;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using static formstienda.Login;
+
 
 
 namespace formstienda
@@ -22,7 +25,7 @@ namespace formstienda
         private TasaServicio tasaServicio;
         private int NUEVOIDVENTAREGISTRO;
         public int STOCKACTUALPRODUCTO;
-        
+
 
         private BindingList<Cliente>? Listacliente;
 
@@ -243,6 +246,7 @@ namespace formstienda
 
 
 
+
         }
 
         private void facturafecha_Tick(object sender, EventArgs e)
@@ -310,7 +314,7 @@ namespace formstienda
 
                 TotalVenta = totalVenta
             };
-            
+
 
             var detalles = new List<DetalleDeVentum>();
             foreach (DataGridViewRow row in dgmostrar.Rows)
@@ -330,7 +334,7 @@ namespace formstienda
                     Cantidad = cantidadVendida,
                     Precio = row.Cells["Precio"].Value?.ToString() ?? producto.PrecioVenta.ToString("N2"),
                     CedulaCliente = cedulaClienteActual,
-                    SubTotal =cantidadVendida*producto.PrecioVenta ,
+                    SubTotal = cantidadVendida * producto.PrecioVenta,
                 };
 
                 producto.StockActual -= cantidadVendida;
@@ -464,10 +468,29 @@ namespace formstienda
 
         private void AgregarAlDataGridView(ProductoSeleccionado producto)
         {
-            // Agregar producto al DataGridView
+            foreach (DataGridViewRow fila in dgmostrar.Rows)
+            {
+                if (fila.Cells[0].Value != null && fila.Cells[0].Value.ToString() == producto.CodigoProducto)
+                {
+                    // Sumar cantidades
+                    int cantidadExistente = Convert.ToInt32(fila.Cells[5].Value); // columna de cantidad
+                    int nuevaCantidad = cantidadExistente + producto.Cantidad;
+                    fila.Cells[5].Value = nuevaCantidad;
+
+                    // Recalcular subtotal
+                    decimal precio = Convert.ToDecimal(fila.Cells[4].Value); // columna de precio
+                    fila.Cells[6].Value = precio * nuevaCantidad;
+
+                    // Salir porque ya se actualizó la fila existente
+                    ActualizarTotal();
+                    return;
+                }
+            }
+
+            // Si no existe, agregar nueva fila
             dgmostrar.Rows.Add(producto.CodigoProducto, producto.ModeloProducto, producto.Marca, producto.Categoria, producto.PrecioVenta, producto.Cantidad, producto.Subtotal);
 
-            // Actualizar total
+            // Actualizar total general
             ActualizarTotal();
         }
 
@@ -488,31 +511,36 @@ namespace formstienda
         {
             if (productoSeleccionadoTemporal != null)
             {
-                // Validar cantidad ingresada
                 if (!int.TryParse(txtcantidad.Text, out int cantidadIngresada) || cantidadIngresada <= 0)
                 {
                     MessageBox.Show("Ingrese una cantidad válida.");
                     return;
                 }
 
-                // Validar stock disponible
                 if (cantidadIngresada > productoSeleccionadoTemporal.stockactualproducto)
                 {
                     MessageBox.Show($"Stock insuficiente para {productoSeleccionadoTemporal.ModeloProducto}. Disponible: {productoSeleccionadoTemporal.stockactualproducto}");
                     return;
                 }
 
-                // Asignar la cantidad al producto antes de agregar
+                // Restar stock en la lista original
+                var productoOriginal = Listaproducto.FirstOrDefault(p => p.CodigoProducto == productoSeleccionadoTemporal.CodigoProducto);
+                if (productoOriginal != null)
+                {
+                    productoOriginal.StockActual -= cantidadIngresada;
+                    productoSeleccionadoTemporal.stockactualproducto = (int)productoOriginal.StockActual;
+                }
+
                 productoSeleccionadoTemporal.Cantidad = cantidadIngresada;
 
-                // Agregar el producto al DataGridView
                 AgregarAlDataGridView(productoSeleccionadoTemporal);
 
-                // Limpiar la selección temporal
                 productoSeleccionadoTemporal = null;
 
-                // Limpiar campos de texto
                 LimpiarCampos();
+
+                // Actualiza combos y muestra stock actualizado
+                CargarCombos(Listaproducto.ToList());
             }
             else
             {
@@ -550,7 +578,7 @@ namespace formstienda
             cbnumerodeplazos.SelectedIndex = -1;
             txtinteresparaloscreditos.Clear();
             txtcolillainss.Clear();
-
+            LimpiarCamposCliente();
 
 
         }
@@ -689,11 +717,13 @@ namespace formstienda
         private void txtpago_TextChanged(object sender, EventArgs e)
         {
             CalcularCambio();
+
         }
 
         private void txtfaltante_TextChanged(object sender, EventArgs e)
         {
             CalcularCambio();
+
         }
 
         private void CalcularCambio()
@@ -797,6 +827,8 @@ namespace formstienda
             txtnombrecliente.Clear();
             txtcedula.Clear();
             cedulaClienteActual = string.Empty;
+            TXTTELEFONODELNUEVOCLIENTE.Clear();
+            GENERICOCHECK.Checked = false;
         }
 
         private void txtpago_KeyPress(object sender, KeyPressEventArgs e)
@@ -911,10 +943,28 @@ namespace formstienda
             LimpiarCampos();
             LimpiarCamposCliente();
             LimpiarFormulario();
-            
+
         }
 
+        private void btnnuevo_Click_1(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+            LimpiarCamposCliente();
+            LimpiarFormulario();
+        }
 
+        private void dgmostrar_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgmostrar.Columns[e.ColumnIndex].Name == "eliminar")
+            {
+                var confirm = MessageBox.Show("¿Está seguro de eliminar esta fila?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes)
+                {
+                    dgmostrar.Rows.RemoveAt(e.RowIndex);
+                    ActualizarTotal(); // Recalcula el total
+                }
+            }
+        }
     }
 
 }

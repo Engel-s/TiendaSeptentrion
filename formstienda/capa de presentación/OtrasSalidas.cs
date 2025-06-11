@@ -180,7 +180,7 @@ namespace formstienda.capa_de_presentación
                         return;
                     }
 
-                    // Crear registro de salida
+                    // Crear registro de salida - ahora usando directamente el código del producto
                     var salida = new OtrasSalidasDeInventario
                     {
                         CodigoProducto = producto.CodigoProducto,
@@ -235,7 +235,6 @@ namespace formstienda.capa_de_presentación
             cmbMotivo.SelectedIndex = 0;
         }
 
-        
         private void OtrasSalidas_Load(object sender, EventArgs e)
         {
             // Cargar datos existentes si es necesario
@@ -289,10 +288,9 @@ namespace formstienda.capa_de_presentación
             this.Close();
         }
 
-        
         private void label2_Click(object sender, EventArgs e)
         {
-
+           
         }
     }
 
@@ -304,7 +302,6 @@ namespace formstienda.capa_de_presentación
         public int Cantidad { get; set; }
         public string Motivo { get; set; }
         public string Descripcion { get; set; }
-
         public string Fecha { get; set; }
     }
 }

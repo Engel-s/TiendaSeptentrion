@@ -283,7 +283,7 @@ namespace formstienda.capa_de_presentación
 
         private void webViewOtrasSalidas_Click(object sender, EventArgs e)
         {
-
+            // Implementación vacía
         }
 
         private void btnSalirOtrasSalidas_Click(object sender, EventArgs e)

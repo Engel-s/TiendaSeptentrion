@@ -230,6 +230,7 @@
             // cmbestado
             // 
             cmbestado.Anchor = AnchorStyles.Top;
+            cmbestado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbestado.FormattingEnabled = true;
             cmbestado.Items.AddRange(new object[] { "Activo", "Inactivo" });
             cmbestado.Location = new Point(171, 249);
@@ -265,8 +266,10 @@
             dtgproveedores.RowHeadersWidth = 51;
             dtgproveedores.Size = new Size(671, 282);
             dtgproveedores.TabIndex = 86;
+            dtgproveedores.CellBeginEdit += dtgproveedores_CellBeginEdit;
             dtgproveedores.CellContentClick += dtgproveedores_CellContentClick;
             dtgproveedores.CellEndEdit += dtgproveedores_CellEndEdit;
+            dtgproveedores.CellFormatting += dtgproveedores_CellFormatting;
             // 
             // txtCodigo_ruc
             // 

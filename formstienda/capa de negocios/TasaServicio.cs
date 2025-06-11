@@ -80,6 +80,31 @@ namespace formstienda.capa_de_negocios
                 return null;
             }
         }
+        public bool ActualizarTasa(TasaDeCambio tasaNueva)
+        {
+            try
+            {
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    var tasaExistente = context.TasaDeCambios
+                                               .FirstOrDefault(t => t.FechaCambio == tasaNueva.FechaCambio);
+
+                    if (tasaExistente != null)
+                    {
+                        tasaExistente.ValorCambio = tasaNueva.ValorCambio;
+                        context.SaveChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Error al actualizar la tasa de cambio: " + ex.Message);
+                return false;
+            }
+        }
 
     }
 }

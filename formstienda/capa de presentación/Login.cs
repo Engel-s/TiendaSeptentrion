@@ -151,16 +151,26 @@ namespace formstienda
 
             if (string.IsNullOrEmpty(usuariologueo) || string.IsNullOrEmpty(contraseña))
             {
-                MessageBox.Show("El nombre de usuario o la contrasena son nulas");
+                MessageBox.Show(
+                    "⚠️ Por favor, ingresa tu usuario de logueo y contraseña para acceder al sistema.\n\n" +
+                    "Ambos campos son obligatorios.",
+                    "Campos requeridos",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
 
             var usuario = _authServicio.Validar_Credenciales(usuariologueo, contraseña);
             if (usuario == null)
             {
-                MessageBox.Show("Credenciales no validas");
-                txtusername.Clear();
-                txtpassword.Clear();
+                MessageBox.Show(
+                    "❌ Usuario o contraseña incorrectos.\n\n" +
+                    "Por favor, verifica tus datos e inténtalo nuevamente.",
+                    "Acceso denegado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return;
             }
 
@@ -173,7 +183,14 @@ namespace formstienda
             // Establecer el usuario activo
             UsuarioActivo.EstablecerUsuarioActual(usuario);
 
-            MessageBox.Show($"Bienvenido {usuario.NombreUsuario} al sistema");
+            MessageBox.Show(
+                $"¡Bienvenido(a) {usuario.NombreUsuario}!\n\n" +
+                "😊 Has ingresado correctamente al sistema.\n\n" +
+                "¡Te deseamos un excelente día de trabajo!",
+                "Acceso concedido",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
             this.Hide();
             menu form = new menu(usuario.RolUsuario);
             form.Show();

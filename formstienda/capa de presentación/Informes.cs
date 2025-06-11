@@ -10,11 +10,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using formstienda.capa_de_negocios;
+using formstienda.capa_de_presentación;
+using formstienda.Datos;
 
 namespace formstienda
 {
     public partial class Informes : Form
     {
+        private ProveedorServicio _proveedorServicio;
+        private BindingList<Proveedor> _proveedores;
         public Informes()
         {
             InitializeComponent();
@@ -22,11 +27,31 @@ namespace formstienda
             dateTimePickerFechaFinal.Value = DateTime.Today;
             dateTimePickerFechaInicialMotivo.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
             dateTimePickerFechaFinalMotivo.Value = DateTime.Today;
+            dptInicio.Value = DateTime.Today.AddDays(-7); 
+            dtpFin.Value = DateTime.Today;                
             CargarUsuariosEnComboBox();
             CargarMotivosEnComboBox();
 
+            _proveedores = new BindingList<Proveedor>();
         }
 
+        private void cargarproveedores()
+        {
+            try
+            {
+                ProveedorServicio proveedorservicio = new ProveedorServicio();
+                var proveedor = proveedorservicio.ListarProveedores();
+
+                cmbproveedor.DataSource = proveedor;
+                cmbproveedor.DisplayMember = "NombreProveedor";
+                cmbproveedor.ValueMember = "CodigoRuc";
+                cmbproveedor.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar proveedores: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -35,6 +60,45 @@ namespace formstienda
         private void Informes_Load(object sender, EventArgs e)
         {
             CargarUsuariosEnComboBox();
+            cargarproveedores();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DateTime fechaInicio = dptInicio.Value.Date;
+            DateTime fechaFin = dtpFin.Value.Date;
+
+            if (fechaFin > DateTime.Today)
+            {
+                MessageBox.Show("La fecha final no puede ser mayor a la fecha actual.", "Fecha no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string proveedorSeleccionado = (cmbproveedor.SelectedValue as string)?.Trim();
+
+            // Generar ruta temporal para el PDF
+            string rutaTemporal = Path.Combine(
+                Path.GetTempPath(),
+                $"ReporteCompras_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
+            );
+
+            //Aqui se busca la instancia del formulario de menu
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+
+            if (menuForm != null)
+            {
+                // con esto se abre el reporte dentro del panel del formulario de menu
+                menuForm.AbrirformInPanel(new FormReportesCompras(fechaInicio, fechaFin, rutaTemporal, proveedorSeleccionado));
+            }
+
+            // para cerrar el formulario de informes
+            this.Close();
+       
+
         }
 
         private void CargarUsuariosEnComboBox()
@@ -188,32 +252,17 @@ namespace formstienda
             DateTime fechaInicio = dtpickerventasinicio.Value.Date;
             DateTime fechaFin = dtpickerventasfinal.Value.Date;
 
-            // 2️⃣ Generar ruta PDF en el escritorio
-            string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string nombreArchivo = $"ReporteVentas_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
-            string rutaPdf = Path.Combine(rutaEscritorio, nombreArchivo);
-
-            // 3️⃣ Crear y mostrar el formulario del visor con WebView
-            var visor = new reporteventas(fechaInicio, fechaFin, rutaPdf);
-            visor.Show();
-        }
-
-        private void btnMotivo_Click(object sender, EventArgs e)
-        {
-            try
+            if (fechaFin > DateTime.Today)
             {
-                // Validar fechas
-                if (dateTimePickerFechaInicialMotivo.Value > dateTimePickerFechaFinalMotivo.Value)
-                {
-                    MessageBox.Show("La fecha inicial no puede ser mayor que la fecha final", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                MessageBox.Show("La fecha final no puede ser mayor a la fecha actual.", "Fecha no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                string tempFilePath = Path.Combine(
-                    Path.GetTempPath(),
-                    $"Reporte_Otras_Salidas_{DateTime.Now:yyyyMMddHHmmss}.pdf"
-                );
+            // Generar ruta temporal para el PDF
+            string rutaTemporal = Path.Combine(
+                Path.GetTempPath(),
+                $"ReporteVentas_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
+            );
 
                 var menuForm = this.MdiParent as menu;
                 if (menuForm == null)
@@ -230,15 +279,17 @@ namespace formstienda
 
                 }
 
-                MessageBox.Show("Reporte de otras salidas generado con éxito", "Éxito",
-                              MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
+            if (menuForm != null)
             {
-                MessageBox.Show($"Error al generar el reporte: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Abrir el reporte dentro del panel del formulario de menu
+                menuForm.AbrirformInPanel(new reporteventas(fechaInicio, fechaFin, rutaTemporal));
             }
+
+            // Cerrar el formulario actual de informes
+            this.Close();
         }
+
+        
 
         // Cargar motivos en el ComboBox
         private void CargarMotivosEnComboBox()
@@ -265,10 +316,84 @@ namespace formstienda
                 }
             }
             catch (Exception ex)
-            { 
+            {
+              
+            }
+        }
 
+        private void btnreportdevoluciones_Click(object sender, EventArgs e)
+        {
+            DateTime fechainicio = dtfechainiciodevoluciones.Value.Date;
+            DateTime fechafin = dtfechafinaldevoluciones.Value.Date;
+
+            if (fechafin > DateTime.Today)
+            {
+                MessageBox.Show("La fecha final no puede ser mayor a la fecha actual.", "Fecha no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
+            // Generar ruta temporal para el PDF
+            string rutaTemporal = Path.Combine(
+                Path.GetTempPath(),
+                $"ReporteDevoluciones_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
+            );
+
+            // Buscar la instancia del formulario de menu
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+
+            if (menuForm != null)
+            {
+                // Abrir el reporte dentro del panel del formulario de menu
+                menuForm.AbrirformInPanel(new reportedevoluciones(fechainicio, fechafin, rutaTemporal));
+            }
+
+            // Cerrar el formulario actual
+            this.Close();
+
+
+        }
+
+        private void btnMotivo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Validar fechas  
+                if (dateTimePickerFechaInicialMotivo.Value > dateTimePickerFechaFinalMotivo.Value)
+                {
+                    MessageBox.Show("La fecha inicial no puede ser mayor que la fecha final", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                // Aquí puedes agregar lógica adicional si es necesario  
+
+                string tempFilePath = Path.Combine(
+                    Path.GetTempPath(),
+                    $"Reporte_Otras_Salidas_{DateTime.Now:yyyyMMddHHmmss}.pdf"
+                );
+                var menuForm = this.MdiParent as menu;
+                if (menuForm == null)
+                {
+                    menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+                }
+                if (menuForm != null)
+                {
+                    menuForm.AbrirformInPanel(new ReporteOtrasSalidas(
+                        dateTimePickerFechaInicialMotivo.Value,
+                        dateTimePickerFechaFinalMotivo.Value,
+                        cmbMotivo.Text.Trim()
+                    ));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
+
 }

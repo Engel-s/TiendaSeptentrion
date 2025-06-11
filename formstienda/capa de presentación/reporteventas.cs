@@ -69,8 +69,12 @@ namespace formstienda.capa_de_presentación
                     .Include(d => d.CodigoProductoNavigation.IdMarcaNavigation)
                     .Include(d => d.IdVentaNavigation)
                         .ThenInclude(v => v.CedulaClienteNavigation)
-                    .Where(d => d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
-                                d.IdVentaNavigation.FechaVenta <= fechaFinOnly)
+                    .Where(d =>
+                        d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
+                        d.IdVentaNavigation.FechaVenta <= fechaFinOnly &&
+                        d.IdVentaNavigation.TipoPago == "Contado" &&
+                        d.IdVentaNavigation.CambiosFactura == null // Aquí se excluyen ventas con devolución
+                    )
                     .ToList();
             }
 
@@ -83,24 +87,65 @@ namespace formstienda.capa_de_presentación
                 var font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
                 var normalFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
-                // Header
+                // ===== ENCABEZADO CON LOGO =====
+                string rutaImagen = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources\logo_actualizado-removebg-preview.png");
+
+                if (File.Exists(rutaImagen))
+                {
+                    var imgData = iText.IO.Image.ImageDataFactory.Create(rutaImagen);
+                    var imagen = new iText.Layout.Element.Image(imgData)
+                      .SetWidth(300)
+                        .SetHeight(200)
+                          .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 250, // X desde la derecha
+                  pdf.GetDefaultPageSize().GetHeight() - 200); // Y desde arriba
+
+                    var titulo = new Paragraph("Tienda El Septentrión")
+                        .SetFont(font)
+                        .SetFontSize(20)
+                        .SetTextAlignment(TextAlignment.LEFT);
+
+                    Table encabezadoTabla = new Table(new float[] { 4, 1 }).UseAllAvailableWidth();
+                    encabezadoTabla.SetMarginBottom(10);
+
+                    encabezadoTabla.AddCell(new Cell().Add(titulo)
+                        .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                        .SetBorder(Border.NO_BORDER));
+
+                    encabezadoTabla.AddCell(new Cell().Add(imagen)
+                        .SetTextAlignment(TextAlignment.RIGHT)
+                        .SetBorder(Border.NO_BORDER));
+
+                    doc.Add(encabezadoTabla);
+                }
+                else
+                {
+                    var titulo = new Paragraph("Tienda El Septentrión")
+                        .SetFont(font)
+                        .SetFontSize(20);
+                    doc.Add(titulo);
+                }
+
+                // ===== TÍTULO DEL REPORTE =====
                 var encabezado = new Paragraph("Reporte de Ventas")
                     .SetFont(font).SetFontSize(18);
                 doc.Add(encabezado);
 
-                doc.Add(new Paragraph($"Fecha: {DateTime.Now}"));
+                doc.Add(new Paragraph($"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}"));
                 doc.Add(new Paragraph($"Desde: {fechaInicio:dd/MM/yyyy} - Hasta: {fechaFin:dd/MM/yyyy}"));
                 doc.Add(new Paragraph($"Registros: {ventas.Count}"));
                 doc.Add(new Paragraph("\n"));
 
-                // Tabla
-                var columnas = new float[] { 1.2f, 1.2f, 1.8f, 2.5f, 1.5f, 1.5f, 1.5f, 1.2f, 1.5f, 1.5f };
+                // ===== TABLA DE VENTAS =====
+                // ===== TABLA DE VENTAS =====
+                // Quitamos la columna "Total venta" (de 10 → 9 columnas)
+                var columnas = new float[] { 1.2f, 1.2f, 1.8f, 2.5f, 1.5f, 1.5f, 1.5f, 1.2f, 1.5f };
                 var tabla = new Table(columnas).UseAllAvailableWidth();
 
+                // Eliminamos "Total venta" del encabezado
                 string[] headers = {
-                    "Fecha", "Factura", "Cliente", "Producto", "Categoría",
-                    "Marca", "Precio", "Cantidad", "Subtotal", "Total venta"
-                };
+    "Fecha", "Factura", "Cliente", "Producto", "Categoría",
+    "Marca", "Precio", "Cantidad", "Subtotal"
+};
 
                 foreach (var h in headers)
                 {
@@ -123,12 +168,24 @@ namespace formstienda.capa_de_presentación
                     tabla.AddCell(Celda(decimal.Parse(item.Precio ?? "0").ToString("C", cultura)));
                     tabla.AddCell(Celda(item.Cantidad.ToString()));
                     tabla.AddCell(Celda(item.SubTotal?.ToString("C", cultura) ?? "C$0.00"));
-                    tabla.AddCell(Celda(ventum.TotalVenta.ToString("C", cultura)));
+
+                    // Eliminado: tabla.AddCell(Celda(ventum.TotalVenta.ToString("C", cultura)));
                 }
 
                 doc.Add(tabla);
+
+                // ===== TOTAL VENTAS FINAL =====
+                double totalGeneral = ventas.Sum(v => v.SubTotal ?? 0);
+                var totalParagraph = new Paragraph($"\nTotal en ventas: {totalGeneral.ToString("C", cultura)}")
+                    .SetFont(font)
+                    .SetFontSize(12)
+                    .SetTextAlignment(TextAlignment.RIGHT);
+
+                doc.Add(totalParagraph);
                 doc.Close();
+
             }
+
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -156,7 +213,7 @@ namespace formstienda.capa_de_presentación
                 webview.Source = new Uri(_rutaPdf);
         }
 
-        private void iconButton1_Click(object sender, EventArgs e)
+        private void btnsalir_Click(object sender, EventArgs e)
         {
             this.Close();
         }

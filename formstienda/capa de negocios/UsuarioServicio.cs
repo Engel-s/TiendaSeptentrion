@@ -36,7 +36,7 @@ namespace formstienda.capa_de_negocios
         {
             if (usuario == null)
             {
-                MessageBox.Show("Rellenar los campos correctamente.");
+                //MessageBox.Show("Rellenar los campos correctamente.");
                 return false;
             }
 
@@ -44,19 +44,19 @@ namespace formstienda.capa_de_negocios
             {
                 using (var _context = new DbTiendaSeptentrionContext())
                 {
-                    // Check if the user already exists based on some unique identifier (e.g., CorreoUsuario or NombreUsuario)
+                   
                     var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.CorreoUsuario == usuario.CorreoUsuario);
 
                     if (usuarioExistente != null)
                     {
-                        MessageBox.Show("El usuario ya existe.");
+                       // MessageBox.Show("El usuario ya existe.");
                         return false;
                     }
 
                     // If not, add the new user
                     _context.Usuarios.Add(usuario);
                     _context.SaveChanges();
-                    MessageBox.Show("Usuario agregado correctamente.");
+                   // MessageBox.Show("Usuario agregado correctamente.");
                     return true;
                 }
             }
@@ -69,7 +69,7 @@ namespace formstienda.capa_de_negocios
                     errorMessage += "\n\nInner Exception:\n" + ex.InnerException.Message;
                 }
 
-                MessageBox.Show(errorMessage, "Error al guardar usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+               // MessageBox.Show(errorMessage, "Error al guardar usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -112,19 +112,23 @@ namespace formstienda.capa_de_negocios
                     var usuarioExistente = _contexto.Usuarios.Find(usuario.IdUsuario);
                     if (usuarioExistente == null)
                     {
-                        Console.WriteLine($"Error:No se encontro el proveedor con ID(usuario.IdUsuario).");
+                       
                         return false;
-
                     }
-                    usuarioExistente.NombreUsuario=usuario.NombreUsuario;
-                    usuarioExistente.ApellidoUsuario=usuario.ApellidoUsuario;
-                    usuarioExistente.CorreoUsuario=usuario.CorreoUsuario;
-                    usuarioExistente.RolUsuario=usuario.RolUsuario;
-                    usuarioExistente.EstadoUsuario=usuario.EstadoUsuario;
-                    usuarioExistente.ContraseñaUsuario=usuario.ContraseñaUsuario;
-                    //usuarioExistente.UsuarioLogueo=usuario.UsuarioLogueo;
+
+                    // Actualizar campos editables
+                    usuarioExistente.NombreUsuario = usuario.NombreUsuario;
+                    usuarioExistente.ApellidoUsuario = usuario.ApellidoUsuario;
+                    usuarioExistente.CorreoUsuario = usuario.CorreoUsuario;
+                    usuarioExistente.RolUsuario = usuario.RolUsuario;
+                    usuarioExistente.EstadoUsuario = usuario.EstadoUsuario;
+                    usuarioExistente.TelefonoUsuario = usuario.TelefonoUsuario;
+                    usuarioExistente.UsuarioLogueo = usuario.UsuarioLogueo;
+
+                    // No se actualiza la contraseña desde la edición directa
+
                     _contexto.Usuarios.Update(usuarioExistente);
-                    _contexto .SaveChanges();
+                    _contexto.SaveChanges();
                     return true;
                 }
                 

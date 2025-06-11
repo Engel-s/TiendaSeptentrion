@@ -75,6 +75,28 @@ namespace formstienda.capa_de_negocios
                 return null;
             }
         }
+        public bool ActualizarApertura(AperturaCaja apertura)
+        {
+            try
+            {
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    var existente = context.AperturaCajas.FirstOrDefault(a => a.IdApertura == apertura.IdApertura);
+                    if (existente != null)
+                    {
+                        existente.EstadoApertura = apertura.EstadoApertura;
+                        context.SaveChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
 
     }

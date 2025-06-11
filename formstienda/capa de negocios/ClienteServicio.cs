@@ -3,8 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using formstienda.Datos;
+using System.Windows.Automation;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Identity.Client;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+using Microsoft.EntityFrameworkCore;
 
 namespace formstienda.capa_de_negocios
 {
@@ -98,6 +108,35 @@ namespace formstienda.capa_de_negocios
                 return null;
             }
         }
+        public bool Actualizarcliente(Cliente cliente)
+        {
+            try
+            {
+                using (var _contexto = new DbTiendaSeptentrionContext())
+                {
+                    var clienteExistente = _contexto.Clientes.Find(cliente.CedulaCliente);
+                    if (clienteExistente == null)
+                        return false;
+
+                    clienteExistente.NombreCliente = cliente.NombreCliente;
+                    clienteExistente.ApellidoCliente = cliente.ApellidoCliente;
+                    clienteExistente.DireccionCliente = cliente.DireccionCliente;
+                    clienteExistente.ColillaInssCliente = cliente.ColillaInssCliente;
+                    clienteExistente.TelefonoCliente = cliente.TelefonoCliente;
+                    clienteExistente.SujetoCredito = cliente.SujetoCredito;
+
+                    _contexto.Clientes.Update(clienteExistente);
+                    _contexto.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al actualizar cliente: " + ex.Message);
+                return false;
+            }
+        }
+
 
     }
 
