@@ -290,7 +290,7 @@ namespace formstienda
                 return;
             }
 
-            // Verificar duplicados
+            
             var proveedorDuplicado = proveedorServicio.ListarProveedores().FirstOrDefault(p =>
                 p.CodigoRuc != rucAnterior && (
                     (!string.IsNullOrWhiteSpace(correo) && p.CorreoProveedor == correo) ||
@@ -312,7 +312,7 @@ namespace formstienda
                 }
             }
 
-            // Crear proveedor actualizado
+            
             var proveedorActualizado = new Proveedor
             {
                 CodigoRuc = codigoRuc,
@@ -323,7 +323,7 @@ namespace formstienda
                 EstadoProveedor = estado
             };
 
-            // Llamar al servicio con el RUC anterior
+            
             if (proveedorServicio.ActualizarProveedor(proveedorActualizado, rucAnterior))
             {
                 MessageBox.Show("Proveedor actualizado correctamente.");
@@ -333,94 +333,7 @@ namespace formstienda
                 MessageBox.Show("No se pudo actualizar el proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // Limpia el tag
             row.Cells["CodigoRuc"].Tag = null;
-
-            /*string codigoRuc = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value?.ToString()?.Trim() ?? "";
-            string nombre = dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString()?.Trim() ?? "";
-            string apellido = dtgproveedores.Rows[e.RowIndex].Cells["ApellidoProveedor"].Value?.ToString()?.Trim() ?? "";
-            string telefono = dtgproveedores.Rows[e.RowIndex].Cells["TelefonoProveedor"].Value?.ToString()?.Trim() ?? "";
-            string correo = dtgproveedores.Rows[e.RowIndex].Cells["CorreoProveedor"].Value?.ToString()?.Trim() ?? "";
-            object valorEstado = dtgproveedores.Rows[e.RowIndex].Cells["EstadoProveedor"].Value;
-            bool estado = false;
-
-            if (valorEstado is bool b)
-            {
-                estado = b;
-            }
-            else if (valorEstado is string s)
-            {
-                estado = s == "Activo";
-            }
-
-
-            // Validar campos obligatorios
-            if (string.IsNullOrWhiteSpace(codigoRuc) || string.IsNullOrWhiteSpace(nombre)
-                || string.IsNullOrWhiteSpace(apellido) || string.IsNullOrWhiteSpace(telefono))
-            {
-                MessageBox.Show("Todos los campos obligatorios deben estar llenos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Validar formato del RUC
-            string patronRuc = @"^\d{13}[A-Z]{1}$";
-            if (!Regex.IsMatch(codigoRuc, patronRuc))
-            {
-                MessageBox.Show("El formato del código RUC es incorrecto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Validar formato del teléfono
-            string patronTelefono = @"^\d{8}$";
-            if (!Regex.IsMatch(telefono, patronTelefono))
-            {
-                MessageBox.Show("El formato del teléfono es incorrecto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Verificar duplicados, ignorando el proveedor actual
-            var proveedorDuplicado = proveedorServicio.ListarProveedores().FirstOrDefault(p =>
-                (p.CodigoRuc != codigoRuc) && (
-                    p.CorreoProveedor == correo && !string.IsNullOrWhiteSpace(correo) ||
-                    p.TelefonoProveedor == telefono
-                )
-            );
-
-            if (proveedorDuplicado != null)
-            {
-                if (proveedorDuplicado.TelefonoProveedor == telefono)
-                {
-                    MessageBox.Show("Ya existe un proveedor con ese número de teléfono.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (!string.IsNullOrWhiteSpace(correo) && proveedorDuplicado.CorreoProveedor == correo)
-                {
-                    MessageBox.Show("Ya existe un proveedor con ese correo electrónico.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
-            // Crear objeto actualizado
-            var proveedorActualizado = new Proveedor
-            {
-                CodigoRuc = codigoRuc,
-                NombreProveedor = nombre,
-                ApellidoProveedor = apellido,
-                TelefonoProveedor = telefono,
-                CorreoProveedor = correo,
-                EstadoProveedor = estado
-            };
-
-            // Intentar actualizar
-            if (proveedorServicio.ActualizarProveedor(proveedorActualizado))
-            {
-                MessageBox.Show("Proveedor actualizado correctamente.");
-            }
-            else
-            {
-                MessageBox.Show("No se pudo actualizar el proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
 
         }
 
