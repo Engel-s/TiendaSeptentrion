@@ -436,12 +436,6 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("Modelo_Producto");
-            entity.Property(e => e.NombreCategoria)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.NombreMarca)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
             entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
             entity.Property(e => e.StockMinimo).HasColumnName("Stock_Minimo");
@@ -509,7 +503,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Apellido_Usuario");
             entity.Property(e => e.ContraseñaUsuario)
-                .HasMaxLength(10)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("Contraseña_Usuario");
@@ -519,7 +513,9 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("Correo_Usuario");
             entity.Property(e => e.EstadoUsuario).HasColumnName("Estado_Usuario");
-            entity.Property(e => e.FechaRecuperacion).HasColumnName("Fecha_Recuperacion");
+            entity.Property(e => e.FechaRecuperacion)
+                .HasColumnType("datetime")
+                .HasColumnName("Fecha_Recuperacion");
             entity.Property(e => e.NombreUsuario)
                 .HasMaxLength(50)
                 .IsUnicode(false)
