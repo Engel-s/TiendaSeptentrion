@@ -230,6 +230,7 @@
             // cmbestado
             // 
             cmbestado.Anchor = AnchorStyles.Top;
+            cmbestado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbestado.FormattingEnabled = true;
             cmbestado.Items.AddRange(new object[] { "Activo", "Inactivo" });
             cmbestado.Location = new Point(171, 249);
@@ -267,6 +268,7 @@
             dtgproveedores.TabIndex = 86;
             dtgproveedores.CellContentClick += dtgproveedores_CellContentClick;
             dtgproveedores.CellEndEdit += dtgproveedores_CellEndEdit;
+            dtgproveedores.CellFormatting += dtgproveedores_CellFormatting;
             // 
             // txtCodigo_ruc
             // 

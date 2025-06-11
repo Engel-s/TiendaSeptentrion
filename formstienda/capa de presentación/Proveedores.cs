@@ -25,6 +25,7 @@ namespace formstienda
         public Proveedores()
         {
             InitializeComponent();
+            dtgproveedores.CellFormatting += dtgproveedores_CellFormatting;
         }
 
 
@@ -36,7 +37,7 @@ namespace formstienda
             txtTelefono.Clear();
             txtCorreo.Clear();
         }
-        
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -123,13 +124,13 @@ namespace formstienda
                 CorreoProveedor = txtCorreo.Text,
                 EstadoProveedor = cmbestado.Text == "Activo" ? true : false,
             };
-            
+
             if (string.IsNullOrWhiteSpace(txtNombre_proveedor.Text) ||
                 string.IsNullOrWhiteSpace(txtApellido_proveedores.Text) ||
                 string.IsNullOrWhiteSpace(txtTelefono.Text) ||
                 string.IsNullOrWhiteSpace(txtCodigo_ruc.Text))
             {
-                MessageBox.Show("Rellene todos los campos obligatorios", 
+                MessageBox.Show("Rellene todos los campos obligatorios",
                     "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -139,12 +140,12 @@ namespace formstienda
 
             if (!Regex.IsMatch(codigoruc, patronCodigoRuc))
             {
-                MessageBox.Show("El formato del codigo RUC es incorrecto.", 
+                MessageBox.Show("El formato del codigo RUC es incorrecto.",
                     "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            
+
             var telefonoProveedor = txtTelefono.Text.Trim();
             string patronTelefono = @"^\d{8}$";
 
@@ -164,8 +165,8 @@ namespace formstienda
             {
                 if (proveedorExistente.CodigoRuc == proveedor.CodigoRuc)
                 {
-                    MessageBox.Show("Este proveedor ya existe, verifique el codigo ruc." 
-                        ,"Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Este proveedor ya existe, verifique el codigo ruc."
+                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -178,7 +179,7 @@ namespace formstienda
                 if (proveedorExistente.CorreoProveedor == proveedor.CorreoProveedor)
                 {
                     MessageBox.Show("Este proveedor ya existe, verifique el correo electronico"
-                        ,"Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
@@ -198,7 +199,7 @@ namespace formstienda
 
         private void dtgproveedores_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            
+
             //int idProveedor = (int)dtgproveedores.Rows[e.RowIndex].Cells["IdProveedor"].Value;
 
             string codigoRuc = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value.ToString();
@@ -325,6 +326,18 @@ namespace formstienda
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true; // Cancelar la tecla
+            }
+        }
+
+        private void dtgproveedores_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dtgproveedores.Columns[e.ColumnIndex].Name == "EstadoProveedor")
+            {
+                if (e.Value is bool estado)
+                {
+                    e.Value = estado ? "Activo" : "Inactivo";
+                    e.FormattingApplied = true;
+                }
             }
         }
     }

@@ -7,13 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.VisualBasic.ApplicationServices;
-using formstienda.Acceso_Datos.Sqlserver;
+using formstienda.capa_de_negocios;
+using formstienda.capa_de_presentación;
+using formstienda.Datos;
 
 namespace formstienda
 {
     public partial class Recuperarcontraseña : Form
     {
+        private string correo;
         public Recuperarcontraseña()
         {
             InitializeComponent();
@@ -21,33 +23,54 @@ namespace formstienda
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
-
-        private void btnIniciarSesion_Click(object sender, EventArgs e)
-        {
-            string correoUsuario = txtrecuperar.Text; // Capturamos el correo ingresado por el usuario
-
-            // Validamos que el campo no esté vacío
-            if (string.IsNullOrEmpty(correoUsuario))
-            {
-                MessageBox.Show("Por favor, ingresa tu correo electrónico.");
-                return;
-            }
-
-            // Llamamos al método para recuperar la contraseña
-            Datosusuario datosUsuario = new Datosusuario();
-            string mensaje = datosUsuario.recoverpassword(correoUsuario);
-
-            // Mostramos el resultado al usuario
-            MessageBox.Show(mensaje);
-        }
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Login form = new Login();
             form.Show();
-            this.Close ();
+            this.Close();
+        }
+
+        private void Recuperarcontraseña_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCorreoRecuperacion_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            Cambiar_contraseña cambiar_Contraseña = new Cambiar_contraseña(correo);
+            cambiar_Contraseña.Show();
+        }
+
+        private void btnIniciarSesion_Click_1(object sender, EventArgs e)
+        {
+
+            correo = txtCorreoRecuperacion.Text.Trim();
+            var usuariovariable = new ClienteRecuperacion();
+            bool existoso = usuariovariable.EnviarCodigoRecuperacion(correo);
+
+            if (existoso)
+            {
+                MessageBox.Show("Se ha enviado el correo exitosamente");
+            }
+            else
+            {
+                MessageBox.Show("No se ha enviado el correo debido a un error");
+
+                Login form1 = new Login();
+                form1.Show();
+                this.Close();
+            }
         }
     }
+    
 }
