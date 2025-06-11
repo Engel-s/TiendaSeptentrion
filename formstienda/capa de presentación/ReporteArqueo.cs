@@ -429,7 +429,7 @@ namespace formstienda.capa_de_presentación
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ReporteArqueo.pdf");
+                string filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"ReporteArqueo_{DateTime.Now:yyyyMMdd_HHmmss}.pdf");
                 GenerarPDF(filePath);
                 MostrarPDF(filePath);
             }

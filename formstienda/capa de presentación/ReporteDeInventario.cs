@@ -18,6 +18,7 @@ using iText.Kernel.Geom;
 using iText.Layout.Borders;
 using iText.Kernel.Pdf.Canvas;
 using Path = System.IO.Path;
+using formstienda.Acceso_Datos.Email_Servicios;
 
 namespace formstienda.capa_de_presentación
 {
@@ -38,7 +39,7 @@ namespace formstienda.capa_de_presentación
             try
             {
                 // Generar el PDF al cargar el formulario
-                string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ReporteInventario.pdf");
+               string filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ReporteInventario.pdf");
                 GenerarPDF(filePath);
                 // Mostrar el PDF en el WebView
                 MostrarPDF(filePath);

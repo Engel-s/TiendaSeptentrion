@@ -307,7 +307,7 @@ namespace formstienda.capa_de_presentación
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ReporteOtrasSalidas.pdf");
+                string filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ReporteOtrasSalidas.pdf");
                 GenerarPDF(filePath);
                 MostrarPDF(filePath);
             }
