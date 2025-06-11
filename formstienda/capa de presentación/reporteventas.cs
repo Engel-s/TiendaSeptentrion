@@ -69,11 +69,13 @@ namespace formstienda.capa_de_presentación
                     .Include(d => d.CodigoProductoNavigation.IdMarcaNavigation)
                     .Include(d => d.IdVentaNavigation)
                         .ThenInclude(v => v.CedulaClienteNavigation)
-                                 .Where(d => d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
-                                              d.IdVentaNavigation.FechaVenta <= fechaFinOnly &&
-                                                d.IdVentaNavigation.TipoPago == "Contado") // filtro
-                                 .ToList();
-
+                    .Where(d =>
+                        d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
+                        d.IdVentaNavigation.FechaVenta <= fechaFinOnly &&
+                        d.IdVentaNavigation.TipoPago == "Contado" &&
+                        d.IdVentaNavigation.CambiosFactura == null // Aquí se excluyen ventas con devolución
+                    )
+                    .ToList();
             }
 
 

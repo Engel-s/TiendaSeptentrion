@@ -259,14 +259,33 @@ namespace formstienda
             DateTime fechaInicio = dtpickerventasinicio.Value.Date;
             DateTime fechaFin = dtpickerventasfinal.Value.Date;
 
-            // Generar ruta PDF en el escritorio
-            string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string nombreArchivo = $"ReporteVentas_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
-            string rutaPdf = Path.Combine(rutaEscritorio, nombreArchivo);
+            if (fechaFin > DateTime.Today)
+            {
+                MessageBox.Show("La fecha final no puede ser mayor a la fecha actual.", "Fecha no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            // Crear y mostrar el formulario del visor con WebView
-            var visor = new reporteventas(fechaInicio, fechaFin, rutaPdf);
-            visor.Show();
+            // Generar ruta temporal para el PDF
+            string rutaTemporal = Path.Combine(
+                Path.GetTempPath(),
+                $"ReporteVentas_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
+            );
+
+            // Buscar la instancia del formulario de menu
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+
+            if (menuForm != null)
+            {
+                // Abrir el reporte dentro del panel del formulario de menu
+                menuForm.AbrirformInPanel(new reporteventas(fechaInicio, fechaFin, rutaTemporal));
+            }
+
+            // Cerrar el formulario actual de informes
+            this.Close();
         }
 
         
@@ -305,13 +324,34 @@ namespace formstienda
         {
             DateTime fechainicio = dtfechainiciodevoluciones.Value.Date;
             DateTime fechafin = dtfechafinaldevoluciones.Value.Date;
-            string rutaEscritorio = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string nombreArchivo = $"ReporteDevoluciones_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
-            string rutaPdf = Path.Combine(rutaEscritorio, nombreArchivo);
 
-            // Crear y mostrar el formulario del visor con WebView
-            var visionador = new reportedevoluciones(fechainicio, fechafin, rutaPdf);
-            visionador.Show();
+            if (fechafin > DateTime.Today)
+            {
+                MessageBox.Show("La fecha final no puede ser mayor a la fecha actual.", "Fecha no válida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Generar ruta temporal para el PDF
+            string rutaTemporal = Path.Combine(
+                Path.GetTempPath(),
+                $"ReporteDevoluciones_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
+            );
+
+            // Buscar la instancia del formulario de menu
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+
+            if (menuForm != null)
+            {
+                // Abrir el reporte dentro del panel del formulario de menu
+                menuForm.AbrirformInPanel(new reportedevoluciones(fechainicio, fechafin, rutaTemporal));
+            }
+
+            // Cerrar el formulario actual
+            this.Close();
 
 
         }

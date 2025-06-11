@@ -3,9 +3,10 @@ using formstienda.Datos;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
-using System.Text.RegularExpressions;
-using static formstienda.Login;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using static formstienda.Login;
 
 
 
@@ -24,7 +25,7 @@ namespace formstienda
         private TasaServicio tasaServicio;
         private int NUEVOIDVENTAREGISTRO;
         public int STOCKACTUALPRODUCTO;
-        
+
 
         private BindingList<Cliente>? Listacliente;
 
@@ -242,7 +243,7 @@ namespace formstienda
             rbcontado.Checked = true;
 
             ocultarderegistro();
-         
+
 
 
 
@@ -313,7 +314,7 @@ namespace formstienda
 
                 TotalVenta = totalVenta
             };
-            
+
 
             var detalles = new List<DetalleDeVentum>();
             foreach (DataGridViewRow row in dgmostrar.Rows)
@@ -333,7 +334,7 @@ namespace formstienda
                     Cantidad = cantidadVendida,
                     Precio = row.Cells["Precio"].Value?.ToString() ?? producto.PrecioVenta.ToString("N2"),
                     CedulaCliente = cedulaClienteActual,
-                    SubTotal =cantidadVendida*producto.PrecioVenta ,
+                    SubTotal = cantidadVendida * producto.PrecioVenta,
                 };
 
                 producto.StockActual -= cantidadVendida;
@@ -577,7 +578,7 @@ namespace formstienda
             cbnumerodeplazos.SelectedIndex = -1;
             txtinteresparaloscreditos.Clear();
             txtcolillainss.Clear();
-
+            LimpiarCamposCliente();
 
 
         }
@@ -716,13 +717,13 @@ namespace formstienda
         private void txtpago_TextChanged(object sender, EventArgs e)
         {
             CalcularCambio();
-  
+
         }
 
         private void txtfaltante_TextChanged(object sender, EventArgs e)
         {
             CalcularCambio();
-    
+
         }
 
         private void CalcularCambio()
@@ -826,6 +827,8 @@ namespace formstienda
             txtnombrecliente.Clear();
             txtcedula.Clear();
             cedulaClienteActual = string.Empty;
+            TXTTELEFONODELNUEVOCLIENTE.Clear();
+            GENERICOCHECK.Checked = false;
         }
 
         private void txtpago_KeyPress(object sender, KeyPressEventArgs e)
@@ -940,11 +943,28 @@ namespace formstienda
             LimpiarCampos();
             LimpiarCamposCliente();
             LimpiarFormulario();
-            
+
         }
 
+        private void btnnuevo_Click_1(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+            LimpiarCamposCliente();
+            LimpiarFormulario();
+        }
 
-
+        private void dgmostrar_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgmostrar.Columns[e.ColumnIndex].Name == "eliminar")
+            {
+                var confirm = MessageBox.Show("¿Está seguro de eliminar esta fila?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes)
+                {
+                    dgmostrar.Rows.RemoveAt(e.RowIndex);
+                    ActualizarTotal(); // Recalcula el total
+                }
+            }
+        }
     }
 
 }
