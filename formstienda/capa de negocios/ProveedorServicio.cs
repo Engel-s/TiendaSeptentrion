@@ -75,9 +75,9 @@ namespace formstienda.capa_de_negocios
         }
 
         //Actualizar proveedor
-        public bool ActualizarProveedor(Proveedor proveedor)
+        public bool ActualizarProveedor(Proveedor proveedor, string rucAnterior)
         {
-            try
+            /*try
             {
                 using (var contexto = new DbTiendaSeptentrionContext())
                 {
@@ -103,6 +103,52 @@ namespace formstienda.capa_de_negocios
                 }
             }
             catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }*/
+            try
+            {
+                using (var contexto = new DbTiendaSeptentrionContext())
+                {
+                    var proveedorExistente = contexto.Proveedors.Find(rucAnterior);
+                    if (proveedorExistente == null)
+                    {
+                        Console.WriteLine("Proveedor no encontrado");
+                        return false;
+                    }
+
+                    // Si el RUC no cambió, solo actualizamos los campos
+                    if (rucAnterior == proveedor.CodigoRuc)
+                    {
+                        proveedorExistente.NombreProveedor = proveedor.NombreProveedor;
+                        proveedorExistente.ApellidoProveedor = proveedor.ApellidoProveedor;
+                        proveedorExistente.CorreoProveedor = proveedor.CorreoProveedor;
+                        proveedorExistente.TelefonoProveedor = proveedor.TelefonoProveedor;
+                        proveedorExistente.EstadoProveedor = proveedor.EstadoProveedor;
+
+                        contexto.Proveedors.Update(proveedorExistente);
+                    }
+                    else
+                    {
+                        // Verificar si el nuevo RUC ya está en uso
+                        bool rucYaExiste = contexto.Proveedors.Any(p => p.CodigoRuc == proveedor.CodigoRuc);
+                        if (rucYaExiste)
+                        {
+                            Console.WriteLine("El nuevo Código RUC ya está en uso");
+                            return false;
+                        }
+
+                        // Eliminar el antiguo y agregar uno nuevo con el nuevo RUC
+                        contexto.Proveedors.Remove(proveedorExistente);
+                        contexto.Proveedors.Add(proveedor); // proveedor tiene el nuevo RUC y datos actualizados
+                    }
+
+                    contexto.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return false;

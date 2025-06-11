@@ -14,6 +14,7 @@ using formstienda.Datos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace formstienda
 {
@@ -28,6 +29,16 @@ namespace formstienda
             dtgproveedores.CellFormatting += dtgproveedores_CellFormatting;
         }
 
+        public class EstadoOpcion
+        {
+            public string Descripcion { get; set; }
+            public bool Valor { get; set; }
+
+            public override string ToString()
+            {
+                return Descripcion;
+            }
+        }
 
         private void limpiarcampos()
         {
@@ -99,6 +110,38 @@ namespace formstienda
             dtgproveedores.Columns["TelefonoProveedor"].HeaderText = "Numero telefónico";
             dtgproveedores.Columns["CorreoProveedor"].HeaderText = "Correo electrónico";
             dtgproveedores.Columns["EstadoProveedor"].HeaderText = "Estado";
+
+            DataGridViewComboBoxColumn estadoComboCol = new DataGridViewComboBoxColumn();
+            estadoComboCol.Name = "EstadoProveedor";
+            estadoComboCol.HeaderText = "Estado";
+            estadoComboCol.DataPropertyName = "EstadoProveedor"; // Importante: esto se liga al valor bool de tu modelo
+            estadoComboCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton;
+            estadoComboCol.FlatStyle = FlatStyle.Flat;
+
+            estadoComboCol.DisplayMember = "Descripcion"; // Lo que se muestra
+            estadoComboCol.ValueMember = "Valor";         // El valor real (bool)
+            estadoComboCol.DataSource = new List<EstadoOpcion>
+            {
+                new EstadoOpcion { Descripcion = "Activo", Valor = true },
+                new EstadoOpcion { Descripcion = "Inactivo", Valor = false }
+            };
+
+            int index = dtgproveedores.Columns["EstadoProveedor"].Index;
+            dtgproveedores.Columns.RemoveAt(index);
+            dtgproveedores.Columns.Insert(index, estadoComboCol);
+
+            /* estadoComboCol = new DataGridViewComboBoxColumn();
+            estadoComboCol.Name = "EstadoProveedor";
+            estadoComboCol.HeaderText = "Estado";
+            estadoComboCol.DataPropertyName = "EstadoProveedor"; 
+            estadoComboCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton;
+            estadoComboCol.FlatStyle = FlatStyle.Flat;
+
+            estadoComboCol.Items.AddRange(true, false);
+
+            int index = dtgproveedores.Columns["EstadoProveedor"].Index;
+            dtgproveedores.Columns.RemoveAt(index);
+            dtgproveedores.Columns.Insert(index, estadoComboCol);*/
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -111,13 +154,26 @@ namespace formstienda
             this.Close();
         }
 
+
+
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             txtTelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            var codigoruc = txtCodigo_ruc.Text.Trim().Replace("-", "");
+
+            // Validar formato
+            string patronCodigoRuc = @"^\d{13}[A-Z]{1}$";
+            if (!Regex.IsMatch(codigoruc, patronCodigoRuc))
+            {
+                MessageBox.Show("El formato del código RUC es incorrecto.",
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             var proveedor = new Proveedor
             {
-                CodigoRuc = txtCodigo_ruc.Text,
+                CodigoRuc = codigoruc,
                 NombreProveedor = txtNombre_proveedor.Text,
                 ApellidoProveedor = txtApellido_proveedores.Text,
                 TelefonoProveedor = txtTelefono.Text,
@@ -135,16 +191,6 @@ namespace formstienda
                 return;
             }
 
-            var codigoruc = txtCodigo_ruc.Text.Trim();
-            string patronCodigoRuc = @"^\d{3}-\d{6}-\d{4}[A-Z]{1}$";
-
-            if (!Regex.IsMatch(codigoruc, patronCodigoRuc))
-            {
-                MessageBox.Show("El formato del codigo RUC es incorrecto.",
-                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
 
             var telefonoProveedor = txtTelefono.Text.Trim();
             string patronTelefono = @"^\d{8}$";
@@ -156,30 +202,37 @@ namespace formstienda
                 return;
             }
 
-            //Validar existencias del proveedor
-            var proveedorExistente = proveedorServicio.ListarProveedores()
-                .FirstOrDefault(p => p.CodigoRuc == proveedor.CodigoRuc
-                || !string.IsNullOrWhiteSpace(proveedor.CorreoProveedor) && p.CorreoProveedor == proveedor.CorreoProveedor);
 
-            if (proveedorExistente != null)
+            var rucDuplicado = proveedorServicio.ListarProveedores()
+                .FirstOrDefault(p => p.CodigoRuc == proveedor.CodigoRuc);
+
+            if (rucDuplicado != null)
             {
-                if (proveedorExistente.CodigoRuc == proveedor.CodigoRuc)
-                {
-                    MessageBox.Show("Este proveedor ya existe, verifique el codigo ruc."
-                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                MessageBox.Show("Este proveedor ya existe, verifique el código RUC.",
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                if (proveedorExistente.TelefonoProveedor == proveedor.TelefonoProveedor)
+            var telefonoDuplicado = proveedorServicio.ListarProveedores()
+                .FirstOrDefault(p => p.TelefonoProveedor == proveedor.TelefonoProveedor);
+
+            if (telefonoDuplicado != null)
+            {
+                MessageBox.Show("Este proveedor ya existe, verifique el número de teléfono.",
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(proveedor.CorreoProveedor))
+            {
+                var correoDuplicado = proveedorServicio.ListarProveedores()
+                    .FirstOrDefault(p => p.CorreoProveedor == proveedor.CorreoProveedor);
+
+                if (correoDuplicado != null)
                 {
-                    MessageBox.Show("Este proveedor ya existe, verifique el numero de telefono"
-                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (proveedorExistente.CorreoProveedor == proveedor.CorreoProveedor)
-                {
-                    MessageBox.Show("Este proveedor ya existe, verifique el correo electronico"
-                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Este proveedor ya existe, verifique el correo electrónico.",
+                        "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
@@ -200,55 +253,106 @@ namespace formstienda
         private void dtgproveedores_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
 
-            //int idProveedor = (int)dtgproveedores.Rows[e.RowIndex].Cells["IdProveedor"].Value;
+            var row = dtgproveedores.Rows[e.RowIndex];
 
-            string codigoRuc = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value.ToString();
+            string codigoRuc = row.Cells["CodigoRuc"].Value?.ToString()?.Trim() ?? "";
+            string rucAnterior = row.Cells["CodigoRuc"].Tag?.ToString() ?? codigoRuc;
 
-            if (string.IsNullOrEmpty(dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value?.ToString()))
+            string nombre = row.Cells["NombreProveedor"].Value?.ToString()?.Trim() ?? "";
+            string apellido = row.Cells["ApellidoProveedor"].Value?.ToString()?.Trim() ?? "";
+            string telefono = row.Cells["TelefonoProveedor"].Value?.ToString()?.Trim() ?? "";
+            string correo = row.Cells["CorreoProveedor"].Value?.ToString()?.Trim() ?? "";
+            object valorEstado = row.Cells["EstadoProveedor"].Value;
+
+            bool estado = false;
+            if (valorEstado is bool b) estado = b;
+            else if (valorEstado is string s) estado = s == "Activo";
+
+            // Validaciones
+            if (string.IsNullOrWhiteSpace(codigoRuc) || string.IsNullOrWhiteSpace(nombre)
+                || string.IsNullOrWhiteSpace(apellido) || string.IsNullOrWhiteSpace(telefono))
             {
-                MessageBox.Show("El codigo ruc no puede estar vacio");
+                MessageBox.Show("Todos los campos obligatorios deben estar llenos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (string.IsNullOrEmpty(dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString()))
+            string patronRuc = @"^\d{13}[A-Z]{1}$";
+            if (!Regex.IsMatch(codigoRuc, patronRuc))
             {
-                MessageBox.Show("El nombre no puede estar vacio");
+                MessageBox.Show("El formato del código RUC es incorrecto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (string.IsNullOrEmpty(dtgproveedores.Rows[e.RowIndex].Cells["ApellidoProveedor"].Value?.ToString()))
+
+            string patronTelefono = @"^\d{8}$";
+            if (!Regex.IsMatch(telefono, patronTelefono))
             {
-                MessageBox.Show("El apellido no puede estar vacio");
-            }
-            if (string.IsNullOrEmpty(dtgproveedores.Rows[e.RowIndex].Cells["TelefonoProveedor"].Value?.ToString()))
-            {
-                MessageBox.Show("El telefono no puede estar vacio");
+                MessageBox.Show("El formato del teléfono es incorrecto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
-            var proveedorEditado = new Proveedor
-            {
-                CodigoRuc = codigoRuc.ToString(),
-                //CodigoRuc = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value?.ToString() ?? "",
-                NombreProveedor = dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString() ?? "",
-                ApellidoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["ApellidoProveedor"].Value.ToString() ?? "",
-                TelefonoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["TelefonoProveedor"].Value.ToString() ?? "",
-                CorreoProveedor = dtgproveedores.Rows[e.RowIndex].Cells["CorreoProveedor"].Value?.ToString() ?? "",
-                EstadoProveedor = Convert.ToBoolean(dtgproveedores.Rows[e.RowIndex].Cells["EstadoProveedor"].Value),
+            // Verificar duplicados
+            var proveedorDuplicado = proveedorServicio.ListarProveedores().FirstOrDefault(p =>
+                p.CodigoRuc != rucAnterior && (
+                    (!string.IsNullOrWhiteSpace(correo) && p.CorreoProveedor == correo) ||
+                    p.TelefonoProveedor == telefono
+                ));
 
+            if (proveedorDuplicado != null)
+            {
+                if (proveedorDuplicado.TelefonoProveedor == telefono)
+                {
+                    MessageBox.Show("Ya existe un proveedor con ese número de teléfono.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!string.IsNullOrWhiteSpace(correo) && proveedorDuplicado.CorreoProveedor == correo)
+                {
+                    MessageBox.Show("Ya existe un proveedor con ese correo electrónico.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            // Crear proveedor actualizado
+            var proveedorActualizado = new Proveedor
+            {
+                CodigoRuc = codigoRuc,
+                NombreProveedor = nombre,
+                ApellidoProveedor = apellido,
+                TelefonoProveedor = telefono,
+                CorreoProveedor = correo,
+                EstadoProveedor = estado
             };
 
-            if (proveedorServicio.ActualizarProveedor(proveedorEditado))
+            // Llamar al servicio con el RUC anterior
+            if (proveedorServicio.ActualizarProveedor(proveedorActualizado, rucAnterior))
             {
-                MessageBox.Show("Proveedor actualizado correctamente");
+                MessageBox.Show("Proveedor actualizado correctamente.");
             }
             else
-                MessageBox.Show("No se pudo actualizar el proveedor");
+            {
+                MessageBox.Show("No se pudo actualizar el proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Limpia el tag
+            row.Cells["CodigoRuc"].Tag = null;
 
             /*string codigoRuc = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"].Value?.ToString()?.Trim() ?? "";
             string nombre = dtgproveedores.Rows[e.RowIndex].Cells["NombreProveedor"].Value?.ToString()?.Trim() ?? "";
             string apellido = dtgproveedores.Rows[e.RowIndex].Cells["ApellidoProveedor"].Value?.ToString()?.Trim() ?? "";
             string telefono = dtgproveedores.Rows[e.RowIndex].Cells["TelefonoProveedor"].Value?.ToString()?.Trim() ?? "";
             string correo = dtgproveedores.Rows[e.RowIndex].Cells["CorreoProveedor"].Value?.ToString()?.Trim() ?? "";
-            bool estado = Convert.ToBoolean(dtgproveedores.Rows[e.RowIndex].Cells["EstadoProveedor"].Value);
+            object valorEstado = dtgproveedores.Rows[e.RowIndex].Cells["EstadoProveedor"].Value;
+            bool estado = false;
+
+            if (valorEstado is bool b)
+            {
+                estado = b;
+            }
+            else if (valorEstado is string s)
+            {
+                estado = s == "Activo";
+            }
+
 
             // Validar campos obligatorios
             if (string.IsNullOrWhiteSpace(codigoRuc) || string.IsNullOrWhiteSpace(nombre)
@@ -259,7 +363,7 @@ namespace formstienda
             }
 
             // Validar formato del RUC
-            string patronRuc = @"^\d{3}-\d{6}-\d{4}[A-Z]{1}$";
+            string patronRuc = @"^\d{13}[A-Z]{1}$";
             if (!Regex.IsMatch(codigoRuc, patronRuc))
             {
                 MessageBox.Show("El formato del código RUC es incorrecto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -325,19 +429,29 @@ namespace formstienda
             // Permitir solo números y control keys como backspace
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                e.Handled = true; // Cancelar la tecla
+                e.Handled = true;
             }
         }
 
         private void dtgproveedores_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dtgproveedores.Columns[e.ColumnIndex].Name == "EstadoProveedor")
+            if (dtgproveedores.Columns[e.ColumnIndex].Name == "EstadoProveedor" &&
+                dtgproveedores.Columns[e.ColumnIndex] is DataGridViewComboBoxColumn)
             {
                 if (e.Value is bool estado)
                 {
                     e.Value = estado ? "Activo" : "Inactivo";
                     e.FormattingApplied = true;
                 }
+            }
+        }
+
+        private void dtgproveedores_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (dtgproveedores.Columns[e.ColumnIndex].Name == "CodigoRuc")
+            {
+                var cell = dtgproveedores.Rows[e.RowIndex].Cells["CodigoRuc"];
+                cell.Tag = cell.Value?.ToString();
             }
         }
     }

@@ -266,6 +266,7 @@
             dtgproveedores.RowHeadersWidth = 51;
             dtgproveedores.Size = new Size(671, 282);
             dtgproveedores.TabIndex = 86;
+            dtgproveedores.CellBeginEdit += dtgproveedores_CellBeginEdit;
             dtgproveedores.CellContentClick += dtgproveedores_CellContentClick;
             dtgproveedores.CellEndEdit += dtgproveedores_CellEndEdit;
             dtgproveedores.CellFormatting += dtgproveedores_CellFormatting;
