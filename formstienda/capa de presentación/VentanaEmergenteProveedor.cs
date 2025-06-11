@@ -128,34 +128,6 @@ namespace formstienda.capa_de_presentación
                 }
             }
 
-            /*//Validar existencias del proveedor
-            var proveedorExistente = proveedorServicio.ListarProveedores()
-                .FirstOrDefault(p => p.CodigoRuc == proveedor.CodigoRuc
-                || !string.IsNullOrWhiteSpace(proveedor.CorreoProveedor) && p.CorreoProveedor == proveedor.CorreoProveedor);
-
-            if (proveedorExistente != null)
-            {
-                if (proveedorExistente.CodigoRuc == proveedor.CodigoRuc)
-                {
-                    MessageBox.Show("Este proveedor ya existe, verifique el codigo ruc."
-                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (proveedorExistente.TelefonoProveedor == proveedor.TelefonoProveedor)
-                {
-                    MessageBox.Show("Este proveedor ya existe, verifique el numero de telefono"
-                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (proveedorExistente.CorreoProveedor == proveedor.CorreoProveedor)
-                {
-                    MessageBox.Show("Este proveedor ya existe, verifique el correo electronico"
-                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }*/
-
             //conectando con el servicio
             proveedorServicio.AgregarProveedor(proveedor);
             listaProveedores.Add(proveedor);
