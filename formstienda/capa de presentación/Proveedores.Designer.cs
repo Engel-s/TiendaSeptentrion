@@ -267,6 +267,7 @@
             dtgproveedores.TabIndex = 86;
             dtgproveedores.CellContentClick += dtgproveedores_CellContentClick;
             dtgproveedores.CellEndEdit += dtgproveedores_CellEndEdit;
+            dtgproveedores.CellFormatting += dtgproveedores_CellFormatting;
             // 
             // txtCodigo_ruc
             // 
