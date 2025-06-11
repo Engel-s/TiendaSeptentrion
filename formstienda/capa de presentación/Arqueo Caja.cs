@@ -214,6 +214,17 @@ namespace formstienda
         {
             try
             {
+
+                decimal totalCordobas = ObtenerValorTextBox(txtTotalEfectivoCordobas);
+                decimal totalDolares = ObtenerValorTextBox(txtDolaresTotalEfectivo);
+
+                if (totalCordobas <= 0 && totalDolares <= 0)
+                {
+                    MessageBox.Show("Debe ingresar al menos un valor en Córdobas o Dólares", "Validación",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 using (var contexto = new DbTiendaSeptentrionContext())
                 {
                     // Buscar todas las aperturas que aún no están cerradas
@@ -427,11 +438,11 @@ namespace formstienda
                     var egresoServicio = new EgresoServicio(contexto);
                     decimal totalEgresosCordobas = egresoServicio.ObtenerTotalEgresosCordobas(fechaActual);
                     decimal totalEgresosDolares = egresoServicio.ObtenerTotalEgresosDolares(fechaActual);
-                   
+
                     txtTotalEgresosCordobas.Text = totalEgresosCordobas.ToString("N2");
                     txtTotalEgresosDolares.Text = totalEgresosDolares.ToString("N2");
-                                        
-                   decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
+
+                    decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
                     decimal totalBrutoDolares = egresoServicio.ObtenerTotalBrutoDolares(fechaActual);
 
                     txtTotalCajaCordobas.Text = totalBrutoCordobas.ToString("N2");
@@ -440,8 +451,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al actualizar los egresos: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
 

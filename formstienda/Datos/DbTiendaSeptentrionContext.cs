@@ -436,6 +436,12 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("Modelo_Producto");
+            entity.Property(e => e.NombreCategoria)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.NombreMarca)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.PrecioVenta).HasColumnName("Precio_Venta");
             entity.Property(e => e.StockActual).HasColumnName("Stock_Actual");
             entity.Property(e => e.StockMinimo).HasColumnName("Stock_Minimo");

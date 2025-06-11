@@ -33,7 +33,12 @@ namespace formstienda.capa_de_presentación
             DGCONTROLEGRESOS.AutoGenerateColumns = false;
             DGCONTROLEGRESOS.Columns.Clear();
 
-           
+            DGCONTROLEGRESOS.DefaultCellStyle = new DataGridViewCellStyle
+            {
+                ForeColor = Color.Black,
+                Font = new Font(DGCONTROLEGRESOS.Font, FontStyle.Regular)
+            };
+
             DGCONTROLEGRESOS.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 DataPropertyName = "FechaEgreso",
@@ -146,11 +151,7 @@ namespace formstienda.capa_de_presentación
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar egresos:\n{ex.Message}\n\n" +
-                               $"Detalles técnicos:\n{ex.InnerException?.Message}",
-                               "Error",
-                               MessageBoxButtons.OK,
-                               MessageBoxIcon.Error);
+               
             }
         }
 

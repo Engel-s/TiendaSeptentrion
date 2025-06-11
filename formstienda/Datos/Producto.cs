@@ -21,6 +21,10 @@ public partial class Producto
 
     public int? StockActual { get; set; }
 
+    public string? NombreMarca { get; set; }
+
+    public string? NombreCategoria { get; set; }
+
     public virtual ICollection<DetalleCompra> DetalleCompras { get; set; } = new List<DetalleCompra>();
 
     public virtual ICollection<DetalleDeVentum> DetalleDeVenta { get; set; } = new List<DetalleDeVentum>();

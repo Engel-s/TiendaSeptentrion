@@ -1,4 +1,5 @@
-﻿using formstienda.capa_de_negocios;
+﻿
+using formstienda.capa_de_negocios;
 using formstienda.Datos;
 using formstienda.Servicios;
 using System.Globalization;
@@ -17,7 +18,7 @@ namespace formstienda.capa_de_presentación
 {
     public partial class Egresos : Form
     {
-        
+
         private decimal _totalCordobas = 0;
         private decimal _totalDolares = 0;
         private DateOnly _fechaActual;
@@ -29,20 +30,20 @@ namespace formstienda.capa_de_presentación
             InitializeComponent();
             try
             {
-               _contexto = new DbTiendaSeptentrionContext();
-                               
+                _contexto = new DbTiendaSeptentrionContext();
+
                 if (!_contexto.Database.CanConnect())
                 {
                     MessageBox.Show("No se pudo establecer conexión con la base de datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Close();
                     return;
                 }
-                            
+
                 _egresoservicio = new EgresoServicio(_contexto);
 
                 _fechaActual = DateOnly.FromDateTime(DateTime.Now);
 
-                //CargarTotalesIniciales();
+                CargarTotalesIniciales();
             }
             catch (Exception ex)
             {
@@ -50,10 +51,25 @@ namespace formstienda.capa_de_presentación
                 this.Close();
             }
         }
-                      
+
+        private void CargarTotalesIniciales()
+        {
+            try
+            {
+                _totalCordobas = _egresoservicio.ObtenerTotalCajaCordobas(_fechaActual);
+                _totalDolares = _egresoservicio.ObtenerTotalCajaDolares(_fechaActual);
+
+                ActualizarTextBoxSegunMoneda();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar totales iniciales: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void Egresos_Load(object sender, EventArgs e)
         {
-            
+
             cmbMoneda.Items.Add("Dólar");
             cmbMoneda.Items.Add("Córdoba");
             cmbMoneda.SelectedIndex = 0;
@@ -70,7 +86,7 @@ namespace formstienda.capa_de_presentación
 
             if (monedaSeleccionada.Equals("Córdoba", StringComparison.OrdinalIgnoreCase))
             {
-                //CargarTotalCajaCordoba();
+                CargarTotalCajaCordoba();
             }
             else if (monedaSeleccionada.Equals("Dólar", StringComparison.OrdinalIgnoreCase))
             {
@@ -78,7 +94,41 @@ namespace formstienda.capa_de_presentación
             }
         }
 
-       
+        private void CargarTotalCajaCordoba()
+        {
+            try
+            {
+                DateOnly fechaActual = DateOnly.FromDateTime(DateTime.Now);
+
+                var apertura = _egresoservicio.ListarAperturaCaja(fechaActual).FirstOrDefault();
+                decimal montoApertura = apertura?.MontoApertura != null ? (decimal)apertura.MontoApertura : 0m;
+
+                var ventas = _egresoservicio.ListarTotalVenta(fechaActual);
+                decimal totalVentasCordobas = ventas?
+                    .Where(v => v?.PagoCordobas != null)
+                    .Sum(v => (decimal)v.PagoCordobas.Value) ?? 0m;
+
+                var devoluciones = _egresoservicio.ListarDevolucion(fechaActual);
+                decimal totalDevoluciones = devoluciones?
+                    .Where(d => d?.MontoDevuelto != null)
+                    .Sum(d => (decimal)d.MontoDevuelto) ?? 0m;
+
+                var pagosCredito = _egresoservicio.ListarPagosCredito(fechaActual);
+                decimal totalCordobasAbonados = pagosCredito?
+                    .Where(p => p?.TotalCordobas > 0)
+                    .Sum(p => (decimal)p.TotalCordobas) ?? 0m;
+
+                decimal totalEgresos = _egresoservicio.ObtenerTotalEgresosCordobas(fechaActual);
+                decimal total = Math.Round(montoApertura + totalVentasCordobas + totalCordobasAbonados - totalDevoluciones - totalEgresos);
+
+                ActualizarTextBox(total, "Córdoba");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al calcular caja: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ActualizarTextBox(0m, "Córdoba");
+            }
+        }
 
         private void CargarTotalDolar()
         {
@@ -98,7 +148,7 @@ namespace formstienda.capa_de_presentación
 
                 decimal totalEgresos = _egresoservicio.ObtenerTotalEgresosDolares(fechaActual);
                 decimal total = Math.Round(totalVentasDolares + totalDolaresAbonados - totalEgresos);
-                                
+
                 ActualizarTextBox(total, "Dólar");
             }
             catch (Exception ex)
@@ -108,15 +158,15 @@ namespace formstienda.capa_de_presentación
             }
         }
 
-        
+
         private void ActualizarTextBox(decimal valor, string moneda)
         {
-           
+
             CultureInfo cultura = moneda.Equals("Dólar", StringComparison.OrdinalIgnoreCase) ?
                 CultureInfo.CreateSpecificCulture("en-US") :
                 CultureInfo.CreateSpecificCulture("es-NI");
 
-           
+
             if (txtTotalCaja.InvokeRequired)
             {
                 txtTotalCaja.Invoke((MethodInvoker)(() =>
@@ -130,7 +180,7 @@ namespace formstienda.capa_de_presentación
             }
         }
 
-        
+
         private void button2_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
@@ -162,7 +212,7 @@ namespace formstienda.capa_de_presentación
                     txtMotivoEgreso.Focus();
                     return;
                 }
-                                
+
                 if (!decimal.TryParse(txtCantidadEgresada.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal cantidad) || cantidad <= 0)
                 {
                     MessageBox.Show("La cantidad debe ser un número positivo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -170,7 +220,7 @@ namespace formstienda.capa_de_presentación
                     txtCantidadEgresada.Focus();
                     return;
                 }
-                                
+
                 if (cmbMoneda.SelectedItem == null)
                 {
                     MessageBox.Show("Debe seleccionar un tipo de moneda", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -185,7 +235,7 @@ namespace formstienda.capa_de_presentación
                     MessageBox.Show("No hay suficiente saldo disponible", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                                
+
                 bool resultado = GuardarEgresoEnBD(cantidad, monedaSeleccionada);
 
                 if (resultado)
@@ -201,7 +251,7 @@ namespace formstienda.capa_de_presentación
 
                     ActualizarTextBoxSegunMoneda();
                     MessageBox.Show("Egreso registrado exitosamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                        
+
                     LimpiarCamposEgreso();
                 }
                 else
@@ -245,7 +295,7 @@ namespace formstienda.capa_de_presentación
                 return false;
             }
         }
-               
+
         private void LimpiarCamposEgreso()
         {
             txtCantidadEgresada.Text = string.Empty;
@@ -261,12 +311,12 @@ namespace formstienda.capa_de_presentación
             string monedaSeleccionada = cmbMoneda.SelectedItem.ToString();
 
             decimal valorMostrar = monedaSeleccionada == "Córdoba" ? _totalCordobas : _totalDolares;
-                        
+
             CultureInfo cultura = monedaSeleccionada == "Córdoba" ?
                 CultureInfo.CreateSpecificCulture("es-NI") :
                 CultureInfo.CreateSpecificCulture("en-US");
 
-             txtTotalCaja.Text = valorMostrar.ToString("C2", cultura);
+            txtTotalCaja.Text = valorMostrar.ToString("C2", cultura);
         }
 
         private void btnCancelarCordobas_Click(object sender, EventArgs e)

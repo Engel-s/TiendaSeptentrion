@@ -265,9 +265,8 @@ namespace formstienda
                 }
             }
             catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar los motivos: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            { 
+
             }
 
         }

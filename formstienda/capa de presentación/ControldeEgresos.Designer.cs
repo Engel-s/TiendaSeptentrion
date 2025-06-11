@@ -49,6 +49,7 @@
             DGCONTROLEGRESOS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGCONTROLEGRESOS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DGCONTROLEGRESOS.Columns.AddRange(new DataGridViewColumn[] { Column5, Column2, Column3, Column4, Column1 });
+            DGCONTROLEGRESOS.GridColor = Color.Black;
             DGCONTROLEGRESOS.Location = new Point(30, 101);
             DGCONTROLEGRESOS.Name = "DGCONTROLEGRESOS";
             DGCONTROLEGRESOS.ReadOnly = true;

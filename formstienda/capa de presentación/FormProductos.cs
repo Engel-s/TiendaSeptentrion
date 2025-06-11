@@ -70,7 +70,8 @@ namespace formstienda
                         p.StockMinimo,
                         Marca = p.IdMarcaNavigation?.Marca1 ?? "N/A",
                         Categoria = p.IdCategoriaNavigation?.Categoria ?? "N/A",
-                        p.EstadoProducto,
+                        Estado = p.EstadoProducto ? "Activo" : "Inactivo", 
+                        EstadoValor = p.EstadoProducto 
                     });
 
                 if (!string.IsNullOrWhiteSpace(filtro))
@@ -80,7 +81,7 @@ namespace formstienda
                         p.ModeloProducto.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                         p.Marca.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                         p.Categoria.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
-                        p.EstadoProducto.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase)
+                        p.Estado.Contains(filtro, StringComparison.OrdinalIgnoreCase)
                     );
                 }
 
@@ -88,7 +89,7 @@ namespace formstienda
                 DGPRODUCTOS.DataSource = null;
                 DGPRODUCTOS.DataSource = listaProductos;
 
-                // Configurar el nombre de la columna en el DataGridView
+                // Configurar las columnas
                 if (DGPRODUCTOS.Columns["CodigoProducto"] != null)
                 {
                     DGPRODUCTOS.Columns["CodigoProducto"].HeaderText = "Código";
@@ -99,16 +100,43 @@ namespace formstienda
                     DGPRODUCTOS.Columns["ModeloProducto"].HeaderText = "Nombre";
                 }
 
-                // Configurar la columna de precio para que mantenga el formato
                 if (DGPRODUCTOS.Columns["PrecioVenta"] != null)
                 {
                     DGPRODUCTOS.Columns["PrecioVenta"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 }
+
+                // Ocultar la columna del valor booleano
+                if (DGPRODUCTOS.Columns["EstadoValor"] != null)
+                {
+                    DGPRODUCTOS.Columns["EstadoValor"].Visible = false;
+                }
+
+                // Configurar estilo para la columna de estado
+                if (DGPRODUCTOS.Columns["Estado"] != null)
+                {
+                    DGPRODUCTOS.Columns["Estado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopCenter;
+
+                    ////Color para estados
+                    //DGPRODUCTOS.CellFormatting += (s, e) =>
+                    //{
+                    //    if (e.ColumnIndex == DGPRODUCTOS.Columns["Estado"].Index && e.Value != null)
+                    //    {
+                    //        if (e.Value.ToString() == "Activo")
+                    //        {
+                    //            e.CellStyle.ForeColor = Color.Green;
+                    //            e.CellStyle.Font = new Font(DGPRODUCTOS.Font, FontStyle.Bold);
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CellStyle.ForeColor = Color.Red;
+                    //        }
+                    //    }
+                    //};
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+               
             }
         }
 
@@ -140,7 +168,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar categorías: " + ex.Message);
+              
             }
         }
 
@@ -172,7 +200,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar marcas: " + ex.Message);
+
             }
         }
 
@@ -321,7 +349,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado: {ex.Message}");
+               
             }
         }
 
@@ -502,6 +530,14 @@ namespace formstienda
 
                 bool cambios = false;
 
+                // Verificar si se hizo clic en la columna de estado
+                if (e.ColumnIndex == DGPRODUCTOS.Columns["Estado"].Index)
+                {
+                    // Invertir el estado actual
+                    producto.EstadoProducto = !producto.EstadoProducto;
+                    cambios = true;
+                }
+
                 // Controlar qué columna fue doble clickeada
                 switch (e.ColumnIndex)
                 {
@@ -583,17 +619,10 @@ namespace formstienda
                         }
                         break;
 
-                    case 7: // Estado (checkbox)
-                        DialogResult respuesta = MessageBox.Show("¿Desea cambiar el estado del producto?", "Cambiar Estado", MessageBoxButtons.YesNo);
-                        if (respuesta == DialogResult.Yes)
-                        {
-                            producto.EstadoProducto = !producto.EstadoProducto; // Cambiar el valor actual
-                            cambios = true;
-                        }
-                        break;
+                    
                 }
 
-                // Si se realizaron cambios, intentar guardar
+                // Guardar cambios
                 if (cambios)
                 {
                     bool actualizado = productoServicio.ActualizarProducto(producto);

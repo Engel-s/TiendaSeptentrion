@@ -120,8 +120,7 @@ namespace formstienda.capa_de_presentación
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+              
             }
         }
 
@@ -281,8 +280,7 @@ namespace formstienda.capa_de_presentación
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar salidas existentes: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
 
