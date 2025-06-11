@@ -305,7 +305,17 @@ namespace formstienda.capa_de_presentación
 
         private void ReporteOtrasSalidas_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                string filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ReporteOtrasSalidas.pdf");
+                GenerarPDF(filePath);
+                MostrarPDF(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar el reporte: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
