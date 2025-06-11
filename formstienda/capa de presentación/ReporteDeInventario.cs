@@ -17,6 +17,8 @@ using Microsoft.EntityFrameworkCore;
 using iText.Kernel.Geom;
 using iText.Layout.Borders;
 using iText.Kernel.Pdf.Canvas;
+using Path = System.IO.Path;
+using formstienda.Acceso_Datos.Email_Servicios;
 
 namespace formstienda.capa_de_presentación
 {
@@ -34,7 +36,18 @@ namespace formstienda.capa_de_presentación
 
         private void ReporteDeInventario_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                // Generar el PDF al cargar el formulario
+               string filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ReporteInventario.pdf");
+                GenerarPDF(filePath);
+                // Mostrar el PDF en el WebView
+                MostrarPDF(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el reporte: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void MostrarPDF(string rutaPDF)
@@ -46,6 +59,15 @@ namespace formstienda.capa_de_presentación
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Informes());
+            }
         }
 
         public void GenerarPDF(string filePath)

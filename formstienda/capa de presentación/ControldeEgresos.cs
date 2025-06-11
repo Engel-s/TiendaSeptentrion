@@ -33,7 +33,12 @@ namespace formstienda.capa_de_presentación
             DGCONTROLEGRESOS.AutoGenerateColumns = false;
             DGCONTROLEGRESOS.Columns.Clear();
 
-           
+            DGCONTROLEGRESOS.DefaultCellStyle = new DataGridViewCellStyle
+            {
+                ForeColor = Color.Black,
+                Font = new Font(DGCONTROLEGRESOS.Font, FontStyle.Regular)
+            };
+
             DGCONTROLEGRESOS.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 DataPropertyName = "FechaEgreso",
@@ -146,11 +151,7 @@ namespace formstienda.capa_de_presentación
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar egresos:\n{ex.Message}\n\n" +
-                               $"Detalles técnicos:\n{ex.InnerException?.Message}",
-                               "Error",
-                               MessageBoxButtons.OK,
-                               MessageBoxIcon.Error);
+               
             }
         }
 
@@ -180,8 +181,17 @@ namespace formstienda.capa_de_presentación
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {
+        {            
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Arqueo_Caja());
+            }
         }
         private void ControldeEgresos_Load(object sender, EventArgs e)
         {

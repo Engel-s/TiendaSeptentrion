@@ -49,8 +49,10 @@
             DGCONTROLEGRESOS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGCONTROLEGRESOS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DGCONTROLEGRESOS.Columns.AddRange(new DataGridViewColumn[] { Column5, Column2, Column3, Column4, Column1 });
+            DGCONTROLEGRESOS.GridColor = Color.Black;
             DGCONTROLEGRESOS.Location = new Point(30, 101);
             DGCONTROLEGRESOS.Name = "DGCONTROLEGRESOS";
+            DGCONTROLEGRESOS.ReadOnly = true;
             DGCONTROLEGRESOS.RowHeadersWidth = 51;
             DGCONTROLEGRESOS.Size = new Size(833, 260);
             DGCONTROLEGRESOS.TabIndex = 0;
@@ -61,6 +63,7 @@
             Column5.HeaderText = "Fecha";
             Column5.MinimumWidth = 6;
             Column5.Name = "Column5";
+            Column5.ReadOnly = true;
             Column5.Width = 120;
             // 
             // Column2
@@ -70,6 +73,7 @@
             Column2.HeaderText = "Cantidad";
             Column2.MinimumWidth = 6;
             Column2.Name = "Column2";
+            Column2.ReadOnly = true;
             Column2.Width = 125;
             // 
             // Column3
@@ -79,6 +83,7 @@
             Column3.HeaderText = "Motivo de engreso";
             Column3.MinimumWidth = 6;
             Column3.Name = "Column3";
+            Column3.ReadOnly = true;
             Column3.Width = 152;
             // 
             // Column4
@@ -87,19 +92,23 @@
             Column4.HeaderText = "Total de egreso córdobas";
             Column4.MinimumWidth = 6;
             Column4.Name = "Column4";
+            Column4.ReadOnly = true;
             // 
             // Column1
             // 
             Column1.HeaderText = "Total caja dólares";
             Column1.MinimumWidth = 6;
             Column1.Name = "Column1";
+            Column1.ReadOnly = true;
             // 
             // button1
             // 
+            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button1.BackColor = Color.FromArgb(3, 171, 229);
             button1.Cursor = Cursors.Hand;
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            button1.ForeColor = Color.Black;
             button1.Location = new Point(768, 410);
             button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
@@ -113,6 +122,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            label1.ForeColor = Color.Black;
             label1.Location = new Point(30, 46);
             label1.Name = "label1";
             label1.Size = new Size(65, 20);
