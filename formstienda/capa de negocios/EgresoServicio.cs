@@ -232,8 +232,10 @@ namespace formstienda.Servicios
 
         public List<AperturaCaja> ListarAperturaCaja(DateOnly fechaActual)
         {
+            var fechaHoy = DateOnly.FromDateTime(DateTime.Now);
+
             return _contexto.AperturaCajas
-                .Where(a => a.FechaApertura == fechaActual)
+                .Where(a => a.FechaApertura == fechaHoy && a.EstadoApertura == "Abierta")
                 .AsNoTracking()
                 .ToList();
         }

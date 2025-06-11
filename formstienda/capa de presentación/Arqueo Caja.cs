@@ -202,12 +202,25 @@ namespace formstienda
             return 0;
         }
 
-       
         private void button2_Click(object sender, EventArgs e)
         {
-            Apertura_Caja apertura = new Apertura_Caja();
-            apertura.Show();
-
+            var aperturaForm = new Apertura_Caja();
+            aperturaForm.OnAperturaCreada += RecargarDatosArqueo;
+            aperturaForm.Show();
+        }
+        
+        private void RecargarDatosArqueo()
+        {
+            
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(RecargarDatosArqueo));
+            }
+            else
+            {
+                Arqueo_Caja_Load(null, null);
+                CalcularTotales();            
+            }
         }
 
         private void btnCerrarCaja_Click(object sender, EventArgs e)
@@ -272,7 +285,7 @@ namespace formstienda
                     }
 
                     contexto.SaveChanges();
-
+                    Arqueo_Caja_Load(null, null); 
                 }
                 MessageBox.Show("Datos guardados correctamente.");
                 BloquearBotones();
@@ -303,7 +316,7 @@ namespace formstienda
             }
         }
 
-        private void Arqueo_Caja_Load(object sender, EventArgs e)
+        public void Arqueo_Caja_Load(object sender, EventArgs e)
         {
             try
             {
