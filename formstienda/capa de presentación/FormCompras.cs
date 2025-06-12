@@ -712,6 +712,8 @@ namespace formstienda
             txtbuscartelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             string numero = txtbuscartelefono.Text.Trim();
             string patronTelefono = @"^\d{8}$";
+            
+            
 
             if (!Regex.IsMatch(numero, patronTelefono))
             {
@@ -719,21 +721,42 @@ namespace formstienda
                     "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            var proveedor = proveedorServicio.buscarProvee(numero);
+
+
+            if (proveedor != null)
+            {
+                if (proveedor.EstadoProveedor == false)
+                {
+                    MessageBox.Show("Este proveedor está inactivo y no puede registrar una compra.",
+                        "Proveedor inactivo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    txtbuscartelefono.Clear();
+                    txtnombreproveedor.Clear();
+                    Desactivarcampos();
+                    return;
+                }
+
+                txtnombreproveedor.Text = proveedor.NombreProveedor + " " + proveedor.ApellidoProveedor;
+                txtbuscartelefono.Clear();
+                Activarcampos();
+            }
             else
             {
-                var proveedor = proveedorServicio.buscarProvee(numero);
-
-                if (proveedor != null)
-                {
-                    txtnombreproveedor.Text = proveedor.NombreProveedor + " " + proveedor.ApellidoProveedor;
-                    txtbuscartelefono.Clear();
-                    Activarcampos();
-                }
-                else
-                {
-                    MessageBox.Show("Proveedor no encontrado.");
-                }
+                MessageBox.Show("Proveedor no encontrado.");
             }
+            /*if (proveedor != null)
+            {
+                txtnombreproveedor.Text = proveedor.NombreProveedor + " " + proveedor.ApellidoProveedor;
+                txtbuscartelefono.Clear();
+                Activarcampos();
+            }
+            else
+            {
+                MessageBox.Show("Proveedor no encontrado.");
+            }*/
+
         }
 
 
