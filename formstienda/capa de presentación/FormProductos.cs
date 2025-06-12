@@ -34,7 +34,8 @@ namespace formstienda
             CargarCategorias();
             CargarComboMarca();
             CargarComboCategoria();
-            CargarProductos(); 
+            CargarProductos();
+            DGPRODUCTOS.ScrollBars = ScrollBars.Both;
 
             searchTimer = new System.Windows.Forms.Timer();
             searchTimer.Interval = 300; // 300 milisegundos de retraso
@@ -209,16 +210,27 @@ namespace formstienda
         {
             var listaMarcas = _marcaServicio.ListarMarcas();
 
+            DGMARCAS.AutoGenerateColumns = false; // Desactivar generación automática
             DGMARCAS.DataSource = null;
             DGMARCAS.DataSource = listaMarcas;
 
-            // Configurar nombres de columnas
-            if (DGMARCAS.Columns.Count > 0)
+            // Configurar columnas manualmente
+            if (DGMARCAS.Columns.Count == 0)
             {
-                DGMARCAS.Columns["IdMarca"].HeaderText = "ID";
-                DGMARCAS.Columns["Marca1"].HeaderText = "Nombre de Marca";
-                DGMARCAS.Columns["IdMarca"].ReadOnly = true; 
+                DGMARCAS.Columns.Add(new DataGridViewTextBoxColumn()
+                {
+                    Name = "IdMarca",
+                    HeaderText = "ID",
+                    DataPropertyName = "IdMarca",
+                    ReadOnly = true
+                });
 
+                DGMARCAS.Columns.Add(new DataGridViewTextBoxColumn()
+                {
+                    Name = "Marca1",
+                    HeaderText = "Nombre de Marca",
+                    DataPropertyName = "Marca1"
+                });
             }
         }
 
@@ -321,7 +333,6 @@ namespace formstienda
 
                 var producto = new Producto
                 {
-                    // Id_Producto no se incluye porque es autoincremental
                     ModeloProducto = txtNombreProduct.Text.Trim(),
                     CodigoProducto = txtCodigoProduct.Text.Trim(),
                     IdCategoria = Convert.ToInt32(cmbCategoriaProduc.SelectedValue),
@@ -444,8 +455,8 @@ namespace formstienda
 
             if (e.RowIndex >= 0)
             {
-                int idMarca = Convert.ToInt32(DGMARCAS.Rows[e.RowIndex].Cells["IdMarcas"].Value);
-                string nombreActual = DGMARCAS.Rows[e.RowIndex].Cells["Marca"].Value.ToString();
+                int idMarca = Convert.ToInt32(DGMARCAS.Rows[e.RowIndex].Cells["IdMarca"].Value);
+                string nombreActual = DGMARCAS.Rows[e.RowIndex].Cells["Marca1"].Value.ToString();
 
                 string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox(
                     "Ingrese el nuevo nombre de la marca:", "Editar Marca", nombreActual);
@@ -457,9 +468,9 @@ namespace formstienda
                     if (actualizado)
                     {
                         MessageBox.Show("Marca actualizada correctamente.");
-                        CargarMarcas();    
+                        CargarMarcas();       
                         CargarComboMarca();  
-                        CargarProductos();  
+                        CargarProductos();   
                     }
                     else
                     {

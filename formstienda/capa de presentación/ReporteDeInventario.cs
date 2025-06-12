@@ -19,6 +19,7 @@ using iText.Layout.Borders;
 using iText.Kernel.Pdf.Canvas;
 using Path = System.IO.Path;
 using formstienda.Acceso_Datos.Email_Servicios;
+using iText.IO.Image;
 
 namespace formstienda.capa_de_presentación
 {
@@ -85,7 +86,7 @@ namespace formstienda.capa_de_presentación
             PdfFont font = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA);
             PdfFont boldFont = PdfFontFactory.CreateFont(iText.IO.Font.Constants.StandardFonts.HELVETICA_BOLD);
 
-            // Agregar el logo
+            // Agregar el logo SOLO en la primera página
             try
             {
                 System.Drawing.Image img = formstienda.Properties.Resources.logo_actualizado_removebg_preview;
@@ -98,7 +99,7 @@ namespace formstienda.capa_de_presentación
 
                 iText.Layout.Element.Image logo = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(imgBytes))
                     .SetWidth(215)
-                    .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 200, pdf.GetDefaultPageSize().GetTop() - 150)
+                    .SetFixedPosition(1, pdf.GetDefaultPageSize().GetWidth() - 200, pdf.GetDefaultPageSize().GetTop() - 150)
                     .SetMarginTop(0);
 
                 document.Add(logo);
@@ -224,44 +225,6 @@ namespace formstienda.capa_de_presentación
             }
 
             document.Add(table);
-
-            // Marca de agua
-            try
-            {
-                byte[] watermarkImgBytes;
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    formstienda.Properties.Resources.logo_actualizado_removebg_preview.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    watermarkImgBytes = ms.ToArray();
-                }
-
-                float baseSize = 350;
-                float widthScale = 1.8f;
-                float watermarkWidth = baseSize * widthScale;
-                float watermarkHeight = baseSize;
-
-                iText.Layout.Element.Image watermark = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(watermarkImgBytes))
-                    .SetOpacity(0.1f)
-                    .SetWidth(watermarkWidth)
-                    .SetHeight(watermarkHeight)
-                    .SetFixedPosition(
-                        pdf.GetDefaultPageSize().GetWidth() / 2 - (watermarkWidth / 2),
-                        pdf.GetDefaultPageSize().GetHeight() / 2 - (watermarkHeight / 2),
-                        watermarkWidth);
-
-                for (int i = 1; i <= pdf.GetNumberOfPages(); i++)
-                {
-                    PdfPage page = pdf.GetPage(i);
-                    PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdf);
-                    new Canvas(canvas, page.GetPageSize())
-                        .Add(watermark)
-                        .Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al crear marca de agua: " + ex.Message);
-            }
 
             // Total de inversión
             float pageWidth = pdf.GetDefaultPageSize().GetWidth();

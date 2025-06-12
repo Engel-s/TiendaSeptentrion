@@ -11,7 +11,7 @@ namespace formstienda.capa_de_negocios
     public class MarcaServicio
     {
         // Listar todas las marcas
-        // Listar todas las marcas ordenadas por IdMarca de menor a mayor (ascendente)
+        
         public List<Marca> ListarMarcas()
         {
             try
@@ -21,7 +21,7 @@ namespace formstienda.capa_de_negocios
                     return _context.Marcas
                         .AsNoTracking()
                         .OrderBy(m => m.IdMarca)
-                        .ToList(); // Devuelve entidades reales Marca
+                        .ToList(); 
                 }
             }
             catch (Exception ex)
