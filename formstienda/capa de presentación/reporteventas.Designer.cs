@@ -65,6 +65,7 @@
             btnsalir.TabIndex = 4;
             btnsalir.Text = "Salir";
             btnsalir.UseVisualStyleBackColor = false;
+            btnsalir.Click += btnsalir_Click_1;
             // 
             // webview
             // 

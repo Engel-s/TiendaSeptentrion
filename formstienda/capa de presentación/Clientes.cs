@@ -216,7 +216,7 @@ namespace formstienda.capa_de_presentación
             Regex cedulaRegex = new Regex(@"^\d{13}[a-zA-Z]$");
             if (!cedulaRegex.IsMatch(cliente.CedulaCliente))
             {
-                MessageBox.Show("La cédula solo puede contener letras, números y guiones.");
+                MessageBox.Show("La cédula solo puede contener un formato de trece digitos seguido de una letra.");
                 return;
             }
 
@@ -226,6 +226,13 @@ namespace formstienda.capa_de_presentación
                 MessageBox.Show("Ingrese un número de teléfono válido (entre 8 y 15 dígitos).");
                 return;
             }
+            // Si es sujeto a crédito, validar que la colilla INSS esté presente
+            if (cliente.SujetoCredito == true && string.IsNullOrWhiteSpace(cliente.ColillaInssCliente))
+            {
+                MessageBox.Show("Debe ingresar la colilla INSS si el cliente es sujeto a crédito.");
+                return;
+            }
+
 
             // Validar si ya existe cliente con ese teléfono
             var clienteExistente = clienteServicio?.Listaclientes()
@@ -262,6 +269,7 @@ namespace formstienda.capa_de_presentación
         {
             lblcolilla.Visible = false;
             txtcolillainss.Visible = false;
+            txtcolillainss.Clear();
         }
 
         private void DGCLIENTES_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -288,8 +296,7 @@ namespace formstienda.capa_de_presentación
                 if (fila.Cells["SujetoCredito"].Value is bool valor)
                     sujetoCredito = valor;
 
-                // Validaciones
-              
+                // Validaciones básicas
                 Regex soloLetras = new Regex(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$");
                 if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellido) ||
                     string.IsNullOrWhiteSpace(direccion) || string.IsNullOrWhiteSpace(telefono))
@@ -323,6 +330,14 @@ namespace formstienda.capa_de_presentación
                     return;
                 }
 
+                // ✅ Validar colilla si es sujeto a crédito
+                if (sujetoCredito && string.IsNullOrWhiteSpace(colilla))
+                {
+                    MessageBox.Show("Debe ingresar la colilla INSS si el cliente es sujeto a crédito.");
+                    return;
+                }
+
+                // Crear y actualizar cliente
                 var clienteEditado = new Cliente
                 {
                     CedulaCliente = cedula,
@@ -338,7 +353,6 @@ namespace formstienda.capa_de_presentación
                     MessageBox.Show("Cliente actualizado correctamente");
                 else
                     MessageBox.Show("No se pudo actualizar el cliente");
-
             }
             catch (Exception ex)
             {

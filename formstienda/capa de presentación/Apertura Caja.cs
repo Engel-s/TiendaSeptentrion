@@ -81,6 +81,20 @@ namespace formstienda
                 return;
             }
 
+            // 🔔 Confirmar antes de guardar
+            DialogResult confirmacion = MessageBox.Show(
+                $"¿Desea registrar la apertura con:\n\n" +
+                $"- Monto de apertura: {montoApertura.ToString("N2")} C$ \n" +
+                $"- Tasa de cambio: {valorCambio.ToString("N2")} C$ por $1\n\n" +
+                "Esta acción no se puede revertir.",
+                "Confirmar apertura de caja",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (confirmacion != DialogResult.Yes)
+                return;
+
             // 4. Registrar nueva apertura
             var nuevaApertura = new AperturaCaja
             {
