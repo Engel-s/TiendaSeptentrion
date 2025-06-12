@@ -128,7 +128,6 @@ namespace formstienda
             // 
             // txtBuscarProducto
             // 
-            txtBuscarProducto.Anchor = AnchorStyles.Top;
             txtBuscarProducto.Location = new Point(196, 258);
             txtBuscarProducto.Margin = new Padding(2);
             txtBuscarProducto.Name = "txtBuscarProducto";
