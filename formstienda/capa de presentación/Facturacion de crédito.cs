@@ -36,6 +36,7 @@ namespace formstienda.capa_de_presentación
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            btnRegistrarPago_Click();
             ProcesarPago();
 
             using var context = new DbTiendaSeptentrionContext();
@@ -54,7 +55,37 @@ namespace formstienda.capa_de_presentación
 
         }
 
-        
+        public void btnRegistrarPago_Click()
+        {
+
+        }
+
+        public void GenerarNuevaCuota(DbTiendaSeptentrionContext context, FacturaCredito facturaCredito, DetalleCredito ultimaCuota)
+        {
+
+            var credito = context.FacturaCreditos
+                .Include(c => c.DetalleCreditos)
+                .Include(dc => dc.IdVentaNavigation)
+                .FirstOrDefault(c => c.IdVenta == ultimaCuota.IdCredito);
+
+            if (credito != null && ultimaCuota.IdCredito > 0)
+            {
+                var nuevaCuota = new DetalleCredito
+                {
+                    IdCredito = ultimaCuota.IdCredito,
+                    NumeroCuota = ultimaCuota.NumeroCuota + 1,
+                    FechaPago = ultimaCuota.FechaPago.AddMonths(1),
+                    ValorCuota = credito.MontoCredito / credito.PlazosMeses,
+                    TotalCordobas = ultimaCuota.TotalCordobas,
+                    TotalDolares = ultimaCuota.TotalDolares,
+                    Observaciones = "Pendiente",
+                };
+
+                context.DetalleCreditos.Add(nuevaCuota);
+                context.SaveChanges();
+            }
+        }
+
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -64,6 +95,72 @@ namespace formstienda.capa_de_presentación
 
         private void checkBoxMoneda_CheckedChanged(object sender, EventArgs e)
         {
+        }
+
+        private void btnRegistrarPago_Click(object sender, EventArgs e)
+        {
+            if (Tabla_Credito.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una cuota para pagar.");
+                return;
+            }
+
+            var idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
+            var abonoTexto = txtTotalAbonado.Text;
+
+            if (!decimal.TryParse(abonoTexto, out decimal abono) || abono <= 0)
+            {
+                MessageBox.Show("Ingrese un monto válido.");
+                return;
+            }
+
+            try
+            {
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    var cuota = context.DetalleCreditos.Find(idDetalleCredito);
+
+                    if (cuota == null)
+                    {
+                        MessageBox.Show("Cuota no encontrada.");
+                        return;
+                    }
+
+                    if (cuota.FechaPago.Date < DateTime.Now.Date)
+                    {
+                        // Aplicar interés por mora si pasó la fecha
+                        cuota.InteresPagado = (float)((decimal)cuota.ValorCuota * 0.03m);
+                        cuota.ValorCuota += cuota.InteresPagado;
+                        cuota.TotalCordobas += cuota.InteresPagado;
+                    }
+
+                    // Registrar abono
+                    cuota.AbonoCapital += (float)abono;
+                    cuota.ValorCuota -= (float)abono;
+
+                    // Calcular nuevo saldo
+                    cuota.IdCreditoNavigation.NuevoSaldo = cuota.ValorCuota;
+
+                    // Guardar cambios
+                    context.SaveChanges();
+
+                    // Generar nueva cuota si aún hay saldo
+                    GenerarNuevaCuota(context, cuota);
+                }
+
+                MessageBox.Show("Pago procesado correctamente.");
+                CargarCreditosPendientes(); // Recargar tabla
+                LimpiarCamposPago();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al procesar el pago: {ex.Message}");
+            }
+        }
+
+        private void GenerarNuevaCuota(DbTiendaSeptentrionContext context, DetalleCredito cuota)
+        {
+            throw new NotImplementedException();
         }
 
         private void txtCordobas_TextChanged(object sender, EventArgs e)
@@ -126,9 +223,9 @@ namespace formstienda.capa_de_presentación
                         NFactura = f.IdCreditoNavigation.IdVenta,
                         f.NumeroCuota,
                         f.FechaPago,
-                         f.ValorCuota,
+                        f.ValorCuota,
                         Saldo = f.AbonoCapital,
-                        NuevoSaldo =  f.AbonoCapital - f.ValorCuota ,
+                        NuevoSaldo = f.ValorCuota - f.AbonoCapital,
                         f.Observaciones,
                         Total = f.TotalCordobas + f.TotalDolares
                     })
@@ -148,7 +245,7 @@ namespace formstienda.capa_de_presentación
             int idDetalleCredito;
             try
             {
-                idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
+                idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["Id_DetalleCredito"].Value);
             }
             catch
             {
@@ -165,40 +262,59 @@ namespace formstienda.capa_de_presentación
 
             try
             {
-                bool resultado = _creditoServicio.ProcesarPagoCredito(
-                    idDetalleCredito,
-                    abono
-                    ,checkBox1.Checked);
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    var cuota = context.DetalleCreditos.Find(idDetalleCredito);
 
-                if (resultado)
-                {
-                    MessageBox.Show("Pago procesado correctamente");
-                    LimpiarCamposPago();
-                    BuscarCreditos();
+                    if (cuota == null)
+                    {
+                        MessageBox.Show("Cuota no encontrada.");
+                        return;
+                    }
+
+                    if (cuota.FechaPago.Date < DateTime.Now.Date)
+                    {
+                        // Aplicar interés por mora si pasó la fecha
+                        cuota.InteresPagado = (float)((decimal)cuota.ValorCuota * 0.03m);
+                        cuota.TotalCordobas += (float)cuota.InteresPagado;
+                    }
+
+                    // Registrar abono
+                    cuota.AbonoCapital += (float)abono;
+                    cuota.ValorCuota -= (float)abono;
+
+                    // Calcular nuevo saldo
+                    cuota.IdCreditoNavigation.NuevoSaldo = cuota.ValorCuota;
+
+                    // Guardar cambios
+                    context.SaveChanges();
+
+                    // Generar nueva cuota si aún hay saldo
+                    GenerarNuevaCuota(context, cuota);
                 }
-                else
-                {
-                    MessageBox.Show("Error al procesar el pago");
-                }
+
+                MessageBox.Show("Pago procesado correctamente.");
+                LimpiarCamposPago();
+                BuscarCreditos();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error inesperado: " + ex.Message);
+                MessageBox.Show($"Error al procesar el pago: {ex.Message}");
             }
         }
 
         private void CargarCreditosPendientes()
         {
             txtDolares.Enabled = true;
-            //using (var context = new DbTiendaSeptentrionContext())
-            //{
-            //    var creditos = context.DetalleCreditos
-            //        .Where(d => d.ValorCuota > 0)
-            //        .ToList();
-            //    ////////////////////////////////////////////////////////////////////////////////
-            //    Tabla_Credito.DataSource = creditos;
-            //    Tabla_Credito.Columns[0].Visible = false;
-            //}
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                var creditos = context.DetalleCreditos
+                    .Where(d => d.ValorCuota > 0)
+                    .ToList();
+
+                Tabla_Credito.DataSource = creditos;
+                Tabla_Credito.Columns[0].Visible = false;
+            }
         }
 
         #endregion
@@ -207,6 +323,7 @@ namespace formstienda.capa_de_presentación
 
         private bool ValidarSeleccionCuota()
         {
+
             if (Tabla_Credito.CurrentRow == null)
             {
                 MessageBox.Show("Seleccione una cuota.");
@@ -214,6 +331,8 @@ namespace formstienda.capa_de_presentación
             }
             return true;
         }
+
+
 
         private bool ValidarMontoAbono()
         {
@@ -283,13 +402,19 @@ namespace formstienda.capa_de_presentación
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ReporteCredito reporteCredito = new ReporteCredito();
+            Reporte_de_Credito reporteCredito = new Reporte_de_Credito();
             reporteCredito.Show();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Reporte_de_Cliente_Moroso reporte_De_Cliente_Moroso = new Reporte_de_Cliente_Moroso();
+            reporte_De_Cliente_Moroso.Show();
         }
     }
 }

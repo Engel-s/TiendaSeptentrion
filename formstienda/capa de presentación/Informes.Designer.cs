@@ -1550,7 +1550,7 @@
             panel56.Controls.Add(panel58);
             panel56.Controls.Add(panel60);
             panel56.Controls.Add(panel61);
-            panel56.Location = new Point(1177, 515);
+            panel56.Location = new Point(1171, 487);
             panel56.Margin = new Padding(2, 5, 2, 5);
             panel56.MaximumSize = new Size(248, 352);
             panel56.MinimumSize = new Size(248, 352);

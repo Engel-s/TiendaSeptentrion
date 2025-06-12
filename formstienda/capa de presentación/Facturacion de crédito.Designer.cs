@@ -50,6 +50,7 @@
             txtCambio = new TextBox();
             button1 = new Button();
             checkBox1 = new CheckBox();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Tabla_Credito).BeginInit();
@@ -311,11 +312,22 @@
             checkBox1.Text = "checkBox1";
             checkBox1.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            button2.Location = new Point(912, 114);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 60;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Facturacion_de_crédito
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1045, 793);
+            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(txtCambio);
             Controls.Add(pictureBox6);
@@ -378,5 +390,6 @@
         private TextBox txtCambio;
         private Button button1;
         private CheckBox checkBox1;
+        private Button button2;
     }
 }

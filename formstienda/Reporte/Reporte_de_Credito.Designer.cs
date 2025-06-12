@@ -1,6 +1,6 @@
 ﻿namespace formstienda.Reporte
 {
-    partial class Reporte_de_Cliente_Moroso
+    partial class Reporte_de_Credito
     {
         /// <summary>
         /// Required designer variable.
@@ -38,6 +38,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.AllowDrop = true;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(webView21, 0, 1);
@@ -50,8 +51,8 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.Size = new Size(800, 450);
-            tableLayoutPanel1.TabIndex = 0;
+            tableLayoutPanel1.Size = new Size(800, 572);
+            tableLayoutPanel1.TabIndex = 1;
             // 
             // webView21
             // 
@@ -59,15 +60,16 @@
             webView21.CreationProperties = null;
             webView21.DefaultBackgroundColor = Color.White;
             webView21.Dock = DockStyle.Fill;
-            webView21.Location = new Point(3, 48);
+            webView21.Location = new Point(3, 60);
             webView21.Name = "webView21";
-            webView21.Size = new Size(794, 354);
+            webView21.Size = new Size(794, 451);
             webView21.TabIndex = 0;
             webView21.ZoomFactor = 1D;
+            webView21.Click += webView21_Click;
             // 
             // btnGenerarReporte
             // 
-            btnGenerarReporte.Location = new Point(3, 408);
+            btnGenerarReporte.Location = new Point(3, 517);
             btnGenerarReporte.Name = "btnGenerarReporte";
             btnGenerarReporte.Size = new Size(106, 39);
             btnGenerarReporte.TabIndex = 1;
@@ -84,14 +86,14 @@
             label1.TabIndex = 2;
             label1.Text = "Reporte de Crédito";
             // 
-            // Reporte_de_Cliente_Moroso
+            // Reporte_de_Credito
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 572);
             Controls.Add(tableLayoutPanel1);
-            Name = "Reporte_de_Cliente_Moroso";
-            Text = "Reporte_de_Cliente_Moroso";
+            Name = "Reporte_de_Credito";
+            Text = "Reporte_de_Credito";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
