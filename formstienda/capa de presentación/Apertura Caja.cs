@@ -19,6 +19,7 @@ namespace formstienda
         private TasaServicio? tasaServicio;
         private BindingList<TasaDeCambio> Listatasacambio;
         private BindingList<AperturaCaja> Listaapertura;
+        public event Action OnAperturaCreada;
 
         public Apertura_Caja()
         {
@@ -135,6 +136,7 @@ namespace formstienda
             }
 
             MessageBox.Show("✅ Apertura de caja y tasa de cambio procesadas correctamente.");
+            OnAperturaCreada?.Invoke();
             this.Hide();
         } // Oculta el formulario al terminar
 
