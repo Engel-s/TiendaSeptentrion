@@ -160,9 +160,29 @@ namespace formstienda.capa_de_negocios
             }
         }
 
-        public void DisminuirStock(string codigoProducto, int cantidad)
+        public bool DisminuirStock(string codigoProducto, int cantidad)
         {
-            using (var context = new DbTiendaSeptentrionContext())
+            try
+            {
+                var producto = _context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
+                if (producto != null)
+                {
+                    MessageBox.Show($"Disminuyendo stock de {producto.ModeloProducto} - Actual: {producto.StockActual}, Cantidad: {cantidad}");
+                    producto.StockActual -= cantidad;
+                    if (producto.StockActual < 0)
+                        producto.StockActual = 0;
+
+                    _context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en DisminuirStock: " + ex.Message);
+                return false;
+            }
+            /*using (var context = new DbTiendaSeptentrionContext())
             {
                 var producto = context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
                 if (producto != null)
@@ -170,7 +190,7 @@ namespace formstienda.capa_de_negocios
                     producto.StockActual -= cantidad;
                     context.SaveChanges();
                 }
-            }
+            }*/
         }
 
         public void ActualizarPrecioVenta(string codigoProducto, float nuevoPrecio)
