@@ -64,18 +64,18 @@ namespace formstienda.capa_de_presentación
                 DateOnly fechaFinOnly = DateOnly.FromDateTime(fechaFin);
 
                 ventas = context.DetalleDeVenta
-                    .Include(d => d.CodigoProductoNavigation)
-                        .ThenInclude(p => p.IdCategoriaNavigation)
-                    .Include(d => d.CodigoProductoNavigation.IdMarcaNavigation)
-                    .Include(d => d.IdVentaNavigation)
-                        .ThenInclude(v => v.CedulaClienteNavigation)
-                    .Where(d =>
-                        d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
-                        d.IdVentaNavigation.FechaVenta <= fechaFinOnly &&
-                        d.IdVentaNavigation.TipoPago == "Contado" &&
-                        d.IdVentaNavigation.CambiosFactura == null // Aquí se excluyen ventas con devolución
-                    )
-                    .ToList();
+                     .Include(d => d.CodigoProductoNavigation)
+                         .ThenInclude(p => p.IdCategoriaNavigation)
+                     .Include(d => d.CodigoProductoNavigation.IdMarcaNavigation)
+                     .Include(d => d.IdVentaNavigation)
+                          .ThenInclude(v => v.CedulaClienteNavigation)
+                          .Where(d =>
+                     d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
+                                 d.IdVentaNavigation.FechaVenta <= fechaFinOnly &&
+                                 d.IdVentaNavigation.TipoPago == "Contado" &&
+                                 d.Cantidad > 0 // <-- Solo detalles con cantidad positiva
+                             )
+                                    .ToList();
             }
 
 
@@ -165,17 +165,23 @@ namespace formstienda.capa_de_presentación
                     tabla.AddCell(Celda($"{producto.ModeloProducto} ({producto.CodigoProducto})"));
                     tabla.AddCell(Celda(producto.IdCategoriaNavigation?.Categoria ?? ""));
                     tabla.AddCell(Celda(producto.IdMarcaNavigation?.Marca1 ?? ""));
-                    tabla.AddCell(Celda(decimal.Parse(item.Precio ?? "0").ToString("C", cultura)));
+
+                    decimal precio = decimal.TryParse(item.Precio, out var p) ? p : 0;
+                    decimal subtotalCalculado = precio * item.Cantidad;
+
+                    tabla.AddCell(Celda(precio.ToString("C", cultura)));
                     tabla.AddCell(Celda(item.Cantidad.ToString()));
-                    tabla.AddCell(Celda(item.SubTotal?.ToString("C", cultura) ?? "C$0.00"));
-
-                    // Eliminado: tabla.AddCell(Celda(ventum.TotalVenta.ToString("C", cultura)));
+                    tabla.AddCell(Celda(subtotalCalculado.ToString("C", cultura)));
                 }
-
                 doc.Add(tabla);
 
-                // ===== TOTAL VENTAS FINAL =====
-                double totalGeneral = ventas.Sum(v => v.SubTotal ?? 0);
+                // Total general corregido
+                decimal totalGeneral = ventas.Sum(v =>
+                {
+                    decimal precio = decimal.TryParse(v.Precio, out var p) ? p : 0;
+                    return precio * v.Cantidad;
+                });
+
                 var totalParagraph = new Paragraph($"\nTotal en ventas: {totalGeneral.ToString("C", cultura)}")
                     .SetFont(font)
                     .SetFontSize(12)
