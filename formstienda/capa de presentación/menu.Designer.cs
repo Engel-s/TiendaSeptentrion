@@ -115,7 +115,7 @@
             // iconPictureBox1
             // 
             iconPictureBox1.BackColor = Color.FromArgb(0, 122, 204);
-            iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.User;
+            iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.PowerOff;
             iconPictureBox1.IconColor = Color.White;
             iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconPictureBox1.IconSize = 43;

@@ -167,7 +167,7 @@ namespace formstienda.capa_de_negocios
                 var producto = _context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
                 if (producto != null)
                 {
-                    MessageBox.Show($"Disminuyendo stock de {producto.ModeloProducto} - Actual: {producto.StockActual}, Cantidad: {cantidad}");
+                    
                     producto.StockActual -= cantidad;
                     if (producto.StockActual < 0)
                         producto.StockActual = 0;
@@ -182,15 +182,6 @@ namespace formstienda.capa_de_negocios
                 MessageBox.Show("Error en DisminuirStock: " + ex.Message);
                 return false;
             }
-            /*using (var context = new DbTiendaSeptentrionContext())
-            {
-                var producto = context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
-                if (producto != null)
-                {
-                    producto.StockActual -= cantidad;
-                    context.SaveChanges();
-                }
-            }*/
         }
 
         public void ActualizarPrecioVenta(string codigoProducto, float nuevoPrecio)

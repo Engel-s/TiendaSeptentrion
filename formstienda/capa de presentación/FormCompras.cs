@@ -682,8 +682,7 @@ namespace formstienda
 
                         txtsubtotalcompra.Text = listadetallecompra
                                                                     .Where(x => x.IdCompra == listacompra.Last().IdCompra)
-                                                                    .Sum(x => x.SubtotalCompra).ToString("C", new CultureInfo("es-NI"));
-                        
+                                                                    .Sum(x => x.SubtotalCompra).ToString("C", new CultureInfo("es-NI"));  
                     }
                     else
                     {
