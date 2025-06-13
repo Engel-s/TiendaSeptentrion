@@ -167,7 +167,7 @@ namespace formstienda.capa_de_negocios
                 var producto = _context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
                 if (producto != null)
                 {
-                    MessageBox.Show($"Disminuyendo stock de {producto.ModeloProducto} - Actual: {producto.StockActual}, Cantidad: {cantidad}");
+                    //MessageBox.Show($"Disminuyendo stock de {producto.ModeloProducto} - Actual: {producto.StockActual}, Cantidad: {cantidad}");
                     producto.StockActual -= cantidad;
                     if (producto.StockActual < 0)
                         producto.StockActual = 0;
