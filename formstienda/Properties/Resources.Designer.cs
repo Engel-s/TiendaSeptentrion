@@ -163,6 +163,16 @@ namespace formstienda.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap reinicio_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("reinicio-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TecnoGroup {
             get {
                 object obj = ResourceManager.GetObject("TecnoGroup", resourceCulture);

@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(menu));
             MenuVertical = new FlowLayoutPanel();
             panel3 = new Panel();
-            label2 = new Label();
+            lblusuario = new Label();
             iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             btncompras = new FontAwesome.Sharp.IconButton();
             btnventas = new FontAwesome.Sharp.IconButton();
@@ -53,8 +53,6 @@
             lblpantallainfo = new Label();
             btnminimizar = new PictureBox();
             PanelContenedor = new Panel();
-            lblhora = new Label();
-            lblfecha = new Label();
             timerhora = new System.Windows.Forms.Timer(components);
             MenuVertical.SuspendLayout();
             panel3.SuspendLayout();
@@ -63,7 +61,6 @@
             ((System.ComponentModel.ISupportInitialize)Salir).BeginInit();
             ((System.ComponentModel.ISupportInitialize)maximizar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btnminimizar).BeginInit();
-            PanelContenedor.SuspendLayout();
             SuspendLayout();
             // 
             // MenuVertical
@@ -87,14 +84,14 @@
             MenuVertical.Location = new Point(0, 35);
             MenuVertical.Margin = new Padding(3, 4, 3, 4);
             MenuVertical.Name = "MenuVertical";
-            MenuVertical.Size = new Size(239, 847);
+            MenuVertical.Size = new Size(239, 964);
             MenuVertical.TabIndex = 1;
             MenuVertical.Paint += MenuVertical_Paint;
             // 
             // panel3
             // 
             panel3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel3.Controls.Add(label2);
+            panel3.Controls.Add(lblusuario);
             panel3.Controls.Add(iconPictureBox1);
             panel3.Location = new Point(3, 4);
             panel3.Margin = new Padding(3, 4, 3, 4);
@@ -103,17 +100,17 @@
             panel3.TabIndex = 1;
             panel3.Paint += panel3_Paint;
             // 
-            // label2
+            // lblusuario
             // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
-            label2.Location = new Point(91, 13);
-            label2.Name = "label2";
-            label2.Size = new Size(108, 22);
-            label2.TabIndex = 0;
-            label2.Text = "USUARIO";
-            label2.Click += label2_Click;
+            lblusuario.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lblusuario.AutoSize = true;
+            lblusuario.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+            lblusuario.Location = new Point(91, 13);
+            lblusuario.Name = "lblusuario";
+            lblusuario.Size = new Size(109, 25);
+            lblusuario.TabIndex = 0;
+            lblusuario.Text = "USUARIO";
+            lblusuario.Click += label2_Click;
             // 
             // iconPictureBox1
             // 
@@ -135,7 +132,7 @@
             btncompras.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btncompras.FlatAppearance.BorderColor = SystemColors.Window;
             btncompras.FlatStyle = FlatStyle.Flat;
-            btncompras.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btncompras.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btncompras.ForeColor = Color.White;
             btncompras.IconChar = FontAwesome.Sharp.IconChar.ShoppingBasket;
             btncompras.IconColor = Color.BlanchedAlmond;
@@ -158,7 +155,7 @@
             // 
             btnventas.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnventas.FlatStyle = FlatStyle.Flat;
-            btnventas.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnventas.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnventas.ForeColor = Color.White;
             btnventas.IconChar = FontAwesome.Sharp.IconChar.Store;
             btnventas.IconColor = Color.BlanchedAlmond;
@@ -181,7 +178,7 @@
             // 
             btndevoluciones.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btndevoluciones.FlatStyle = FlatStyle.Flat;
-            btndevoluciones.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btndevoluciones.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btndevoluciones.ForeColor = Color.White;
             btndevoluciones.IconChar = FontAwesome.Sharp.IconChar.TentArrowTurnLeft;
             btndevoluciones.IconColor = Color.BlanchedAlmond;
@@ -204,7 +201,7 @@
             // 
             btncreditos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btncreditos.FlatStyle = FlatStyle.Flat;
-            btncreditos.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btncreditos.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btncreditos.ForeColor = Color.White;
             btncreditos.IconChar = FontAwesome.Sharp.IconChar.SackDollar;
             btncreditos.IconColor = Color.BlanchedAlmond;
@@ -227,7 +224,7 @@
             // 
             btnproductos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnproductos.FlatStyle = FlatStyle.Flat;
-            btnproductos.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnproductos.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnproductos.ForeColor = Color.White;
             btnproductos.IconChar = FontAwesome.Sharp.IconChar.ProductHunt;
             btnproductos.IconColor = Color.BlanchedAlmond;
@@ -250,7 +247,7 @@
             // 
             btnsalidasinventario.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnsalidasinventario.FlatStyle = FlatStyle.Flat;
-            btnsalidasinventario.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnsalidasinventario.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnsalidasinventario.ForeColor = Color.White;
             btnsalidasinventario.IconChar = FontAwesome.Sharp.IconChar.StoreAltSlash;
             btnsalidasinventario.IconColor = Color.BlanchedAlmond;
@@ -273,7 +270,7 @@
             // 
             btnclientes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnclientes.FlatStyle = FlatStyle.Flat;
-            btnclientes.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnclientes.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnclientes.ForeColor = Color.White;
             btnclientes.IconChar = FontAwesome.Sharp.IconChar.PeopleGroup;
             btnclientes.IconColor = Color.BlanchedAlmond;
@@ -296,7 +293,7 @@
             // 
             btnproveedores.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnproveedores.FlatStyle = FlatStyle.Flat;
-            btnproveedores.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnproveedores.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnproveedores.ForeColor = Color.White;
             btnproveedores.IconChar = FontAwesome.Sharp.IconChar.PeopleLine;
             btnproveedores.IconColor = Color.BlanchedAlmond;
@@ -319,7 +316,7 @@
             // 
             btnusuarios.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnusuarios.FlatStyle = FlatStyle.Flat;
-            btnusuarios.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnusuarios.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnusuarios.ForeColor = Color.White;
             btnusuarios.IconChar = FontAwesome.Sharp.IconChar.PersonCircleCheck;
             btnusuarios.IconColor = Color.BlanchedAlmond;
@@ -342,7 +339,7 @@
             // 
             btnarqueo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnarqueo.FlatStyle = FlatStyle.Flat;
-            btnarqueo.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnarqueo.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnarqueo.ForeColor = Color.White;
             btnarqueo.IconChar = FontAwesome.Sharp.IconChar.PiggyBank;
             btnarqueo.IconColor = Color.BlanchedAlmond;
@@ -365,7 +362,7 @@
             // 
             btninformes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btninformes.FlatStyle = FlatStyle.Flat;
-            btninformes.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btninformes.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btninformes.ForeColor = Color.White;
             btninformes.IconChar = FontAwesome.Sharp.IconChar.FileZipper;
             btninformes.IconColor = Color.BlanchedAlmond;
@@ -388,7 +385,7 @@
             // 
             btnmantenimiento.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnmantenimiento.FlatStyle = FlatStyle.Flat;
-            btnmantenimiento.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnmantenimiento.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnmantenimiento.ForeColor = Color.White;
             btnmantenimiento.IconChar = FontAwesome.Sharp.IconChar.Tools;
             btnmantenimiento.IconColor = Color.BlanchedAlmond;
@@ -411,7 +408,7 @@
             // 
             btnacercade.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btnacercade.FlatStyle = FlatStyle.Flat;
-            btnacercade.Font = new Font("Calisto MT", 8F, FontStyle.Bold);
+            btnacercade.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold);
             btnacercade.ForeColor = Color.White;
             btnacercade.IconChar = FontAwesome.Sharp.IconChar.Uncharted;
             btnacercade.IconColor = Color.BlanchedAlmond;
@@ -440,7 +437,7 @@
             panel2.Location = new Point(0, 0);
             panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1554, 35);
+            panel2.Size = new Size(1577, 35);
             panel2.TabIndex = 3;
             panel2.Paint += panel2_Paint;
             // 
@@ -454,7 +451,7 @@
             Salir.IconColor = Color.Black;
             Salir.IconFont = FontAwesome.Sharp.IconFont.Auto;
             Salir.IconSize = 28;
-            Salir.Location = new Point(1502, 3);
+            Salir.Location = new Point(1525, 3);
             Salir.Margin = new Padding(3, 4, 3, 4);
             Salir.Name = "Salir";
             Salir.Size = new Size(30, 28);
@@ -473,7 +470,7 @@
             maximizar.IconColor = Color.Black;
             maximizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             maximizar.IconSize = 31;
-            maximizar.Location = new Point(1448, 2);
+            maximizar.Location = new Point(1471, 2);
             maximizar.Margin = new Padding(3, 4, 3, 4);
             maximizar.Name = "maximizar";
             maximizar.Size = new Size(49, 31);
@@ -485,7 +482,7 @@
             // lblpantallainfo
             // 
             lblpantallainfo.BackColor = Color.FromArgb(0, 122, 204);
-            lblpantallainfo.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
+            lblpantallainfo.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             lblpantallainfo.ForeColor = Color.White;
             lblpantallainfo.Location = new Point(0, 0);
             lblpantallainfo.Name = "lblpantallainfo";
@@ -493,13 +490,13 @@
             lblpantallainfo.TabIndex = 0;
             lblpantallainfo.Text = "MENÚ PRINCIPAL";
             lblpantallainfo.TextAlign = ContentAlignment.MiddleCenter;
-            lblpantallainfo.Click += label1_Click;
+            lblpantallainfo.Click += lblpantallainfo_Click;
             // 
             // btnminimizar
             // 
             btnminimizar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnminimizar.Image = (Image)resources.GetObject("btnminimizar.Image");
-            btnminimizar.Location = new Point(1397, 2);
+            btnminimizar.Location = new Point(1420, 2);
             btnminimizar.Margin = new Padding(3, 2, 3, 2);
             btnminimizar.Name = "btnminimizar";
             btnminimizar.Size = new Size(40, 28);
@@ -510,43 +507,13 @@
             // 
             // PanelContenedor
             // 
-            PanelContenedor.Controls.Add(lblhora);
-            PanelContenedor.Controls.Add(lblfecha);
             PanelContenedor.Dock = DockStyle.Fill;
             PanelContenedor.Location = new Point(239, 35);
             PanelContenedor.Margin = new Padding(3, 4, 3, 4);
             PanelContenedor.Name = "PanelContenedor";
-            PanelContenedor.Size = new Size(1315, 847);
+            PanelContenedor.Size = new Size(1338, 964);
             PanelContenedor.TabIndex = 2;
             PanelContenedor.Paint += PanelContenedor_Paint;
-            // 
-            // lblhora
-            // 
-            lblhora.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            lblhora.AutoSize = true;
-            lblhora.Font = new Font("Calisto MT", 29F, FontStyle.Bold);
-            lblhora.ForeColor = Color.Black;
-            lblhora.Location = new Point(1083, 755);
-            lblhora.Name = "lblhora";
-            lblhora.Size = new Size(152, 55);
-            lblhora.TabIndex = 2;
-            lblhora.Text = "label1";
-            lblhora.TextAlign = ContentAlignment.BottomRight;
-            lblhora.Click += lblhora_Click;
-            // 
-            // lblfecha
-            // 
-            lblfecha.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lblfecha.AutoSize = true;
-            lblfecha.Font = new Font("Calisto MT", 29F, FontStyle.Bold);
-            lblfecha.ForeColor = Color.Black;
-            lblfecha.Location = new Point(16, 775);
-            lblfecha.Name = "lblfecha";
-            lblfecha.Size = new Size(152, 55);
-            lblfecha.TabIndex = 1;
-            lblfecha.Text = "label1";
-            lblfecha.TextAlign = ContentAlignment.BottomLeft;
-            lblfecha.Click += lblfecha_Click;
             // 
             // timerhora
             // 
@@ -557,12 +524,13 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1554, 882);
+            ClientSize = new Size(1577, 999);
             Controls.Add(PanelContenedor);
             Controls.Add(MenuVertical);
             Controls.Add(panel2);
             ForeColor = Color.White;
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 4, 3, 4);
             Name = "menu";
             Text = "Menu_Inicio";
@@ -575,8 +543,6 @@
             ((System.ComponentModel.ISupportInitialize)Salir).EndInit();
             ((System.ComponentModel.ISupportInitialize)maximizar).EndInit();
             ((System.ComponentModel.ISupportInitialize)btnminimizar).EndInit();
-            PanelContenedor.ResumeLayout(false);
-            PanelContenedor.PerformLayout();
             ResumeLayout(false);
 
         }
@@ -609,5 +575,6 @@
         private System.Windows.Forms.Timer timerhora;
         private System.Windows.Forms.Label lblhora;
         private System.Windows.Forms.PictureBox btnminimizar;
+        private Label lblusuario;
     }
 }

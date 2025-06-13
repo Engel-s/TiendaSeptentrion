@@ -1,19 +1,21 @@
+
+
 using formstienda.capa_de_presentación;
+using static formstienda.Arqueo_Caja;
 
 namespace formstienda
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
+                
         [STAThread]
         static void Main()
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Facturacion_de_crédito());
+            Application.Run(new Login());
+            Application.ApplicationExit += (s, e) => CacheArqueo.Limpiar();
         }
     }
 }

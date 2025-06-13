@@ -28,31 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            DGCONTROLEGRESOS = new DataGridView();
             Column5 = new DataGridViewTextBoxColumn();
-            Column1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             Column3 = new DataGridViewTextBoxColumn();
             Column4 = new DataGridViewTextBoxColumn();
+            Column1 = new DataGridViewTextBoxColumn();
             button1 = new Button();
             label1 = new Label();
-            textBox1 = new TextBox();
+            txtBuscarEgresos = new TextBox();
+            dateTimePicker1 = new DateTimePicker();
             pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DGCONTROLEGRESOS).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // DGCONTROLEGRESOS
             // 
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column5, Column1, Column2, Column3, Column4 });
-            dataGridView1.Location = new Point(38, 131);
-            dataGridView1.Margin = new Padding(4, 4, 4, 4);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(902, 325);
-            dataGridView1.TabIndex = 0;
+            DGCONTROLEGRESOS.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            DGCONTROLEGRESOS.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DGCONTROLEGRESOS.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGCONTROLEGRESOS.Columns.AddRange(new DataGridViewColumn[] { Column5, Column2, Column3, Column4, Column1 });
+            DGCONTROLEGRESOS.GridColor = Color.Black;
+            DGCONTROLEGRESOS.Location = new Point(30, 101);
+            DGCONTROLEGRESOS.Name = "DGCONTROLEGRESOS";
+            DGCONTROLEGRESOS.ReadOnly = true;
+            DGCONTROLEGRESOS.RowHeadersWidth = 51;
+            DGCONTROLEGRESOS.Size = new Size(833, 260);
+            DGCONTROLEGRESOS.TabIndex = 0;
             // 
             // Column5
             // 
@@ -60,16 +63,8 @@
             Column5.HeaderText = "Fecha";
             Column5.MinimumWidth = 6;
             Column5.Name = "Column5";
+            Column5.ReadOnly = true;
             Column5.Width = 120;
-            // 
-            // Column1
-            // 
-            Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Column1.FillWeight = 44.2067757F;
-            Column1.HeaderText = "Hora";
-            Column1.MinimumWidth = 6;
-            Column1.Name = "Column1";
-            Column1.Width = 125;
             // 
             // Column2
             // 
@@ -78,6 +73,7 @@
             Column2.HeaderText = "Cantidad";
             Column2.MinimumWidth = 6;
             Column2.Name = "Column2";
+            Column2.ReadOnly = true;
             Column2.Width = 125;
             // 
             // Column3
@@ -87,75 +83,95 @@
             Column3.HeaderText = "Motivo de engreso";
             Column3.MinimumWidth = 6;
             Column3.Name = "Column3";
+            Column3.ReadOnly = true;
             Column3.Width = 152;
             // 
             // Column4
             // 
             Column4.FillWeight = 267.379669F;
-            Column4.HeaderText = "Total de egreso";
+            Column4.HeaderText = "Total de egreso córdobas";
             Column4.MinimumWidth = 6;
             Column4.Name = "Column4";
+            Column4.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            Column1.HeaderText = "Total caja dólares";
+            Column1.MinimumWidth = 6;
+            Column1.Name = "Column1";
+            Column1.ReadOnly = true;
             // 
             // button1
             // 
+            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button1.BackColor = Color.FromArgb(3, 171, 229);
             button1.Cursor = Cursors.Hand;
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            button1.Location = new Point(960, 512);
-            button1.Margin = new Padding(4, 2, 4, 2);
+            button1.ForeColor = Color.Black;
+            button1.Location = new Point(768, 410);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(150, 40);
+            button1.Size = new Size(120, 32);
             button1.TabIndex = 64;
             button1.Text = "Salir";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label1.Location = new Point(38, 58);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(30, 46);
             label1.Name = "label1";
-            label1.Size = new Size(79, 22);
+            label1.Size = new Size(65, 20);
             label1.TabIndex = 65;
             label1.Text = "Buscar:";
             // 
-            // textBox1
+            // txtBuscarEgresos
             // 
-            textBox1.Location = new Point(152, 54);
-            textBox1.Margin = new Padding(4, 4, 4, 4);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(468, 31);
-            textBox1.TabIndex = 66;
+            txtBuscarEgresos.Location = new Point(101, 43);
+            txtBuscarEgresos.Name = "txtBuscarEgresos";
+            txtBuscarEgresos.Size = new Size(375, 27);
+            txtBuscarEgresos.TabIndex = 66;
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(482, 43);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(280, 27);
+            dateTimePicker1.TabIndex = 67;
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // pictureBox1
             // 
-            pictureBox1.Anchor = AnchorStyles.Top;
-            pictureBox1.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
-            pictureBox1.Location = new Point(644, 40);
-            pictureBox1.Margin = new Padding(4, 2, 4, 2);
+            pictureBox1.Image = Properties.Resources.reinicio_removebg_preview;
+            pictureBox1.Location = new Point(768, 43);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(71, 59);
+            pictureBox1.Size = new Size(41, 27);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 67;
+            pictureBox1.TabIndex = 68;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += btnLimpiarFiltro_Click;
+            pictureBox1.DoubleClick += btnLimpiarFiltro_Click;
             // 
             // ControldeEgresos
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1128, 578);
+            ClientSize = new Size(902, 462);
             Controls.Add(pictureBox1);
-            Controls.Add(textBox1);
+            Controls.Add(dateTimePicker1);
+            Controls.Add(txtBuscarEgresos);
             Controls.Add(label1);
             Controls.Add(button1);
-            Controls.Add(dataGridView1);
+            Controls.Add(DGCONTROLEGRESOS);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(4, 4, 4, 4);
             Name = "ControldeEgresos";
             Text = "ControldeEgresos";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Load += ControldeEgresos_Load;
+            ((System.ComponentModel.ISupportInitialize)DGCONTROLEGRESOS).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -163,15 +179,16 @@
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView DGCONTROLEGRESOS;
         private Button button1;
         private Label label1;
-        private TextBox textBox1;
-        private PictureBox pictureBox1;
+        private TextBox txtBuscarEgresos;
         private DataGridViewTextBoxColumn Column5;
-        private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column4;
+        private DataGridViewTextBoxColumn Column1;
+        private DateTimePicker dateTimePicker1;
+        private PictureBox pictureBox1;
     }
 }
