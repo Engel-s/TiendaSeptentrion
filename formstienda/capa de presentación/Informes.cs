@@ -368,8 +368,7 @@ namespace formstienda
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                // Aquí puedes agregar lógica adicional si es necesario  
-
+                
                 string tempFilePath = Path.Combine(
                     Path.GetTempPath(),
                     $"Reporte_Otras_Salidas_{DateTime.Now:yyyyMMddHHmmss}.pdf"
