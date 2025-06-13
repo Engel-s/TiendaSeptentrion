@@ -30,6 +30,4 @@ public partial class DetalleCredito
     public string UsuarioRegistro { get; set; } = null!;
 
     public virtual FacturaCredito IdCreditoNavigation { get; set; } = null!;
-
-
 }

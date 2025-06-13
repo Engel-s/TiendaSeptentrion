@@ -136,7 +136,7 @@
             panel50 = new Panel();
             dateTimePicker15 = new DateTimePicker();
             label35 = new Label();
-            button10 = new Button();
+            Cliente_Moroso = new Button();
             dateTimePicker16 = new DateTimePicker();
             label36 = new Label();
             label37 = new Label();
@@ -1398,7 +1398,7 @@
             panel50.BorderStyle = BorderStyle.FixedSingle;
             panel50.Controls.Add(dateTimePicker15);
             panel50.Controls.Add(label35);
-            panel50.Controls.Add(button10);
+            panel50.Controls.Add(Cliente_Moroso);
             panel50.Controls.Add(dateTimePicker16);
             panel50.Controls.Add(label36);
             panel50.Controls.Add(label37);
@@ -1406,7 +1406,7 @@
             panel50.Controls.Add(panel52);
             panel50.Controls.Add(panel54);
             panel50.Controls.Add(panel55);
-            panel50.Location = new Point(26, 866);
+            panel50.Location = new Point(1177, 487);
             panel50.Margin = new Padding(2, 5, 2, 5);
             panel50.MaximumSize = new Size(248, 352);
             panel50.MinimumSize = new Size(248, 352);
@@ -1435,16 +1435,17 @@
             label35.TabIndex = 5;
             label35.Text = "Fecha final:";
             // 
-            // button10
+            // Cliente_Moroso
             // 
-            button10.BackColor = Color.FromArgb(3, 171, 229);
-            button10.Location = new Point(76, 266);
-            button10.Margin = new Padding(2, 5, 2, 5);
-            button10.Name = "button10";
-            button10.Size = new Size(78, 38);
-            button10.TabIndex = 4;
-            button10.Text = "Generar";
-            button10.UseVisualStyleBackColor = false;
+            Cliente_Moroso.BackColor = Color.FromArgb(3, 171, 229);
+            Cliente_Moroso.Location = new Point(76, 266);
+            Cliente_Moroso.Margin = new Padding(2, 5, 2, 5);
+            Cliente_Moroso.Name = "Cliente_Moroso";
+            Cliente_Moroso.Size = new Size(78, 38);
+            Cliente_Moroso.TabIndex = 4;
+            Cliente_Moroso.Text = "Generar";
+            Cliente_Moroso.UseVisualStyleBackColor = false;
+            Cliente_Moroso.Click += Cliente_Moroso_Click;
             // 
             // dateTimePicker16
             // 
@@ -1492,12 +1493,12 @@
             label38.AutoSize = true;
             label38.BackColor = Color.FromArgb(3, 171, 229);
             label38.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label38.Location = new Point(20, 17);
+            label38.Location = new Point(-1, 18);
             label38.Margin = new Padding(2, 0, 2, 0);
             label38.Name = "label38";
-            label38.Size = new Size(177, 20);
+            label38.Size = new Size(246, 20);
             label38.TabIndex = 0;
-            label38.Text = " Reporte de crédito:";
+            label38.Text = " Reporte de Cliente Moroso:";
             // 
             // panel52
             // 
@@ -1550,7 +1551,7 @@
             panel56.Controls.Add(panel58);
             panel56.Controls.Add(panel60);
             panel56.Controls.Add(panel61);
-            panel56.Location = new Point(1171, 487);
+            panel56.Location = new Point(1176, 106);
             panel56.Margin = new Padding(2, 5, 2, 5);
             panel56.MaximumSize = new Size(248, 352);
             panel56.MinimumSize = new Size(248, 352);
@@ -1589,6 +1590,7 @@
             button11.TabIndex = 4;
             button11.Text = "Generar";
             button11.UseVisualStyleBackColor = false;
+            button11.Click += button11_Click;
             // 
             // dateTimePicker18
             // 
@@ -1748,6 +1750,7 @@
             panel63.Name = "panel63";
             panel63.Size = new Size(246, 58);
             panel63.TabIndex = 7;
+            panel63.Paint += panel63_Paint;
             // 
             // label46
             // 
@@ -2129,7 +2132,7 @@
         private System.Windows.Forms.Panel panel50;
         private System.Windows.Forms.DateTimePicker dateTimePicker15;
         private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button Cliente_Moroso;
         private System.Windows.Forms.DateTimePicker dateTimePicker16;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label37;
