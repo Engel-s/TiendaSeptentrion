@@ -39,6 +39,78 @@ namespace formstienda.capa_de_presentación
             btnRegistrarPago_Click();
             ProcesarPago();
 
+            if (Tabla_Credito.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una cuota para pagar.");
+                return;
+            }
+
+            var idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["Id_DetalleCredito"].Value);
+            var abonoTexto = txtTotalAbonado.Text;
+
+            if (!decimal.TryParse(abonoTexto, out decimal abono) || abono <= 0)
+            {
+                MessageBox.Show("Ingrese un monto válido.");
+                return;
+            }
+
+            try
+            {
+                using (var context2 = new DbTiendaSeptentrionContext())
+                {
+                    var cuota = context2.DetalleCreditos.Find(idDetalleCredito);
+                    if (cuota == null)
+                    {
+                        MessageBox.Show("Cuota no encontrada.");
+                        return;
+                    }
+
+                    // Aplicar interés por mora si pasó la fecha
+                    if (cuota.FechaPago.Date < DateTime.Now.Date)
+                    {
+                        cuota.InteresPagado = (float)((decimal)cuota.ValorCuota * 0.03m);
+                        cuota.TotalCordobas += (float)cuota.InteresPagado;
+                    }
+
+                    // Registrar abono
+                    cuota.AbonoCapital += (float)abono;
+                    cuota.ValorCuota -= (float)abono;
+
+                    // Actualizar la factura de crédito
+                    var facturaCredito = cuota.IdCreditoNavigation;
+                    facturaCredito.TotalAbonado += (float)abono;
+                    facturaCredito.NuevoSaldo = facturaCredito.MontoCredito - facturaCredito.TotalAbonado;
+
+                    // Cambiar estado de crédito si está pagado
+                    if (facturaCredito.TotalAbonado >= facturaCredito.MontoCredito)
+                    {
+                        //facturaCredito.TotalAbonado = "pagado";
+                    }
+
+                    // Guardar cambios
+                    context2.SaveChanges();
+
+                    // Generar nueva cuota si aún hay saldo
+                    if (cuota.ValorCuota > 0)
+                    {
+                        GenerarNuevaCuota(context2, cuota);
+                    }
+                    else
+                    {
+                        // Si la cuota está completamente pagada, ajustar la fecha de pago para la próxima cuota
+                        cuota.FechaPago = cuota.FechaPago.AddMonths(1);
+                    }
+
+                    MessageBox.Show("Pago procesado correctamente.");
+                    CargarCreditosPendientes(); // Recargar tabla
+                    LimpiarCamposPago();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al procesar el pago: {ex.Message}");
+            }
+
             using var context = new DbTiendaSeptentrionContext();
 
             // Obtener el registro que deseas actualizar (ajusta la consulta según tu estructura)
@@ -60,31 +132,29 @@ namespace formstienda.capa_de_presentación
 
         }
 
-        public void GenerarNuevaCuota(DbTiendaSeptentrionContext context, FacturaCredito facturaCredito, DetalleCredito ultimaCuota)
+        public void GenerarNuevaCuota(DbTiendaSeptentrionContext context, FacturaCredito facturaCredito, DetalleCredito ultimaCuota, object detalleCredito)
         {
-
-            var credito = context.FacturaCreditos
-                .Include(c => c.DetalleCreditos)
-                .Include(dc => dc.IdVentaNavigation)
-                .FirstOrDefault(c => c.IdVenta == ultimaCuota.IdCredito);
-
-            if (credito != null && ultimaCuota.IdCredito > 0)
+            var cuota = context.DetalleCreditos.Find(detalleCredito);
+            var valorCuota = facturaCredito.MontoCredito / facturaCredito.PlazosMeses;
+            var facturacredito = cuota.IdCreditoNavigation;
+            var nuevaCuota = new DetalleCredito
             {
-                var nuevaCuota = new DetalleCredito
-                {
-                    IdCredito = ultimaCuota.IdCredito,
-                    NumeroCuota = ultimaCuota.NumeroCuota + 1,
-                    FechaPago = ultimaCuota.FechaPago.AddMonths(1),
-                    ValorCuota = credito.MontoCredito / credito.PlazosMeses,
-                    TotalCordobas = ultimaCuota.TotalCordobas,
-                    TotalDolares = ultimaCuota.TotalDolares,
-                    Observaciones = "Pendiente",
-                };
+                IdCredito = cuota.IdCredito,
+                NumeroCuota = cuota.NumeroCuota + 1,
+                FechaPago = cuota.FechaPago.AddMonths(1),
+                ValorCuota = facturaCredito.NuevoSaldo / facturaCredito.PlazosMeses,
+                TotalCordobas = cuota.TotalCordobas,
+                TotalDolares = cuota.TotalDolares,
+                Observaciones = "Pendiente",
+                AbonoCapital = 0,
+                InteresPagado = 0
+            };
 
-                context.DetalleCreditos.Add(nuevaCuota);
+            context.DetalleCreditos.Add(nuevaCuota);
                 context.SaveChanges();
             }
-        }
+        
+
 
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -219,15 +289,14 @@ namespace formstienda.capa_de_presentación
                     .Select(f => new
                     {
 
-                        f.IdDetalleCredito,
-                        NFactura = f.IdCreditoNavigation.IdVenta,
-                        f.NumeroCuota,
-                        f.FechaPago,
-                        f.ValorCuota,
-                        Saldo = f.AbonoCapital,
-                        NuevoSaldo = f.ValorCuota - f.AbonoCapital,
-                        f.Observaciones,
-                        Total = f.TotalCordobas + f.TotalDolares
+                        //DetalleCredito,
+                        //NFactura = f.IdCreditoNavigation.IdVenta,
+                        //f.NumeroCuota,
+                        //f.FechaPago,
+                        //f.ValorCuota,
+                        //Saldo = f.AbonoCapital, // Mostrar AbonoCapital en lugar de NuevoSaldo
+                        //Observaciones = f.Observaciones,
+                        //Total = f.TotalCordobas + f.TotalDolares
                     })
                     .ToList();
 
@@ -402,9 +471,37 @@ namespace formstienda.capa_de_presentación
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Reporte_de_Credito reporteCredito = new Reporte_de_Credito();
+            ReporteDeCredito reporteCredito = new ReporteDeCredito();
             reporteCredito.Show();
+
+            try
+            {
+                // Validar fechas  
+                if (dateTimePickerFechaInicialMotivo.Value > dateTimePickerFechaFinalMotivo.Value)
+                {
+                    MessageBox.Show("La fecha inicial no puede ser mayor que la fecha final", "Error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var fechaInicio = dateTimePickerFechaInicialMotivo.Value;
+                var fechaFin = dateTimePickerFechaFinalMotivo.Value;
+
+                var menuForm = this.MdiParent as menu ?? Application.OpenForms.OfType<menu>().FirstOrDefault();
+
+                if (menuForm != null)
+                {
+                    menuForm.AbrirformInPanel(new ReporteDeCredito(fechaInicio, fechaFin));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
+
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {

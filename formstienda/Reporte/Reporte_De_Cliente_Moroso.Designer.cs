@@ -1,6 +1,6 @@
 ﻿namespace formstienda.Reporte
 {
-    partial class Reporte_de_Cliente_Moroso
+    partial class Reporte_De_Cliente_Moroso
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
-            btnGenerarReporte = new Button();
+            btnSalirReporteCredito = new Button();
             label1 = new Label();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
@@ -41,7 +41,7 @@
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(webView21, 0, 1);
-            tableLayoutPanel1.Controls.Add(btnGenerarReporte, 0, 2);
+            tableLayoutPanel1.Controls.Add(btnSalirReporteCredito, 0, 2);
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
@@ -51,7 +51,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.Size = new Size(800, 450);
-            tableLayoutPanel1.TabIndex = 0;
+            tableLayoutPanel1.TabIndex = 2;
             // 
             // webView21
             // 
@@ -65,15 +65,15 @@
             webView21.TabIndex = 0;
             webView21.ZoomFactor = 1D;
             // 
-            // btnGenerarReporte
+            // btnSalirReporteCredito
             // 
-            btnGenerarReporte.Location = new Point(3, 408);
-            btnGenerarReporte.Name = "btnGenerarReporte";
-            btnGenerarReporte.Size = new Size(106, 39);
-            btnGenerarReporte.TabIndex = 1;
-            btnGenerarReporte.Text = "Generar PDF";
-            btnGenerarReporte.UseVisualStyleBackColor = true;
-            btnGenerarReporte.Click += btnGenerarReporte_Click;
+            btnSalirReporteCredito.Location = new Point(3, 408);
+            btnSalirReporteCredito.Name = "btnSalirReporteCredito";
+            btnSalirReporteCredito.Size = new Size(106, 39);
+            btnSalirReporteCredito.TabIndex = 1;
+            btnSalirReporteCredito.Text = "Salir ";
+            btnSalirReporteCredito.UseVisualStyleBackColor = true;
+            btnSalirReporteCredito.Click += btnSalirReporteCredito_Click;
             // 
             // label1
             // 
@@ -84,14 +84,15 @@
             label1.TabIndex = 2;
             label1.Text = "Reporte de Crédito";
             // 
-            // Reporte_de_Cliente_Moroso
+            // Reporte_De_Cliente_Moroso
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(tableLayoutPanel1);
-            Name = "Reporte_de_Cliente_Moroso";
-            Text = "Reporte_de_Cliente_Moroso";
+            Name = "Reporte_De_Cliente_Moroso";
+            Text = "Reporte_De_Cliente_Moroso";
+            Load += Reporte_De_Cliente_Moroso_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
@@ -102,7 +103,7 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
-        private Button btnGenerarReporte;
+        private Button btnSalirReporteCredito;
         private Label label1;
     }
 }
