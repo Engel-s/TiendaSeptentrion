@@ -55,7 +55,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     public virtual DbSet<VistaArqueoCajaPorPeriodoCajero> VistaArqueoCajaPorPeriodoCajeros { get; set; }
 
-    public virtual DbSet<VistaFacturaCredito> VistaFacturaCreditos { get; set; }
+    public virtual DbSet<VistaDetalleCreditoCliente> VistaDetalleCreditoClientes { get; set; }
 
     public virtual DbSet<VistaInventarioActual> VistaInventarioActuals { get; set; }
 
@@ -65,7 +65,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-I4VC35H;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -591,44 +591,42 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.TotalEfectivoDolar).HasColumnName("Total_Efectivo_Dolar");
         });
 
-        modelBuilder.Entity<VistaFacturaCredito>(entity =>
+        modelBuilder.Entity<VistaDetalleCreditoCliente>(entity =>
         {
             entity
                 .HasNoKey()
-                .ToView("Vista_Factura_Credito");
+                .ToView("Vista_Detalle_Credito_Cliente");
 
-            entity.Property(e => e.CedulaCliente)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasColumnName("Cedula_Cliente");
-            entity.Property(e => e.Cliente)
-                .HasMaxLength(1001)
+            entity.Property(e => e.Categoría)
+                .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.CuotasPagadas).HasColumnName("Cuotas_Pagadas");
-            entity.Property(e => e.EstadoCredito)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("Estado_Credito");
-            entity.Property(e => e.FechaFinal).HasColumnName("Fecha_Final");
-            entity.Property(e => e.FechaInicio).HasColumnName("Fecha_Inicio");
-            entity.Property(e => e.FechaVenta).HasColumnName("Fecha_Venta");
-            entity.Property(e => e.IdCredito).HasColumnName("Id_Credito");
-            entity.Property(e => e.IdVenta).HasColumnName("Id_Venta");
-            entity.Property(e => e.InteresMensual).HasColumnName("Interes_Mensual");
-            entity.Property(e => e.MontoCredito).HasColumnName("Monto_Credito");
-            entity.Property(e => e.NuevoSaldo).HasColumnName("Nuevo_Saldo");
-            entity.Property(e => e.Observaciones).IsUnicode(false);
-            entity.Property(e => e.PlazosMeses).HasColumnName("Plazos_Meses");
-            entity.Property(e => e.TotalAbonado).HasColumnName("Total_Abonado");
-            entity.Property(e => e.TotalPagado).HasColumnName("Total_Pagado");
-            entity.Property(e => e.TotalVenta).HasColumnName("Total_Venta");
-            entity.Property(e => e.UltimoPago)
+            entity.Property(e => e.Dirección)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.FechaDePago)
                 .HasColumnType("datetime")
-                .HasColumnName("Ultimo_Pago");
-            entity.Property(e => e.UsuarioRegistro)
-                .HasMaxLength(50)
+                .HasColumnName("Fecha de pago");
+            entity.Property(e => e.FechaDeVenta).HasColumnName("Fecha de Venta");
+            entity.Property(e => e.Marca)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.NombreDelCliente)
+                .HasMaxLength(1001)
                 .IsUnicode(false)
-                .HasColumnName("Usuario_Registro");
+                .HasColumnName("Nombre del cliente");
+            entity.Property(e => e.PrecioDeVenta)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("Precio de venta");
+            entity.Property(e => e.Producto)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.Subtotal).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.TeléfonoCliente)
+                .HasMaxLength(8)
+                .IsUnicode(false)
+                .HasColumnName("Teléfono Cliente");
+            entity.Property(e => e.Total).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.TotalCrédito).HasColumnName("Total Crédito");
         });
 
         modelBuilder.Entity<VistaInventarioActual>(entity =>
