@@ -81,7 +81,7 @@
             Precio = new DataGridViewTextBoxColumn();
             Cantidad = new DataGridViewTextBoxColumn();
             Subtotal = new DataGridViewTextBoxColumn();
-            eliminar = new DataGridViewTextBoxColumn();
+            eliminar = new DataGridViewButtonColumn();
             label5 = new Label();
             label15 = new Label();
             btncancelar = new Button();
@@ -543,6 +543,7 @@
             btnnuevo.TabIndex = 118;
             btnnuevo.Text = "Nuevo";
             btnnuevo.UseVisualStyleBackColor = false;
+            btnnuevo.Click += btnnuevo_Click_1;
             // 
             // btnguardar
             // 
@@ -626,6 +627,7 @@
             dgmostrar.RowTemplate.Height = 24;
             dgmostrar.Size = new Size(1122, 442);
             dgmostrar.TabIndex = 105;
+            dgmostrar.CellClick += dgmostrar_CellClick;
             // 
             // CodigoProducto
             // 
@@ -675,6 +677,9 @@
             eliminar.HeaderText = "Eliminar";
             eliminar.MinimumWidth = 8;
             eliminar.Name = "eliminar";
+            eliminar.Resizable = DataGridViewTriState.True;
+            eliminar.SortMode = DataGridViewColumnSortMode.Automatic;
+            eliminar.Text = "🗑️";
             // 
             // label5
             // 
@@ -1174,14 +1179,6 @@
         private Label label22;
         private TextBox txtcedula;
         private Label lblcedula;
-        private DataGridViewTextBoxColumn CodigoProducto;
-        private DataGridViewTextBoxColumn Modelo;
-        private DataGridViewTextBoxColumn Categoria;
-        private DataGridViewTextBoxColumn Marca;
-        private DataGridViewTextBoxColumn Precio;
-        private DataGridViewTextBoxColumn Cantidad;
-        private DataGridViewTextBoxColumn Subtotal;
-        private DataGridViewTextBoxColumn eliminar;
         private Label lblnumeroplazos;
         private TextBox txtinteresparaloscreditos;
         private Label lblinteres;
@@ -1195,5 +1192,13 @@
         private Label label16;
         private Label label6;
         private Label label4;
+        private DataGridViewTextBoxColumn CodigoProducto;
+        private DataGridViewTextBoxColumn Modelo;
+        private DataGridViewTextBoxColumn Categoria;
+        private DataGridViewTextBoxColumn Marca;
+        private DataGridViewTextBoxColumn Precio;
+        private DataGridViewTextBoxColumn Cantidad;
+        private DataGridViewTextBoxColumn Subtotal;
+        private DataGridViewButtonColumn eliminar;
     }
 }

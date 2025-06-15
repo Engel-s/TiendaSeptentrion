@@ -34,7 +34,8 @@ namespace formstienda
             CargarCategorias();
             CargarComboMarca();
             CargarComboCategoria();
-            CargarProductos(); 
+            CargarProductos();
+            DGPRODUCTOS.ScrollBars = ScrollBars.Both;
 
             searchTimer = new System.Windows.Forms.Timer();
             searchTimer.Interval = 300; // 300 milisegundos de retraso
@@ -65,12 +66,13 @@ namespace formstienda
                     {
                         p.CodigoProducto,
                         p.ModeloProducto,
-                        PrecioVenta = $"C$ {p.PrecioVenta:N2}", // Formatear con símbolo y 2 decimales
+                        PrecioVenta = $"C$ {p.PrecioVenta:N2}",
                         p.StockActual,
                         p.StockMinimo,
                         Marca = p.IdMarcaNavigation?.Marca1 ?? "N/A",
                         Categoria = p.IdCategoriaNavigation?.Categoria ?? "N/A",
-                        p.EstadoProducto,
+                        Estado = p.EstadoProducto ? "Activo" : "Inactivo", 
+                        EstadoValor = p.EstadoProducto 
                     });
 
                 if (!string.IsNullOrWhiteSpace(filtro))
@@ -80,7 +82,7 @@ namespace formstienda
                         p.ModeloProducto.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                         p.Marca.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
                         p.Categoria.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
-                        p.EstadoProducto.ToString().Contains(filtro, StringComparison.OrdinalIgnoreCase)
+                        p.Estado.Contains(filtro, StringComparison.OrdinalIgnoreCase)
                     );
                 }
 
@@ -88,7 +90,7 @@ namespace formstienda
                 DGPRODUCTOS.DataSource = null;
                 DGPRODUCTOS.DataSource = listaProductos;
 
-                // Configurar el nombre de la columna en el DataGridView
+                // Configurar las columnas
                 if (DGPRODUCTOS.Columns["CodigoProducto"] != null)
                 {
                     DGPRODUCTOS.Columns["CodigoProducto"].HeaderText = "Código";
@@ -99,20 +101,46 @@ namespace formstienda
                     DGPRODUCTOS.Columns["ModeloProducto"].HeaderText = "Nombre";
                 }
 
-                // Configurar la columna de precio para que mantenga el formato
                 if (DGPRODUCTOS.Columns["PrecioVenta"] != null)
                 {
                     DGPRODUCTOS.Columns["PrecioVenta"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 }
+
+                // Ocultar la columna del valor booleano
+                if (DGPRODUCTOS.Columns["EstadoValor"] != null)
+                {
+                    DGPRODUCTOS.Columns["EstadoValor"].Visible = false;
+                }
+
+                // Configurar estilo para la columna de estado
+                if (DGPRODUCTOS.Columns["Estado"] != null)
+                {
+                    DGPRODUCTOS.Columns["Estado"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopCenter;
+
+                    ////Color para estados
+                    //DGPRODUCTOS.CellFormatting += (s, e) =>
+                    //{
+                    //    if (e.ColumnIndex == DGPRODUCTOS.Columns["Estado"].Index && e.Value != null)
+                    //    {
+                    //        if (e.Value.ToString() == "Activo")
+                    //        {
+                    //            e.CellStyle.ForeColor = Color.Green;
+                    //            e.CellStyle.Font = new Font(DGPRODUCTOS.Font, FontStyle.Bold);
+                    //        }
+                    //        else
+                    //        {
+                    //            e.CellStyle.ForeColor = Color.Red;
+                    //        }
+                    //    }
+                    //};
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+               
             }
         }
 
-        //
         private void CargarComboCategoria()
         {
             try
@@ -121,15 +149,30 @@ namespace formstienda
                 var categorias = _categoriaServicio.ListarCategorias();
 
                 cmbCategoriaProduc.DataSource = categorias;
-                cmbCategoriaProduc.DisplayMember = "Categoria"; // el nombre de la categoría
-                cmbCategoriaProduc.ValueMember = "IdCategoria"; // opcional, por si luego necesitás el ID
+                cmbCategoriaProduc.DisplayMember = "Categoria";
+                cmbCategoriaProduc.ValueMember = "IdCategoria";
+
+                // Establecer el ComboBox en blanco inicialmente
+                cmbCategoriaProduc.SelectedIndex = -1;
+                cmbCategoriaProduc.Text = "Seleccione una categoría...";
+
+                // Opcional: cambiar el color del texto del placeholder
+                cmbCategoriaProduc.ForeColor = System.Drawing.Color.Gray;
+
+                // Evento para cambiar el color cuando seleccione algo
+                cmbCategoriaProduc.SelectedIndexChanged += (s, e) => {
+                    if (cmbCategoriaProduc.SelectedIndex != -1)
+                    {
+                        cmbCategoriaProduc.ForeColor = System.Drawing.Color.Black;
+                    }
+                };
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar categorías: " + ex.Message);
+              
             }
         }
-        //cargar combos marcas
+
         private void CargarComboMarca()
         {
             try
@@ -138,30 +181,56 @@ namespace formstienda
                 var marcas = servicio.ListarMarcas();
 
                 cmbMarcProduct.DataSource = marcas;
-                cmbMarcProduct.DisplayMember = "Marca1"; // Solo muestra el nombre de la marca
-                cmbMarcProduct.ValueMember = "IdMarca"; // Este valor se usa internamente si necesitas el ID
+                cmbMarcProduct.DisplayMember = "Marca1";
+                cmbMarcProduct.ValueMember = "IdMarca";
+
+                // Configurar para que aparezca vacío inicialmente
+                cmbMarcProduct.SelectedIndex = -1;
+                cmbMarcProduct.Text = "Seleccione una marca...";
+
+                // Opcional: cambiar color del texto placeholder
+                cmbMarcProduct.ForeColor = Color.Gray;
+
+                // Restaurar color al seleccionar
+                cmbMarcProduct.SelectionChangeCommitted += (s, e) => {
+                    if (cmbMarcProduct.SelectedIndex != -1)
+                    {
+                        cmbMarcProduct.ForeColor = SystemColors.WindowText;
+                    }
+                };
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar combos: " + ex.Message);
+
             }
         }
-                
+
         //cargar las marcas
         private void CargarMarcas()
         {
             var listaMarcas = _marcaServicio.ListarMarcas();
 
+            DGMARCAS.AutoGenerateColumns = false; // Desactivar generación automática
             DGMARCAS.DataSource = null;
             DGMARCAS.DataSource = listaMarcas;
 
-            // Configurar nombres de columnas
-            if (DGMARCAS.Columns.Count > 0)
+            // Configurar columnas manualmente
+            if (DGMARCAS.Columns.Count == 0)
             {
-                DGMARCAS.Columns["IdMarca"].HeaderText = "ID";
-                DGMARCAS.Columns["Marca1"].HeaderText = "Nombre de Marca";
-                DGMARCAS.Columns["IdMarca"].ReadOnly = true; // ID no editable
+                DGMARCAS.Columns.Add(new DataGridViewTextBoxColumn()
+                {
+                    Name = "IdMarca",
+                    HeaderText = "ID",
+                    DataPropertyName = "IdMarca",
+                    ReadOnly = true
+                });
 
+                DGMARCAS.Columns.Add(new DataGridViewTextBoxColumn()
+                {
+                    Name = "Marca1",
+                    HeaderText = "Nombre de Marca",
+                    DataPropertyName = "Marca1"
+                });
             }
         }
 
@@ -178,7 +247,7 @@ namespace formstienda
             {
                 DGCATEGORIAS.Columns["IdCategoria"].HeaderText = "ID";
                 DGCATEGORIAS.Columns["Categoria"].HeaderText = "Nombre de Categoría";
-                DGCATEGORIAS.Columns["IdCategoria"].ReadOnly = true; // ID no editable
+                DGCATEGORIAS.Columns["IdCategoria"].ReadOnly = true; 
             }
         }
 
@@ -229,8 +298,6 @@ namespace formstienda
         //
 
 
-
-
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
@@ -266,9 +333,8 @@ namespace formstienda
 
                 var producto = new Producto
                 {
-                    // Id_Producto no se incluye porque es autoincremental
                     ModeloProducto = txtNombreProduct.Text.Trim(),
-                    CodigoProducto = txtCodigoProduct.Text.Trim(), // Asumiendo que es opcional
+                    CodigoProducto = txtCodigoProduct.Text.Trim(),
                     IdCategoria = Convert.ToInt32(cmbCategoriaProduc.SelectedValue),
                     IdMarca = Convert.ToInt32(cmbMarcProduct.SelectedValue),
                     PrecioVenta = Convert.ToInt32(precioVenta),
@@ -283,7 +349,7 @@ namespace formstienda
                     MessageBox.Show("Producto agregado correctamente");
                     LimpiarCampos();
                     ActualizarListaProductos();
-                    CargarProductos(); // Refrescar el DataGridView
+                    CargarProductos();
 
                 }
             }
@@ -294,7 +360,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado: {ex.Message}");
+               
             }
         }
 
@@ -318,7 +384,7 @@ namespace formstienda
 
             return sb.ToString();
         }
-        // Método para limpiar los campos (ejemplo)
+        // Método para limpiar los campos
         private void LimpiarCampos()
         {
             txtNombreProduct.Text = "";
@@ -331,7 +397,7 @@ namespace formstienda
             txtNombreProduct.Focus();
         }
 
-        // Método para actualizar la lista de productos (ejemplo)
+        // Método para actualizar la lista de productos
         private void ActualizarListaProductos()
         {
             ListaProductos = productoServicio.ListarProductos();
@@ -352,8 +418,8 @@ namespace formstienda
             if (_categoriaServicio.AgregarCategoria(nombreCategoria))
             {
                 txtNuevaCategoria.Clear();
-                CargarCategorias();       // Refrescar el DataGrid
-                CargarComboCategoria();   // Refrescar el ComboBox también
+                CargarCategorias();  
+                CargarComboCategoria();  
                 MessageBox.Show("Categoría agregada correctamente");
             }
             else
@@ -389,8 +455,8 @@ namespace formstienda
 
             if (e.RowIndex >= 0)
             {
-                int idMarca = Convert.ToInt32(DGMARCAS.Rows[e.RowIndex].Cells["IdMarcas"].Value);
-                string nombreActual = DGMARCAS.Rows[e.RowIndex].Cells["Marca"].Value.ToString();
+                int idMarca = Convert.ToInt32(DGMARCAS.Rows[e.RowIndex].Cells["IdMarca"].Value);
+                string nombreActual = DGMARCAS.Rows[e.RowIndex].Cells["Marca1"].Value.ToString();
 
                 string nuevoNombre = Microsoft.VisualBasic.Interaction.InputBox(
                     "Ingrese el nuevo nombre de la marca:", "Editar Marca", nombreActual);
@@ -402,9 +468,9 @@ namespace formstienda
                     if (actualizado)
                     {
                         MessageBox.Show("Marca actualizada correctamente.");
-                        CargarMarcas();       // Refresca el grid de marcas
-                        CargarComboMarca();   // Refresca el ComboBox
-                        CargarProductos();    // Refresca la grilla de productos
+                        CargarMarcas();       
+                        CargarComboMarca();  
+                        CargarProductos();   
                     }
                     else
                     {
@@ -437,9 +503,9 @@ namespace formstienda
                     if (actualizado)
                     {
                         MessageBox.Show("Categoría actualizada correctamente.");
-                        CargarCategorias();       // Refrescar grilla de categorías
-                        CargarComboCategoria();   // Refrescar ComboBox
-                        CargarProductos();        // Refrescar grilla de productos para reflejar el cambio
+                        CargarCategorias();    
+                        CargarComboCategoria();  
+                        CargarProductos();   
                     }
                     else
                     {
@@ -475,6 +541,14 @@ namespace formstienda
 
                 bool cambios = false;
 
+                // Verificar si se hizo clic en la columna de estado
+                if (e.ColumnIndex == DGPRODUCTOS.Columns["Estado"].Index)
+                {
+                    // Invertir el estado actual
+                    producto.EstadoProducto = !producto.EstadoProducto;
+                    cambios = true;
+                }
+
                 // Controlar qué columna fue doble clickeada
                 switch (e.ColumnIndex)
                 {
@@ -498,11 +572,10 @@ namespace formstienda
                         break;
 
                     case 2: // Precio de venta
-                            // Eliminar el símbolo C$ si está presente para la edición
+                          
                         string precioActual = producto.PrecioVenta.ToString("0.00");
                         string nuevoPrecioStr = Microsoft.VisualBasic.Interaction.InputBox("Nuevo precio de venta (C$):", "Editar Producto", precioActual);
 
-                        // Eliminar el símbolo si el usuario lo copió
                         nuevoPrecioStr = nuevoPrecioStr.Replace("C$", "").Trim();
 
                         if (float.TryParse(nuevoPrecioStr, out float nuevoPrecio))
@@ -557,24 +630,17 @@ namespace formstienda
                         }
                         break;
 
-                    case 7: // Estado (checkbox)
-                        DialogResult respuesta = MessageBox.Show("¿Desea cambiar el estado del producto?", "Cambiar Estado", MessageBoxButtons.YesNo);
-                        if (respuesta == DialogResult.Yes)
-                        {
-                            producto.EstadoProducto = !producto.EstadoProducto; // Cambiar el valor actual
-                            cambios = true;
-                        }
-                        break;
+                    
                 }
 
-                // Si se realizaron cambios, intentar guardar
+                // Guardar cambios
                 if (cambios)
                 {
                     bool actualizado = productoServicio.ActualizarProducto(producto);
                     if (actualizado)
                     {
                         MessageBox.Show("Producto actualizado correctamente.");
-                        CargarProductos(); // Refrescar la grilla
+                        CargarProductos();
                     }
                     else
                     {
@@ -583,9 +649,6 @@ namespace formstienda
                 }
             }
         }
-
-        // 
-        
 
         private void pbBuscarProducto_Click(object sender, EventArgs e)
         {

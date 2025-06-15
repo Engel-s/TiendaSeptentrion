@@ -88,8 +88,11 @@ namespace formstienda.capa_de_presentación
 
         private void CargarMotivos()
         {
+            // Cargar motivos en el ComboBox
+            cmbMotivo.Items.Clear();
             var motivos = new List<string>
             {
+                "",
                 "Defecto de fábrica",
                 "Facturación errónea",
                 "Producto dañado",
@@ -117,8 +120,7 @@ namespace formstienda.capa_de_presentación
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+              
             }
         }
 
@@ -159,9 +161,11 @@ namespace formstienda.capa_de_presentación
                         return;
                     }
 
-                    if (cmbMotivo.SelectedItem == null)
+                    // Validación del motivo (verifica si es nulo o vacío)
+                    if (cmbMotivo.SelectedItem == null ||
+                        string.IsNullOrWhiteSpace(cmbMotivo.SelectedItem.ToString()))
                     {
-                        MessageBox.Show("Debe seleccionar un motivo", "Validación",
+                        MessageBox.Show("Debe seleccionar un motivo válido", "Validación",
                                       MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -179,7 +183,7 @@ namespace formstienda.capa_de_presentación
                     // Crear registro de salida - ahora usando directamente el código del producto
                     var salida = new OtrasSalidasDeInventario
                     {
-                        CodigoProducto = producto.CodigoProducto, // Usamos directamente el código
+                        CodigoProducto = producto.CodigoProducto,
                         CantidadSalir = cantidad,
                         MotivoSalida = cmbMotivo.SelectedItem.ToString(),
                         DescripcionSalida = txtDescripcion.Text,
@@ -221,6 +225,7 @@ namespace formstienda.capa_de_presentación
                 }
             }
         }
+        
 
         private void LimpiarCampos()
         {
@@ -247,7 +252,7 @@ namespace formstienda.capa_de_presentación
                 var salidasConProductos = (
                     from salida in _contexto.OtrasSalidasDeInventarios
                     join producto in _contexto.Productos
-                    on salida.CodigoProducto equals producto.CodigoProducto // Cambiado a CodigoProducto
+                    on salida.CodigoProducto equals producto.CodigoProducto
                     orderby salida.FechaSalida descending
                     select new
                     {
@@ -274,8 +279,7 @@ namespace formstienda.capa_de_presentación
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar salidas existentes: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
 

@@ -19,6 +19,7 @@ namespace formstienda
         private TasaServicio? tasaServicio;
         private BindingList<TasaDeCambio> Listatasacambio;
         private BindingList<AperturaCaja> Listaapertura;
+        public event Action OnAperturaCreada;
 
         public Apertura_Caja()
         {
@@ -26,54 +27,6 @@ namespace formstienda
             aperturaServicio = new AperturaServicio();
             tasaServicio = new TasaServicio();
         }
-
-        //private void btnabrircaja_Click(object sender, EventArgs e)
-        //{
-        //    var apertura = new AperturaCaja
-        //    {
-        //        FechaApertura = DateTime.Now,
-        //        HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
-
-        //        MontoApertura = decimal.Parse(txtMontoApertura.Text),
-        //        EstadoApertura = "Abierta",
-
-        //    }
-        //    ;
-
-        //    // Validar si ya hay una apertura hoy
-        //    //var aperturaExistente = aperturaServicio?.ListaAperturas()
-        //    //                                        .FirstOrDefault(a => a.FechaApertura.Date == DateTime.Today);
-        //    //if (aperturaExistente != null)
-        //    //{
-        //    //    MessageBox.Show("Ya se realizó una apertura hoy.");
-        //    //    return;
-        //    //}
-
-        //    aperturaServicio?.Agregarfondo(apertura);
-        //    //ListaAperturas?.Add(apertura);
-        //    MessageBox.Show("Apertura de caja registrada correctamente.");
-        //    var tasadecambio = new TasaDeCambio
-        //    {
-        //        FechaCambio = DateTime.Now,
-        //        ValorCambio = decimal.Parse(txtTasaCambio.Text),
-
-        //    };
-
-        //    // Validar si ya existe una tasa registrada hoy
-        //    //var tasaExistente = tasaServicio?.Listatasas()
-        //    //                                .FirstOrDefault(t => t.FechaCambio == tasa.FechaCambio);
-        //    //if (tasaExistente != null)
-        //    //{
-        //    //    MessageBox.Show("Ya hay una tasa registrada para hoy.");
-        //    //    return;
-        //    //}
-
-        //    tasaServicio?.AgregarTasa(tasadecambio);
-        //    //Listatasacambios?.Add(tasadecambio);
-        //    MessageBox.Show("Tasa de cambio registrada correctamente.");
-
-
-        //}
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -94,40 +47,56 @@ namespace formstienda
         {
             var fechaHoy = DateOnly.FromDateTime(DateTime.Now);
 
-            // 1. Verificar si ya hay una apertura abierta
+            // 1. Verificar si hay una apertura abierta
             var aperturaAbierta = aperturaServicio?.Listaapertura()
                                                    .FirstOrDefault(a => a.EstadoApertura == "Abierta");
 
             if (aperturaAbierta != null)
             {
-                MessageBox.Show("❌ Ya existe una apertura activa. No se puede abrir otra.");
-                return;
+                var respuesta = MessageBox.Show(
+                    "❗ Ya hay una apertura activa. ¿Deseas cerrarla y continuar con una nueva apertura?",
+                    "Apertura existente",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (respuesta == DialogResult.No)
+                    return;
+
+                // Cerrar apertura actual (actualización de estado)
+                aperturaAbierta.EstadoApertura = "Cerrada";
+                aperturaServicio?.ActualizarApertura(aperturaAbierta);
             }
 
-            // 2. Validar si ya existe una tasa de cambio hoy
-            var tasaExistente = tasaServicio?.Listatasacambios()
-                                             .FirstOrDefault(t => t.FechaCambio == fechaHoy);
-            if (tasaExistente != null)
-            {
-                MessageBox.Show("❌ Ya hay una tasa de cambio registrada para hoy.");
-                return;
-            }
-
-            // 3. Validar campos
+            // 2. Validar monto de apertura
             if (!float.TryParse(txtMontoApertura.Text, out float montoApertura) || montoApertura <= 0)
             {
                 MessageBox.Show("Ingrese un monto de apertura válido.");
                 return;
             }
 
+            // 3. Validar tasa de cambio
             if (!float.TryParse(txtTasaCambio.Text, out float valorCambio) || valorCambio <= 0)
             {
                 MessageBox.Show("Ingrese una tasa de cambio válida.");
                 return;
             }
 
-            // 4. Crear y guardar apertura
-            var apertura = new AperturaCaja
+            // 🔔 Confirmar antes de guardar
+            DialogResult confirmacion = MessageBox.Show(
+                $"¿Desea registrar la apertura con:\n\n" +
+                $"- Monto de apertura: {montoApertura.ToString("N2")} C$ \n" +
+                $"- Tasa de cambio: {valorCambio.ToString("N2")} C$ por $1\n\n" +
+                "Esta acción no se puede revertir.",
+                "Confirmar apertura de caja",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (confirmacion != DialogResult.Yes)
+                return;
+
+            // 4. Registrar nueva apertura
+            var nuevaApertura = new AperturaCaja
             {
                 FechaApertura = fechaHoy,
                 HoraApertura = TimeOnly.FromDateTime(DateTime.Now),
@@ -137,40 +106,53 @@ namespace formstienda
 
             using (var _context = new DbTiendaSeptentrionContext())
             {
-                // Guardar apertura primero
-                _context.AperturaCajas.Add(apertura);
+                _context.AperturaCajas.Add(nuevaApertura);
                 _context.SaveChanges();
 
-                // 5. Crear arqueo asociado a la apertura
+                // 5. Registrar arqueo vinculado
                 var arqueo = new ArqueoCaja
                 {
                     TotalEfectivoCordoba = 0,
                     TotalEfectivoDolar = 0,
                     FechaArqueo = DateTime.Now,
                     IdUsuario = (int)UsuarioActivo.ObtenerIdUsuario(),
-                    IdApertura = apertura.IdApertura // ahora sí está disponible
+                    IdApertura = nuevaApertura.IdApertura
                 };
 
                 _context.ArqueoCajas.Add(arqueo);
                 _context.SaveChanges();
             }
 
-            // 6. Crear y guardar tasa de cambio
-            var tasa = new TasaDeCambio
-            {
-                FechaCambio = fechaHoy,
-                ValorCambio = valorCambio
-            };
+            // 6. Registrar o actualizar tasa de cambio
+            var tasaHoy = tasaServicio?.Listatasacambios()
+                                       .FirstOrDefault(t => t.FechaCambio == fechaHoy);
 
-            if (!tasaServicio.AgregarTasa(tasa))
+            if (tasaHoy != null)
             {
-                MessageBox.Show("❌ Error al registrar la tasa de cambio.");
-                return;
+                // Actualizar tasa existente
+                tasaHoy.ValorCambio = valorCambio;
+                tasaServicio?.ActualizarTasa(tasaHoy);
+            }
+            else
+            {
+                // Registrar nueva tasa
+                var nuevaTasa = new TasaDeCambio
+                {
+                    FechaCambio = fechaHoy,
+                    ValorCambio = valorCambio
+                };
+
+                if (!tasaServicio.AgregarTasa(nuevaTasa))
+                {
+                    MessageBox.Show("❌ Error al registrar la tasa de cambio.");
+                    return;
+                }
             }
 
-            MessageBox.Show("✅ Apertura de caja, arqueo y tasa de cambio registrados correctamente.");
-            this.Hide(); // Ocultar ventana tras éxito
-        }
+            MessageBox.Show("✅ Apertura de caja y tasa de cambio procesadas correctamente.");
+            OnAperturaCreada?.Invoke();
+            this.Hide();
+        } // Oculta el formulario al terminar
 
         private void txtTasaCambio_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -185,27 +167,27 @@ namespace formstienda
             {
                 e.Handled = true;
                 int pos = txt.SelectionStart;
-                txt.Text = txt.Text.Insert(pos, ".");
+                txt.Text = txt.Text.Insert(pos, ",");
                 txt.SelectionStart = pos + 1;
                 return;
             }
 
             // Permitir solo dígitos o una sola coma
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',')
             {
                 e.Handled = true;
                 return;
             }
 
             // No permitir más de una coma
-            if (e.KeyChar == '.' && txt.Text.Contains('.'))
+            if (e.KeyChar == ',' && txt.Text.Contains(','))
             {
                 e.Handled = true;
                 return;
             }
 
             // Limitar coma a ser después de mínimo dos dígitos
-            if (e.KeyChar == '.' && txt.SelectionStart < 2)
+            if (e.KeyChar == ',' && txt.SelectionStart < 2)
             {
                 e.Handled = true;
             }
@@ -216,14 +198,14 @@ namespace formstienda
             string nuevoTexto = textoActual.Insert(posCursor, e.KeyChar.ToString());
 
             // Contar cuántos dígitos hay antes de la coma (o en total si no hay coma)
-            string parteAntesDeComa = nuevoTexto.Split('.')[0];
+            string parteAntesDeComa = nuevoTexto.Split(',')[0];
             int digitosAntesDeComa = parteAntesDeComa.Count(c => char.IsDigit(c));
 
             // Si se han escrito dos dígitos y no hay coma, insertar automáticamente
-            if (digitosAntesDeComa == 2 && !textoActual.Contains("."))
+            if (digitosAntesDeComa == 2 && !textoActual.Contains(","))
             {
                 e.Handled = true;
-                txt.Text = textoActual.Insert(posCursor, e.KeyChar + ".");
+                txt.Text = textoActual.Insert(posCursor, e.KeyChar + ",");
                 txt.SelectionStart = posCursor + 2;
                 return;
             }

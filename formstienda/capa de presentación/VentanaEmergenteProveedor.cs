@@ -53,10 +53,19 @@ namespace formstienda.capa_de_presentación
         private void button1_Click(object sender, EventArgs e)
         {
             txttelefonoproveedor.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            var codigoruc = txtcodigorucproveedor.Text.Trim().Replace("-", "");
+            string patronCodigoRuc = @"^\d{13}[A-Z]{1}$";
+
+            if (!Regex.IsMatch(codigoruc, patronCodigoRuc))
+            {
+                MessageBox.Show("El formato del codigo RUC es incorrecto.",
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             var proveedor = new Proveedor
             {
-                CodigoRuc = txtcodigorucproveedor.Text,
+                CodigoRuc = codigoruc,
                 NombreProveedor = txtnombreproveedor.Text,
                 ApellidoProveedor = txtapeliidoproveedor.Text,
                 TelefonoProveedor = txttelefonoproveedor.Text,
@@ -74,16 +83,6 @@ namespace formstienda.capa_de_presentación
                 return;
             }
 
-            var codigoruc = txtcodigorucproveedor.Text.Trim();
-            string patronCodigoRuc = @"^\d{3}-\d{6}-\d{4}[A-Z]{1}$";
-
-            if (!Regex.IsMatch(codigoruc, patronCodigoRuc))
-            {
-                MessageBox.Show("El formato del codigo RUC es incorrecto.",
-                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
 
             var telefonoProveedor = txttelefonoproveedor.Text.Trim();
             string patronTelefono = @"^\d{8}$";
@@ -95,30 +94,36 @@ namespace formstienda.capa_de_presentación
                 return;
             }
 
-            //Validar existencias del proveedor
-            var proveedorExistente = proveedorServicio.ListarProveedores()
-                .FirstOrDefault(p => p.CodigoRuc == proveedor.CodigoRuc
-                || !string.IsNullOrWhiteSpace(proveedor.CorreoProveedor) && p.CorreoProveedor == proveedor.CorreoProveedor);
+            var rucDuplicado = proveedorServicio.ListarProveedores()
+                .FirstOrDefault(p => p.CodigoRuc == proveedor.CodigoRuc);
 
-            if (proveedorExistente != null)
+            if (rucDuplicado != null)
             {
-                if (proveedorExistente.CodigoRuc == proveedor.CodigoRuc)
-                {
-                    MessageBox.Show("Este proveedor ya existe, verifique el codigo ruc."
-                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                MessageBox.Show("Este proveedor ya existe, verifique el código RUC.",
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                if (proveedorExistente.TelefonoProveedor == proveedor.TelefonoProveedor)
+            var telefonoDuplicado = proveedorServicio.ListarProveedores()
+                .FirstOrDefault(p => p.TelefonoProveedor == proveedor.TelefonoProveedor);
+
+            if (telefonoDuplicado != null)
+            {
+                MessageBox.Show("Este proveedor ya existe, verifique el número de teléfono.",
+                    "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(proveedor.CorreoProveedor))
+            {
+                var correoDuplicado = proveedorServicio.ListarProveedores()
+                    .FirstOrDefault(p => p.CorreoProveedor == proveedor.CorreoProveedor);
+
+                if (correoDuplicado != null)
                 {
-                    MessageBox.Show("Este proveedor ya existe, verifique el numero de telefono"
-                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                if (proveedorExistente.CorreoProveedor == proveedor.CorreoProveedor)
-                {
-                    MessageBox.Show("Este proveedor ya existe, verifique el correo electronico"
-                        , "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Este proveedor ya existe, verifique el correo electrónico.",
+                        "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }

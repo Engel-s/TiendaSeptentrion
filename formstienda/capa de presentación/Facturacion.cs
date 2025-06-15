@@ -3,9 +3,11 @@ using formstienda.Datos;
 using System.ComponentModel;
 using System.Data;
 using System.Globalization;
-using System.Text.RegularExpressions;
-using static formstienda.Login;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using static formstienda.Login;
+using formstienda.capa_de_presentación;
 
 
 
@@ -24,7 +26,7 @@ namespace formstienda
         private TasaServicio tasaServicio;
         private int NUEVOIDVENTAREGISTRO;
         public int STOCKACTUALPRODUCTO;
-        
+
 
         private BindingList<Cliente>? Listacliente;
 
@@ -242,7 +244,7 @@ namespace formstienda
             rbcontado.Checked = true;
 
             ocultarderegistro();
-         
+
 
 
 
@@ -284,8 +286,33 @@ namespace formstienda
             var tasa = tasaServicio.ObtenerTasaDeHoy();
             if (tasa == null)
             {
-                MessageBox.Show("No hay tasa de cambio registrada para hoy."); //validar error al cargar tasa de cambio
-                return;
+                var resultado = MessageBox.Show(
+                    "No hay una tasa de cambio registrada para hoy. ¿Desea aperturar ahora?",
+                    "Tasa de cambio faltante",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (resultado == DialogResult.Yes)
+                {
+                    Apertura_Caja apertura = new Apertura_Caja();
+                    apertura.Show();
+
+
+
+                    // Intentar cargar nuevamente la tasa después de que se haya cerrado el formulario
+                    tasa = tasaServicio.ObtenerTasaDeHoy();
+
+                    if (tasa == null)
+                    {
+                        MessageBox.Show("No se registró una tasa de cambio. No se puede continuar.", "Proceso cancelado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                else
+                {
+                    return; // El usuario no quiso aperturar, cancelamos proceso
+                }
             }
 
             float pagoCordobas = float.TryParse(txtpago.Text, out float cordobas) ? cordobas : 0f;
@@ -313,7 +340,7 @@ namespace formstienda
 
                 TotalVenta = totalVenta
             };
-            
+
 
             var detalles = new List<DetalleDeVentum>();
             foreach (DataGridViewRow row in dgmostrar.Rows)
@@ -333,7 +360,7 @@ namespace formstienda
                     Cantidad = cantidadVendida,
                     Precio = row.Cells["Precio"].Value?.ToString() ?? producto.PrecioVenta.ToString("N2"),
                     CedulaCliente = cedulaClienteActual,
-                    SubTotal =cantidadVendida*producto.PrecioVenta ,
+                    SubTotal = cantidadVendida * producto.PrecioVenta,
                 };
 
                 producto.StockActual -= cantidadVendida;
@@ -577,7 +604,7 @@ namespace formstienda
             cbnumerodeplazos.SelectedIndex = -1;
             txtinteresparaloscreditos.Clear();
             txtcolillainss.Clear();
-
+            LimpiarCamposCliente();
 
 
         }
@@ -716,13 +743,13 @@ namespace formstienda
         private void txtpago_TextChanged(object sender, EventArgs e)
         {
             CalcularCambio();
-  
+
         }
 
         private void txtfaltante_TextChanged(object sender, EventArgs e)
         {
             CalcularCambio();
-    
+
         }
 
         private void CalcularCambio()
@@ -732,12 +759,38 @@ namespace formstienda
 
             float pagoCordobas = float.TryParse(txtpago.Text, out float cordobas) ? cordobas : 0f;
             float pagoDolares = float.TryParse(txtfaltante.Text, out float dolares) ? dolares : 0f;
-            float tasaActual = tasaServicio.ObtenerTasaDeHoy().ValorCambio; // Asume que tienes esta función
 
-            float totalPagado = (pagoCordobas) + (pagoDolares * tasaActual);
+            var tasa = tasaServicio.ObtenerTasaDeHoy();
+            if (tasa == null)
+            {
+                var resultado = MessageBox.Show(
+                    "No hay una tasa de cambio registrada para hoy. ¿Desea registrarla?",
+                    "Tasa no encontrada",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (resultado == DialogResult.Yes)
+                {
+                    Apertura_Caja apertura = new Apertura_Caja();
+                    apertura.Show();
+
+
+                    // Intentar cargar nuevamente la tasa después de que se haya cerrado el formulario
+                    tasa = tasaServicio.ObtenerTasaDeHoy();
+
+                }
+
+                txtcambio.Text = "0.00";
+                return;
+            }
+
+            float tasaActual = tasa.ValorCambio;
+
+            float totalPagado = pagoCordobas + (pagoDolares * tasaActual);
             float cambio = totalPagado - totalVenta;
-            txtcambio.Text = cambio >= 0 ? cambio.ToString("N2") : "0.00";
 
+            txtcambio.Text = cambio >= 0 ? cambio.ToString("N2") : "0.00";
 
 
 
@@ -826,6 +879,8 @@ namespace formstienda
             txtnombrecliente.Clear();
             txtcedula.Clear();
             cedulaClienteActual = string.Empty;
+            TXTTELEFONODELNUEVOCLIENTE.Clear();
+            GENERICOCHECK.Checked = false;
         }
 
         private void txtpago_KeyPress(object sender, KeyPressEventArgs e)
@@ -940,11 +995,28 @@ namespace formstienda
             LimpiarCampos();
             LimpiarCamposCliente();
             LimpiarFormulario();
-            
+
         }
 
+        private void btnnuevo_Click_1(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+            LimpiarCamposCliente();
+            LimpiarFormulario();
+        }
 
-
+        private void dgmostrar_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgmostrar.Columns[e.ColumnIndex].Name == "eliminar")
+            {
+                var confirm = MessageBox.Show("¿Está seguro de eliminar esta fila?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes)
+                {
+                    dgmostrar.Rows.RemoveAt(e.RowIndex);
+                    ActualizarTotal(); // Recalcula el total
+                }
+            }
+        }
     }
 
 }

@@ -55,6 +55,8 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     public virtual DbSet<VistaArqueoCajaPorPeriodoCajero> VistaArqueoCajaPorPeriodoCajeros { get; set; }
 
+    public virtual DbSet<VistaFacturaCredito> VistaFacturaCreditos { get; set; }
+
     public virtual DbSet<VistaInventarioActual> VistaInventarioActuals { get; set; }
 
     public virtual DbSet<VistaSalidasInventarioPorPeriodoMotivo> VistaSalidasInventarioPorPeriodoMotivos { get; set; }
@@ -63,7 +65,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -587,6 +589,46 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.SobranteDolar).HasColumnName("Sobrante_Dolar");
             entity.Property(e => e.TotalEfectivoCordoba).HasColumnName("Total_Efectivo_Cordoba");
             entity.Property(e => e.TotalEfectivoDolar).HasColumnName("Total_Efectivo_Dolar");
+        });
+
+        modelBuilder.Entity<VistaFacturaCredito>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vista_Factura_Credito");
+
+            entity.Property(e => e.CedulaCliente)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .HasColumnName("Cedula_Cliente");
+            entity.Property(e => e.Cliente)
+                .HasMaxLength(1001)
+                .IsUnicode(false);
+            entity.Property(e => e.CuotasPagadas).HasColumnName("Cuotas_Pagadas");
+            entity.Property(e => e.EstadoCredito)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("Estado_Credito");
+            entity.Property(e => e.FechaFinal).HasColumnName("Fecha_Final");
+            entity.Property(e => e.FechaInicio).HasColumnName("Fecha_Inicio");
+            entity.Property(e => e.FechaVenta).HasColumnName("Fecha_Venta");
+            entity.Property(e => e.IdCredito).HasColumnName("Id_Credito");
+            entity.Property(e => e.IdVenta).HasColumnName("Id_Venta");
+            entity.Property(e => e.InteresMensual).HasColumnName("Interes_Mensual");
+            entity.Property(e => e.MontoCredito).HasColumnName("Monto_Credito");
+            entity.Property(e => e.NuevoSaldo).HasColumnName("Nuevo_Saldo");
+            entity.Property(e => e.Observaciones).IsUnicode(false);
+            entity.Property(e => e.PlazosMeses).HasColumnName("Plazos_Meses");
+            entity.Property(e => e.TotalAbonado).HasColumnName("Total_Abonado");
+            entity.Property(e => e.TotalPagado).HasColumnName("Total_Pagado");
+            entity.Property(e => e.TotalVenta).HasColumnName("Total_Venta");
+            entity.Property(e => e.UltimoPago)
+                .HasColumnType("datetime")
+                .HasColumnName("Ultimo_Pago");
+            entity.Property(e => e.UsuarioRegistro)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Usuario_Registro");
         });
 
         modelBuilder.Entity<VistaInventarioActual>(entity =>

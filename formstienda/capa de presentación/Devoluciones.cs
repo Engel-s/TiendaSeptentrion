@@ -52,17 +52,23 @@ namespace formstienda
                 return;
             }
 
+            // 🚫 Validación: impedir devolución si el cliente es 'Generico'
+            if (venta.CedulaCliente?.Trim().Equals("Generico", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                MessageBox.Show("No se pueden procesar devoluciones de facturas al contado con cliente 'Genérico'.", "Devolución no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             txtnombrecliente.Text = venta.CedulaClienteNavigation?.NombreCliente ?? "N/A";
             txttelefonodelcliente.Text = venta.CedulaClienteNavigation?.TelefonoCliente ?? "N/A";
 
             // Limpiar y configurar el DataGridView
             DGDETALLESDEVENTA.Rows.Clear();
             DGDETALLESDEVENTA.Columns.Clear();
-            ConfigurarColumnasDevolucion(); // Este método configura las columnas si aún no existen
+            ConfigurarColumnasDevolucion();
 
             foreach (var detalle in venta.DetalleDeVenta)
             {
-                // Validar navegación antes de usar
                 var modeloProducto = detalle.CodigoProductoNavigation?.ModeloProducto ?? "Desconocido";
 
                 float precio = float.TryParse(detalle.Precio, out float p) ? p : 0f;
@@ -76,7 +82,7 @@ namespace formstienda
                     precio,
                     cantidadVendida,
                     subtotal,
-                    0 // CantidadDevuelta (editable por el usuario)
+                    0
                 );
             }
             // Asociar el evento solo una vez
@@ -139,6 +145,44 @@ namespace formstienda
 
                 string cedulaCliente = venta.CedulaCliente;
 
+                // Acumulador para evitar devoluciones duplicadas
+                Dictionary<int, int> acumuladorPorDetalle = new();
+
+                foreach (DataGridViewRow fila in DGDETALLESDEVENTA.Rows)
+                {
+                    int idDetalle = Convert.ToInt32(fila.Cells["IdDetalleVenta"].Value);
+                    int cantidadVendida = Convert.ToInt32(fila.Cells["CantidadVendida"].Value);
+                    int cantidadDevuelta = Convert.ToInt32(fila.Cells["CantidadDevuelta"].Value);
+
+                    if (cantidadDevuelta <= 0) continue;
+
+                    if (!acumuladorPorDetalle.ContainsKey(idDetalle))
+                        acumuladorPorDetalle[idDetalle] = 0;
+
+                    acumuladorPorDetalle[idDetalle] += cantidadDevuelta;
+
+                    if (acumuladorPorDetalle[idDetalle] > cantidadVendida)
+                    {
+                        MessageBox.Show("La cantidad devuelta total de un producto excede la cantidad vendida.");
+                        return;
+                    }
+                }
+
+                // En caso de facturación errónea, preguntamos si se desea reembolsar o cambiar producto
+                bool hacerReembolso = true;
+                if (motivo == "Facturación errónea")
+                {
+                    var resultado = MessageBox.Show("¿El cliente desea reembolso de dinero?\nPresione 'Sí' para reembolso o 'No' para cambio de producto.",
+                                                    "Opciones de devolución",
+                                                    MessageBoxButtons.YesNoCancel,
+                                                    MessageBoxIcon.Question);
+
+                    if (resultado == DialogResult.Cancel)
+                        return;
+
+                    hacerReembolso = (resultado == DialogResult.Yes);
+                }
+
                 foreach (DataGridViewRow fila in DGDETALLESDEVENTA.Rows)
                 {
                     int idDetalle = Convert.ToInt32(fila.Cells["IdDetalleVenta"].Value);
@@ -146,20 +190,7 @@ namespace formstienda
                     int cantidadDevuelta = Convert.ToInt32(fila.Cells["CantidadDevuelta"].Value);
                     float precio = Convert.ToSingle(fila.Cells["Precio"].Value);
 
-                    // Validación cantidad a devolver
                     if (cantidadDevuelta <= 0) continue;
-
-                    if (cantidadVendida == 0)
-                    {
-                        MessageBox.Show("No se puede devolver más, la cantidad vendida es 0.");
-                        return;
-                    }
-
-                    if (cantidadDevuelta > cantidadVendida)
-                    {
-                        MessageBox.Show("Una cantidad devuelta es mayor a la vendida. Corrija y vuelva a intentar.");
-                        return;
-                    }
 
                     var detalle = venta.DetalleDeVenta.FirstOrDefault(d => d.IdDetalleVenta == idDetalle);
                     if (detalle == null) continue;
@@ -167,32 +198,43 @@ namespace formstienda
                     float montoDevolucion = cantidadDevuelta * precio;
                     totalMontoDevolucion += montoDevolucion;
 
-                    // Actualizar el detalle
                     detalle.Cantidad -= cantidadDevuelta;
                     if (detalle.Cantidad < 0) detalle.Cantidad = 0;
 
+                    var producto = detalle.CodigoProductoNavigation;
+
                     if (motivo == "Facturación errónea")
                     {
-                        // Regresa la cantidad devuelta al stock porque fue error de facturación
-                        detalle.CodigoProductoNavigation.StockActual += cantidadDevuelta;
+                        if (hacerReembolso)
+                        {
+                            producto.StockActual += cantidadDevuelta; // reembolsa y regresa stock
+                        }
+                        else
+                        {
+                            MessageBox.Show("Producto devuelto para cambio. Genere nueva venta con el producto de cambio.", "Cambio pendiente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            // Aquí podrías abrir un formulario de cambio de producto si decides implementarlo
+                        }
                     }
                     else if (motivo == "Defecto de fábrica" || motivo == "Garantía")
                     {
-                        // Producto dañado: registra salida especial y resta del stock
+                        if (producto.StockActual < cantidadDevuelta)
+                        {
+                            MessageBox.Show($"Stock insuficiente para registrar salida del producto '{producto.ModeloProducto}'.\nStock actual: {producto.StockActual}, intentado devolver: {cantidadDevuelta}");
+                            return;
+                        }
+
+                        producto.StockActual -= cantidadDevuelta;
+                        if (producto.StockActual < 0) producto.StockActual = 0;
+
                         var salida = new OtrasSalidasDeInventario
                         {
                             CodigoProducto = detalle.CodigoProducto,
                             CantidadSalir = cantidadDevuelta,
                             MotivoSalida = motivo,
                             DescripcionSalida = descripcion,
-                            FechaSalida=DateOnly.FromDateTime(DateTime.Now)
-                            
+                            FechaSalida = DateOnly.FromDateTime(DateTime.Now)
                         };
                         contexto.OtrasSalidasDeInventarios.Add(salida);
-
-                        detalle.CodigoProductoNavigation.StockActual -= cantidadDevuelta;
-                        if (detalle.CodigoProductoNavigation.StockActual < 0)
-                            detalle.CodigoProductoNavigation.StockActual = 0;
                     }
 
                     // Registrar devolución
@@ -205,48 +247,85 @@ namespace formstienda
                         FechaDevolucion = DateOnly.FromDateTime(DateTime.Now)
                     };
                     contexto.DevolucionVentas.Add(devolucion);
-                    contexto.SaveChanges(); // Guardamos primero para que obtenga el IdDevolucion generado
+                    contexto.SaveChanges(); // Necesario para obtener el ID generado
 
-                    // Luego asociamos
-                    var detalledevolucion = new DetalleDevolucion
+                    var detalleDevolucion = new DetalleDevolucion
                     {
-                        IdDevolucion = devolucion.IdDevolucion, // <--- FK asociada
+                        IdDevolucion = devolucion.IdDevolucion,
                         InformacionProducto = detalle.CodigoProducto,
                         CantidadDevuelta = cantidadDevuelta,
                         MontoDevuelto = Convert.ToDecimal(montoDevolucion),
-                        FechaDevolucion=DateOnly.FromDateTime(DateTime.Now)
+                        FechaDevolucion = DateOnly.FromDateTime(DateTime.Now)
                     };
-                    contexto.DetalleDevolucions.Add(detalledevolucion);
+                    contexto.DetalleDevolucions.Add(detalleDevolucion);
+                }
 
-
-                    decimal montoTotalCordoba = (decimal)totalMontoDevolucion;
-
-                    // Registrar egreso por la devolución SOLO si el monto es menor a 2000
-                    if (totalMontoDevolucion < 2000)
+                // Egreso en caja si aplica
+                // Egreso en caja si aplica
+                if (totalMontoDevolucion < 2000 && (motivo == "Facturación errónea" && hacerReembolso || motivo == "Garantía" || motivo == "Defecto de fábrica"))
+                {
+                    var fechaHoy = DateOnly.FromDateTime(DateTime.Now);
+                    var aperturaHoy = contexto.AperturaCajas.FirstOrDefault(a => a.FechaApertura == fechaHoy);
+                    if (aperturaHoy == null)
                     {
-                        var fechaHoy = DateOnly.FromDateTime(DateTime.Now);
+                        MessageBox.Show("No se encontró una apertura de caja para hoy.");
+                        return;
+                    }
 
-                        var aperturaHoy = contexto.AperturaCajas
-                            .FirstOrDefault(a => a.FechaApertura == fechaHoy);
+                    var arqueoHoy = contexto.ArqueoCajas.FirstOrDefault(a => a.IdApertura == aperturaHoy.IdApertura &&
+                                                                             DateOnly.FromDateTime(a.FechaArqueo) == fechaHoy);
+                    if (arqueoHoy == null)
+                    {
+                        MessageBox.Show("No se encontró un arqueo de caja para hoy.");
+                        return;
+                    }
 
-                        if (aperturaHoy == null)
+                    // ✅ Verificar si hay suficiente efectivo en caja
+                    if (arqueoHoy.TotalEfectivoCordoba < (double)totalMontoDevolucion)
+                    {
+                        var respuesta = MessageBox.Show(
+                            "No hay suficiente efectivo en caja para realizar el reembolso.\n" +
+                            $"Total en caja: C${arqueoHoy.TotalEfectivoCordoba:N2}, requerido: C${totalMontoDevolucion:N2}.\n\n" +
+                            "¿Desea respaldar el reembolso con inventario en lugar de efectivo?",
+                            "Caja insuficiente", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (respuesta == DialogResult.No)
                         {
-                            MessageBox.Show("No se encontró una apertura de caja para hoy.");
+                            MessageBox.Show("Proceso cancelado. No se realizó la devolución.", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
                         }
 
-                        // Convertimos FechaArqueo (DateTime) a DateOnly para la comparación
-                        var arqueoHoy = contexto.ArqueoCajas
-                            .FirstOrDefault(a => a.IdApertura == aperturaHoy.IdApertura &&
-                                                 DateOnly.FromDateTime(a.FechaArqueo) == fechaHoy);
-
-                        if (arqueoHoy == null)
+                        // 🔄 Respaldo con inventario
+                        foreach (DataGridViewRow fila in DGDETALLESDEVENTA.Rows)
                         {
-                            MessageBox.Show("No se encontró un arqueo de caja para hoy.");
-                            return;
+                            int cantidadDevuelta = Convert.ToInt32(fila.Cells["CantidadDevuelta"].Value);
+                            if (cantidadDevuelta <= 0) continue;
+
+                            int idDetalle = Convert.ToInt32(fila.Cells["IdDetalleVenta"].Value);
+                            var detalle = venta.DetalleDeVenta.FirstOrDefault(d => d.IdDetalleVenta == idDetalle);
+                            if (detalle == null) continue;
+
+                            var producto = detalle.CodigoProductoNavigation;
+
+                            producto.StockActual += cantidadDevuelta;
+
+                            var ingresoInventario = new OtrasSalidasDeInventario
+                            {
+                                CodigoProducto = producto.CodigoProducto,
+                                CantidadSalir = cantidadDevuelta,
+                                FechaSalida = DateOnly.FromDateTime(DateTime.Now),
+                                MotivoSalida = "Respaldo de reembolso sin efectivo disponible",
+                               
+                            };
+
+                            contexto.OtrasSalidasDeInventarios.Add(ingresoInventario);
                         }
 
-
+                        MessageBox.Show("Reembolso respaldado con ingreso a inventario.", "Respaldo aplicado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        // 💵 Hacer egreso normal
                         var egreso = new Egreso
                         {
                             IdArqueoCaja = arqueoHoy.IdArqueoCaja,
@@ -259,21 +338,20 @@ namespace formstienda
                         };
                         contexto.Egresos.Add(egreso);
                     }
-
                 }
 
-                // Ajustar total de la venta
+
+                // Ajustar total venta
                 venta.TotalVenta -= totalMontoDevolucion;
                 if (venta.TotalVenta < 0) venta.TotalVenta = 0;
+                venta.CambiosFactura = "Venta afectada por devoluciones";
 
                 contexto.SaveChanges();
             }
 
             txtmontodevolucion.Text = totalMontoDevolucion.ToString("N2");
-            MessageBox.Show($"Devolución procesada con éxito. Monto total: C${totalMontoDevolucion:N2}");
-
+            MessageBox.Show($"Devolución procesada con éxito.\nTotal devuelto: C${totalMontoDevolucion:N2}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarFormularioDevolucion();
-
         }
         public class DevolucionTemporal
         {

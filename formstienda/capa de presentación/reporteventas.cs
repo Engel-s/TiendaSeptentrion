@@ -64,14 +64,18 @@ namespace formstienda.capa_de_presentación
                 DateOnly fechaFinOnly = DateOnly.FromDateTime(fechaFin);
 
                 ventas = context.DetalleDeVenta
-                    .Include(d => d.CodigoProductoNavigation)
-                        .ThenInclude(p => p.IdCategoriaNavigation)
-                    .Include(d => d.CodigoProductoNavigation.IdMarcaNavigation)
-                    .Include(d => d.IdVentaNavigation)
-                        .ThenInclude(v => v.CedulaClienteNavigation)
-                    .Where(d => d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
-                                d.IdVentaNavigation.FechaVenta <= fechaFinOnly)
-                    .ToList();
+                     .Include(d => d.CodigoProductoNavigation)
+                         .ThenInclude(p => p.IdCategoriaNavigation)
+                     .Include(d => d.CodigoProductoNavigation.IdMarcaNavigation)
+                     .Include(d => d.IdVentaNavigation)
+                          .ThenInclude(v => v.CedulaClienteNavigation)
+                          .Where(d =>
+                     d.IdVentaNavigation.FechaVenta >= fechaInicioOnly &&
+                                 d.IdVentaNavigation.FechaVenta <= fechaFinOnly &&
+                                 d.IdVentaNavigation.TipoPago == "Contado" &&
+                                 d.Cantidad > 0 // <-- Solo detalles con cantidad positiva
+                             )
+                                    .ToList();
             }
 
 
@@ -132,13 +136,16 @@ namespace formstienda.capa_de_presentación
                 doc.Add(new Paragraph("\n"));
 
                 // ===== TABLA DE VENTAS =====
-                var columnas = new float[] { 1.2f, 1.2f, 1.8f, 2.5f, 1.5f, 1.5f, 1.5f, 1.2f, 1.5f, 1.5f };
+                // ===== TABLA DE VENTAS =====
+                // Quitamos la columna "Total venta" (de 10 → 9 columnas)
+                var columnas = new float[] { 1.2f, 1.2f, 1.8f, 2.5f, 1.5f, 1.5f, 1.5f, 1.2f, 1.5f };
                 var tabla = new Table(columnas).UseAllAvailableWidth();
 
+                // Eliminamos "Total venta" del encabezado
                 string[] headers = {
-        "Fecha", "Factura", "Cliente", "Producto", "Categoría",
-        "Marca", "Precio", "Cantidad", "Subtotal", "Total venta"
-    };
+    "Fecha", "Factura", "Cliente", "Producto", "Categoría",
+    "Marca", "Precio", "Cantidad", "Subtotal"
+};
 
                 foreach (var h in headers)
                 {
@@ -158,14 +165,31 @@ namespace formstienda.capa_de_presentación
                     tabla.AddCell(Celda($"{producto.ModeloProducto} ({producto.CodigoProducto})"));
                     tabla.AddCell(Celda(producto.IdCategoriaNavigation?.Categoria ?? ""));
                     tabla.AddCell(Celda(producto.IdMarcaNavigation?.Marca1 ?? ""));
-                    tabla.AddCell(Celda(decimal.Parse(item.Precio ?? "0").ToString("C", cultura)));
-                    tabla.AddCell(Celda(item.Cantidad.ToString()));
-                    tabla.AddCell(Celda(item.SubTotal?.ToString("C", cultura) ?? "C$0.00"));
-                    tabla.AddCell(Celda(ventum.TotalVenta.ToString("C", cultura)));
-                }
 
+                    decimal precio = decimal.TryParse(item.Precio, out var p) ? p : 0;
+                    decimal subtotalCalculado = precio * item.Cantidad;
+
+                    tabla.AddCell(Celda(precio.ToString("C", cultura)));
+                    tabla.AddCell(Celda(item.Cantidad.ToString()));
+                    tabla.AddCell(Celda(subtotalCalculado.ToString("C", cultura)));
+                }
                 doc.Add(tabla);
+
+                // Total general corregido
+                decimal totalGeneral = ventas.Sum(v =>
+                {
+                    decimal precio = decimal.TryParse(v.Precio, out var p) ? p : 0;
+                    return precio * v.Cantidad;
+                });
+
+                var totalParagraph = new Paragraph($"\nTotal en ventas: {totalGeneral.ToString("C", cultura)}")
+                    .SetFont(font)
+                    .SetFontSize(12)
+                    .SetTextAlignment(TextAlignment.RIGHT);
+
+                doc.Add(totalParagraph);
                 doc.Close();
+
             }
 
         }
@@ -196,6 +220,11 @@ namespace formstienda.capa_de_presentación
         }
 
         private void btnsalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnsalir_Click_1(object sender, EventArgs e)
         {
             this.Close();
         }

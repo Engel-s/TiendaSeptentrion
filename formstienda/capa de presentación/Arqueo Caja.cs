@@ -202,18 +202,42 @@ namespace formstienda
             return 0;
         }
 
-       
         private void button2_Click(object sender, EventArgs e)
         {
-            Apertura_Caja apertura = new Apertura_Caja();
-            apertura.Show();
-
+            var aperturaForm = new Apertura_Caja();
+            aperturaForm.OnAperturaCreada += RecargarDatosArqueo;
+            aperturaForm.Show();
+        }
+        
+        private void RecargarDatosArqueo()
+        {
+            
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(RecargarDatosArqueo));
+            }
+            else
+            {
+                Arqueo_Caja_Load(null, null);
+                CalcularTotales();            
+            }
         }
 
         private void btnCerrarCaja_Click(object sender, EventArgs e)
         {
             try
             {
+
+                decimal totalCordobas = ObtenerValorTextBox(txtTotalEfectivoCordobas);
+                decimal totalDolares = ObtenerValorTextBox(txtDolaresTotalEfectivo);
+
+                if (totalCordobas <= 0 && totalDolares <= 0)
+                {
+                    MessageBox.Show("Debe ingresar al menos un valor en Córdobas o Dólares", "Validación",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 using (var contexto = new DbTiendaSeptentrionContext())
                 {
                     // Buscar todas las aperturas que aún no están cerradas
@@ -261,7 +285,7 @@ namespace formstienda
                     }
 
                     contexto.SaveChanges();
-
+                    Arqueo_Caja_Load(null, null); 
                 }
                 MessageBox.Show("Datos guardados correctamente.");
                 BloquearBotones();
@@ -280,11 +304,19 @@ namespace formstienda
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Egresos egresos = new Egresos();
-            egresos.Show();
+            this.Hide();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Egresos());
+            }
         }
 
-        private void Arqueo_Caja_Load(object sender, EventArgs e)
+        public void Arqueo_Caja_Load(object sender, EventArgs e)
         {
             try
             {
@@ -419,11 +451,11 @@ namespace formstienda
                     var egresoServicio = new EgresoServicio(contexto);
                     decimal totalEgresosCordobas = egresoServicio.ObtenerTotalEgresosCordobas(fechaActual);
                     decimal totalEgresosDolares = egresoServicio.ObtenerTotalEgresosDolares(fechaActual);
-                   
+
                     txtTotalEgresosCordobas.Text = totalEgresosCordobas.ToString("N2");
                     txtTotalEgresosDolares.Text = totalEgresosDolares.ToString("N2");
-                                        
-                   decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
+
+                    decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
                     decimal totalBrutoDolares = egresoServicio.ObtenerTotalBrutoDolares(fechaActual);
 
                     txtTotalCajaCordobas.Text = totalBrutoCordobas.ToString("N2");
@@ -432,8 +464,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al actualizar los egresos: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
 
@@ -447,8 +478,15 @@ namespace formstienda
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            ControldeEgresos egresos = new ControldeEgresos();
-            egresos.Show();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new ControldeEgresos());
+            }
         }
     }
 }

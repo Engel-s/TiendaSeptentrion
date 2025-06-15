@@ -682,8 +682,7 @@ namespace formstienda
 
                         txtsubtotalcompra.Text = listadetallecompra
                                                                     .Where(x => x.IdCompra == listacompra.Last().IdCompra)
-                                                                    .Sum(x => x.SubtotalCompra).ToString("C", new CultureInfo("es-NI"));
-                        productoServicio.AumentarStock(codigoProducto, cantidad);
+                                                                    .Sum(x => x.SubtotalCompra).ToString("C", new CultureInfo("es-NI"));  
                     }
                     else
                     {
@@ -697,6 +696,7 @@ namespace formstienda
                     txtprecioventa.Clear();
                     txtcodigoproducto.Clear();
                     limpiarcampos();
+
                     btnregistrar.Enabled = true;
                     newcompra = false;
                 }
@@ -712,6 +712,8 @@ namespace formstienda
             txtbuscartelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             string numero = txtbuscartelefono.Text.Trim();
             string patronTelefono = @"^\d{8}$";
+            
+            
 
             if (!Regex.IsMatch(numero, patronTelefono))
             {
@@ -719,21 +721,42 @@ namespace formstienda
                     "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            var proveedor = proveedorServicio.buscarProvee(numero);
+
+
+            if (proveedor != null)
+            {
+                if (proveedor.EstadoProveedor == false)
+                {
+                    MessageBox.Show("Este proveedor está inactivo y no puede registrar una compra.",
+                        "Proveedor inactivo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    txtbuscartelefono.Clear();
+                    txtnombreproveedor.Clear();
+                    Desactivarcampos();
+                    return;
+                }
+
+                txtnombreproveedor.Text = proveedor.NombreProveedor + " " + proveedor.ApellidoProveedor;
+                txtbuscartelefono.Clear();
+                Activarcampos();
+            }
             else
             {
-                var proveedor = proveedorServicio.buscarProvee(numero);
-
-                if (proveedor != null)
-                {
-                    txtnombreproveedor.Text = proveedor.NombreProveedor + " " + proveedor.ApellidoProveedor;
-                    txtbuscartelefono.Clear();
-                    Activarcampos();
-                }
-                else
-                {
-                    MessageBox.Show("Proveedor no encontrado.");
-                }
+                MessageBox.Show("Proveedor no encontrado.");
             }
+            /*if (proveedor != null)
+            {
+                txtnombreproveedor.Text = proveedor.NombreProveedor + " " + proveedor.ApellidoProveedor;
+                txtbuscartelefono.Clear();
+                Activarcampos();
+            }
+            else
+            {
+                MessageBox.Show("Proveedor no encontrado.");
+            }*/
+
         }
 
 
@@ -814,7 +837,12 @@ namespace formstienda
                 // Revertir stock
                 foreach (var detalle in detalles)
                 {
-                    productoServicio.DisminuirStock(detalle.CodigoProducto, detalle.CantidadCompra);
+                    bool ok = productoServicio.DisminuirStock(detalle.CodigoProducto, detalle.CantidadCompra);
+                    if (!ok)
+                    {
+                        MessageBox.Show($"No se pudo revertir el stock del producto con código: {detalle.CodigoProducto}",
+                                        "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
 
 

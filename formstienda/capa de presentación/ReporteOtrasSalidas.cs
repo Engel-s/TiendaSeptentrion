@@ -67,7 +67,7 @@ namespace formstienda.capa_de_presentación
 
                 // Ordenar por fecha
                 listaSalidas = listaSalidas.OrderBy(s => s.FechaSalida).ToList();
-                               
+
                 // Calcular totales
                 decimal totalCantidad = listaSalidas.Sum(s => s.CantidadSalir);
 
@@ -283,17 +283,39 @@ namespace formstienda.capa_de_presentación
 
         private void webViewOtrasSalidas_Click(object sender, EventArgs e)
         {
-            // Implementación vacía
+           
         }
 
         private void btnSalirOtrasSalidas_Click(object sender, EventArgs e)
         {
+
+            // Cerrar el formulario actual y abrir el formulario Informes en el panel del menú principal :)
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Informes());
+            }
+
         }
 
         private void ReporteOtrasSalidas_Load(object sender, EventArgs e)
         {
-            // Implementación vacía
+            try
+            {
+                string filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ReporteOtrasSalidas.pdf");
+                GenerarPDF(filePath);
+                MostrarPDF(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar el reporte: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

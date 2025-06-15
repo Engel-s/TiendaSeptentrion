@@ -19,7 +19,7 @@ namespace formstienda.capa_de_presentación
     {
         private ClienteServicio? clienteServicio;
         private BindingList<Cliente>? Listacliente;
-        
+
         public Clientes()
         {
             InitializeComponent();
@@ -58,12 +58,99 @@ namespace formstienda.capa_de_presentación
         }
         private void cargarclientes()
         {
-            // instanciar usuario servicio
             clienteServicio = new ClienteServicio();
             Listacliente = new BindingList<Cliente>(clienteServicio.Listaclientes());
+
+            DGCLIENTES.DataSource = null;
+            DGCLIENTES.Columns.Clear();
+            DGCLIENTES.AutoGenerateColumns = false;
             DGCLIENTES.DataSource = Listacliente;
 
+            DGCLIENTES.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "CedulaCliente",
+                HeaderText = "Cédula",
+                Name = "CedulaCliente",
+                ReadOnly = true // No se puede editar porque es clave primaria
+            });
+
+            DGCLIENTES.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "NombreCliente",
+                HeaderText = "Nombre",
+                Name = "NombreCliente"
+            });
+
+            DGCLIENTES.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "ApellidoCliente",
+                HeaderText = "Apellido",
+                Name = "ApellidoCliente"
+            });
+
+            DGCLIENTES.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "TelefonoCliente",
+                HeaderText = "Teléfono",
+                Name = "TelefonoCliente"
+            });
+
+            DGCLIENTES.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "ColillaInssCliente",
+                HeaderText = "Colilla INSS",
+                Name = "ColillaInssCliente"
+            });
+
+            DGCLIENTES.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "DireccionCliente",
+                HeaderText = "Dirección",
+                Name = "DireccionCliente"
+            });
+
+            DGCLIENTES.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "SujetoCredito",
+                HeaderText = "¿Sujeto a Crédito?",
+                Name = "SujetoCredito",
+                DataSource = new[]
+                {
+        new { Texto = "Sí", Valor = true },
+        new { Texto = "No", Valor = false }
+    },
+                DisplayMember = "Texto",
+                ValueMember = "Valor",
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton,
+                FlatStyle = FlatStyle.Flat
+            });
+
+
+            // Estilo del encabezado
+            var headerStyle = DGCLIENTES.ColumnHeadersDefaultCellStyle;
+            headerStyle.Font = new Font(DGCLIENTES.Font, FontStyle.Bold);
+            headerStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            headerStyle.BackColor = Color.SteelBlue;
+            headerStyle.ForeColor = Color.White;
+            DGCLIENTES.EnableHeadersVisualStyles = false;
+
+            // Estilo de las celdas
+            DGCLIENTES.DefaultCellStyle.Font = new Font("Century gothic", 9);
+            DGCLIENTES.DefaultCellStyle.BackColor = Color.White;
+            DGCLIENTES.DefaultCellStyle.ForeColor = Color.Black;
+
+            // Estilo alternado de filas
+            DGCLIENTES.AlternatingRowsDefaultCellStyle.BackColor = Color.AliceBlue;
+
+            // Estilo de selección
+            DGCLIENTES.DefaultCellStyle.SelectionBackColor = Color.DodgerBlue;
+            DGCLIENTES.DefaultCellStyle.SelectionForeColor = Color.White;
+
+            // Autoajuste del ancho de columnas
+            DGCLIENTES.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+
+
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -85,7 +172,7 @@ namespace formstienda.capa_de_presentación
 
         private void btnregistrar_Click(object sender, EventArgs e)
         {
-            
+
 
             // Crear cliente con valores limpios
             var cliente = new Cliente
@@ -129,7 +216,7 @@ namespace formstienda.capa_de_presentación
             Regex cedulaRegex = new Regex(@"^\d{13}[a-zA-Z]$");
             if (!cedulaRegex.IsMatch(cliente.CedulaCliente))
             {
-                MessageBox.Show("La cédula solo puede contener letras, números y guiones.");
+                MessageBox.Show("La cédula solo puede contener un formato de trece digitos seguido de una letra.");
                 return;
             }
 
@@ -139,10 +226,17 @@ namespace formstienda.capa_de_presentación
                 MessageBox.Show("Ingrese un número de teléfono válido (entre 8 y 15 dígitos).");
                 return;
             }
+            // Si es sujeto a crédito, validar que la colilla INSS esté presente
+            if (cliente.SujetoCredito == true && string.IsNullOrWhiteSpace(cliente.ColillaInssCliente))
+            {
+                MessageBox.Show("Debe ingresar la colilla INSS si el cliente es sujeto a crédito.");
+                return;
+            }
+
 
             // Validar si ya existe cliente con ese teléfono
             var clienteExistente = clienteServicio?.Listaclientes()
-                                                   .FirstOrDefault(p => p.TelefonoCliente == cliente.TelefonoCliente && p.CedulaCliente==cliente.CedulaCliente);
+                                                   .FirstOrDefault(p => p.TelefonoCliente == cliente.TelefonoCliente && p.CedulaCliente == cliente.CedulaCliente);
             if (clienteExistente != null)
             {
                 MessageBox.Show("Este cliente ya existe, agregue otro teléfono.");
@@ -174,7 +268,96 @@ namespace formstienda.capa_de_presentación
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             lblcolilla.Visible = false;
-            txtcolillainss.Visible = false; 
+            txtcolillainss.Visible = false;
+            txtcolillainss.Clear();
+        }
+
+        private void DGCLIENTES_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                var fila = DGCLIENTES.Rows[e.RowIndex];
+                if (fila.IsNewRow) return;
+
+                string cedula = fila.Cells["CedulaCliente"].Value?.ToString()?.Trim();
+                if (string.IsNullOrWhiteSpace(cedula))
+                {
+                    MessageBox.Show("La cédula es obligatoria y no puede cambiarse.");
+                    return;
+                }
+
+                string nombre = fila.Cells["NombreCliente"].Value?.ToString()?.Trim() ?? "";
+                string apellido = fila.Cells["ApellidoCliente"].Value?.ToString()?.Trim() ?? "";
+                string direccion = fila.Cells["DireccionCliente"].Value?.ToString()?.Trim() ?? "";
+                string colilla = fila.Cells["ColillaInssCliente"].Value?.ToString()?.Trim() ?? "";
+                string telefono = new string((fila.Cells["TelefonoCliente"].Value?.ToString() ?? "").Where(char.IsDigit).ToArray());
+
+                bool sujetoCredito = false;
+                if (fila.Cells["SujetoCredito"].Value is bool valor)
+                    sujetoCredito = valor;
+
+                // Validaciones básicas
+                Regex soloLetras = new Regex(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$");
+                if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellido) ||
+                    string.IsNullOrWhiteSpace(direccion) || string.IsNullOrWhiteSpace(telefono))
+                {
+                    MessageBox.Show("Por favor, complete todos los campos obligatorios.");
+                    return;
+                }
+
+                if (!soloLetras.IsMatch(nombre))
+                {
+                    MessageBox.Show("El nombre solo debe contener letras.");
+                    return;
+                }
+
+                if (!soloLetras.IsMatch(apellido))
+                {
+                    MessageBox.Show("El apellido solo debe contener letras.");
+                    return;
+                }
+
+                Regex cedulaRegex = new Regex(@"^\d{13}[a-zA-Z]$");
+                if (!cedulaRegex.IsMatch(cedula))
+                {
+                    MessageBox.Show("La cédula debe tener 13 dígitos y una letra.");
+                    return;
+                }
+
+                if (telefono.Length < 8 || telefono.Length > 15)
+                {
+                    MessageBox.Show("Teléfono debe tener entre 8 y 15 dígitos.");
+                    return;
+                }
+
+                // ✅ Validar colilla si es sujeto a crédito
+                if (sujetoCredito && string.IsNullOrWhiteSpace(colilla))
+                {
+                    MessageBox.Show("Debe ingresar la colilla INSS si el cliente es sujeto a crédito.");
+                    return;
+                }
+
+                // Crear y actualizar cliente
+                var clienteEditado = new Cliente
+                {
+                    CedulaCliente = cedula,
+                    NombreCliente = nombre,
+                    ApellidoCliente = apellido,
+                    DireccionCliente = direccion,
+                    ColillaInssCliente = colilla,
+                    TelefonoCliente = telefono,
+                    SujetoCredito = sujetoCredito
+                };
+
+                if (clienteServicio.Actualizarcliente(clienteEditado))
+                    MessageBox.Show("Cliente actualizado correctamente");
+                else
+                    MessageBox.Show("No se pudo actualizar el cliente");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar cliente: " + ex.Message);
+            }
         }
     }
 }

@@ -126,13 +126,14 @@ namespace formstienda.capa_de_presentación
                 doc.Add(new Paragraph("\n"));
 
                 // ===== TABLA DE DATOS =====
-                var columnas = new float[] { 1.2f, 1.2f, 2f, 2.5f, 1.5f, 1.5f, 2f, 2f, 1.5f, 1.2f, 1.5f, 1.5f };
+                // ===== TABLA DE DATOS =====
+                var columnas = new float[] { 1.2f, 1.2f, 2f, 2.5f, 1.5f, 1.5f, 2f, 2f, 1.5f, 1.2f, 1.5f }; // 👈 11 columnas
                 var tabla = new Table(columnas).UseAllAvailableWidth();
 
                 string[] headers = {
-        "Fecha", "Factura", "Cliente", "Producto", "Categoría", "Marca",
-        "Motivo", "Descripción", "Precio", "Cantidad", "Subtotal", "Total devolución"
-    };
+    "Fecha", "Factura", "Cliente", "Producto", "Categoría", "Marca",
+    "Motivo", "Descripción", "Precio", "Cantidad", "Subtotal" // 👈 sin "Total devolución"
+};
 
                 foreach (var h in headers)
                 {
@@ -153,7 +154,6 @@ namespace formstienda.capa_de_presentación
                     var producto = detalleVenta?.CodigoProductoNavigation;
                     var precioVenta = decimal.Parse(detalleVenta?.Precio ?? "0");
                     var subtotal = precioVenta * item.CantidadDevuelta;
-                    var totalDevolucion = item.MontoDevuelto;
 
                     tabla.AddCell(Celda(devolucion.FechaDevolucion.ToString("dd/MM/yyyy")));
                     tabla.AddCell(Celda(venta.IdVenta.ToString()));
@@ -166,11 +166,21 @@ namespace formstienda.capa_de_presentación
                     tabla.AddCell(Celda(precioVenta.ToString("C", cultura)));
                     tabla.AddCell(Celda(item.CantidadDevuelta.ToString()));
                     tabla.AddCell(Celda(subtotal.ToString("C", cultura)));
-                    tabla.AddCell(Celda(totalDevolucion.ToString("C", cultura)));
                 }
 
                 doc.Add(tabla);
+
+                // ===== TOTAL GENERAL DE DEVOLUCIONES =====
+                decimal totalGeneral = devoluciones.Sum(d => d.MontoDevuelto);
+
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph($"Total general de devoluciones: {totalGeneral.ToString("C", cultura)}")
+                    .SetFont(fontBold)
+                    .SetFontSize(12)
+                    .SetTextAlignment(TextAlignment.RIGHT)); // 👈 alineado a la derecha
+
                 doc.Close();
+
             }
 
         }
@@ -206,6 +216,11 @@ namespace formstienda.capa_de_presentación
         }
 
         private void btnsalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnsalir_Click_1(object sender, EventArgs e)
         {
             this.Close();
         }

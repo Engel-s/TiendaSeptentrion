@@ -232,8 +232,10 @@ namespace formstienda.Servicios
 
         public List<AperturaCaja> ListarAperturaCaja(DateOnly fechaActual)
         {
+            var fechaHoy = DateOnly.FromDateTime(DateTime.Now);
+
             return _contexto.AperturaCajas
-                .Where(a => a.FechaApertura == fechaActual)
+                .Where(a => a.FechaApertura == fechaHoy && a.EstadoApertura == "Abierta")
                 .AsNoTracking()
                 .ToList();
         }
@@ -246,7 +248,13 @@ namespace formstienda.Servicios
                 .ToList();
         }
 
-     
+        public List<DetalleDevolucion> ListarDevolucion(DateOnly fechaActual)
+        {
+            return _contexto.DetalleDevolucions
+                .Where(a => a.FechaDevolucion == fechaActual)
+                .AsNoTracking()
+                .ToList();
+        }
 
         public List<DetalleCredito> ListarPagosCredito(DateOnly fechaActual)
         {
