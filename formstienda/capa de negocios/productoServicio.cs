@@ -160,16 +160,27 @@ namespace formstienda.capa_de_negocios
             }
         }
 
-        public void DisminuirStock(string codigoProducto, int cantidad)
+        public bool DisminuirStock(string codigoProducto, int cantidad)
         {
-            using (var context = new DbTiendaSeptentrionContext())
+            try
             {
-                var producto = context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
+                var producto = _context.Productos.FirstOrDefault(p => p.CodigoProducto == codigoProducto);
                 if (producto != null)
                 {
+                    
                     producto.StockActual -= cantidad;
-                    context.SaveChanges();
+                    if (producto.StockActual < 0)
+                        producto.StockActual = 0;
+
+                    _context.SaveChanges();
+                    return true;
                 }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en DisminuirStock: " + ex.Message);
+                return false;
             }
         }
 

@@ -682,8 +682,7 @@ namespace formstienda
 
                         txtsubtotalcompra.Text = listadetallecompra
                                                                     .Where(x => x.IdCompra == listacompra.Last().IdCompra)
-                                                                    .Sum(x => x.SubtotalCompra).ToString("C", new CultureInfo("es-NI"));
-                        productoServicio.AumentarStock(codigoProducto, cantidad);
+                                                                    .Sum(x => x.SubtotalCompra).ToString("C", new CultureInfo("es-NI"));  
                     }
                     else
                     {
@@ -697,6 +696,7 @@ namespace formstienda
                     txtprecioventa.Clear();
                     txtcodigoproducto.Clear();
                     limpiarcampos();
+
                     btnregistrar.Enabled = true;
                     newcompra = false;
                 }
@@ -837,7 +837,12 @@ namespace formstienda
                 // Revertir stock
                 foreach (var detalle in detalles)
                 {
-                    productoServicio.DisminuirStock(detalle.CodigoProducto, detalle.CantidadCompra);
+                    bool ok = productoServicio.DisminuirStock(detalle.CodigoProducto, detalle.CantidadCompra);
+                    if (!ok)
+                    {
+                        MessageBox.Show($"No se pudo revertir el stock del producto con código: {detalle.CodigoProducto}",
+                                        "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
 
 

@@ -70,7 +70,10 @@ namespace formstienda.capa_de_presentación
 
         private void iconPictureBox1_Click(object sender, EventArgs e)
         {
+            Login login = new Login();
+            login.Show();
 
+            this.Close(); 
         }
 
 

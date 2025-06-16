@@ -119,11 +119,7 @@
             panel48 = new Panel();
             panel49 = new Panel();
             panel50 = new Panel();
-            dateTimePicker15 = new DateTimePicker();
-            label35 = new Label();
-            button10 = new Button();
-            dateTimePicker16 = new DateTimePicker();
-            label36 = new Label();
+            btngenerarreportemora = new Button();
             label37 = new Label();
             panel51 = new Panel();
             label38 = new Label();
@@ -132,10 +128,12 @@
             panel54 = new Panel();
             panel55 = new Panel();
             panel56 = new Panel();
-            dateTimePicker17 = new DateTimePicker();
+            label43 = new Label();
+            cmbCliente = new ComboBox();
+            FechaCreditoFinal = new DateTimePicker();
             label39 = new Label();
-            button11 = new Button();
-            dateTimePicker18 = new DateTimePicker();
+            btnReporteCredito = new Button();
+            FechaCreditoInicial = new DateTimePicker();
             label40 = new Label();
             label41 = new Label();
             panel57 = new Panel();
@@ -1228,11 +1226,7 @@
             // 
             panel50.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel50.BorderStyle = BorderStyle.FixedSingle;
-            panel50.Controls.Add(dateTimePicker15);
-            panel50.Controls.Add(label35);
-            panel50.Controls.Add(button10);
-            panel50.Controls.Add(dateTimePicker16);
-            panel50.Controls.Add(label36);
+            panel50.Controls.Add(btngenerarreportemora);
             panel50.Controls.Add(label37);
             panel50.Controls.Add(panel51);
             panel50.Controls.Add(panel52);
@@ -1246,60 +1240,18 @@
             panel50.Size = new Size(248, 352);
             panel50.TabIndex = 11;
             // 
-            // dateTimePicker15
+            // btngenerarreportemora
             // 
-            dateTimePicker15.Format = DateTimePickerFormat.Custom;
-            dateTimePicker15.Location = new Point(30, 198);
-            dateTimePicker15.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker15.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker15.Name = "dateTimePicker15";
-            dateTimePicker15.Size = new Size(190, 27);
-            dateTimePicker15.TabIndex = 6;
-            dateTimePicker15.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
-            // 
-            // label35
-            // 
-            label35.AutoSize = true;
-            label35.ForeColor = Color.Black;
-            label35.Location = new Point(26, 170);
-            label35.Margin = new Padding(2, 0, 2, 0);
-            label35.Name = "label35";
-            label35.Size = new Size(83, 20);
-            label35.TabIndex = 5;
-            label35.Text = "Fecha final:";
-            // 
-            // button10
-            // 
-            button10.BackColor = Color.FromArgb(3, 171, 229);
-            button10.Location = new Point(76, 266);
-            button10.Margin = new Padding(2, 5, 2, 5);
-            button10.Name = "button10";
-            button10.Size = new Size(78, 38);
-            button10.TabIndex = 4;
-            button10.Text = "Generar";
-            button10.UseVisualStyleBackColor = false;
-            // 
-            // dateTimePicker16
-            // 
-            dateTimePicker16.Format = DateTimePickerFormat.Custom;
-            dateTimePicker16.Location = new Point(30, 115);
-            dateTimePicker16.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker16.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker16.Name = "dateTimePicker16";
-            dateTimePicker16.Size = new Size(190, 27);
-            dateTimePicker16.TabIndex = 3;
-            dateTimePicker16.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
-            // 
-            // label36
-            // 
-            label36.AutoSize = true;
-            label36.ForeColor = Color.Black;
-            label36.Location = new Point(26, 90);
-            label36.Margin = new Padding(2, 0, 2, 0);
-            label36.Name = "label36";
-            label36.Size = new Size(93, 20);
-            label36.TabIndex = 2;
-            label36.Text = "Fecha inicial:";
+            btngenerarreportemora.BackColor = Color.FromArgb(3, 171, 229);
+            btngenerarreportemora.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btngenerarreportemora.Location = new Point(88, 266);
+            btngenerarreportemora.Margin = new Padding(2, 5, 2, 5);
+            btngenerarreportemora.Name = "btngenerarreportemora";
+            btngenerarreportemora.Size = new Size(95, 38);
+            btngenerarreportemora.TabIndex = 4;
+            btngenerarreportemora.Text = "Generar";
+            btngenerarreportemora.UseVisualStyleBackColor = false;
+            btngenerarreportemora.Click += btngenerarreportemora_Click;
             // 
             // label37
             // 
@@ -1327,12 +1279,12 @@
             label38.BackColor = Color.FromArgb(3, 171, 229);
             label38.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label38.ForeColor = Color.Black;
-            label38.Location = new Point(20, 17);
+            label38.Location = new Point(52, 22);
             label38.Margin = new Padding(2, 0, 2, 0);
             label38.Name = "label38";
-            label38.Size = new Size(177, 20);
+            label38.Size = new Size(162, 20);
             label38.TabIndex = 0;
-            label38.Text = " Reporte de crédito:";
+            label38.Text = "Clientes morosos:";
             // 
             // panel52
             // 
@@ -1375,10 +1327,12 @@
             // 
             panel56.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel56.BorderStyle = BorderStyle.FixedSingle;
-            panel56.Controls.Add(dateTimePicker17);
+            panel56.Controls.Add(label43);
+            panel56.Controls.Add(cmbCliente);
+            panel56.Controls.Add(FechaCreditoFinal);
             panel56.Controls.Add(label39);
-            panel56.Controls.Add(button11);
-            panel56.Controls.Add(dateTimePicker18);
+            panel56.Controls.Add(btnReporteCredito);
+            panel56.Controls.Add(FechaCreditoInicial);
             panel56.Controls.Add(label40);
             panel56.Controls.Add(label41);
             panel56.Controls.Add(panel57);
@@ -1393,58 +1347,88 @@
             panel56.Size = new Size(248, 352);
             panel56.TabIndex = 14;
             // 
-            // dateTimePicker17
+            // label43
             // 
-            dateTimePicker17.Format = DateTimePickerFormat.Custom;
-            dateTimePicker17.Location = new Point(30, 198);
-            dateTimePicker17.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker17.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker17.Name = "dateTimePicker17";
-            dateTimePicker17.Size = new Size(190, 27);
-            dateTimePicker17.TabIndex = 6;
-            dateTimePicker17.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            label43.AutoSize = true;
+            label43.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            label43.ForeColor = Color.Black;
+            label43.Location = new Point(26, 193);
+            label43.Margin = new Padding(2, 0, 2, 0);
+            label43.Name = "label43";
+            label43.Size = new Size(74, 20);
+            label43.TabIndex = 15;
+            label43.Text = "Cliente:";
+            // 
+            // cmbCliente
+            // 
+            cmbCliente.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCliente.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            cmbCliente.FormattingEnabled = true;
+            cmbCliente.Items.AddRange(new object[] { "Defecto de fabrica", "Facturacion erronea", "Producto dañado", "Uso personal", "Patrocinio" });
+            cmbCliente.Location = new Point(30, 218);
+            cmbCliente.Margin = new Padding(2, 5, 2, 5);
+            cmbCliente.Name = "cmbCliente";
+            cmbCliente.Size = new Size(190, 28);
+            cmbCliente.TabIndex = 14;
+            // 
+            // FechaCreditoFinal
+            // 
+            FechaCreditoFinal.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            FechaCreditoFinal.Format = DateTimePickerFormat.Custom;
+            FechaCreditoFinal.Location = new Point(31, 155);
+            FechaCreditoFinal.Margin = new Padding(2, 5, 2, 5);
+            FechaCreditoFinal.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            FechaCreditoFinal.Name = "FechaCreditoFinal";
+            FechaCreditoFinal.Size = new Size(190, 26);
+            FechaCreditoFinal.TabIndex = 6;
+            FechaCreditoFinal.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label39
             // 
             label39.AutoSize = true;
+            label39.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
             label39.ForeColor = Color.Black;
-            label39.Location = new Point(26, 170);
+            label39.Location = new Point(25, 130);
             label39.Margin = new Padding(2, 0, 2, 0);
             label39.Name = "label39";
-            label39.Size = new Size(83, 20);
+            label39.Size = new Size(108, 20);
             label39.TabIndex = 5;
             label39.Text = "Fecha final:";
             // 
-            // button11
+            // btnReporteCredito
             // 
-            button11.BackColor = Color.FromArgb(3, 171, 229);
-            button11.Location = new Point(76, 266);
-            button11.Margin = new Padding(2, 5, 2, 5);
-            button11.Name = "button11";
-            button11.Size = new Size(78, 38);
-            button11.TabIndex = 4;
-            button11.Text = "Generar";
-            button11.UseVisualStyleBackColor = false;
+            btnReporteCredito.BackColor = Color.FromArgb(3, 171, 229);
+            btnReporteCredito.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            btnReporteCredito.Location = new Point(75, 263);
+            btnReporteCredito.Margin = new Padding(2, 5, 2, 5);
+            btnReporteCredito.Name = "btnReporteCredito";
+            btnReporteCredito.Size = new Size(88, 43);
+            btnReporteCredito.TabIndex = 4;
+            btnReporteCredito.Text = "Generar";
+            btnReporteCredito.UseVisualStyleBackColor = false;
+            btnReporteCredito.Click += btnReporteCredito_Click;
             // 
-            // dateTimePicker18
+            // FechaCreditoInicial
             // 
-            dateTimePicker18.Format = DateTimePickerFormat.Custom;
-            dateTimePicker18.Location = new Point(30, 115);
-            dateTimePicker18.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker18.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker18.Name = "dateTimePicker18";
-            dateTimePicker18.Size = new Size(190, 27);
-            dateTimePicker18.TabIndex = 3;
-            dateTimePicker18.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
+            FechaCreditoInicial.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            FechaCreditoInicial.Format = DateTimePickerFormat.Custom;
+            FechaCreditoInicial.Location = new Point(30, 94);
+            FechaCreditoInicial.Margin = new Padding(2, 5, 2, 5);
+            FechaCreditoInicial.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
+            FechaCreditoInicial.Name = "FechaCreditoInicial";
+            FechaCreditoInicial.Size = new Size(190, 26);
+            FechaCreditoInicial.TabIndex = 3;
+            FechaCreditoInicial.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
             // 
             // label40
             // 
             label40.AutoSize = true;
+            label40.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
             label40.ForeColor = Color.Black;
-            label40.Location = new Point(26, 90);
+            label40.Location = new Point(25, 69);
             label40.Margin = new Padding(2, 0, 2, 0);
             label40.Name = "label40";
-            label40.Size = new Size(93, 20);
+            label40.Size = new Size(122, 20);
             label40.TabIndex = 2;
             label40.Text = "Fecha inicial:";
             // 
@@ -1837,10 +1821,10 @@
         private System.Windows.Forms.Panel panel48;
         private System.Windows.Forms.Panel panel49;
         private System.Windows.Forms.Panel panel56;
-        private System.Windows.Forms.DateTimePicker dateTimePicker17;
+        private System.Windows.Forms.DateTimePicker FechaCreditoFinal;
         private System.Windows.Forms.Label label39;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.DateTimePicker dateTimePicker18;
+        private System.Windows.Forms.Button btnReporteCredito;
+        private System.Windows.Forms.DateTimePicker FechaCreditoInicial;
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Panel panel57;
@@ -1850,11 +1834,7 @@
         private System.Windows.Forms.Panel panel60;
         private System.Windows.Forms.Panel panel61;
         private System.Windows.Forms.Panel panel50;
-        private System.Windows.Forms.DateTimePicker dateTimePicker15;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.DateTimePicker dateTimePicker16;
-        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Button btngenerarreportemora;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Panel panel51;
         private System.Windows.Forms.Label label38;
@@ -1900,5 +1880,7 @@
         private ComboBox cmbUsuarioReporte;
         private Label label32;
         private ComboBox cmbMotivo;
+        private Label label43;
+        private ComboBox cmbCliente;
     }
 }
