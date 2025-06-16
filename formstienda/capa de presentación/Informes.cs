@@ -470,6 +470,32 @@ namespace formstienda
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btngenerarreportemora_Click(object sender, EventArgs e)
+        {
+
+            // Generar ruta temporal para el PDF
+            string rutaTemporal = Path.Combine(
+                Path.GetTempPath(),
+                $"ReporteClientesMorosos_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
+            );
+
+            //Aqui se busca la instancia del formulario de menu
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+
+            if (menuForm != null)
+            {
+                // con esto se abre el reporte dentro del panel del formulario de menu
+                menuForm.AbrirformInPanel(new FormClientesMorosos(rutaTemporal));
+            }
+
+            // para cerrar el formulario de informes
+            this.Close();
+        }
     }
 
 }

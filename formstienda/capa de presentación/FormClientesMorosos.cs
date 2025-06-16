@@ -131,6 +131,7 @@ namespace formstienda.capa_de_presentación
                     tabla.AddHeaderCell(new Cell().Add(new Paragraph("Saldo pendiente").SetFont(boldFont).SetFontSize(10)
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
 
+                    Double totalGeneral = 0;
                     foreach (var clientemora in Lista)
                     {
                         tabla.AddCell(Celda(clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.NombreCliente));
@@ -141,10 +142,14 @@ namespace formstienda.capa_de_presentación
                         var diasMora = (DateTime.Now.Date - clientemora.FechaPago.Date).Days;
                         tabla.AddCell(Celda(diasMora));
 
-                        tabla.AddCell(Celda(clientemora.IdCreditoNavigation.MontoCredito));
-                    }
 
-                    double totalGeneral = Lista.Sum(c => c.IdCreditoNavigation.MontoCredito);
+                        int mesesMora = diasMora / 30;
+                        double montoOriginal = clientemora.IdCreditoNavigation.MontoCredito;
+                        double montoConInteres = montoOriginal * Math.Pow(1.03, mesesMora);
+                        tabla.AddCell(Celda(montoConInteres.ToString("C", monedaNic)));
+
+                        totalGeneral += montoConInteres;
+                    }
 
                     document.Add(tabla);
 

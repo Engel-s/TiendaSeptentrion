@@ -119,7 +119,6 @@
             panel48 = new Panel();
             panel49 = new Panel();
             panel50 = new Panel();
-            label35 = new Label();
             btngenerarreportemora = new Button();
             label37 = new Label();
             panel51 = new Panel();
@@ -1227,7 +1226,6 @@
             // 
             panel50.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel50.BorderStyle = BorderStyle.FixedSingle;
-            panel50.Controls.Add(label35);
             panel50.Controls.Add(btngenerarreportemora);
             panel50.Controls.Add(label37);
             panel50.Controls.Add(panel51);
@@ -1242,19 +1240,6 @@
             panel50.Size = new Size(248, 352);
             panel50.TabIndex = 11;
             // 
-            // label35
-            // 
-            label35.AutoSize = true;
-            label35.BackColor = Color.Transparent;
-            label35.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label35.ForeColor = Color.Black;
-            label35.Location = new Point(52, 162);
-            label35.Margin = new Padding(2, 0, 2, 0);
-            label35.Name = "label35";
-            label35.Size = new Size(152, 20);
-            label35.TabIndex = 1;
-            label35.Text = "Clientes en mora";
-            // 
             // btngenerarreportemora
             // 
             btngenerarreportemora.BackColor = Color.FromArgb(3, 171, 229);
@@ -1266,7 +1251,7 @@
             btngenerarreportemora.TabIndex = 4;
             btngenerarreportemora.Text = "Generar";
             btngenerarreportemora.UseVisualStyleBackColor = false;
-            btngenerarreportemora.Click += button10_Click;
+            btngenerarreportemora.Click += btngenerarreportemora_Click;
             // 
             // label37
             // 

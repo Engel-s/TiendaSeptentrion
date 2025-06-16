@@ -37,6 +37,7 @@ namespace formstienda.capa_de_negocios
                                     {
                                         NombreCliente = d.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.NombreCliente,
                                         DireccionCliente = d.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.DireccionCliente,
+                                        TelefonoCliente = d.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.TelefonoCliente
                                     }
                                 }
                             },
