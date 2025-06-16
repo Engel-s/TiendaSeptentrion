@@ -20,7 +20,8 @@ namespace formstienda.capa_de_negocios
                         .Include(d => d.IdCreditoNavigation)
                             .ThenInclude(d => d.IdVentaNavigation)
                             .ThenInclude(d => d.CedulaClienteNavigation)
-                         .Where(d => d.FechaPago < DateTime.Now)
+                         .Where(d => d.FechaPago < DateTime.Now &&
+    d.                                  IdCreditoNavigation.EstadoCredito == "Activo")
                         .Select(d => new DetalleCredito
                         {
                             IdDetalleCredito = d.IdDetalleCredito,
