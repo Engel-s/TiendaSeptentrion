@@ -71,7 +71,7 @@ namespace formstienda.capa_de_negocios
 
 
                     // Ruta local de tu imagen (asegúrate que exista en esa ubicación)
-                    string rutaImagen = @"C:\Users\ryuga\Downloads\XDDD.png";
+                    string rutaImagen = @"..\..\..\Resources\logo_actualizado-removebg-preview.png";
                     string contentId = "LogoEmpresa";
 
                     // Crear HTML con imagen embebida

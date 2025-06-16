@@ -167,27 +167,27 @@ namespace formstienda
             {
                 e.Handled = true;
                 int pos = txt.SelectionStart;
-                txt.Text = txt.Text.Insert(pos, ",");
+                txt.Text = txt.Text.Insert(pos, ".");
                 txt.SelectionStart = pos + 1;
                 return;
             }
 
             // Permitir solo dígitos o una sola coma
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',')
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
                 return;
             }
 
             // No permitir más de una coma
-            if (e.KeyChar == ',' && txt.Text.Contains(','))
+            if (e.KeyChar == '.' && txt.Text.Contains('.'))
             {
                 e.Handled = true;
                 return;
             }
 
             // Limitar coma a ser después de mínimo dos dígitos
-            if (e.KeyChar == ',' && txt.SelectionStart < 2)
+            if (e.KeyChar == '.' && txt.SelectionStart < 2)
             {
                 e.Handled = true;
             }
@@ -198,14 +198,14 @@ namespace formstienda
             string nuevoTexto = textoActual.Insert(posCursor, e.KeyChar.ToString());
 
             // Contar cuántos dígitos hay antes de la coma (o en total si no hay coma)
-            string parteAntesDeComa = nuevoTexto.Split(',')[0];
+            string parteAntesDeComa = nuevoTexto.Split('.')[0];
             int digitosAntesDeComa = parteAntesDeComa.Count(c => char.IsDigit(c));
 
             // Si se han escrito dos dígitos y no hay coma, insertar automáticamente
-            if (digitosAntesDeComa == 2 && !textoActual.Contains(","))
+            if (digitosAntesDeComa == 2 && !textoActual.Contains("."))
             {
                 e.Handled = true;
-                txt.Text = textoActual.Insert(posCursor, e.KeyChar + ",");
+                txt.Text = textoActual.Insert(posCursor, e.KeyChar + ".");
                 txt.SelectionStart = posCursor + 2;
                 return;
             }

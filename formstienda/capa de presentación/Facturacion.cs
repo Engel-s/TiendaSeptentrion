@@ -527,11 +527,15 @@ namespace formstienda
             // Sumar los subtotales de todas las filas
             foreach (DataGridViewRow row in dgmostrar.Rows)
             {
-                total += Convert.ToDouble(row.Cells["Subtotal"].Value);
+                if (row.Cells["Subtotal"].Value != null && double.TryParse(row.Cells["Subtotal"].Value.ToString(), out double subtotal))
+                {
+                    total += subtotal;
+                }
             }
 
-            txttotal.Text = total.ToString();
+            txttotal.Text = total.ToString("N2"); // Ejemplo: 1,234.56
         }
+
 
         private void btnagregar_Click(object sender, EventArgs e)
         {

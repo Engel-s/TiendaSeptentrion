@@ -22,12 +22,15 @@ namespace formstienda.capa_de_negocios
         {
             DateOnly fechaActual = DateOnly.FromDateTime(DateTime.Today);
 
-            float totalVentas = _contexto.Venta
-                .Where(v => v.FechaVenta == fechaActual && v.TipoPago == "Contado")
-                .Sum(v => v.TotalVenta);
+            var ventasContado = _contexto.Venta
+                .Where(v => v.FechaVenta == fechaActual && v.TipoPago == "Contado" && v.CambiosFactura == null);
 
-            return totalVentas;
+            float totalVentas = ventasContado.Sum(v => v.TotalVenta);
+           
+
+            return totalVentas ;
         }
+
 
         public void ActualizarArqueoCaja(float totalEfectivoCordoba, float totalEfectivoDolar,float? faltanteCordoba, float? faltanteDolar,float? sobranteCordoba, float? sobranteDolar)
         {
@@ -89,6 +92,29 @@ namespace formstienda.capa_de_negocios
 
             return $"{usuario.NombreUsuario} {usuario.ApellidoUsuario}";
         }
+
+        public void SumarAbonoCreditoAEfectivo(float pagoCordobas, float pagoDolares)
+        {
+            DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+
+            var arqueo = _contexto.ArqueoCajas
+                .Where(a => a.FechaArqueo.Date == hoy.ToDateTime(TimeOnly.MinValue).Date)
+                .OrderByDescending(a => a.FechaArqueo)
+                .FirstOrDefault();
+
+            if (arqueo != null)
+            {
+                arqueo.TotalEfectivoCordoba += pagoCordobas;
+                arqueo.TotalEfectivoDolar += pagoDolares;
+
+                _contexto.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidOperationException("No hay arqueo registrado para hoy.");
+            }
+        }
+
 
     }
 }

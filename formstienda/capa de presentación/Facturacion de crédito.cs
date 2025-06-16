@@ -1,6 +1,7 @@
 ﻿using formstienda.capa_de_negocios;
 using formstienda.Capa_negocios;
 using formstienda.Datos;
+using iText.Commons.Actions.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace formstienda.capa_de_presentación
         private CreditoServicio creditoServicio = new CreditoServicio();
         private FacturaCredito? creditoActual;
         private TasaServicio TasaServicio = new TasaServicio();
+        private ArqueoCaja arqueoCaja = new ArqueoCaja();
 
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -107,7 +109,7 @@ namespace formstienda.capa_de_presentación
                 cuotaDb.TotalCordobas = pagoCordobas;
                 cuotaDb.TotalDolares = pagoDolares;
                 cuotaDb.CambioDevuelto = cambio;
-                cuotaDb.Observaciones = $"Pago realizado el {DateTime.Now:dd/MM/yyyy HH:mm}. Mora: C${mora:N2}. Cambio: C${cambio:N2}.";
+                cuotaDb.Observaciones = $"Pago realizado el {DateTime.Now:dd/MM/yyyy HH:mm}. Mora: C${mora:N2}. Cambio: C${cambio:N2}. Sin tomar en arqueo.";
                 cuotaDb.UsuarioRegistro = UsuarioActivo.ObtenerUsuarioLogueo();
                 context.SaveChanges();
 
@@ -127,7 +129,7 @@ namespace formstienda.capa_de_presentación
                         MessageBox.Show("Crédito completamente saldado. Estado: Inactivo.", "Crédito Finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-
+                
 
 
 
@@ -139,6 +141,8 @@ namespace formstienda.capa_de_presentación
                     creditoActual.EstadoCredito = facturaDb.EstadoCredito;
                 }
             }
+           
+
 
             string mensaje = "Pago registrado correctamente.";
 
@@ -151,10 +155,27 @@ namespace formstienda.capa_de_presentación
 
             // Refrescar
             LimpiarFormularioCredito();
+            try
+            {
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    var servicioArqueo = new ArqueoDeCajaServicio(context);
+                    servicioArqueo.SumarAbonoCreditoAEfectivo(pagoCordobas, pagoDolares);
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show("⚠️ " + ex.Message);
+            }
+
+
+
 
 
 
         }
+
+        
 
 
         private void LimpiarFormularioCredito()

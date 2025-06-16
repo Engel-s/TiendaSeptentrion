@@ -156,9 +156,7 @@ namespace formstienda.Servicios
                 .Where(v => v.PagoCordobas.HasValue)
                 .Sum(v => v.PagoCordobas.Value);
 
-            decimal totalCreditos = (decimal)ListarPagosCredito(fecha)
-                .Where(p => p.TotalCordobas > 0)
-                .Sum(p => p.TotalCordobas);
+            var (_, totalCordobasCredito) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
 
             decimal totalDevoluciones = (decimal)Listardetallesdevolucion(fecha)
                 .Sum(d => d.MontoDevuelto);
@@ -167,54 +165,101 @@ namespace formstienda.Servicios
                 .Where(e => e.FechaEgreso == fecha)
                 .Sum(e => e.CantidadEgresadaCordoba);
 
-            return montoApertura + totalVentas + totalCreditos - totalDevoluciones - totalEgresos;
+            return montoApertura + totalVentas + totalCordobasCredito - totalDevoluciones - totalEgresos;
         }
 
         public decimal ObtenerTotalCajaDolares(DateOnly fecha)
         {
+            // 1. Suma de ventas en dólares
             decimal totalVentas = (decimal)ListarTotalVenta(fecha)
                 .Where(v => v.PagoDolares.HasValue)
                 .Sum(v => v.PagoDolares.Value);
 
-            decimal totalCreditos = (decimal)ListarPagosCredito(fecha)
-                .Where(p => p.TotalDolares > 0)
-                .Sum(p => p.TotalDolares);
+            // 2. Obtener créditos en dólares
+            var (_, totalDolaresCredito) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
 
+            // 3. Suma de egresos en dólares
             decimal totalEgresos = (decimal)_contexto.Egresos
                 .Where(e => e.FechaEgreso == fecha)
                 .Sum(e => e.CantidadEgresadaDolar);
 
-            return totalVentas + totalCreditos - totalEgresos;
+            // Cálculo final: Ventas + Créditos - Egresos
+            return totalVentas + totalDolaresCredito - totalEgresos;
         }
 
         public decimal ObtenerTotalBrutoCordobas(DateOnly fecha)
-        {           
-            decimal totalVentas = (decimal)ListarTotalVenta(fecha)
-                .Where(v => v.PagoCordobas.HasValue)
-                .Sum(v => v.PagoCordobas.Value);
+        {
+            // Obtener la lista de ventas para la fecha, filtrando las que no han sido tomadas en arqueo y que tengan PagoCordobas
+            var ventasDelDia = ListarTotalVenta(fecha)
+                .Where(v => v.PagoCordobas.HasValue && v.CambiosFactura == null);
 
-            decimal totalCreditos = (decimal)ListarPagosCredito(fecha)
-                .Where(p => p.TotalCordobas > 0)
-                .Sum(p => p.TotalCordobas);
+            decimal totalVentas = ventasDelDia.Sum(v => (decimal)v.PagoCordobas.Value);
 
+            // Obtener totales de crédito SOLO "Sin tomar en arqueo"
+            var (totalCordobasCredito, _) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
+
+            // Suma de devoluciones
             decimal totalDevoluciones = (decimal)Listardetallesdevolucion(fecha)
                 .Sum(d => d.MontoDevuelto);
-                        
-            return totalVentas + totalCreditos - totalDevoluciones;
+
+            // Obtener la última apertura abierta
+            var ultimaAperturaAbierta = _contexto.AperturaCajas
+                .Where(a => a.EstadoApertura == "Abierta")
+                .OrderByDescending(a => a.FechaApertura)
+                .FirstOrDefault();
+
+            decimal montoApertura = 0;
+
+            if (ultimaAperturaAbierta != null)
+            {
+                montoApertura = (decimal)ultimaAperturaAbierta.MontoApertura;
+            }
+
+            // Total final: monto apertura + ventas + créditos - devoluciones
+            return montoApertura + totalVentas + totalCordobasCredito - totalDevoluciones;
         }
+
+
+
 
         public decimal ObtenerTotalBrutoDolares(DateOnly fecha)
         {
+            // Suma de ventas en dólares que no han sido tomadas en arqueo
             decimal totalVentas = (decimal)ListarTotalVenta(fecha)
-                .Where(v => v.PagoDolares.HasValue)
+                .Where(v => v.PagoDolares.HasValue && v.CambiosFactura == null)
                 .Sum(v => v.PagoDolares.Value);
 
-            decimal totalCreditos = (decimal)ListarPagosCredito(fecha)
-                .Where(p => p.TotalDolares > 0)
-                .Sum(p => p.TotalDolares);
-                        
-            return totalVentas + totalCreditos;
+            // Obtener los totales de crédito que aún no se han tomado en arqueo
+            var (_, totalDolaresCredito) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
+
+            // Total final en dólares
+            return totalVentas + totalDolaresCredito;
         }
+
+
+
+        public (decimal totalCordobas, decimal totalDolares) ObtenerTotalesCreditoPorFechaDesdeObservaciones(DateOnly fecha)
+        {
+            string fechaFormateada = fecha.ToDateTime(TimeOnly.MinValue).ToString("dd/MM/yyyy");
+
+            var pagosFiltrados = _contexto.DetalleCreditos
+                .Where(dc => dc.Observaciones != null &&
+                             dc.Observaciones.Contains($"Pago realizado el {fechaFormateada}") &&
+                             dc.Observaciones.Contains("Sin tomar en arqueo"))
+                .ToList();
+
+            decimal totalCordobasCredito = pagosFiltrados.Sum(dc => (decimal)dc.TotalCordobas);
+            decimal totalDolaresCredito = pagosFiltrados.Sum(dc => (decimal)dc.TotalDolares);
+            decimal totalCambioCordobas = pagosFiltrados.Sum(dc => (decimal?)(dc.CambioDevuelto) ?? 0m);
+        
+
+            totalCordobasCredito -= totalCambioCordobas;
+            
+
+            return (totalCordobasCredito, totalDolaresCredito);
+        }
+
+
 
         public decimal ObtenerTotalEgresosCordobas(DateOnly fecha)
         {
@@ -243,10 +288,20 @@ namespace formstienda.Servicios
         public List<Ventum> ListarTotalVenta(DateOnly fechaActual)
         {
             return _contexto.Venta
-                .Where(a => a.FechaVenta == fechaActual)
+                .Where(a => a.FechaVenta == fechaActual && a.TipoPago == "Contado" && a.CambiosFactura == null)
                 .AsNoTracking()
                 .ToList();
         }
+        public float ObtenerTotalVentasDelDia(DateOnly fecha)
+        {
+            var ventas = ListarTotalVenta(fecha);
+
+            float totalVentas = ventas.Sum(v => v.TotalVenta);
+            float totalCambioDevuelto = ventas.Sum(v => v.CambioVenta ?? 0);
+
+            return totalVentas - totalCambioDevuelto;
+        }
+
 
         public List<DetalleDevolucion> ListarDevolucion(DateOnly fechaActual)
         {
@@ -256,14 +311,7 @@ namespace formstienda.Servicios
                 .ToList();
         }
 
-        public List<DetalleCredito> ListarPagosCredito(DateOnly fechaActual)
-        {
-            var fechaDateTime = fechaActual.ToDateTime(TimeOnly.MinValue);
-            return _contexto.DetalleCreditos
-                .Where(a => a.FechaPago.Date == fechaDateTime.Date)
-                .AsNoTracking()
-                .ToList();
-        }
+        
         public List<DetalleDevolucion> Listardetallesdevolucion(DateOnly fechaActual)
         {
             return _contexto.DetalleDevolucions
