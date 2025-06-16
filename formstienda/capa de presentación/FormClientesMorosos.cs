@@ -128,7 +128,8 @@ namespace formstienda.capa_de_presentación
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
                     tabla.AddHeaderCell(new Cell().Add(new Paragraph("Dias de mora").SetFont(boldFont).SetFontSize(10)
                         .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Saldo pendiente").SetFont(boldFont).SetFontSize(10)));
+                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Saldo pendiente").SetFont(boldFont).SetFontSize(10)
+                        .SetBackgroundColor(colorEncabezado).SetBorder(new SolidBorder(colorEncabezado, 0f))));
 
                     foreach (var clientemora in Lista)
                     {
@@ -136,7 +137,10 @@ namespace formstienda.capa_de_presentación
                         tabla.AddCell(Celda(clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.TelefonoCliente));
                         tabla.AddCell(Celda(clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.DireccionCliente));
                         tabla.AddCell(Celda(clientemora.FechaPago));
-                        tabla.AddCell(Celda("Ejemplo"));
+
+                        var diasMora = (DateTime.Now.Date - clientemora.FechaPago.Date).Days;
+                        tabla.AddCell(Celda(diasMora));
+
                         tabla.AddCell(Celda(clientemora.IdCreditoNavigation.MontoCredito));
                     }
 
