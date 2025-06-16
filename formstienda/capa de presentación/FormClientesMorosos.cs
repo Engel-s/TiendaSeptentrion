@@ -135,7 +135,6 @@ namespace formstienda.capa_de_presentación
                     foreach (var clientemora in Lista)
                     {
                         var cliente = clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation;
-                        //string nombreCompleto = $"{cliente.NombreCliente} {cliente.ApellidoCliente}";
                         tabla.AddCell(Celda($"{cliente.NombreCliente} {cliente.ApellidoCliente}"));
                         tabla.AddCell(Celda(clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.TelefonoCliente));
                         tabla.AddCell(Celda(clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.DireccionCliente));
