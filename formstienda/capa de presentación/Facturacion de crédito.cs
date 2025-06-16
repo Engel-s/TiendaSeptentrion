@@ -1,4 +1,6 @@
-﻿using formstienda.Datos;
+﻿using formstienda.capa_de_negocios;
+using formstienda.Capa_negocios;
+using formstienda.Datos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static formstienda.Login;
 
 namespace formstienda.capa_de_presentación
 {
@@ -17,7 +20,13 @@ namespace formstienda.capa_de_presentación
         public Facturacion_de_crédito()
         {
             InitializeComponent();
+            txtCordobas.KeyUp += (s, e) => RecalcularPagos();
+            txtDolares.KeyUp += (s, e) => RecalcularPagos();
         }
+        private CreditoServicio creditoServicio = new CreditoServicio();
+        private FacturaCredito? creditoActual;
+        private TasaServicio TasaServicio = new TasaServicio();
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -30,342 +39,425 @@ namespace formstienda.capa_de_presentación
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Hide();
             this.Close();
         }
 
         private void Facturacion_de_crédito_Load(object sender, EventArgs e)
         {
-            if (Tabla_Credito.CurrentRow == null)
-            {
-                MessageBox.Show("Seleccione una factura.");
-                return;
-            }
-
-            string numeroFacturaStr = Tabla_Credito.CurrentRow.Cells["NumeroFactura"].Value.ToString();
-
-            if (!int.TryParse(numeroFacturaStr, out int numeroFactura))
-            {
-                MessageBox.Show("Número de factura inválido.");
-                return;
-            }
-
-            if (!decimal.TryParse(txtTotalAbonado.Text, out decimal abono) || abono <= 0)
-            {
-                MessageBox.Show("Ingrese un monto válido para el abono.");
-                return;
-            }
-
-            using (var context = new DbTiendaSeptentrionContext())
-            {
-                // Buscar la venta por IdVenta 
-                var factura = context.Venta.FirstOrDefault(f => f.IdVenta == numeroFactura);
-                if (factura == null)
-                {
-                    MessageBox.Show("Factura no encontrada.");
-                    return;
-                }
-
-                // Buscar el detalle de crédito 
-                var credito = context.DetalleCreditos.FirstOrDefault(d => d.IdDetalleCredito == numeroFactura);
-                if (credito == null)
-                {
-                    MessageBox.Show("Detalle de crédito no encontrado.");
-                    return;
-                }
-
-                // Si hay atraso, incrementar interés
-                if (DateTime.Now > credito.FechaPago)
-                {
-                    decimal interesDecimal = Convert.ToDecimal(credito.InteresPagado);
-                    interesDecimal += 0.03m; // Incrementar 3%
-                    credito.InteresPagado = (float)interesDecimal;
-                }
-
-                // Actualizar abono capital sumando el nuevo abono
-                decimal abonoCapital = Convert.ToDecimal(credito.AbonoCapital);
-                abonoCapital += abono;
-                credito.AbonoCapital = (float)abonoCapital;
-
-                // Calcular nuevo saldo pendiente restando el total abonado al saldo original
-                decimal saldoOriginal = Convert.ToDecimal(credito.ValorCuota); 
-                decimal nuevoSaldo = saldoOriginal - abonoCapital;
-                if (nuevoSaldo < 0)
-                    nuevoSaldo = 0;
-
-                credito.ValorCuota = (float)nuevoSaldo;
-
-                context.SaveChanges();
-
-                MessageBox.Show($"Saldo restante a pagar: {credito.ValorCuota:C2}");
-
-               
-                Tabla_Credito_CellContentClick(null, null);
-            }
-
+            txtDolares.ReadOnly = false;
         }
 
         public void CargarProducto()
         {
 
         }
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void txtCordobas_TextChanged(object sender, EventArgs e)
         {
-            
-            string criterio = txtBusqueda.Text.Trim();
+            RecalcularPagos();
+
+        }
+
+
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (creditoActual == null)
+            {
+                MessageBox.Show("No hay un crédito cargado para pagar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var proximaCuota = creditoServicio.ObtenerProximaCuota(creditoActual, out int diasMora, out float mora);
+
+            if (proximaCuota == null)
+            {
+                MessageBox.Show("No hay cuotas pendientes para pagar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (!float.TryParse(txtCordobas.Text, out float pagoCordobas)) pagoCordobas = 0;
+            if (!float.TryParse(txtDolares.Text, out float pagoDolares)) pagoDolares = 0;
+
+            if (pagoCordobas <= 0 && pagoDolares <= 0)
+            {
+                MessageBox.Show("Ingrese un monto a pagar en córdobas o dólares.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            float tasaCambio = TasaServicio.ObtenerTasaDeHoy().ValorCambio;
+            float pagoTotalCordobas = pagoCordobas + (pagoDolares * tasaCambio);
+            float totalCuota = proximaCuota.ValorCuota + mora;
+
+            float cambio = 0;
+            if (pagoTotalCordobas > totalCuota)
+            {
+                cambio = pagoTotalCordobas - totalCuota;
+                pagoTotalCordobas = totalCuota; // Solo se abona lo necesario
+            }
 
             using (var context = new DbTiendaSeptentrionContext())
             {
-                var creditos = context.DetalleCreditos
-                    .Include(f => f.IdCreditoNavigation) // Propiedad de navegación a FacturaCredito o Venta
-                    .Where(f => f.IdDetalleCredito.ToString().Contains(criterio) && f.ValorCuota > 0)
-                    .Select(f => new
-                    {
-                        IdDetalleCredito = f.IdDetalleCredito,
-                        NFactura = f.IdCreditoNavigation.IdVenta,
-                        Fecha = f.FechaPago,
-                        Saldo = f.ValorCuota,
-                        Abono = f.AbonoCapital,
-                        NuevoSaldo = f.ValorCuota - f.AbonoCapital,
-                        TasaInteres = f.InteresPagado,
-                        NumeroPlazo = f.NumeroCuota
-                    })
-                    .ToList();
-                Tabla_Credito.AutoGenerateColumns = true;
-                Tabla_Credito.DataSource = creditos;
-            }
-
-        }
-
-        // Para calcular el ingreso total (la suma de la columna "Total")
-        private void btnCalcularIngreso_Click(object sender, EventArgs e)
-        {
-            decimal ingresoTotal = 0;
-
-            foreach (DataGridViewRow row in Tabla_Credito.Rows)
-            {
-                if (row.Cells["Total"].Value != null)
+                var cuotaDb = context.DetalleCreditos.FirstOrDefault(dc => dc.IdDetalleCredito == proximaCuota.IdDetalleCredito);
+                if (cuotaDb == null)
                 {
-                    decimal valor;
-                    if (decimal.TryParse(row.Cells["Total"].Value.ToString(), out valor))
+                    MessageBox.Show("No se encontró la cuota para actualizar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                cuotaDb.TotalCordobas = pagoCordobas;
+                cuotaDb.TotalDolares = pagoDolares;
+                cuotaDb.CambioDevuelto = cambio;
+                cuotaDb.Observaciones = $"Pago realizado el {DateTime.Now:dd/MM/yyyy HH:mm}. Mora: C${mora:N2}. Cambio: C${cambio:N2}.";
+                cuotaDb.UsuarioRegistro = UsuarioActivo.ObtenerUsuarioLogueo();
+                context.SaveChanges();
+
+                var facturaDb = context.FacturaCreditos.Include(fc => fc.DetalleCreditos)
+                                    .FirstOrDefault(fc => fc.IdCredito == creditoActual.IdCredito);
+
+                if (facturaDb != null)
+                {
+                    facturaDb.TotalAbonado += pagoTotalCordobas;
+                    facturaDb.NuevoSaldo -= pagoTotalCordobas;
+
+                    // ⚠️ Cuando se salda todo, desactivar el crédito
+                    if (facturaDb.NuevoSaldo <= 0.01f)
                     {
-                        ingresoTotal += valor;
+                        facturaDb.EstadoCredito = "Inactivo";
+                        facturaDb.NuevoSaldo = 0; // fuerza a cero exacto
+                        MessageBox.Show("Crédito completamente saldado. Estado: Inactivo.", "Crédito Finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+
+
+
+
+
+                    context.SaveChanges();
+
+                    // Actualizar objeto en memoria
+                    creditoActual.TotalAbonado = facturaDb.TotalAbonado;
+                    creditoActual.NuevoSaldo = facturaDb.NuevoSaldo;
+                    creditoActual.EstadoCredito = facturaDb.EstadoCredito;
                 }
             }
 
-            MessageBox.Show("Ingreso total sobre el crédito: " + ingresoTotal.ToString("C"));
+            string mensaje = "Pago registrado correctamente.";
+
+            if (cambio > 0)
+            {
+                mensaje += $"\nCambio a entregar: C${cambio:N2}";
+            }
+
+            MessageBox.Show(mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Refrescar
+            LimpiarFormularioCredito();
+
+
+
         }
 
-        private void txtCordobas_TextChanged(object sender, EventArgs e)
+
+        private void LimpiarFormularioCredito()
         {
-            if (!string.IsNullOrWhiteSpace(txtCordobas.Text))
+            // Limpiar cajas de texto del cliente
+            txtcliente.Clear();
+            txtcedula.Clear();
+            txtcolilla.Clear();
+            txtdiasenmoras.Text = "0";
+            txtpagomora.Text = "0.00";
+            txtTotalAbonado.Text = "0.00";
+            txtCordobas.Text = "0.00";
+            txtDolares.Text = "0.00";
+
+            // Habilitar edición nuevamente si habías bloqueado campos
+            txtcliente.ReadOnly = false;
+            txtcedula.ReadOnly = false;
+            txtcolilla.ReadOnly = false;
+            txtdiasenmoras.ReadOnly = false;
+            txtpagomora.ReadOnly = false;
+
+            // Limpiar DataGridView
+            Tabla_Credito.Rows.Clear();
+            Tabla_Credito.Columns.Clear();
+
+            // Resetear objetos
+            creditoActual = null;
+            CBBUSQUEDADETALLE.SelectedIndex = -1;
+            txtBusqueda.Clear();
+            DesactivarCreditosSaldados();
+        }
+
+
+        private void Tabla_Credito_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
+
+        private void pcbusqueda_Click(object sender, EventArgs e)
+        {
+            FacturaCredito? credito = null;
+
+            string tipoBusqueda = CBBUSQUEDADETALLE.SelectedItem?.ToString();
+            string textoBusqueda = txtBusqueda.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(textoBusqueda))
             {
-                if (decimal.TryParse(txtCordobas.Text, out decimal abono))
+                MessageBox.Show("Por favor, ingrese un valor de búsqueda.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (tipoBusqueda == "Cliente")
+            {
+                credito = creditoServicio.BuscarCreditoPorCliente(textoBusqueda);
+            }
+            else if (tipoBusqueda == "Factura")
+            {
+                if (int.TryParse(textoBusqueda, out int idFactura))
                 {
-                    txtTotalAbonado.Text = abono.ToString("N2");
-                    txtCambio.Text = string.Empty; // Aquí puedes calcular el cambio si el abono es mayor al saldo
+                    credito = creditoServicio.BuscarCreditoPorFactura(idFactura);
                 }
                 else
                 {
-                    MessageBox.Show("Ingrese un valor válido en córdobas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCordobas.Focus();
+                    MessageBox.Show("El ID de factura debe ser un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
             else
             {
-                txtTotalAbonado.Text = string.Empty;
-                txtCambio.Text = string.Empty;
+                MessageBox.Show("Seleccione el tipo de búsqueda: Cliente o Factura.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
+            if (credito == null)
+            {
+                MessageBox.Show("Crédito no encontrado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            creditoActual = credito;
+
+            txtcliente.Text = credito.IdVentaNavigation.CedulaClienteNavigation.NombreCliente;
+            txtcedula.Text = credito.IdVentaNavigation.CedulaClienteNavigation.CedulaCliente;
+            txtcolilla.Text = credito.IdVentaNavigation.CedulaClienteNavigation.ColillaInssCliente;
+
+            txtcliente.ReadOnly = true;
+            txtcedula.ReadOnly = true;
+            txtcolilla.ReadOnly = true;
+            txtdiasenmoras.ReadOnly = true;
+            txtpagomora.ReadOnly = true;
+
+            CargarCuotasEnTabla(credito.DetalleCreditos.ToList());
+
+            var proxima = creditoServicio.ObtenerProximaCuota(credito, out int diasMora, out float mora);
+
+            if (proxima == null)
+            {
+                MessageBox.Show("Este crédito ya ha sido pagado en su totalidad.", "Crédito pagado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtdiasenmoras.Text = "0";
+                txtpagomora.Text = "0.00";
+                txtTotalAbonado.Text = "0.00";
+            }
+            else
+            {
+                txtdiasenmoras.Text = diasMora.ToString();
+                txtpagomora.Text = mora.ToString("N2");
+                float totalabonar = proxima.ValorCuota + mora;
+                txtTotalAbonado.Text = totalabonar.ToString("N2");
+            }
+
+        }
+        public void DesactivarCreditosSaldados()
+        {
+            using (var context = new DbTiendaSeptentrionContext())
+            {
+                var creditos = context.FacturaCreditos
+                     .Where(c => c.EstadoCredito == "Activo" && c.NuevoSaldo <= 0.01)
+                             .ToList();
+
+                foreach (var credito in creditos)
+                {
+                    credito.EstadoCredito = "Inactivo";
+                    credito.NuevoSaldo = 0; // Por seguridad
+                }
+
+                if (creditos.Any())
+                {
+                    context.SaveChanges();
+                    Console.WriteLine($"{creditos.Count} crédito(s) se desactivaron por estar completamente pagados.",
+                                    "Actualización de Créditos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void CargarCuotasEnTabla(List<DetalleCredito> cuotas)
+        {
+            Tabla_Credito.Rows.Clear();
+            Tabla_Credito.Columns.Clear();
+
+            Tabla_Credito.Columns.Add("Cuota", "No.");
+            Tabla_Credito.Columns.Add("Fecha", "Fecha Pago");
+            Tabla_Credito.Columns.Add("CuotaValor", "Valor Cuota");
+            Tabla_Credito.Columns.Add("Abono", "Abono Capital");
+            Tabla_Credito.Columns.Add("Interes", "Interés");
+            Tabla_Credito.Columns.Add("TotalCordoba", "Total C$");
+            Tabla_Credito.Columns.Add("TotalDolar", "Total $");
+
+            var hoy = DateTime.Today;
+            DetalleCredito? proximaCuota = cuotas
+                .Where(c => c.TotalCordobas == 0 && c.TotalDolares == 0 && c.FechaPago >= hoy)
+                .OrderBy(c => c.FechaPago)
+                .FirstOrDefault();
+
+            foreach (var cuota in cuotas)
+            {
+                int rowIndex = Tabla_Credito.Rows.Add(
+                    cuota.NumeroCuota,
+                    cuota.FechaPago.ToShortDateString(),
+                    cuota.ValorCuota,
+                    cuota.AbonoCapital,
+                    cuota.InteresPagado,
+                    cuota.TotalCordobas,
+                    cuota.TotalDolares
+                );
+
+                var row = Tabla_Credito.Rows[rowIndex];
+
+                bool pagada = cuota.TotalCordobas > 0 || cuota.TotalDolares > 0;
+                bool enMora = !pagada && cuota.FechaPago < hoy;
+                bool esProxima = !pagada && proximaCuota != null && cuota.IdDetalleCredito == proximaCuota.IdDetalleCredito;
+
+                if (pagada)
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightGreen; // Pagada
+                }
+                else if (enMora)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Red; // En mora
+                }
+                else if (esProxima)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Gold; // Próxima a pagar
+                }
+                else
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightYellow; // Pendiente pero no en mora ni próxima
+                }
+            }
+        }
+        private void RecalcularPagos()
+        {
+            float cordobas = 0;
+            float dolares = 0;
+            float.TryParse(txtCordobas.Text, out cordobas);
+            float.TryParse(txtDolares.Text, out dolares);
+
+            if (creditoActual == null) return;
+
+            var proxima = creditoServicio.ObtenerProximaCuota(creditoActual, out _, out _);
+            if (proxima == null) return;
+
+            foreach (DataGridViewRow row in Tabla_Credito.Rows)
+            {
+                if (row.Cells[0].Value?.ToString() == proxima.NumeroCuota.ToString())
+                {
+                    row.Cells["TotalCordoba"].Value = cordobas.ToString("N2");
+                    row.Cells["TotalDolar"].Value = dolares.ToString("N2");
+                    break;
+                }
+            }
         }
 
         private void txtDolares_TextChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtDolares.Text))
-            {
-                if (decimal.TryParse(txtDolares.Text, out decimal abonoDolares))
-                {
-                    decimal tasaCambio = 36.5m;
-                    decimal abonoCordobas = abonoDolares * tasaCambio;
-                    txtTotalAbonado.Text = abonoCordobas.ToString("N2");
-                    txtCambio.Text = string.Empty; // Aquí puedes calcular el cambio si es necesario
-                }
-                else
-                {
-                    MessageBox.Show("Ingrese un valor válido en dólares.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtDolares.Focus();
-                }
-            }
-            else
-            {
-                txtTotalAbonado.Text = string.Empty;
-                txtCambio.Text = string.Empty;
-            }
-
+            RecalcularPagos();
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
+        private void txtCordobas_KeyUp(object sender, KeyEventArgs e)
         {
+            RecalcularPagos();
+        }
 
+        private void txtDolares_TextChanged_1(object sender, EventArgs e)
+        {
+            RecalcularPagos();
+        }
 
-            if (Tabla_Credito.CurrentRow == null)
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            LimpiarFormularioCredito();
+        }
+
+        private void txtCordobas_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            // Permitir tecla de borrado
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Solo permitir dígitos y un punto decimal
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
-                MessageBox.Show("Seleccione un crédito.");
+                e.Handled = true;
                 return;
             }
 
-            foreach (DataGridViewColumn col in Tabla_Credito.Columns)
+            // Permitir solo un punto decimal
+            if (e.KeyChar == '.' && txt.Text.Contains("."))
             {
-                Console.WriteLine(col.Name);
-            }
-
-            decimal abono = decimal.Parse(txtTotalAbonado.Text);
-            int idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
-
-            using (var context = new DbTiendaSeptentrionContext())
-            {
-                var credito = context.DetalleCreditos
-                    .Include(c => c.IdCreditoNavigation)
-                    .FirstOrDefault(c => c.IdDetalleCredito == idDetalleCredito);
-
-                if (credito == null)
-                {
-                    MessageBox.Show("Crédito no encontrado.");
-                    return;
-                }
-
-                // Si hay atraso, incrementar interés
-                if (DateTime.Now > credito.FechaPago)
-                {
-                    decimal interesDecimal = Convert.ToDecimal(credito.InteresPagado);
-                    interesDecimal += 0.03m;
-                    credito.InteresPagado = (float)interesDecimal;
-                }
-
-                decimal saldoAnterior = Convert.ToDecimal(credito.ValorCuota);
-                decimal cambio = 0;
-
-                // Si el abono es mayor que el saldo, calcular cambio
-                if (abono >= saldoAnterior)
-                {
-                    cambio = abono - saldoAnterior;
-                    credito.AbonoCapital += (float)saldoAnterior;
-                    credito.ValorCuota = 0;
-                    MessageBox.Show("¡Crédito saldado!");
-                }
-                else
-                {
-                    credito.AbonoCapital += (float)abono;
-                    credito.ValorCuota -= (float)abono;
-                    MessageBox.Show($"Saldo restante a pagar: {credito.ValorCuota:C2}");
-                }
-
-                credito.CambioDevuelto = (float?)cambio;
-
-                context.SaveChanges();
-
-                txtCambio.Text = cambio > 0 ? cambio.ToString("C2") : "0.00";
-
-                Tabla_Credito_CellContentClick(null, null);
-            }
-        }
-        private void btnPagar_Click(object sender, EventArgs e)
-        {
-
-            if (Tabla_Credito.CurrentRow == null)
-            {
-                MessageBox.Show("Seleccione un crédito.");
+                e.Handled = true;
                 return;
             }
 
-            int idDetalleCredito = Convert.ToInt32(Tabla_Credito.CurrentRow.Cells["IdDetalleCredito"].Value);
-            decimal abono = decimal.Parse(txtTotalAbonado.Text);
-
-            using (var context = new DbTiendaSeptentrionContext())
+            // Validar que no se escriban más de 2 decimales
+            if (txt.Text.Contains("."))
             {
-                var credito = context.DetalleCreditos
-                    .Include(c => c.IdCreditoNavigation)
-                    .FirstOrDefault(c => c.IdDetalleCredito == idDetalleCredito);
-
-                if (credito == null)
+                int index = txt.Text.IndexOf(".");
+                string decimales = txt.Text.Substring(index + 1);
+                if (txt.SelectionStart > index && decimales.Length >= 2)
                 {
-                    MessageBox.Show("Crédito no encontrado.");
-                    return;
+                    e.Handled = true;
                 }
-
-                // Si hay atraso, incrementar interés
-                if (DateTime.Now > credito.FechaPago)
-                {
-                    decimal interesDecimal = Convert.ToDecimal(credito.InteresPagado);
-                    interesDecimal += 0.03m;
-                    credito.InteresPagado = (float)interesDecimal;
-                }
-
-                decimal saldoAnterior = Convert.ToDecimal(credito.ValorCuota);
-                decimal cambio = 0;
-
-                // Si el abono es mayor que el saldo, calcular cambio
-                if (abono >= saldoAnterior)
-                {
-                    cambio = abono - saldoAnterior;
-                    credito.AbonoCapital += (float)saldoAnterior;
-                    credito.ValorCuota = 0;
-                    MessageBox.Show("¡Crédito saldado!");
-                }
-                else
-                {
-                    credito.AbonoCapital += (float)abono;
-                    credito.ValorCuota -= (float)abono;
-                    MessageBox.Show($"Saldo restante a pagar: {credito.ValorCuota:C2}");
-                }
-
-                credito.CambioDevuelto = (float?)cambio;
-
-                context.SaveChanges();
-
-                txtCambio.Text = cambio > 0 ? cambio.ToString("C2") : "0.00";
-
-                Tabla_Credito_CellContentClick(null, null);
             }
         }
 
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void txtDolares_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (checkBox1.Checked)
+            TextBox txt = sender as TextBox;
+
+            // Permitir tecla de borrado
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Solo permitir dígitos y un punto decimal
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
-                txtDolares.Enabled = true;
-                txtCordobas.Enabled = false;
+                e.Handled = true;
+                return;
             }
-            else
+
+            // Permitir solo un punto decimal
+            if (e.KeyChar == '.' && txt.Text.Contains("."))
             {
-                txtDolares.Enabled = false;
-                txtCordobas.Enabled = true;
+                e.Handled = true;
+                return;
+            }
+
+            // Validar que no se escriban más de 2 decimales
+            if (txt.Text.Contains("."))
+            {
+                int index = txt.Text.IndexOf(".");
+                string decimales = txt.Text.Substring(index + 1);
+                if (txt.SelectionStart > index && decimales.Length >= 2)
+                {
+                    e.Handled = true;
+                }
             }
         }
-
-        private void Tabla_Credito_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            using (var context = new DbTiendaSeptentrionContext())
-            {
-                var resultado = context.FacturaCreditos
-             .Where(f => f.IdCredito > 0)
-             .Select(f => new 
-             {
-                 f.IdVenta,
-                 f.FechaInicio,
-                 f.FechaFinal,
-                 f.TotalAbonado,
-                 f.NuevoSaldo,
-                 f.PlazosMeses,
-
-                 FacturaCredito = f.IdVentaNavigation.FechaVenta
-             })
-             .ToList();
-            }
-        }
-
     }
-    }
+
+
+}
 

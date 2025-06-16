@@ -38,7 +38,7 @@ namespace formstienda.capa_de_negocios
 
                 contexto.SaveChanges();
 
-                MessageBox.Show($"Se ha guardado el token {token} en BD");
+        
 
                 return EnviarCorreo(email, token);
             }
@@ -49,13 +49,13 @@ namespace formstienda.capa_de_negocios
         {
             try
             {
-                var correoserver = "isaac_zomber@zohomail.com";
+                var correoserver = "ryuunxo@zohomail.com";
 
                 var stmp = new SmtpClient("smtp.zoho.com")
                 {
                     Port = 587,
                     //poner correo de zoho. engell o elking//
-                    Credentials = new NetworkCredential(correoserver, "9MfnbmDKxk1Q"),
+                    Credentials = new NetworkCredential(correoserver, "D61mFeth7tKu"),
                     EnableSsl = true,
 
                 };

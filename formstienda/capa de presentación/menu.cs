@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static formstienda.Login;
+using static formstienda.capa_de_presentación.Facturacion_de_crédito;
 
 namespace formstienda.capa_de_presentación
 {
@@ -55,6 +56,8 @@ namespace formstienda.capa_de_presentación
             string usuario;
             usuario = UsuarioActivo.ObtenerNombreUsuario();
             lblusuario.Text = usuario;
+            Facturacion_de_crédito facturacion_De_Crédito = new Facturacion_de_crédito();
+            facturacion_De_Crédito.DesactivarCreditosSaldados();
         }
 
 
