@@ -27,8 +27,8 @@ namespace formstienda
             dateTimePickerFechaFinal.Value = DateTime.Today;
             dateTimePickerFechaInicialMotivo.Value = DateTime.Today.AddDays(-7); // Establecer fecha inicial 7 días atrás
             dateTimePickerFechaFinalMotivo.Value = DateTime.Today;
-            dptInicio.Value = DateTime.Today.AddDays(-7); 
-            dtpFin.Value = DateTime.Today;                
+            dptInicio.Value = DateTime.Today.AddDays(-7);
+            dtpFin.Value = DateTime.Today;
             CargarUsuariosEnComboBox();
             CargarMotivosEnComboBox();
 
@@ -97,7 +97,7 @@ namespace formstienda
 
             // para cerrar el formulario de informes
             this.Close();
-       
+
 
         }
 
@@ -128,7 +128,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-               
+
             }
         }
 
@@ -178,7 +178,7 @@ namespace formstienda
                 }
                 if (menuForm != null)
                 {
-                    menuForm.AbrirformInPanel(new ReporteStocks());  
+                    menuForm.AbrirformInPanel(new ReporteStocks());
                 }
 
                 MessageBox.Show("Reporte de productos próximos a agotarse generado con éxito",
@@ -218,20 +218,20 @@ namespace formstienda
                     Path.GetTempPath(),
                     $"Reporte_Arqueo_{DateTime.Now:yyyyMMddHHmmss}.pdf"
                 );
-                               
+
                 var menuForm = this.MdiParent as menu;
                 if (menuForm == null)
                 {
                     menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
                 }
-                if (menuForm != null) 
+                if (menuForm != null)
                 {
                     menuForm.AbrirformInPanel(new ReporteArqueo(
                         dateTimePickerFechaInicial.Value,
                         dateTimePickerFechaFinal.Value,
                         cmbUsuarioReporte.Text.Trim()
                     ));
-                   
+
                 }
 
                 MessageBox.Show("Reporte de arqueo generado con éxito", "Éxito",
@@ -264,20 +264,20 @@ namespace formstienda
                 $"ReporteVentas_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
             );
 
-                var menuForm = this.MdiParent as menu;
-                if (menuForm == null)
-                {
-                    menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
-                }
-                if (menuForm != null)
-                {
-                    menuForm.AbrirformInPanel(new ReporteOtrasSalidas(
-                        dateTimePickerFechaInicialMotivo.Value,
-                        dateTimePickerFechaFinalMotivo.Value,
-                        cmbMotivo.Text.Trim()
-                    ));
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new ReporteOtrasSalidas(
+                    dateTimePickerFechaInicialMotivo.Value,
+                    dateTimePickerFechaFinalMotivo.Value,
+                    cmbMotivo.Text.Trim()
+                ));
 
-                }
+            }
 
             if (menuForm != null)
             {
@@ -289,7 +289,7 @@ namespace formstienda
             this.Close();
         }
 
-        
+
 
         // Cargar motivos en el ComboBox
         private void CargarMotivosEnComboBox()
@@ -317,7 +317,7 @@ namespace formstienda
             }
             catch (Exception ex)
             {
-              
+
             }
         }
 
@@ -368,7 +368,7 @@ namespace formstienda
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                
+
                 string tempFilePath = Path.Combine(
                     Path.GetTempPath(),
                     $"Reporte_Otras_Salidas_{DateTime.Now:yyyyMMddHHmmss}.pdf"
@@ -392,6 +392,33 @@ namespace formstienda
                 MessageBox.Show($"Error: {ex.Message}", "Error",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+
+
+            // Generar ruta temporal para el PDF
+            string rutaTemporal = Path.Combine(
+                Path.GetTempPath(),
+                $"ReporteClientesMora_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
+            );
+
+            //Aqui se busca la instancia del formulario de menu
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+
+            if (menuForm != null)
+            {
+                // con esto se abre el reporte dentro del panel del formulario de menu
+                menuForm.AbrirformInPanel(new FormClientesMorosos(rutaTemporal));
+            }
+
+            // para cerrar el formulario de informes
+            this.Close();
         }
     }
 

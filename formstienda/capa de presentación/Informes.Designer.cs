@@ -119,11 +119,8 @@
             panel48 = new Panel();
             panel49 = new Panel();
             panel50 = new Panel();
-            dateTimePicker15 = new DateTimePicker();
             label35 = new Label();
-            button10 = new Button();
-            dateTimePicker16 = new DateTimePicker();
-            label36 = new Label();
+            btngenerarreportemora = new Button();
             label37 = new Label();
             panel51 = new Panel();
             label38 = new Label();
@@ -1228,11 +1225,8 @@
             // 
             panel50.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel50.BorderStyle = BorderStyle.FixedSingle;
-            panel50.Controls.Add(dateTimePicker15);
             panel50.Controls.Add(label35);
-            panel50.Controls.Add(button10);
-            panel50.Controls.Add(dateTimePicker16);
-            panel50.Controls.Add(label36);
+            panel50.Controls.Add(btngenerarreportemora);
             panel50.Controls.Add(label37);
             panel50.Controls.Add(panel51);
             panel50.Controls.Add(panel52);
@@ -1246,60 +1240,31 @@
             panel50.Size = new Size(248, 352);
             panel50.TabIndex = 11;
             // 
-            // dateTimePicker15
-            // 
-            dateTimePicker15.Format = DateTimePickerFormat.Custom;
-            dateTimePicker15.Location = new Point(30, 198);
-            dateTimePicker15.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker15.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker15.Name = "dateTimePicker15";
-            dateTimePicker15.Size = new Size(190, 27);
-            dateTimePicker15.TabIndex = 6;
-            dateTimePicker15.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
-            // 
             // label35
             // 
             label35.AutoSize = true;
+            label35.BackColor = Color.Transparent;
+            label35.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label35.ForeColor = Color.Black;
-            label35.Location = new Point(26, 170);
+            label35.Location = new Point(52, 162);
             label35.Margin = new Padding(2, 0, 2, 0);
             label35.Name = "label35";
-            label35.Size = new Size(83, 20);
-            label35.TabIndex = 5;
-            label35.Text = "Fecha final:";
+            label35.Size = new Size(152, 20);
+            label35.TabIndex = 1;
+            label35.Text = "Clientes en mora";
             // 
-            // button10
+            // btngenerarreportemora
             // 
-            button10.BackColor = Color.FromArgb(3, 171, 229);
-            button10.Location = new Point(76, 266);
-            button10.Margin = new Padding(2, 5, 2, 5);
-            button10.Name = "button10";
-            button10.Size = new Size(78, 38);
-            button10.TabIndex = 4;
-            button10.Text = "Generar";
-            button10.UseVisualStyleBackColor = false;
-            // 
-            // dateTimePicker16
-            // 
-            dateTimePicker16.Format = DateTimePickerFormat.Custom;
-            dateTimePicker16.Location = new Point(30, 115);
-            dateTimePicker16.Margin = new Padding(2, 5, 2, 5);
-            dateTimePicker16.MinDate = new DateTime(1999, 1, 1, 0, 0, 0, 0);
-            dateTimePicker16.Name = "dateTimePicker16";
-            dateTimePicker16.Size = new Size(190, 27);
-            dateTimePicker16.TabIndex = 3;
-            dateTimePicker16.Value = new DateTime(2025, 3, 20, 0, 0, 0, 0);
-            // 
-            // label36
-            // 
-            label36.AutoSize = true;
-            label36.ForeColor = Color.Black;
-            label36.Location = new Point(26, 90);
-            label36.Margin = new Padding(2, 0, 2, 0);
-            label36.Name = "label36";
-            label36.Size = new Size(93, 20);
-            label36.TabIndex = 2;
-            label36.Text = "Fecha inicial:";
+            btngenerarreportemora.BackColor = Color.FromArgb(3, 171, 229);
+            btngenerarreportemora.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btngenerarreportemora.Location = new Point(88, 266);
+            btngenerarreportemora.Margin = new Padding(2, 5, 2, 5);
+            btngenerarreportemora.Name = "btngenerarreportemora";
+            btngenerarreportemora.Size = new Size(95, 38);
+            btngenerarreportemora.TabIndex = 4;
+            btngenerarreportemora.Text = "Generar";
+            btngenerarreportemora.UseVisualStyleBackColor = false;
+            btngenerarreportemora.Click += button10_Click;
             // 
             // label37
             // 
@@ -1327,12 +1292,12 @@
             label38.BackColor = Color.FromArgb(3, 171, 229);
             label38.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label38.ForeColor = Color.Black;
-            label38.Location = new Point(20, 17);
+            label38.Location = new Point(52, 22);
             label38.Margin = new Padding(2, 0, 2, 0);
             label38.Name = "label38";
-            label38.Size = new Size(177, 20);
+            label38.Size = new Size(162, 20);
             label38.TabIndex = 0;
-            label38.Text = " Reporte de crédito:";
+            label38.Text = "Clientes morosos:";
             // 
             // panel52
             // 
@@ -1850,11 +1815,7 @@
         private System.Windows.Forms.Panel panel60;
         private System.Windows.Forms.Panel panel61;
         private System.Windows.Forms.Panel panel50;
-        private System.Windows.Forms.DateTimePicker dateTimePicker15;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.DateTimePicker dateTimePicker16;
-        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Button btngenerarreportemora;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Panel panel51;
         private System.Windows.Forms.Label label38;
@@ -1900,5 +1861,6 @@
         private ComboBox cmbUsuarioReporte;
         private Label label32;
         private ComboBox cmbMotivo;
+        private Label label35;
     }
 }
