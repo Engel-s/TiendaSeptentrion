@@ -53,7 +53,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     public virtual DbSet<Ventum> Venta { get; set; }
 
-    public virtual DbSet<VistaArqueoCajaPorPeriodoCajero> VistaArqueoCajaPorPeriodoCajeros { get; set; }
+    public virtual DbSet<VistaArqueoCajaPorPeriodoCajero> VistaArqueoCajaPorPeriodoCajeros { get; set; }a
 
     public virtual DbSet<VistaDetalleCreditoCliente> VistaDetalleCreditoClientes { get; set; }
 
