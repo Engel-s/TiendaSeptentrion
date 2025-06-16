@@ -134,7 +134,9 @@ namespace formstienda.capa_de_presentación
                     Double totalGeneral = 0;
                     foreach (var clientemora in Lista)
                     {
-                        tabla.AddCell(Celda(clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.NombreCliente));
+                        var cliente = clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation;
+                        //string nombreCompleto = $"{cliente.NombreCliente} {cliente.ApellidoCliente}";
+                        tabla.AddCell(Celda($"{cliente.NombreCliente} {cliente.ApellidoCliente}"));
                         tabla.AddCell(Celda(clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.TelefonoCliente));
                         tabla.AddCell(Celda(clientemora.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.DireccionCliente));
                         tabla.AddCell(Celda(clientemora.FechaPago));

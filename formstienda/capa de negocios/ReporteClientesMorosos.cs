@@ -36,6 +36,7 @@ namespace formstienda.capa_de_negocios
                                     CedulaClienteNavigation = new Cliente
                                     {
                                         NombreCliente = d.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.NombreCliente,
+                                        ApellidoCliente = d.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.ApellidoCliente,
                                         DireccionCliente = d.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.DireccionCliente,
                                         TelefonoCliente = d.IdCreditoNavigation.IdVentaNavigation.CedulaClienteNavigation.TelefonoCliente
                                     }
