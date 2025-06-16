@@ -107,10 +107,10 @@
             TXTTELEFONODELNUEVOCLIENTE = new TextBox();
             lbldireccion = new Label();
             txtdireccion = new TextBox();
-            label2 = new Label();
-            label4 = new Label();
+            lblsimbolo2 = new Label();
+            lblsimbolo = new Label();
             label6 = new Label();
-            label16 = new Label();
+            simbolo3 = new Label();
             ((System.ComponentModel.ISupportInitialize)fechafactura).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -628,6 +628,7 @@
             dgmostrar.Size = new Size(1122, 442);
             dgmostrar.TabIndex = 105;
             dgmostrar.CellClick += dgmostrar_CellClick;
+            dgmostrar.CellFormatting += dgmostrar_CellFormatting;
             // 
             // CodigoProducto
             // 
@@ -977,27 +978,27 @@
             txtdireccion.Size = new Size(213, 27);
             txtdireccion.TabIndex = 169;
             // 
-            // label2
+            // lblsimbolo2
             // 
-            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
-            label2.Location = new Point(1138, 612);
-            label2.Name = "label2";
-            label2.Size = new Size(44, 23);
-            label2.TabIndex = 170;
-            label2.Text = "US$";
+            lblsimbolo2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblsimbolo2.AutoSize = true;
+            lblsimbolo2.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
+            lblsimbolo2.Location = new Point(1138, 612);
+            lblsimbolo2.Name = "lblsimbolo2";
+            lblsimbolo2.Size = new Size(44, 23);
+            lblsimbolo2.TabIndex = 170;
+            lblsimbolo2.Text = "US$";
             // 
-            // label4
+            // lblsimbolo
             // 
-            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label4.AutoSize = true;
-            label4.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
-            label4.Location = new Point(1139, 556);
-            label4.Name = "label4";
-            label4.Size = new Size(37, 23);
-            label4.TabIndex = 171;
-            label4.Text = "C$";
+            lblsimbolo.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblsimbolo.AutoSize = true;
+            lblsimbolo.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
+            lblsimbolo.Location = new Point(1139, 556);
+            lblsimbolo.Name = "lblsimbolo";
+            lblsimbolo.Size = new Size(37, 23);
+            lblsimbolo.TabIndex = 171;
+            lblsimbolo.Text = "C$";
             // 
             // label6
             // 
@@ -1010,16 +1011,16 @@
             label6.TabIndex = 172;
             label6.Text = "C$";
             // 
-            // label16
+            // simbolo3
             // 
-            label16.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label16.AutoSize = true;
-            label16.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
-            label16.Location = new Point(1143, 671);
-            label16.Name = "label16";
-            label16.Size = new Size(37, 23);
-            label16.TabIndex = 173;
-            label16.Text = "C$";
+            simbolo3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            simbolo3.AutoSize = true;
+            simbolo3.Font = new Font("Century Gothic", 12F, FontStyle.Bold);
+            simbolo3.Location = new Point(1143, 671);
+            simbolo3.Name = "simbolo3";
+            simbolo3.Size = new Size(37, 23);
+            simbolo3.TabIndex = 173;
+            simbolo3.Text = "C$";
             // 
             // Factura
             // 
@@ -1027,10 +1028,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(238, 238, 238);
             ClientSize = new Size(1314, 882);
-            Controls.Add(label16);
+            Controls.Add(simbolo3);
             Controls.Add(label6);
-            Controls.Add(label4);
-            Controls.Add(label2);
+            Controls.Add(lblsimbolo);
+            Controls.Add(lblsimbolo2);
             Controls.Add(txtdireccion);
             Controls.Add(lbldireccion);
             Controls.Add(TXTTELEFONODELNUEVOCLIENTE);
@@ -1188,10 +1189,10 @@
         private Label LBLTELEFONODELNUEVOCLIENTE;
         private TextBox txtdireccion;
         private Label lbldireccion;
-        private Label label2;
-        private Label label16;
+        private Label lblsimbolo2;
+        private Label simbolo3;
         private Label label6;
-        private Label label4;
+        private Label lblsimbolo;
         private DataGridViewTextBoxColumn CodigoProducto;
         private DataGridViewTextBoxColumn Modelo;
         private DataGridViewTextBoxColumn Categoria;

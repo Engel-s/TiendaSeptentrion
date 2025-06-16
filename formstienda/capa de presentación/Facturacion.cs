@@ -838,6 +838,9 @@ namespace formstienda
             lblcordoba.Visible = true;
             lbldolares.Visible = true;
             lblcambio.Visible = true;
+            simbolo3.Visible = true;
+            lblsimbolo.Visible = true;
+            lblsimbolo2.Visible = true;
 
         }
 
@@ -855,6 +858,9 @@ namespace formstienda
             lblcordoba.Visible = false;
             lbldolares.Visible = false;
             lblcambio.Visible = false;
+            simbolo3.Visible = false;
+            lblsimbolo.Visible = false;
+            lblsimbolo2.Visible = false;
             if (rbcredito.Checked && !clienteEsSujetoACredito)
             {
                 MessageBox.Show("Este cliente no está habilitado para crédito.");
@@ -1014,6 +1020,18 @@ namespace formstienda
                 {
                     dgmostrar.Rows.RemoveAt(e.RowIndex);
                     ActualizarTotal(); // Recalcula el total
+                }
+            }
+        }
+
+        private void dgmostrar_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if ((e.ColumnIndex == 4 || e.ColumnIndex == 6) && e.Value != null)
+            {
+                if (decimal.TryParse(e.Value.ToString(), out decimal valor))
+                {
+                    e.Value = "C$" + valor.ToString("N2");
+                    e.FormattingApplied = true;
                 }
             }
         }

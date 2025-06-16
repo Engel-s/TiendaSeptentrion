@@ -33,62 +33,130 @@
             txtCambiarContraseña = new TextBox();
             txtContraseñaNueva = new TextBox();
             label2 = new Label();
+            label3 = new Label();
+            txtconfirmarcontraseña = new TextBox();
+            panel1 = new Panel();
+            pictureBox1 = new PictureBox();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // btnCambiar_Contraseña
             // 
-            btnCambiar_Contraseña.Location = new Point(300, 295);
+            btnCambiar_Contraseña.BackColor = Color.White;
+            btnCambiar_Contraseña.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            btnCambiar_Contraseña.Location = new Point(456, 329);
+            btnCambiar_Contraseña.Margin = new Padding(2, 2, 2, 2);
             btnCambiar_Contraseña.Name = "btnCambiar_Contraseña";
-            btnCambiar_Contraseña.Size = new Size(196, 44);
+            btnCambiar_Contraseña.Size = new Size(143, 35);
             btnCambiar_Contraseña.TabIndex = 0;
-            btnCambiar_Contraseña.Text = "Cambiar contraseña";
-            btnCambiar_Contraseña.UseVisualStyleBackColor = true;
+            btnCambiar_Contraseña.Text = "Cambiar";
+            btnCambiar_Contraseña.UseVisualStyleBackColor = false;
             btnCambiar_Contraseña.Click += btnCambiar_Contraseña_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(300, 49);
+            label1.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            label1.Location = new Point(402, 37);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(199, 25);
+            label1.Size = new Size(208, 23);
             label1.TabIndex = 1;
-            label1.Text = "codigo de recuperación";
+            label1.Text = "Código de recuperación";
             // 
             // txtCambiarContraseña
             // 
-            txtCambiarContraseña.Location = new Point(300, 103);
+            txtCambiarContraseña.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            txtCambiarContraseña.Location = new Point(402, 81);
+            txtCambiarContraseña.Margin = new Padding(2, 2, 2, 2);
             txtCambiarContraseña.Name = "txtCambiarContraseña";
-            txtCambiarContraseña.Size = new Size(199, 31);
+            txtCambiarContraseña.Size = new Size(244, 30);
             txtCambiarContraseña.TabIndex = 2;
             // 
             // txtContraseñaNueva
             // 
-            txtContraseñaNueva.Location = new Point(300, 215);
+            txtContraseñaNueva.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            txtContraseñaNueva.Location = new Point(402, 171);
+            txtContraseñaNueva.Margin = new Padding(2, 2, 2, 2);
             txtContraseñaNueva.Name = "txtContraseñaNueva";
-            txtContraseñaNueva.Size = new Size(199, 31);
+            txtContraseñaNueva.Size = new Size(244, 30);
             txtContraseñaNueva.TabIndex = 3;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(313, 163);
+            label2.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            label2.Location = new Point(402, 130);
+            label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(153, 25);
+            label2.Size = new Size(162, 23);
             label2.TabIndex = 4;
             label2.Text = "Nueva contraseña";
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            label3.Location = new Point(402, 226);
+            label3.Margin = new Padding(2, 0, 2, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(179, 23);
+            label3.TabIndex = 5;
+            label3.Text = "Repetir contraseña:";
+            // 
+            // txtconfirmarcontraseña
+            // 
+            txtconfirmarcontraseña.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            txtconfirmarcontraseña.Location = new Point(402, 268);
+            txtconfirmarcontraseña.Margin = new Padding(2);
+            txtconfirmarcontraseña.Name = "txtconfirmarcontraseña";
+            txtconfirmarcontraseña.Size = new Size(244, 30);
+            txtconfirmarcontraseña.TabIndex = 6;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(3, 171, 229);
+            panel1.Controls.Add(pictureBox1);
+            panel1.Dock = DockStyle.Left;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(272, 401);
+            panel1.TabIndex = 7;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.logo_actualizado_removebg_preview;
+            pictureBox1.Location = new Point(-98, -64);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(466, 528);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
             // Cambiar_contraseña
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(749, 401);
+            Controls.Add(panel1);
+            Controls.Add(txtconfirmarcontraseña);
+            Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(txtContraseñaNueva);
             Controls.Add(txtCambiarContraseña);
             Controls.Add(label1);
             Controls.Add(btnCambiar_Contraseña);
+            FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(2, 2, 2, 2);
+            MaximumSize = new Size(749, 401);
+            MinimumSize = new Size(749, 401);
             Name = "Cambiar_contraseña";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Cambiar_contraseña";
+            Load += Cambiar_contraseña_Load;
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -100,5 +168,9 @@
         private TextBox txtCambiarContraseña;
         private TextBox txtContraseñaNueva;
         private Label label2;
+        private Label label3;
+        private TextBox txtconfirmarcontraseña;
+        private Panel panel1;
+        private PictureBox pictureBox1;
     }
 }

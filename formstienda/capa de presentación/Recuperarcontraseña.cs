@@ -60,7 +60,7 @@ namespace formstienda
 
             if (existoso)
             {
-                MessageBox.Show("Se ha enviado el correo exitosamente");
+                MessageBox.Show("El correo ha sido enviado exitosamente", "Saludos", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             }
             else
             {

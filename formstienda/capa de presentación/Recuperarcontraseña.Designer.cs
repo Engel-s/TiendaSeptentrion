@@ -48,10 +48,10 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(544, 392);
-            pictureBox2.Margin = new Padding(4, 2, 4, 2);
+            pictureBox2.Location = new Point(450, 299);
+            pictureBox2.Margin = new Padding(3, 2, 3, 2);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(39, 39);
+            pictureBox2.Size = new Size(31, 31);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 28;
             pictureBox2.TabStop = false;
@@ -61,10 +61,9 @@
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(409, 295);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(285, 236);
             label2.Name = "label2";
-            label2.Size = new Size(78, 25);
+            label2.Size = new Size(66, 20);
             label2.TabIndex = 26;
             label2.Text = "Correo";
             // 
@@ -78,10 +77,10 @@
             btnIniciarSesion.FlatStyle = FlatStyle.Popup;
             btnIniciarSesion.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnIniciarSesion.ForeColor = Color.Black;
-            btnIniciarSesion.Location = new Point(590, 392);
-            btnIniciarSesion.Margin = new Padding(4, 2, 4, 2);
+            btnIniciarSesion.Location = new Point(487, 299);
+            btnIniciarSesion.Margin = new Padding(3, 2, 3, 2);
             btnIniciarSesion.Name = "btnIniciarSesion";
-            btnIniciarSesion.Size = new Size(179, 58);
+            btnIniciarSesion.Size = new Size(143, 46);
             btnIniciarSesion.TabIndex = 23;
             btnIniciarSesion.Text = "Recuperar";
             btnIniciarSesion.UseVisualStyleBackColor = false;
@@ -93,18 +92,18 @@
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(4, 2, 4, 2);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(314, 638);
+            panel1.Size = new Size(251, 510);
             panel1.TabIndex = 20;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.logo_actualizado_removebg_preview;
-            pictureBox1.Location = new Point(-141, 74);
-            pictureBox1.Margin = new Padding(4, 2, 4, 2);
+            pictureBox1.Location = new Point(-113, 59);
+            pictureBox1.Margin = new Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(580, 468);
+            pictureBox1.Size = new Size(464, 374);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -115,10 +114,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(421, 88);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(337, 70);
             label1.Name = "label1";
-            label1.Size = new Size(522, 55);
+            label1.Size = new Size(435, 46);
             label1.TabIndex = 18;
             label1.Text = "Recuperar contraseña";
             label1.TextAlign = ContentAlignment.TopCenter;
@@ -130,11 +128,11 @@
             txtCorreoRecuperacion.BorderStyle = BorderStyle.FixedSingle;
             txtCorreoRecuperacion.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtCorreoRecuperacion.ForeColor = Color.Black;
-            txtCorreoRecuperacion.Location = new Point(524, 295);
-            txtCorreoRecuperacion.Margin = new Padding(4, 2, 4, 2);
+            txtCorreoRecuperacion.Location = new Point(367, 232);
+            txtCorreoRecuperacion.Margin = new Padding(3, 2, 3, 2);
             txtCorreoRecuperacion.Multiline = true;
             txtCorreoRecuperacion.Name = "txtCorreoRecuperacion";
-            txtCorreoRecuperacion.Size = new Size(400, 46);
+            txtCorreoRecuperacion.Size = new Size(405, 37);
             txtCorreoRecuperacion.TabIndex = 21;
             txtCorreoRecuperacion.TextChanged += txtCorreoRecuperacion_TextChanged;
             // 
@@ -143,10 +141,9 @@
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(407, 212);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(326, 170);
             label3.Name = "label3";
-            label3.Size = new Size(496, 25);
+            label3.Size = new Size(438, 20);
             label3.TabIndex = 29;
             label3.Text = "Por favor ingresar el correo asociado a su usuario.";
             // 
@@ -159,10 +156,9 @@
             linkLabel1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             linkLabel1.ForeColor = Color.Black;
             linkLabel1.LinkColor = Color.Black;
-            linkLabel1.Location = new Point(538, 488);
-            linkLabel1.Margin = new Padding(4, 0, 4, 0);
+            linkLabel1.Location = new Point(430, 390);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(276, 29);
+            linkLabel1.Size = new Size(231, 25);
             linkLabel1.TabIndex = 19;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "¿Desea iniciar sesión?";
@@ -179,10 +175,10 @@
             btnCambarContraseña.FlatStyle = FlatStyle.Popup;
             btnCambarContraseña.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnCambarContraseña.ForeColor = Color.Black;
-            btnCambarContraseña.Location = new Point(560, 580);
-            btnCambarContraseña.Margin = new Padding(4, 2, 4, 2);
+            btnCambarContraseña.Location = new Point(461, 456);
+            btnCambarContraseña.Margin = new Padding(3, 2, 3, 2);
             btnCambarContraseña.Name = "btnCambarContraseña";
-            btnCambarContraseña.Size = new Size(224, 37);
+            btnCambarContraseña.Size = new Size(179, 30);
             btnCambarContraseña.TabIndex = 30;
             btnCambarContraseña.Text = "Cambiar contraseña ";
             btnCambarContraseña.UseVisualStyleBackColor = false;
@@ -193,19 +189,18 @@
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Gray;
-            label4.Location = new Point(487, 542);
-            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Location = new Point(390, 434);
             label4.Name = "label4";
-            label4.Size = new Size(387, 25);
+            label4.Size = new Size(337, 20);
             label4.TabIndex = 31;
             label4.Text = "Ingrese token para cambiar contraseña";
             label4.Click += label4_Click;
             // 
             // Recuperarcontraseña
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1069, 638);
+            ClientSize = new Size(855, 510);
             Controls.Add(label4);
             Controls.Add(btnCambarContraseña);
             Controls.Add(label3);
@@ -217,7 +212,7 @@
             Controls.Add(linkLabel1);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(4, 5, 4, 5);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Recuperarcontraseña";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form5";
