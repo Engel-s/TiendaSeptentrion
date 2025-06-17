@@ -193,7 +193,9 @@ namespace formstienda.Servicios
             var ventasDelDia = ListarTotalVenta(fecha)
                 .Where(v => v.PagoCordobas.HasValue && v.CambiosFactura == null);
 
-            decimal totalVentas = ventasDelDia.Sum(v => (decimal)v.PagoCordobas.Value);
+            decimal totalVentas = ventasDelDia.Sum(v =>
+    (decimal)v.PagoCordobas.Value - (decimal)(v.CambioVenta ?? 0));
+
 
             // Obtener totales de crédito SOLO "Sin tomar en arqueo"
             var (totalCordobasCredito, _) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);

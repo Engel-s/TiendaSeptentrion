@@ -57,6 +57,8 @@
             label10 = new Label();
             txtpagomora = new TextBox();
             txtDolares = new TextBox();
+            label6 = new Label();
+            txtcambio = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pcbusqueda).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Tabla_Credito).BeginInit();
@@ -122,6 +124,7 @@
             Tabla_Credito.Size = new Size(754, 440);
             Tabla_Credito.TabIndex = 41;
             Tabla_Credito.CellContentClick += Tabla_Credito_CellContentClick;
+            Tabla_Credito.CellFormatting += Tabla_Credito_CellFormatting;
             // 
             // label3
             // 
@@ -129,7 +132,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(841, 435);
+            label3.Location = new Point(836, 367);
             label3.Name = "label3";
             label3.Size = new Size(105, 22);
             label3.TabIndex = 42;
@@ -141,7 +144,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(836, 349);
+            label4.Location = new Point(836, 300);
             label4.Name = "label4";
             label4.Size = new Size(152, 22);
             label4.TabIndex = 43;
@@ -153,7 +156,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(841, 521);
+            label5.Location = new Point(836, 440);
             label5.Name = "label5";
             label5.Size = new Size(90, 22);
             label5.TabIndex = 44;
@@ -162,7 +165,7 @@
             // txtTotalAbonado
             // 
             txtTotalAbonado.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txtTotalAbonado.Location = new Point(841, 390);
+            txtTotalAbonado.Location = new Point(836, 326);
             txtTotalAbonado.Margin = new Padding(3, 2, 3, 2);
             txtTotalAbonado.Name = "txtTotalAbonado";
             txtTotalAbonado.ReadOnly = true;
@@ -172,7 +175,7 @@
             // txtCordobas
             // 
             txtCordobas.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txtCordobas.Location = new Point(841, 472);
+            txtCordobas.Location = new Point(836, 401);
             txtCordobas.Margin = new Padding(3, 2, 3, 2);
             txtCordobas.Name = "txtCordobas";
             txtCordobas.Size = new Size(147, 27);
@@ -267,6 +270,7 @@
             // 
             // CBBUSQUEDADETALLE
             // 
+            CBBUSQUEDADETALLE.DropDownStyle = ComboBoxStyle.DropDownList;
             CBBUSQUEDADETALLE.FormattingEnabled = true;
             CBBUSQUEDADETALLE.Items.AddRange(new object[] { "Cliente", "Factura" });
             CBBUSQUEDADETALLE.Location = new Point(221, 46);
@@ -372,7 +376,7 @@
             // txtDolares
             // 
             txtDolares.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            txtDolares.Location = new Point(841, 561);
+            txtDolares.Location = new Point(836, 476);
             txtDolares.Margin = new Padding(3, 2, 3, 2);
             txtDolares.Name = "txtDolares";
             txtDolares.Size = new Size(147, 27);
@@ -380,11 +384,35 @@
             txtDolares.TextChanged += txtDolares_TextChanged_1;
             txtDolares.KeyPress += txtDolares_KeyPress;
             // 
+            // label6
+            // 
+            label6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label6.AutoSize = true;
+            label6.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
+            label6.ForeColor = Color.Black;
+            label6.Location = new Point(836, 518);
+            label6.Name = "label6";
+            label6.Size = new Size(91, 22);
+            label6.TabIndex = 70;
+            label6.Text = "Cambio:";
+            label6.Click += label6_Click;
+            // 
+            // txtcambio
+            // 
+            txtcambio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            txtcambio.Location = new Point(836, 553);
+            txtcambio.Margin = new Padding(3, 2, 3, 2);
+            txtcambio.Name = "txtcambio";
+            txtcambio.Size = new Size(147, 27);
+            txtcambio.TabIndex = 71;
+            // 
             // Facturacion_de_crédito
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1045, 793);
+            Controls.Add(txtcambio);
+            Controls.Add(label6);
             Controls.Add(txtDolares);
             Controls.Add(txtpagomora);
             Controls.Add(label10);
@@ -461,5 +489,7 @@
         private Label label10;
         private TextBox txtpagomora;
         private TextBox txtDolares;
+        private Label label6;
+        private TextBox txtcambio;
     }
 }
