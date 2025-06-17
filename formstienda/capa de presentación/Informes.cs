@@ -329,7 +329,7 @@ namespace formstienda
                 using (var context = new DbTiendaSeptentrionContext())
                 {
                     var motivos = context.VistaSalidasInventarioPorPeriodoMotivos
-                        .Select(s => s.MotivoSalida)
+                        .Select(s => s.Motivo)
                         .Distinct()
                         .OrderBy(m => m)
                         .ToList();

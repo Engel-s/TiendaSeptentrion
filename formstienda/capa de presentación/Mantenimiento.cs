@@ -55,16 +55,19 @@ namespace formstienda
                     {
                         string backupFile = openFile.FileName;
                         string nombreBD = "DB_Tienda_Septentrion";
-                        string connectionString = "Server=DESKTOP-I4VC35H;Database=master;Trusted_Connection=True;";
+                        string connectionString = "Server=DESKTOP-I4VC35H;Database=master;Trusted_Connection=True;Encrypt=False;";
 
                         using (SqlConnection conexion = new SqlConnection(connectionString))
                         {
                             string restoreQuery = $@"
-                        USE master;
-                        RESTORE DATABASE [{nombreBD}]
-                        FROM DISK = '{backupFile}'
-                        WITH REPLACE, STATS = 5;
-                    ";
+                                USE master;
+                                ALTER DATABASE [{nombreBD}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+                                RESTORE DATABASE [{nombreBD}]
+                                FROM DISK = '{backupFile}'
+                                WITH REPLACE, STATS = 5;
+                                ALTER DATABASE [{nombreBD}] SET MULTI_USER;
+                            ";
+
 
                             using (SqlCommand cmd = new SqlCommand(restoreQuery, conexion))
                             {
@@ -95,8 +98,9 @@ namespace formstienda
                     if (saveFile.ShowDialog() == DialogResult.OK)
                     {
                         string backupPath = saveFile.FileName;
-                        string nombreBD = "DB_Tienda_Septentrion"; // Nombre de tu base
-                        string connectionString = "Server=DESKTOP-I4VC35H;Database=master;Trusted_Connection=True;";
+                        string nombreBD = "DB_Tienda_Septentrion";
+                        string connectionString = "Server=DESKTOP-I4VC35H;Database=master;Trusted_Connection=True;Encrypt=False;";
+
 
                         using (SqlConnection conexion = new SqlConnection(connectionString))
                         {

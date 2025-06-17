@@ -194,7 +194,7 @@ namespace formstienda.Servicios
                 .Where(v => v.PagoCordobas.HasValue && v.CambiosFactura == null);
 
             decimal totalVentas = ventasDelDia.Sum(v =>
-    (decimal)v.PagoCordobas.Value - (decimal)(v.CambioVenta ?? 0));
+            (decimal)v.PagoCordobas.Value - (decimal)(v.CambioVenta ?? 0));
 
 
             // Obtener totales de crédito SOLO "Sin tomar en arqueo"
@@ -261,7 +261,11 @@ namespace formstienda.Servicios
             return (totalCordobasCredito, totalDolaresCredito);
         }
 
-
+        public decimal ObtenerTotalAbonosCordobas(DateOnly fecha)
+        {
+            var (totalCordobasCredito, _) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
+            return totalCordobasCredito;
+        }
 
         public decimal ObtenerTotalEgresosCordobas(DateOnly fecha)
         {

@@ -336,7 +336,7 @@ namespace formstienda
 
 
                     contexto.SaveChanges();
-                    Arqueo_Caja_Load(null, null); 
+                    Arqueo_Caja_Load(null, null);
                 }
                 MessageBox.Show("Datos guardados correctamente.");
                 BloquearBotones();
@@ -386,8 +386,12 @@ namespace formstienda
                     var aperturaHoy = aperturas.FirstOrDefault();
                     txtAperturaCaja.Text = aperturaHoy?.MontoApertura.ToString("N2") ?? "0.00";
 
+                    // Cargar Total Abonos
+                    decimal totalAbonosCordobas = egresoServicio.ObtenerTotalAbonosCordobas(fechaActual);
+                    txtTotalAbono.Text = totalAbonosCordobas.ToString("N2");
+
                     // Cargar totales BRUTOS
-                   decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
+                    decimal totalBrutoCordobas = egresoServicio.ObtenerTotalBrutoCordobas(fechaActual);
                     decimal totalBrutoDolares = egresoServicio.ObtenerTotalBrutoDolares(fechaActual);
 
                    txtTotalCajaCordobas.Text = totalBrutoCordobas.ToString("N2");
