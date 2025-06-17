@@ -163,11 +163,11 @@ namespace formstienda
                 return;
 
             // Si es punto, convertirlo a coma manualmente
-            if (e.KeyChar == ',')
+            if (e.KeyChar == '.')
             {
                 e.Handled = true;
                 int pos = txt.SelectionStart;
-                txt.Text = txt.Text.Insert(pos, ",");
+                txt.Text = txt.Text.Insert(pos, ".");
                 txt.SelectionStart = pos + 1;
                 return;
             }
@@ -180,7 +180,7 @@ namespace formstienda
             }
 
             // No permitir más de una coma
-            if (e.KeyChar == ',' && txt.Text.Contains(','))
+            if (e.KeyChar == ',' && txt.Text.Contains('.'))
             {
                 e.Handled = true;
                 return;

@@ -100,25 +100,31 @@ namespace formstienda.capa_de_presentación
             {
                 DateOnly fechaActual = DateOnly.FromDateTime(DateTime.Now);
 
+                // 1. Obtener monto de apertura
                 var apertura = _egresoservicio.ListarAperturaCaja(fechaActual).FirstOrDefault();
                 decimal montoApertura = apertura?.MontoApertura != null ? (decimal)apertura.MontoApertura : 0m;
 
+                // 2. Calcular total de ventas en córdobas
                 var ventas = _egresoservicio.ListarTotalVenta(fechaActual);
                 decimal totalVentasCordobas = ventas?
                     .Where(v => v?.PagoCordobas != null)
                     .Sum(v => (decimal)v.PagoCordobas.Value) ?? 0m;
 
+                // 3. Calcular total de devoluciones
                 var devoluciones = _egresoservicio.ListarDevolucion(fechaActual);
                 decimal totalDevoluciones = devoluciones?
                     .Where(d => d?.MontoDevuelto != null)
                     .Sum(d => (decimal)d.MontoDevuelto) ?? 0m;
 
-                var pagosCredito = _egresoservicio.ListarPagosCredito(fechaActual);
-                decimal totalCordobasAbonados = pagosCredito?
-                    .Where(p => p?.TotalCordobas > 0)
-                    .Sum(p => (decimal)p.TotalCordobas) ?? 0m;
+                // 4. Obtener total de créditos en córdobas 
+                decimal totalCordobasAbonados = _egresoservicio
+                    .ObtenerTotalesCreditoPorFechaDesdeObservaciones(fechaActual)
+                    .totalCordobas;
 
+                // 5. Obtener total de egresos en córdobas
                 decimal totalEgresos = _egresoservicio.ObtenerTotalEgresosCordobas(fechaActual);
+
+                // 6. Calcular total final
                 decimal total = Math.Round(montoApertura + totalVentasCordobas + totalCordobasAbonados - totalDevoluciones - totalEgresos);
 
                 ActualizarTextBox(total, "Córdoba");
@@ -136,17 +142,21 @@ namespace formstienda.capa_de_presentación
             {
                 DateOnly fechaActual = DateOnly.FromDateTime(DateTime.Now);
 
+                // 1. Calcular total de ventas en dólares
                 var ventas = _egresoservicio.ListarTotalVenta(fechaActual);
                 decimal totalVentasDolares = ventas?
                     .Where(v => v?.PagoDolares != null)
                     .Sum(v => (decimal)v.PagoDolares.Value) ?? 0m;
 
-                var pagosCredito = _egresoservicio.ListarPagosCredito(fechaActual);
-                decimal totalDolaresAbonados = pagosCredito?
-                    .Where(p => p?.TotalDolares > 0)
-                    .Sum(p => (decimal)p.TotalDolares) ?? 0m;
+                // 2. Obtener total de créditos en dólares
+                decimal totalDolaresAbonados = _egresoservicio
+                    .ObtenerTotalesCreditoPorFechaDesdeObservaciones(fechaActual)
+                    .totalDolares;
 
+                // 3. Obtener total de egresos en dólares
                 decimal totalEgresos = _egresoservicio.ObtenerTotalEgresosDolares(fechaActual);
+
+                // 4. Calcular total final
                 decimal total = Math.Round(totalVentasDolares + totalDolaresAbonados - totalEgresos);
 
                 ActualizarTextBox(total, "Dólar");

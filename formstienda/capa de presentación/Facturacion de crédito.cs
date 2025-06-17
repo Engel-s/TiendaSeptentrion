@@ -1,6 +1,7 @@
 ﻿using formstienda.capa_de_negocios;
 using formstienda.Capa_negocios;
 using formstienda.Datos;
+using iText.Commons.Actions.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace formstienda.capa_de_presentación
         private CreditoServicio creditoServicio = new CreditoServicio();
         private FacturaCredito? creditoActual;
         private TasaServicio TasaServicio = new TasaServicio();
+        private ArqueoCaja arqueoCaja = new ArqueoCaja();
 
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -107,7 +109,7 @@ namespace formstienda.capa_de_presentación
                 cuotaDb.TotalCordobas = pagoCordobas;
                 cuotaDb.TotalDolares = pagoDolares;
                 cuotaDb.CambioDevuelto = cambio;
-                cuotaDb.Observaciones = $"Pago realizado el {DateTime.Now:dd/MM/yyyy HH:mm}. Mora: C${mora:N2}. Cambio: C${cambio:N2}.";
+                cuotaDb.Observaciones = $"Pago realizado el {DateTime.Now:dd/MM/yyyy HH:mm}. Mora: C${mora:N2}. Cambio: C${cambio:N2}. Sin tomar en arqueo.";
                 cuotaDb.UsuarioRegistro = UsuarioActivo.ObtenerUsuarioLogueo();
                 context.SaveChanges();
 
@@ -140,6 +142,8 @@ namespace formstienda.capa_de_presentación
                 }
             }
 
+
+
             string mensaje = "Pago registrado correctamente.";
 
             if (cambio > 0)
@@ -151,10 +155,27 @@ namespace formstienda.capa_de_presentación
 
             // Refrescar
             LimpiarFormularioCredito();
+            try
+            {
+                using (var context = new DbTiendaSeptentrionContext())
+                {
+                    var servicioArqueo = new ArqueoDeCajaServicio(context);
+                    servicioArqueo.SumarAbonoCreditoAEfectivo(pagoCordobas, pagoDolares);
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show("⚠️ " + ex.Message);
+            }
+
+
+
 
 
 
         }
+
+
 
 
         private void LimpiarFormularioCredito()
@@ -185,6 +206,7 @@ namespace formstienda.capa_de_presentación
             CBBUSQUEDADETALLE.SelectedIndex = -1;
             txtBusqueda.Clear();
             DesactivarCreditosSaldados();
+            txtcambio.Text = "0.00";
         }
 
 
@@ -265,6 +287,9 @@ namespace formstienda.capa_de_presentación
                 txtpagomora.Text = mora.ToString("N2");
                 float totalabonar = proxima.ValorCuota + mora;
                 txtTotalAbonado.Text = totalabonar.ToString("N2");
+                txtTotalAbonado.Text = $"C$ {totalabonar:N2}";
+                txtcambio.Text = $"C$ {"0.00":N2}";
+
             }
 
         }
@@ -353,11 +378,42 @@ namespace formstienda.capa_de_presentación
             float.TryParse(txtCordobas.Text, out cordobas);
             float.TryParse(txtDolares.Text, out dolares);
 
-            if (creditoActual == null) return;
+            if (creditoActual == null)
+            {
+                txtcambio.Text = "";
+                txtcambio.BackColor = SystemColors.Window;
+                return;
+            }
 
-            var proxima = creditoServicio.ObtenerProximaCuota(creditoActual, out _, out _);
-            if (proxima == null) return;
+            var proxima = creditoServicio.ObtenerProximaCuota(creditoActual, out int diasMora, out float mora);
+            if (proxima == null)
+            {
+                txtcambio.Text = "";
+                txtcambio.BackColor = SystemColors.Window;
+                return;
+            }
 
+            float tasa = TasaServicio.ObtenerTasaDeHoy().ValorCambio;
+            float totalAPagar = proxima.ValorCuota + mora;
+            float totalIngresado = cordobas + (dolares * tasa);
+            float cambio = totalIngresado - totalAPagar;
+
+            // Mostrar el cambio en el textbox
+            txtcambio.Text = cambio.ToString("N2");
+
+            // Cambiar color de fondo según el valor
+            if (cambio < 0)
+            {
+                txtcambio.BackColor = Color.MistyRose; // rojo claro
+                txtcambio.ForeColor = Color.DarkRed;
+            }
+            else
+            {
+                txtcambio.BackColor = Color.Honeydew; // verde claro
+                txtcambio.ForeColor = Color.DarkGreen;
+            }
+
+            // Actualizar visualmente la tabla
             foreach (DataGridViewRow row in Tabla_Credito.Rows)
             {
                 if (row.Cells[0].Value?.ToString() == proxima.NumeroCuota.ToString())
@@ -367,7 +423,11 @@ namespace formstienda.capa_de_presentación
                     break;
                 }
             }
+            txtTotalAbonado.Text = $"C$ {totalAPagar:N2}";
+            txtcambio.Text = $"C$ {cambio:N2}";
+
         }
+
 
         private void txtDolares_TextChanged(object sender, EventArgs e)
         {
@@ -454,6 +514,32 @@ namespace formstienda.capa_de_presentación
                 {
                     e.Handled = true;
                 }
+            }
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Tabla_Credito_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (Tabla_Credito.Columns[e.ColumnIndex].Name == "TotalCordoba" && e.Value is float valorCordobas)
+            {
+                e.Value = $"C$ {valorCordobas:N2}";
+                e.FormattingApplied = true;
+            }
+
+            if (Tabla_Credito.Columns[e.ColumnIndex].Name == "TotalDolar" && e.Value is float valorDolares)
+            {
+                e.Value = $"${valorDolares:N2}";
+                e.FormattingApplied = true;
+            }
+
+            if (Tabla_Credito.Columns[e.ColumnIndex].Name == "CuotaValor" && e.Value is float valorCuota)
+            {
+                e.Value = $"C$ {valorCuota:N2}";
+                e.FormattingApplied = true;
             }
         }
     }

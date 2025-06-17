@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using static formstienda.Login;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace formstienda
 {
@@ -283,6 +285,55 @@ namespace formstienda
                     {
                         apertura.EstadoApertura = "Cerrada";
                     }
+                    // Cambiar el estado a "Cerrada"
+                    foreach (var apertura in aperturasAbiertas)
+                    {
+                        apertura.EstadoApertura = "Cerrada";
+                    }
+
+                    // 🔽 Agregado: Marcar ventas del día con EstadoFactura NULL
+                    DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
+                    var ventasSinEstado = contexto.Venta
+                        .Where(v => v.FechaVenta == hoy && v.CambiosFactura == null)
+                        .ToList();
+
+                    foreach (var venta in ventasSinEstado)
+                    {
+                        venta.CambiosFactura = "Tomada en Arqueo";
+                    }
+
+
+
+                    var abonosParaActualizar = contexto.DetalleCreditos
+                             .Where(d => d.Observaciones != null &&
+                  d.Observaciones.StartsWith("Pago realizado el") &&
+                  d.Observaciones.Contains("Sin tomar en arqueo"))
+                            .ToList();
+
+                    
+
+                    foreach (var abono in abonosParaActualizar)
+                    {
+                        // Regex para extraer la fecha y hora del formato: "Pago realizado el dd/MM/yyyy HH:mm"
+                        var match = Regex.Match(abono.Observaciones, @"Pago realizado el (\d{2}/\d{2}/\d{4} \d{2}:\d{2})");
+
+                        if (match.Success)
+                        {
+                            string fechaTexto = match.Groups[1].Value;
+
+                            if (DateTime.TryParseExact(fechaTexto, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fechaPago))
+                            {
+                                if (DateOnly.FromDateTime(fechaPago.Date) == hoy)
+                                {
+                                    // Si la fecha extraída es hoy, cambiar el texto
+                                    abono.Observaciones = abono.Observaciones.Replace("Sin tomar en arqueo", "Tomado en arqueo");
+                                }
+                            }
+                        }
+                    }
+
+
+
 
                     contexto.SaveChanges();
                     Arqueo_Caja_Load(null, null); 

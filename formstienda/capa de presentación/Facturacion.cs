@@ -41,15 +41,9 @@ namespace formstienda
         }
         private void CargarCombos(List<Producto> productos)
         {
-            CBproductos.SelectedIndexChanged -= ComboBox_Changed;
             CBcategorias.SelectedIndexChanged -= ComboBox_Changed;
             CBmarcas.SelectedIndexChanged -= ComboBox_Changed;
-
-            CBproductos.DataSource = productos
-                .Select(p => p.ModeloProducto)
-                .Distinct()
-                .OrderBy(m => m)
-                .ToList();
+            CBproductos.SelectedIndexChanged -= ComboBox_Changed;
 
             CBcategorias.DataSource = productos
                 .Select(p => p.IdCategoriaNavigation.Categoria)
@@ -57,22 +51,106 @@ namespace formstienda
                 .OrderBy(c => c)
                 .ToList();
 
-            CBmarcas.DataSource = productos
-                .Select(p => p.IdMarcaNavigation.Marca1)
-                .Distinct()
-                .OrderBy(m => m)
-                .ToList();
+            CBmarcas.DataSource = null;
+            CBproductos.DataSource = null;
 
-            // <- Aquí lo importante: seleccionar ninguno
-            CBproductos.SelectedIndex = -1;
             CBcategorias.SelectedIndex = -1;
             CBmarcas.SelectedIndex = -1;
+            CBproductos.SelectedIndex = -1;
 
-            CBproductos.SelectedIndexChanged += ComboBox_Changed;
             CBcategorias.SelectedIndexChanged += ComboBox_Changed;
             CBmarcas.SelectedIndexChanged += ComboBox_Changed;
+            CBproductos.SelectedIndexChanged += ComboBox_Changed;
         }
 
+        private void ComboBox_Changed(object sender, EventArgs e)
+        {
+            string categoria = CBcategorias.SelectedItem?.ToString();
+            string marca = CBmarcas.SelectedItem?.ToString();
+
+            // Filtrar marcas al seleccionar categoría
+            if (sender == CBcategorias && !string.IsNullOrEmpty(categoria))
+            {
+                var marcasFiltradas = Listaproducto
+                    .Where(p => p.IdCategoriaNavigation.Categoria == categoria)
+                    .Select(p => p.IdMarcaNavigation.Marca1)
+                    .Distinct()
+                    .OrderBy(m => m)
+                    .ToList();
+
+                CBmarcas.SelectedIndexChanged -= ComboBox_Changed;
+                CBmarcas.DataSource = marcasFiltradas;
+                CBmarcas.SelectedIndex = -1;
+                CBmarcas.SelectedIndexChanged += ComboBox_Changed;
+
+                // Limpiar combos dependientes
+                CBproductos.DataSource = null;
+                CBproductos.SelectedIndex = -1;
+                LimpiarDetalleProducto();
+            }
+            // Filtrar productos al seleccionar marca (y categoría ya seleccionada)
+            else if (sender == CBmarcas && !string.IsNullOrEmpty(categoria) && !string.IsNullOrEmpty(marca))
+            {
+                var productosFiltrados = Listaproducto
+                    .Where(p => p.IdCategoriaNavigation.Categoria == categoria && p.IdMarcaNavigation.Marca1 == marca)
+                    .Select(p => p.ModeloProducto)
+                    .Distinct()
+                    .OrderBy(p => p)
+                    .ToList();
+
+                CBproductos.SelectedIndexChanged -= ComboBox_Changed;
+                CBproductos.DataSource = productosFiltrados;
+                CBproductos.SelectedIndex = -1;
+                CBproductos.SelectedIndexChanged += ComboBox_Changed;
+
+                LimpiarDetalleProducto();
+            }
+            // Al seleccionar producto, mostrar sus detalles
+            else if (sender == CBproductos && !string.IsNullOrEmpty(categoria) && !string.IsNullOrEmpty(marca))
+            {
+                var modelo = CBproductos.SelectedItem?.ToString();
+                var prod = Listaproducto.FirstOrDefault(p => p.IdCategoriaNavigation.Categoria == categoria &&
+                                                             p.IdMarcaNavigation.Marca1 == marca &&
+                                                             p.ModeloProducto == modelo);
+
+                if (prod != null)
+                {
+                    txtprecio.Text = prod.PrecioVenta.ToString("C", new CultureInfo("es-NI"));
+                    txtmarca.Text = prod.IdMarcaNavigation.Marca1;
+                    txtcategoria.Text = prod.IdCategoriaNavigation.Categoria;
+                    txtproducto.Text = prod.ModeloProducto;
+                    txtcodigoproducto.Text = prod.CodigoProducto;
+                    txtstock.Text = prod.StockActual.ToString();
+                    txtcantidad.Text = "1";
+
+                    productoSeleccionadoTemporal = new ProductoSeleccionado
+                    {
+                        CodigoProducto = prod.CodigoProducto,
+                        ModeloProducto = prod.ModeloProducto,
+                        Marca = prod.IdMarcaNavigation.Marca1,
+                        Categoria = prod.IdCategoriaNavigation.Categoria,
+                        PrecioVenta = prod.PrecioVenta,
+                        stockactualproducto = (int)prod.StockActual
+                    };
+                }
+            }
+            else
+            {
+                LimpiarDetalleProducto();
+            }
+        }
+
+        private void LimpiarDetalleProducto()
+        {
+            txtprecio.Clear();
+            txtcantidad.Clear();
+            txtmarca.Clear();
+            txtcategoria.Clear();
+            txtproducto.Clear();
+            txtstock.Clear();
+            txtcodigoproducto.Clear();
+            productoSeleccionadoTemporal = null;
+        }
         public class ProductoSeleccionado
         {
             public string CodigoProducto { get; set; }
@@ -88,80 +166,6 @@ namespace formstienda
 
         private ProductoSeleccionado productoSeleccionadoTemporal = null;
 
-        private void ComboBox_Changed(object sender, EventArgs e)
-        {
-            string modelo = CBproductos.SelectedItem?.ToString();
-            string categoria = CBcategorias.SelectedItem?.ToString();
-            string marca = CBmarcas.SelectedItem?.ToString();
-
-            var filtrado = Listaproducto.Where(p =>
-                (string.IsNullOrEmpty(modelo) || p.ModeloProducto == modelo) &&
-                (string.IsNullOrEmpty(categoria) || p.IdCategoriaNavigation.Categoria == categoria) &&
-                (string.IsNullOrEmpty(marca) || p.IdMarcaNavigation.Marca1 == marca)
-            ).ToList();
-
-            // Evitar loops de eventos
-            CBproductos.SelectedIndexChanged -= ComboBox_Changed;
-            CBcategorias.SelectedIndexChanged -= ComboBox_Changed;
-            CBmarcas.SelectedIndexChanged -= ComboBox_Changed;
-
-            // Solo actualizar combos si no fue el que disparó el cambio
-            if (sender != CBproductos)
-                ActualizarCombo(CBproductos, filtrado.Select(p => p.ModeloProducto).Distinct().OrderBy(x => x).ToList(), modelo);
-            if (sender != CBcategorias)
-                ActualizarCombo(CBcategorias, filtrado.Select(p => p.IdCategoriaNavigation.Categoria).Distinct().OrderBy(x => x).ToList(), categoria);
-            if (sender != CBmarcas)
-                ActualizarCombo(CBmarcas, filtrado.Select(p => p.IdMarcaNavigation.Marca1).Distinct().OrderBy(x => x).ToList(), marca);
-
-            // Reconectar eventos
-            CBproductos.SelectedIndexChanged += ComboBox_Changed;
-            CBcategorias.SelectedIndexChanged += ComboBox_Changed;
-            CBmarcas.SelectedIndexChanged += ComboBox_Changed;
-
-            if (!string.IsNullOrEmpty(modelo) && filtrado.Count == 1)
-            {
-                var prod = filtrado.First();
-                txtprecio.Text = prod.PrecioVenta.ToString("C", new CultureInfo("es-NI"));
-
-
-                txtmarca.Text = prod.IdMarcaNavigation.Marca1;
-                txtcategoria.Text = prod.IdCategoriaNavigation.Categoria;
-                txtproducto.Text = prod.ModeloProducto;
-                txtcodigoproducto.Text = prod.CodigoProducto;
-                txtstock.Text = Convert.ToString(prod.StockActual);
-                int cantidad;
-                if (!int.TryParse(txtcantidad.Text, out cantidad))
-                {
-                    cantidad = 1; // valor por defecto si no se puede convertir
-                }
-                txtcantidad.Text = cantidad.ToString();
-                // esto puede no ser necesario si solo querías validar
-
-
-                // Guardar los datos del producto en una variable temporal
-                productoSeleccionadoTemporal = new ProductoSeleccionado
-                {
-                    CodigoProducto = prod.CodigoProducto,
-                    ModeloProducto = prod.ModeloProducto,
-                    Marca = prod.IdMarcaNavigation.Marca1,
-                    Categoria = prod.IdCategoriaNavigation.Categoria,
-                    PrecioVenta = prod.PrecioVenta,
-                    stockactualproducto = (int)prod.StockActual,
-
-                    // La cantidad la leerás al momento de hacer clic en Agregar
-                };
-            }
-            else
-            {
-                txtprecio.Clear();
-                txtcantidad.Clear();
-                txtmarca.Clear();
-                txtcategoria.Clear();
-                txtproducto.Clear();
-                txtstock.Clear();
-                txtcodigoproducto.Clear();
-            }
-        }
 
 
 
@@ -315,10 +319,27 @@ namespace formstienda
                 }
             }
 
-            float pagoCordobas = float.TryParse(txtpago.Text, out float cordobas) ? cordobas : 0f;
-            float pagoDolares = float.TryParse(txtfaltante.Text, out float dolares) ? dolares : 0f;
+            if (!float.TryParse(txtpago.Text, out float pagoCordobas) || pagoCordobas < 0)
+            {
+                MessageBox.Show("El pago en córdobas debe ser un número positivo válido.");
+                return;
+            }
+
+            float pagoDolares = 0f;  // declarar antes
+
+            if (!string.IsNullOrWhiteSpace(txtfaltante.Text))
+            {
+                if (!float.TryParse(txtfaltante.Text, out pagoDolares) || pagoDolares < 0)
+                {
+                    MessageBox.Show("El pago en dólares debe ser un número válido mayor o igual a 0.");
+                    return;
+                }
+            }
+
+            // Ahora puedes usar pagoDolares sin problemas
             float valorTasa = (float)tasa.ValorCambio;
             float totalPagado = pagoCordobas + (pagoDolares * valorTasa);
+
 
             float totalVenta = float.TryParse(txttotal.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out float total) ? total : 0f;
 
@@ -327,6 +348,12 @@ namespace formstienda
                 MessageBox.Show("El monto pagado es insuficiente. No se puede registrar la venta.");
                 return;
             }
+            string cambioTexto = txtcambio.Text.Replace("C$", "").Trim();
+
+            float cambio = float.TryParse(cambioTexto, NumberStyles.Any, CultureInfo.CurrentCulture, out float valorCambio)
+                ? valorCambio
+                : 0f;
+
 
             var venta = new Ventum
             {
@@ -336,8 +363,7 @@ namespace formstienda
                 TipoPago = ObtenerTipoPagoSeleccionado(),
                 PagoCordobas = pagoCordobas,
                 PagoDolares = pagoDolares,
-                CambioVenta = float.TryParse(txtcambio.Text, out float cambio) ? cambio : 0f,
-
+                CambioVenta = cambio,
                 TotalVenta = totalVenta
             };
 
@@ -371,7 +397,25 @@ namespace formstienda
             {
                 if (!float.TryParse(txtinteresparaloscreditos.Text, out float interesMensual))
                 {
-                    MessageBox.Show("Ingrese un interés mensual válido.");
+                    MessageBox.Show("Ingrese un interés mensual válido en formato numérico (ej. 2.5).");
+                    return;
+                }
+
+                if (interesMensual <= 0)
+                {
+                    MessageBox.Show("El interés mensual debe ser mayor que 0%.");
+                    return;
+                }
+
+                if (interesMensual > 40)
+                {
+                    MessageBox.Show("El interés mensual no puede ser mayor a 40%. Verifique el valor ingresado.");
+                    return;
+                }
+
+                if (txtinteresparaloscreditos.Text.Contains(","))
+                {
+                    MessageBox.Show("Use punto (.) como separador decimal, no coma (,).");
                     return;
                 }
 
@@ -484,6 +528,42 @@ namespace formstienda
 
         }
 
+        private void ValidarEntradaNumerica(object sender, KeyPressEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            if (char.IsControl(e.KeyChar)) return;
+
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // No más de un punto
+            if (e.KeyChar == '.' && txt.Text.Contains("."))
+            {
+                e.Handled = true;
+                return;
+            }
+
+            // Máximo dos decimales
+            if (txt.Text.Contains("."))
+            {
+                int index = txt.Text.IndexOf(".");
+                string decimales = txt.Text.Substring(index + 1);
+                if (txt.SelectionStart > index && decimales.Length >= 2)
+                {
+                    e.Handled = true;
+                }
+            }
+
+            // Límite de longitud total (por ejemplo 10 caracteres)
+            if (txt.Text.Length >= 10 && !txt.SelectedText.Any())
+            {
+                e.Handled = true;
+            }
+        }
 
 
         private void dgmostrar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -527,11 +607,15 @@ namespace formstienda
             // Sumar los subtotales de todas las filas
             foreach (DataGridViewRow row in dgmostrar.Rows)
             {
-                total += Convert.ToDouble(row.Cells["Subtotal"].Value);
+                if (row.Cells["Subtotal"].Value != null && double.TryParse(row.Cells["Subtotal"].Value.ToString(), out double subtotal))
+                {
+                    total += subtotal;
+                }
             }
 
-            txttotal.Text = total.ToString();
+            txttotal.Text = total.ToString("N2"); // Ejemplo: 1,234.56
         }
+
 
         private void btnagregar_Click(object sender, EventArgs e)
         {
@@ -754,12 +838,15 @@ namespace formstienda
 
         private void CalcularCambio()
         {
-            if (!float.TryParse(txttotal.Text, System.Globalization.NumberStyles.Currency, null, out float totalVenta))
+            // Validar el total de la venta
+            if (!float.TryParse(txttotal.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out float totalVenta))
                 totalVenta = 0f;
 
+            // Validar los pagos
             float pagoCordobas = float.TryParse(txtpago.Text, out float cordobas) ? cordobas : 0f;
             float pagoDolares = float.TryParse(txtfaltante.Text, out float dolares) ? dolares : 0f;
 
+            // Obtener la tasa del día
             var tasa = tasaServicio.ObtenerTasaDeHoy();
             if (tasa == null)
             {
@@ -772,28 +859,41 @@ namespace formstienda
 
                 if (resultado == DialogResult.Yes)
                 {
-                    Apertura_Caja apertura = new Apertura_Caja();
-                    apertura.Show();
+                    using (var apertura = new Apertura_Caja())
+                    {
+                        apertura.ShowDialog(); // ShowDialog bloquea hasta que se cierre
+                    }
 
-
-                    // Intentar cargar nuevamente la tasa después de que se haya cerrado el formulario
                     tasa = tasaServicio.ObtenerTasaDeHoy();
-
                 }
 
-                txtcambio.Text = "0.00";
-                return;
+                if (tasa == null)
+                {
+                    txtcambio.Text = "C$ 0.00";
+                    txtcambio.BackColor = SystemColors.Window;
+                    txtcambio.ForeColor = Color.Black;
+                    return;
+                }
             }
 
             float tasaActual = tasa.ValorCambio;
-
             float totalPagado = pagoCordobas + (pagoDolares * tasaActual);
             float cambio = totalPagado - totalVenta;
 
-            txtcambio.Text = cambio >= 0 ? cambio.ToString("N2") : "0.00";
+            // Mostrar el cambio en C$ con 2 decimales
+            txtcambio.Text = $"C$ {Math.Abs(cambio):N2}";
 
-
-
+            // Color según si alcanza o no
+            if (cambio < 0)
+            {
+                txtcambio.BackColor = Color.MistyRose;
+                txtcambio.ForeColor = Color.DarkRed;
+            }
+            else
+            {
+                txtcambio.BackColor = Color.Honeydew;
+                txtcambio.ForeColor = Color.DarkGreen;
+            }
         }
 
 
@@ -895,6 +995,7 @@ namespace formstienda
             {
                 e.Handled = true;
             }
+            
         }
 
         private void txtfaltante_KeyPress(object sender, KeyPressEventArgs e)
@@ -1034,6 +1135,11 @@ namespace formstienda
                     e.FormattingApplied = true;
                 }
             }
+        }
+
+        private void txtinteresparaloscreditos_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -154,10 +154,12 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            dateTimePicker1.Enabled = false;
+            dateTimePicker1.Font = new Font("Century Gothic", 9.2F, FontStyle.Bold);
             dateTimePicker1.Location = new Point(992, 65);
             dateTimePicker1.Margin = new Padding(2, 5, 2, 5);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(296, 27);
+            dateTimePicker1.Size = new Size(310, 26);
             dateTimePicker1.TabIndex = 148;
             // 
             // lbldolares
@@ -408,6 +410,7 @@
             // 
             // CBBUSCARPOR
             // 
+            CBBUSCARPOR.DropDownStyle = ComboBoxStyle.DropDownList;
             CBBUSCARPOR.FormattingEnabled = true;
             CBBUSCARPOR.Items.AddRange(new object[] { "Cédula", "Telefono" });
             CBBUSCARPOR.Location = new Point(326, 65);
@@ -769,6 +772,7 @@
             // 
             // CBproductos
             // 
+            CBproductos.DropDownStyle = ComboBoxStyle.DropDownList;
             CBproductos.FormattingEnabled = true;
             CBproductos.Location = new Point(730, 225);
             CBproductos.Margin = new Padding(2, 3, 2, 3);
@@ -778,6 +782,7 @@
             // 
             // CBmarcas
             // 
+            CBmarcas.DropDownStyle = ComboBoxStyle.DropDownList;
             CBmarcas.FormattingEnabled = true;
             CBmarcas.Location = new Point(425, 225);
             CBmarcas.Margin = new Padding(2, 3, 2, 3);
@@ -787,6 +792,7 @@
             // 
             // CBcategorias
             // 
+            CBcategorias.DropDownStyle = ComboBoxStyle.DropDownList;
             CBcategorias.FormattingEnabled = true;
             CBcategorias.Location = new Point(118, 225);
             CBcategorias.Margin = new Padding(2, 3, 2, 3);
@@ -892,6 +898,7 @@
             txtinteresparaloscreditos.Name = "txtinteresparaloscreditos";
             txtinteresparaloscreditos.Size = new Size(188, 27);
             txtinteresparaloscreditos.TabIndex = 162;
+            txtinteresparaloscreditos.TextChanged += txtinteresparaloscreditos_TextChanged;
             // 
             // lblnumeroplazos
             // 
@@ -909,6 +916,7 @@
             // cbnumerodeplazos
             // 
             cbnumerodeplazos.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cbnumerodeplazos.DropDownStyle = ComboBoxStyle.DropDownList;
             cbnumerodeplazos.FormattingEnabled = true;
             cbnumerodeplazos.Items.AddRange(new object[] { "1 MES", "2 MESES", "3 MESES" });
             cbnumerodeplazos.Location = new Point(1030, 384);
