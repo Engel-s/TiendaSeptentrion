@@ -319,13 +319,18 @@ namespace formstienda
                 }
             }
 
-            if (!float.TryParse(txtpago.Text, out float pagoCordobas) || pagoCordobas < 0)
+            float pagoCordobas = 0f;
+
+            if (!string.IsNullOrWhiteSpace(txtpago.Text))
             {
-                MessageBox.Show("El pago en córdobas debe ser un número positivo válido.");
-                return;
+                if (!float.TryParse(txtpago.Text, out pagoCordobas) || pagoCordobas < 0)
+                {
+                    MessageBox.Show("El pago en córdobas debe ser un número válido mayor o igual a 0.");
+                    return;
+                }
             }
 
-            float pagoDolares = 0f;  // declarar antes
+            float pagoDolares = 0f;
 
             if (!string.IsNullOrWhiteSpace(txtfaltante.Text))
             {
@@ -335,6 +340,7 @@ namespace formstienda
                     return;
                 }
             }
+
 
             // Ahora puedes usar pagoDolares sin problemas
             float valorTasa = (float)tasa.ValorCambio;
