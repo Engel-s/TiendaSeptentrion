@@ -76,81 +76,84 @@ namespace formstienda.capa_de_negocios
 
                     // Crear HTML con imagen embebida
                     string htmlBody = $@"
-                        <html>
-                        <head>
-                          <style>
-                            body {{
-                                font-family: 'Segoe UI', sans-serif;
-                                background-color: #f4f4f4;
-                                padding: 0;
-                                margin: 0;
-                            }}
-                            .card {{
-                                max-width: 600px;
-                                margin: 40px auto;
-                                background-color: #ffffff;
-                                padding: 30px;
-                                border-radius: 10px;
-                                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                                color: #2c3e50;
-                            }}
-                            .logo {{
-                                text-align: center;
-                                margin-bottom: 20px;
-                            }}
-                            .logo img {{
-                                max-width: 120px;
-                                height: auto;
-                            }}
-                            .titulo {{
-                                text-align: center;
-                                font-size: 24px;
-                                margin-bottom: 20px;
-                                color: #2980b9;
-                            }}
-                            .contenido {{
-                                font-size: 16px;
-                                line-height: 1.6;
-                            }}
-                            .codigo {{
-                                font-size: 24px;
-                                font-weight: bold;
-                                background-color: #ecf0f1;
-                                padding: 12px 20px;
-                                border-radius: 6px;
-                                display: inline-block;
-                                margin: 20px 0;
-                                letter-spacing: 2px;
-                                color: #34495e;
-                            }}
-                            .footer {{
-                                font-size: 12px;
-                                color: #888;
-                                text-align: center;
-                                margin-top: 30px;
-                            }}
-                          </style>
-                        </head>
-                        <body>
-                          <div class='card'>
-                            <div class='logo'>
-                              <img src='cid:{contentId}' alt='Logo' />
-                            </div>
-                            <div class='titulo'>Recuperación de Contraseña</div>
-                            <div class='contenido'>
-                              <p>Hola,</p>
-                              <p>Has solicitado restablecer tu contraseña. Usa el siguiente código para completar el proceso:</p>
-                              <div class='codigo'>{token}</div>
-                              <p>Este código es temporal y expirará en unos minutos por motivos de seguridad.</p>
-                              <p>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
-                            </div>
-                            <div class='footer'>
-                              &copy; {DateTime.Now.Year} Sistema Tienda - Septentrion<br />
-                              Este correo fue generado automáticamente, no respondas a este mensaje.
-                            </div>
-                          </div>
-                        </body>
-                        </html>";
+                                <html>
+                                <head>
+                                  <style>
+                                    body {{
+                                        font-family: 'Segoe UI', sans-serif;
+                                        background-color: #f0f2f5;
+                                        margin: 0;
+                                        padding: 0;
+                                    }}
+                                    .container {{
+                                        max-width: 600px;
+                                        margin: 40px auto;
+                                        background-color: #ffffff;
+                                        border-radius: 8px;
+                                        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+                                        overflow: hidden;
+                                    }}
+                                    .header {{
+                                        background-color: #2980b9;
+                                        padding: 20px;
+                                        text-align: center;
+                                    }}
+                                    .header img {{
+                                        max-height: 60px;
+                                    }}
+                                    .titulo {{
+                                        color: #ffffff;
+                                        font-size: 24px;
+                                        margin-top: 10px;
+                                    }}
+                                    .contenido {{
+                                        padding: 30px;
+                                        color: #333333;
+                                        font-size: 16px;
+                                        line-height: 1.6;
+                                    }}
+                                    .codigo {{
+                                        font-size: 28px;
+                                        font-weight: bold;
+                                        background-color: #f1f1f1;
+                                        padding: 12px 24px;
+                                        border-radius: 8px;
+                                        display: inline-block;
+                                        margin: 20px 0;
+                                        color: #2c3e50;
+                                        letter-spacing: 2px;
+                                    }}
+                                    .footer {{
+                                        background-color: #f8f8f8;
+                                        padding: 20px;
+                                        text-align: center;
+                                        font-size: 12px;
+                                        color: #888888;
+                                    }}
+                                  </style>
+                                </head>
+                                <body>
+                                  <div class='container'>
+                                    <div class='header'>
+                                      <img src='cid:{contentId}' alt='Logo' />
+                                      <div class='titulo'>Recuperación de Contraseña</div>
+                                    </div>
+                                    <div class='contenido'>
+                                      <p>Hola,</p>
+                                      <p>Recibimos una solicitud para restablecer tu contraseña en el sistema <strong>Tienda - Septentrion</strong>.</p>
+                                      <p>Usa el siguiente código para continuar con el proceso:</p>
+                                      <div class='codigo'>{token}</div>
+                                      <p>Este código expirará en pocos minutos por seguridad.</p>
+                                      <p>Si tú no solicitaste este cambio, por favor ignora este mensaje.</p>
+                                    </div>
+                                    <div class='footer'>
+                                      &copy; {DateTime.Now.Year} Sistema Tienda - Septentrion<br/>
+                                      Este mensaje fue generado automáticamente. No respondas a este correo.
+                                    </div>
+                                  </div>
+                                </body>
+                                </html>";
+
 
                     // Crea una vista alternativa para embebidos
                     AlternateView vistaHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
