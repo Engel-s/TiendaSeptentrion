@@ -180,14 +180,14 @@ namespace formstienda
             }
 
             // No permitir más de una coma
-            if (e.KeyChar == ',' && txt.Text.Contains('.'))
+            if (e.KeyChar == '.' && txt.Text.Contains('.'))
             {
                 e.Handled = true;
                 return;
             }
 
             // Limitar coma a ser después de mínimo dos dígitos
-            if (e.KeyChar == ',' && txt.SelectionStart < 2)
+            if (e.KeyChar == '.' && txt.SelectionStart < 2)
             {
                 e.Handled = true;
             }
