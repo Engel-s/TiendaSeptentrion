@@ -55,7 +55,7 @@ namespace formstienda
                     {
                         string backupFile = openFile.FileName;
                         string nombreBD = "DB_Tienda_Septentrion";
-                        string connectionString = "Server=DESKTOP-I4VC35H;Database=master;Trusted_Connection=True;";
+                        string connectionString = "Server=DEngels;Database=master;Trusted_Connection=True;";
 
                         using (SqlConnection conexion = new SqlConnection(connectionString))
                         {
@@ -96,7 +96,7 @@ namespace formstienda
                     {
                         string backupPath = saveFile.FileName;
                         string nombreBD = "DB_Tienda_Septentrion"; // Nombre de tu base
-                        string connectionString = "Server=DESKTOP-I4VC35H;Database=master;Trusted_Connection=True;";
+                        string connectionString = "Server=DEngels;Database=master;Trusted_Connection=True;";
 
                         using (SqlConnection conexion = new SqlConnection(connectionString))
                         {
