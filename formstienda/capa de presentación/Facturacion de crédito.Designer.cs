@@ -30,32 +30,38 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Facturacion_de_crédito));
             label1 = new Label();
-            pictureBox1 = new PictureBox();
-            textBox1 = new TextBox();
+            pcbusqueda = new PictureBox();
+            txtBusqueda = new TextBox();
             pictureBox2 = new PictureBox();
-            dataGridView1 = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
+            Tabla_Credito = new DataGridView();
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
-            button2 = new Button();
-            label6 = new Label();
-            textBox4 = new TextBox();
-            textBox5 = new TextBox();
-            button1 = new Button();
+            txtTotalAbonado = new TextBox();
+            txtCordobas = new TextBox();
+            btnGuardar = new Button();
+            btnCancelar = new Button();
             pictureBox4 = new PictureBox();
             pictureBox3 = new PictureBox();
-            button3 = new Button();
+            btnSalir = new Button();
             pictureBox6 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            CBBUSQUEDADETALLE = new ComboBox();
+            label2 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            txtcliente = new TextBox();
+            txtcedula = new TextBox();
+            txtcolilla = new TextBox();
+            label9 = new Label();
+            txtdiasenmoras = new TextBox();
+            label10 = new Label();
+            txtpagomora = new TextBox();
+            txtDolares = new TextBox();
+            label6 = new Label();
+            txtcambio = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)pcbusqueda).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Tabla_Credito).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -63,301 +69,388 @@
             // 
             // label1
             // 
-            label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
             label1.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(351, 148);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(132, 47);
             label1.Name = "label1";
-            label1.Size = new Size(175, 28);
+            label1.Size = new Size(79, 22);
             label1.TabIndex = 0;
-            label1.Text = "Buscar cliente:";
+            label1.Text = "Buscar:";
             // 
-            // pictureBox1
+            // pcbusqueda
             // 
-            pictureBox1.Anchor = AnchorStyles.Top;
-            pictureBox1.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
-            pictureBox1.Location = new Point(829, 129);
-            pictureBox1.Margin = new Padding(4, 2, 4, 2);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(59, 50);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 37;
-            pictureBox1.TabStop = false;
+            pcbusqueda.Image = Properties.Resources.busque_un_simbolo_de_interfaz_de_persona_de_una_lupa_en_forma_de_hombre;
+            pcbusqueda.Location = new Point(589, 37);
+            pcbusqueda.Margin = new Padding(3, 2, 3, 2);
+            pcbusqueda.Name = "pcbusqueda";
+            pcbusqueda.Size = new Size(47, 40);
+            pcbusqueda.SizeMode = PictureBoxSizeMode.StretchImage;
+            pcbusqueda.TabIndex = 37;
+            pcbusqueda.TabStop = false;
+            pcbusqueda.Click += pcbusqueda_Click;
             // 
-            // textBox1
+            // txtBusqueda
             // 
-            textBox1.Anchor = AnchorStyles.Top;
-            textBox1.Location = new Point(588, 145);
-            textBox1.Margin = new Padding(4, 2, 4, 2);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(205, 31);
-            textBox1.TabIndex = 38;
-            textBox1.TextChanged += textBox1_TextChanged;
+            txtBusqueda.Location = new Point(337, 45);
+            txtBusqueda.Margin = new Padding(3, 2, 3, 2);
+            txtBusqueda.Name = "txtBusqueda";
+            txtBusqueda.Size = new Size(226, 27);
+            txtBusqueda.TabIndex = 38;
+            txtBusqueda.TextChanged += textBox1_TextChanged;
             // 
             // pictureBox2
             // 
-            pictureBox2.Anchor = AnchorStyles.Top;
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(111, 81);
-            pictureBox2.Margin = new Padding(4, 2, 4, 2);
+            pictureBox2.Location = new Point(28, 11);
+            pictureBox2.Margin = new Padding(3, 2, 3, 2);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(140, 116);
+            pictureBox2.Size = new Size(78, 66);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 39;
             pictureBox2.TabStop = false;
             // 
-            // dataGridView1
+            // Tabla_Credito
             // 
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5 });
-            dataGridView1.Location = new Point(35, 218);
-            dataGridView1.Margin = new Padding(4, 2, 4, 2);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.RowTemplate.Height = 28;
-            dataGridView1.Size = new Size(1251, 502);
-            dataGridView1.TabIndex = 41;
-            // 
-            // Column1
-            // 
-            Column1.HeaderText = "Nº Factura";
-            Column1.MinimumWidth = 8;
-            Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            Column2.HeaderText = "Fecha";
-            Column2.MinimumWidth = 8;
-            Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            Column3.HeaderText = "Saldo";
-            Column3.MinimumWidth = 8;
-            Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            Column4.HeaderText = "Abono";
-            Column4.MinimumWidth = 8;
-            Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            Column5.HeaderText = "Nuevo saldo";
-            Column5.MinimumWidth = 8;
-            Column5.Name = "Column5";
+            Tabla_Credito.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Tabla_Credito.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            Tabla_Credito.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            Tabla_Credito.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            Tabla_Credito.Location = new Point(28, 326);
+            Tabla_Credito.Margin = new Padding(3, 2, 3, 2);
+            Tabla_Credito.Name = "Tabla_Credito";
+            Tabla_Credito.RowHeadersWidth = 62;
+            Tabla_Credito.RowTemplate.Height = 28;
+            Tabla_Credito.Size = new Size(754, 440);
+            Tabla_Credito.TabIndex = 41;
+            Tabla_Credito.CellContentClick += Tabla_Credito_CellContentClick;
+            Tabla_Credito.CellFormatting += Tabla_Credito_CellFormatting;
             // 
             // label3
             // 
-            label3.Anchor = AnchorStyles.Bottom;
+            label3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(56, 814);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(836, 367);
             label3.Name = "label3";
-            label3.Size = new Size(122, 28);
+            label3.Size = new Size(105, 22);
             label3.TabIndex = 42;
             label3.Text = "Córdobas:";
             // 
             // label4
             // 
-            label4.Anchor = AnchorStyles.Bottom;
+            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label4.AutoSize = true;
             label4.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(1, 748);
-            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Location = new Point(836, 300);
             label4.Name = "label4";
-            label4.Size = new Size(177, 28);
+            label4.Size = new Size(152, 22);
             label4.TabIndex = 43;
-            label4.Text = "Total abonado:";
+            label4.Text = "Total a abonar:";
             // 
             // label5
             // 
-            label5.Anchor = AnchorStyles.Bottom;
+            label5.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label5.AutoSize = true;
             label5.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(521, 814);
-            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Location = new Point(836, 440);
             label5.Name = "label5";
-            label5.Size = new Size(106, 28);
+            label5.Size = new Size(90, 22);
             label5.TabIndex = 44;
             label5.Text = "Dólares:";
             // 
-            // textBox2
+            // txtTotalAbonado
             // 
-            textBox2.Anchor = AnchorStyles.Bottom;
-            textBox2.Location = new Point(275, 748);
-            textBox2.Margin = new Padding(4, 2, 4, 2);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(183, 31);
-            textBox2.TabIndex = 45;
+            txtTotalAbonado.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            txtTotalAbonado.Location = new Point(836, 326);
+            txtTotalAbonado.Margin = new Padding(3, 2, 3, 2);
+            txtTotalAbonado.Name = "txtTotalAbonado";
+            txtTotalAbonado.ReadOnly = true;
+            txtTotalAbonado.Size = new Size(147, 27);
+            txtTotalAbonado.TabIndex = 45;
             // 
-            // textBox3
+            // txtCordobas
             // 
-            textBox3.Anchor = AnchorStyles.Bottom;
-            textBox3.Location = new Point(276, 814);
-            textBox3.Margin = new Padding(4, 2, 4, 2);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(183, 31);
-            textBox3.TabIndex = 46;
+            txtCordobas.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            txtCordobas.Location = new Point(836, 401);
+            txtCordobas.Margin = new Padding(3, 2, 3, 2);
+            txtCordobas.Name = "txtCordobas";
+            txtCordobas.Size = new Size(147, 27);
+            txtCordobas.TabIndex = 46;
+            txtCordobas.TextChanged += txtCordobas_TextChanged;
+            txtCordobas.KeyPress += txtCordobas_KeyPress;
+            txtCordobas.KeyUp += txtCordobas_KeyUp;
             // 
-            // button2
+            // btnGuardar
             // 
-            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button2.BackColor = Color.FromArgb(3, 171, 229);
-            button2.FlatStyle = FlatStyle.Popup;
-            button2.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.Black;
-            button2.Location = new Point(339, 916);
-            button2.Margin = new Padding(4, 2, 4, 2);
-            button2.Name = "button2";
-            button2.Size = new Size(176, 52);
-            button2.TabIndex = 48;
-            button2.Text = "Guardar";
-            button2.UseVisualStyleBackColor = false;
+            btnGuardar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnGuardar.BackColor = Color.FromArgb(3, 171, 229);
+            btnGuardar.FlatStyle = FlatStyle.Popup;
+            btnGuardar.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = Color.Black;
+            btnGuardar.Location = new Point(868, 630);
+            btnGuardar.Margin = new Padding(3, 2, 3, 2);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(141, 42);
+            btnGuardar.TabIndex = 48;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
-            // label6
+            // btnCancelar
             // 
-            label6.Anchor = AnchorStyles.Bottom;
-            label6.AutoSize = true;
-            label6.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
-            label6.ForeColor = Color.Black;
-            label6.Location = new Point(916, 814);
-            label6.Margin = new Padding(4, 0, 4, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(104, 28);
-            label6.TabIndex = 49;
-            label6.Text = "Cambio:";
-            // 
-            // textBox4
-            // 
-            textBox4.Anchor = AnchorStyles.Bottom;
-            textBox4.Location = new Point(678, 814);
-            textBox4.Margin = new Padding(4, 2, 4, 2);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(183, 31);
-            textBox4.TabIndex = 47;
-            // 
-            // textBox5
-            // 
-            textBox5.Anchor = AnchorStyles.Bottom;
-            textBox5.Location = new Point(1084, 816);
-            textBox5.Margin = new Padding(4, 2, 4, 2);
-            textBox5.Name = "textBox5";
-            textBox5.ReadOnly = true;
-            textBox5.Size = new Size(183, 31);
-            textBox5.TabIndex = 50;
-            // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button1.BackColor = Color.FromArgb(3, 171, 229);
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Black;
-            button1.Location = new Point(78, 914);
-            button1.Margin = new Padding(4, 2, 4, 2);
-            button1.Name = "button1";
-            button1.Size = new Size(176, 52);
-            button1.TabIndex = 51;
-            button1.Text = "Cancelar";
-            button1.UseVisualStyleBackColor = false;
+            btnCancelar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCancelar.BackColor = Color.FromArgb(3, 171, 229);
+            btnCancelar.FlatStyle = FlatStyle.Popup;
+            btnCancelar.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelar.ForeColor = Color.Black;
+            btnCancelar.Location = new Point(869, 676);
+            btnCancelar.Margin = new Padding(3, 2, 3, 2);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(141, 42);
+            btnCancelar.TabIndex = 51;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.UseVisualStyleBackColor = false;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // pictureBox4
             // 
-            pictureBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            pictureBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(284, 916);
-            pictureBox4.Margin = new Padding(4, 2, 4, 2);
+            pictureBox4.Location = new Point(818, 627);
+            pictureBox4.Margin = new Padding(3, 2, 3, 2);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(39, 52);
+            pictureBox4.Size = new Size(44, 42);
             pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox4.TabIndex = 52;
             pictureBox4.TabStop = false;
             // 
             // pictureBox3
             // 
-            pictureBox3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            pictureBox3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pictureBox3.Image = Properties.Resources.prohibido;
-            pictureBox3.Location = new Point(14, 920);
-            pictureBox3.Margin = new Padding(4, 6, 4, 6);
+            pictureBox3.Location = new Point(818, 676);
+            pictureBox3.Margin = new Padding(3, 5, 3, 5);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(56, 44);
+            pictureBox3.Size = new Size(45, 35);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 53;
             pictureBox3.TabStop = false;
             // 
-            // button3
+            // btnSalir
             // 
-            button3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button3.BackColor = Color.FromArgb(3, 171, 229);
-            button3.FlatStyle = FlatStyle.Popup;
-            button3.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.Black;
-            button3.Location = new Point(1118, 930);
-            button3.Margin = new Padding(4, 2, 4, 2);
-            button3.Name = "button3";
-            button3.Size = new Size(149, 50);
-            button3.TabIndex = 54;
-            button3.Text = "Salir";
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            btnSalir.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnSalir.BackColor = Color.FromArgb(3, 171, 229);
+            btnSalir.FlatStyle = FlatStyle.Popup;
+            btnSalir.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSalir.ForeColor = Color.Black;
+            btnSalir.Location = new Point(869, 722);
+            btnSalir.Margin = new Padding(3, 2, 3, 2);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(141, 40);
+            btnSalir.TabIndex = 54;
+            btnSalir.Text = "Salir";
+            btnSalir.UseVisualStyleBackColor = false;
+            btnSalir.Click += button3_Click;
             // 
             // pictureBox6
             // 
             pictureBox6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(1071, 928);
-            pictureBox6.Margin = new Padding(4, 2, 4, 2);
+            pictureBox6.Location = new Point(819, 724);
+            pictureBox6.Margin = new Padding(3, 2, 3, 2);
             pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(39, 52);
+            pictureBox6.Size = new Size(44, 42);
             pictureBox6.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox6.TabIndex = 55;
             pictureBox6.TabStop = false;
             // 
+            // CBBUSQUEDADETALLE
+            // 
+            CBBUSQUEDADETALLE.DropDownStyle = ComboBoxStyle.DropDownList;
+            CBBUSQUEDADETALLE.FormattingEnabled = true;
+            CBBUSQUEDADETALLE.Items.AddRange(new object[] { "Cliente", "Factura" });
+            CBBUSQUEDADETALLE.Location = new Point(221, 46);
+            CBBUSQUEDADETALLE.Name = "CBBUSQUEDADETALLE";
+            CBBUSQUEDADETALLE.Size = new Size(100, 28);
+            CBBUSQUEDADETALLE.TabIndex = 58;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(20, 143);
+            label2.Name = "label2";
+            label2.Size = new Size(191, 22);
+            label2.TabIndex = 59;
+            label2.Text = "Nombre del cliente:";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
+            label7.ForeColor = Color.Black;
+            label7.Location = new Point(28, 193);
+            label7.Name = "label7";
+            label7.Size = new Size(183, 22);
+            label7.TabIndex = 60;
+            label7.Text = "Número de cedúla:";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
+            label8.ForeColor = Color.Black;
+            label8.Location = new Point(78, 240);
+            label8.Name = "label8";
+            label8.Size = new Size(133, 22);
+            label8.TabIndex = 61;
+            label8.Text = "Colilla INSS:";
+            // 
+            // txtcliente
+            // 
+            txtcliente.Location = new Point(227, 138);
+            txtcliente.Margin = new Padding(3, 2, 3, 2);
+            txtcliente.Name = "txtcliente";
+            txtcliente.Size = new Size(336, 27);
+            txtcliente.TabIndex = 62;
+            // 
+            // txtcedula
+            // 
+            txtcedula.Location = new Point(227, 188);
+            txtcedula.Margin = new Padding(3, 2, 3, 2);
+            txtcedula.Name = "txtcedula";
+            txtcedula.Size = new Size(336, 27);
+            txtcedula.TabIndex = 63;
+            // 
+            // txtcolilla
+            // 
+            txtcolilla.Location = new Point(227, 240);
+            txtcolilla.Margin = new Padding(3, 2, 3, 2);
+            txtcolilla.Name = "txtcolilla";
+            txtcolilla.Size = new Size(336, 27);
+            txtcolilla.TabIndex = 64;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
+            label9.ForeColor = Color.Black;
+            label9.Location = new Point(600, 138);
+            label9.Name = "label9";
+            label9.Size = new Size(141, 22);
+            label9.TabIndex = 65;
+            label9.Text = "Dias en mora:";
+            // 
+            // txtdiasenmoras
+            // 
+            txtdiasenmoras.Location = new Point(776, 133);
+            txtdiasenmoras.Margin = new Padding(3, 2, 3, 2);
+            txtdiasenmoras.Name = "txtdiasenmoras";
+            txtdiasenmoras.Size = new Size(156, 27);
+            txtdiasenmoras.TabIndex = 66;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
+            label10.ForeColor = Color.Black;
+            label10.Location = new Point(600, 193);
+            label10.Name = "label10";
+            label10.Size = new Size(155, 22);
+            label10.TabIndex = 67;
+            label10.Text = "Pago por mora:";
+            // 
+            // txtpagomora
+            // 
+            txtpagomora.Location = new Point(776, 193);
+            txtpagomora.Margin = new Padding(3, 2, 3, 2);
+            txtpagomora.Name = "txtpagomora";
+            txtpagomora.Size = new Size(156, 27);
+            txtpagomora.TabIndex = 68;
+            // 
+            // txtDolares
+            // 
+            txtDolares.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            txtDolares.Location = new Point(836, 476);
+            txtDolares.Margin = new Padding(3, 2, 3, 2);
+            txtDolares.Name = "txtDolares";
+            txtDolares.Size = new Size(147, 27);
+            txtDolares.TabIndex = 69;
+            txtDolares.TextChanged += txtDolares_TextChanged_1;
+            txtDolares.KeyPress += txtDolares_KeyPress;
+            // 
+            // label6
+            // 
+            label6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            label6.AutoSize = true;
+            label6.Font = new Font("Calisto MT", 12F, FontStyle.Bold);
+            label6.ForeColor = Color.Black;
+            label6.Location = new Point(836, 518);
+            label6.Name = "label6";
+            label6.Size = new Size(91, 22);
+            label6.TabIndex = 70;
+            label6.Text = "Cambio:";
+            label6.Click += label6_Click;
+            // 
+            // txtcambio
+            // 
+            txtcambio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            txtcambio.Location = new Point(836, 553);
+            txtcambio.Margin = new Padding(3, 2, 3, 2);
+            txtcambio.Name = "txtcambio";
+            txtcambio.Size = new Size(147, 27);
+            txtcambio.TabIndex = 71;
+            // 
             // Facturacion_de_crédito
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1306, 991);
+            ClientSize = new Size(1045, 793);
+            Controls.Add(txtcambio);
+            Controls.Add(label6);
+            Controls.Add(txtDolares);
+            Controls.Add(txtpagomora);
+            Controls.Add(label10);
+            Controls.Add(txtdiasenmoras);
+            Controls.Add(label9);
+            Controls.Add(txtcolilla);
+            Controls.Add(txtcedula);
+            Controls.Add(txtcliente);
+            Controls.Add(label8);
+            Controls.Add(label7);
+            Controls.Add(label2);
+            Controls.Add(CBBUSQUEDADETALLE);
             Controls.Add(pictureBox6);
-            Controls.Add(button3);
+            Controls.Add(btnSalir);
             Controls.Add(pictureBox3);
             Controls.Add(pictureBox4);
-            Controls.Add(button1);
-            Controls.Add(textBox5);
-            Controls.Add(label6);
-            Controls.Add(button2);
-            Controls.Add(textBox4);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
+            Controls.Add(btnCancelar);
+            Controls.Add(btnGuardar);
+            Controls.Add(txtCordobas);
+            Controls.Add(txtTotalAbonado);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(dataGridView1);
+            Controls.Add(Tabla_Credito);
             Controls.Add(pictureBox2);
-            Controls.Add(textBox1);
-            Controls.Add(pictureBox1);
+            Controls.Add(txtBusqueda);
+            Controls.Add(pcbusqueda);
             Controls.Add(label1);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(4, 2, 4, 2);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Facturacion_de_crédito";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Facturacion_de_crédito";
             Load += Facturacion_de_crédito_Load;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pcbusqueda).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Tabla_Credito).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
@@ -369,28 +462,34 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.PictureBox pcbusqueda;
+        private System.Windows.Forms.TextBox txtBusqueda;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView Tabla_Credito;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtTotalAbonado;
+        private System.Windows.Forms.TextBox txtCordobas;
+        private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.PictureBox pictureBox6;
+        private ComboBox CBBUSQUEDADETALLE;
+        private Label label2;
+        private Label label7;
+        private Label label8;
+        private TextBox txtcliente;
+        private TextBox txtcedula;
+        private TextBox txtcolilla;
+        private Label label9;
+        private TextBox txtdiasenmoras;
+        private Label label10;
+        private TextBox txtpagomora;
+        private TextBox txtDolares;
+        private Label label6;
+        private TextBox txtcambio;
     }
 }

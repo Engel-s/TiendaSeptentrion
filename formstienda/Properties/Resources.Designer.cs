@@ -143,6 +143,16 @@ namespace formstienda.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap power_11542614 {
+            get {
+                object obj = ResourceManager.GetObject("power_11542614", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap prohibido {
             get {
                 object obj = ResourceManager.GetObject("prohibido", resourceCulture);
@@ -156,6 +166,16 @@ namespace formstienda.Properties {
         internal static System.Drawing.Bitmap recuperacion {
             get {
                 object obj = ResourceManager.GetObject("recuperacion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reinicio_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("reinicio-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

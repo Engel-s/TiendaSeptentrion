@@ -21,5 +21,10 @@ namespace formstienda.capa_de_presentación
         {
 
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
