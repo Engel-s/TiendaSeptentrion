@@ -21,5 +21,11 @@ public partial class Usuario
 
     public bool EstadoUsuario { get; set; }
 
+    public string UsuarioLogueo { get; set; } = null!;
+
+    public string? TokenRecuperacion { get; set; }
+
+    public DateTime? FechaRecuperacion { get; set; }
+
     public virtual ICollection<ArqueoCaja> ArqueoCajas { get; set; } = new List<ArqueoCaja>();
 }

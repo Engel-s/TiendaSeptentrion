@@ -9,5 +9,5 @@ public partial class TasaDeCambio
 
     public DateOnly FechaCambio { get; set; }
 
-    public double ValorCambio { get; set; }
+    public float ValorCambio { get; set; }
 }

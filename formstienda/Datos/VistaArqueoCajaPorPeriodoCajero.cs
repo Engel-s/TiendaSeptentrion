@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 namespace formstienda.Datos;
 
-public partial class ArqueoCaja
+public partial class VistaArqueoCajaPorPeriodoCajero
 {
     public int IdArqueoCaja { get; set; }
 
-    public int IdUsuario { get; set; }
-
-    public int IdApertura { get; set; }
+    public string Cajero { get; set; } = null!;
 
     public float TotalEfectivoCordoba { get; set; }
 
@@ -24,10 +22,4 @@ public partial class ArqueoCaja
     public float? SobranteDolar { get; set; }
 
     public DateTime FechaArqueo { get; set; }
-
-    public virtual ICollection<Egreso> Egresos { get; set; } = new List<Egreso>();
-
-    public virtual AperturaCaja IdAperturaNavigation { get; set; } = null!;
-
-    public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 }
