@@ -61,7 +61,7 @@ namespace formstienda.capa_de_presentación
                 if (!string.IsNullOrEmpty(_motivoSeleccionado))
                 {
                     listaSalidas = listaSalidas
-                        .Where(s => s.MotivoSalida == _motivoSeleccionado)
+                        .Where(s => s.Motivo == _motivoSeleccionado)
                         .ToList();
                 }
 
@@ -69,7 +69,7 @@ namespace formstienda.capa_de_presentación
                 listaSalidas = listaSalidas.OrderBy(s => s.FechaSalida).ToList();
 
                 // Calcular totales
-                decimal totalCantidad = listaSalidas.Sum(s => s.CantidadSalir);
+                decimal totalCantidad = listaSalidas.Sum(s => s.Cantidad);
 
                 // Crear PDF
                 PdfWriter writer = new PdfWriter(filePath);
@@ -179,7 +179,7 @@ namespace formstienda.capa_de_presentación
 
                     // 2. CÓDIGO
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.CodigoProducto)
+                        .Add(new Paragraph(item.Producto)
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.CENTER)
@@ -206,7 +206,7 @@ namespace formstienda.capa_de_presentación
 
                     // 5. CATEGORÍA
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.Categoria)
+                        .Add(new Paragraph(item.Categoría)
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.LEFT)
@@ -215,7 +215,7 @@ namespace formstienda.capa_de_presentación
 
                     // 6. MOTIVO
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.MotivoSalida)
+                        .Add(new Paragraph(item.Motivo)
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.LEFT)
@@ -224,7 +224,7 @@ namespace formstienda.capa_de_presentación
 
                     // 7. CANTIDAD
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.CantidadSalir.ToString())
+                        .Add(new Paragraph(item.Cantidad.ToString())
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)

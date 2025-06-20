@@ -133,6 +133,8 @@
             txtVeinteDolares = new TextBox();
             txtCienDolaresTotal = new TextBox();
             txtCienDolares = new TextBox();
+            txtTotalAbono = new TextBox();
+            label44 = new Label();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -169,6 +171,8 @@
             // 
             groupBox1.Anchor = AnchorStyles.Top;
             groupBox1.BackColor = Color.Transparent;
+            groupBox1.Controls.Add(label44);
+            groupBox1.Controls.Add(txtTotalAbono);
             groupBox1.Controls.Add(txtTotalEgresosDolares);
             groupBox1.Controls.Add(label31);
             groupBox1.Controls.Add(label30);
@@ -196,7 +200,7 @@
             groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 2, 3, 2);
-            groupBox1.Size = new Size(277, 565);
+            groupBox1.Size = new Size(277, 598);
             groupBox1.TabIndex = 7;
             groupBox1.TabStop = false;
             groupBox1.Text = "Detalles de caja";
@@ -204,7 +208,7 @@
             // txtTotalEgresosDolares
             // 
             txtTotalEgresosDolares.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtTotalEgresosDolares.Location = new Point(37, 212);
+            txtTotalEgresosDolares.Location = new Point(37, 265);
             txtTotalEgresosDolares.Margin = new Padding(3, 2, 3, 2);
             txtTotalEgresosDolares.Name = "txtTotalEgresosDolares";
             txtTotalEgresosDolares.ReadOnly = true;
@@ -215,7 +219,7 @@
             // 
             label31.AutoSize = true;
             label31.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label31.Location = new Point(33, 190);
+            label31.Location = new Point(33, 243);
             label31.Name = "label31";
             label31.Size = new Size(163, 20);
             label31.TabIndex = 26;
@@ -235,7 +239,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label13.Location = new Point(37, 482);
+            label13.Location = new Point(37, 535);
             label13.Name = "label13";
             label13.Size = new Size(152, 20);
             label13.TabIndex = 22;
@@ -244,7 +248,7 @@
             // txtSobranteDolares
             // 
             txtSobranteDolares.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtSobranteDolares.Location = new Point(37, 502);
+            txtSobranteDolares.Location = new Point(37, 555);
             txtSobranteDolares.Margin = new Padding(3, 2, 3, 2);
             txtSobranteDolares.Name = "txtSobranteDolares";
             txtSobranteDolares.ReadOnly = true;
@@ -254,7 +258,7 @@
             // txtFaltanteDolares
             // 
             txtFaltanteDolares.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtFaltanteDolares.Location = new Point(37, 453);
+            txtFaltanteDolares.Location = new Point(37, 506);
             txtFaltanteDolares.Margin = new Padding(3, 2, 3, 2);
             txtFaltanteDolares.Name = "txtFaltanteDolares";
             txtFaltanteDolares.ReadOnly = true;
@@ -264,7 +268,7 @@
             // txtTotalCajaDolares
             // 
             txtTotalCajaDolares.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtTotalCajaDolares.Location = new Point(37, 404);
+            txtTotalCajaDolares.Location = new Point(37, 457);
             txtTotalCajaDolares.Margin = new Padding(3, 2, 3, 2);
             txtTotalCajaDolares.Name = "txtTotalCajaDolares";
             txtTotalCajaDolares.ReadOnly = true;
@@ -274,7 +278,7 @@
             // txtSobranteCordobas
             // 
             txtSobranteCordobas.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtSobranteCordobas.Location = new Point(37, 356);
+            txtSobranteCordobas.Location = new Point(37, 409);
             txtSobranteCordobas.Margin = new Padding(3, 2, 3, 2);
             txtSobranteCordobas.Name = "txtSobranteCordobas";
             txtSobranteCordobas.ReadOnly = true;
@@ -285,7 +289,7 @@
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label12.Location = new Point(37, 433);
+            label12.Location = new Point(37, 486);
             label12.Name = "label12";
             label12.Size = new Size(146, 20);
             label12.TabIndex = 21;
@@ -295,7 +299,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label11.Location = new Point(37, 384);
+            label11.Location = new Point(37, 437);
             label11.Name = "label11";
             label11.Size = new Size(126, 20);
             label11.TabIndex = 20;
@@ -305,7 +309,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label10.Location = new Point(37, 337);
+            label10.Location = new Point(37, 390);
             label10.Name = "label10";
             label10.Size = new Size(167, 20);
             label10.TabIndex = 19;
@@ -314,7 +318,7 @@
             // txtFaltanteCordobas
             // 
             txtFaltanteCordobas.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtFaltanteCordobas.Location = new Point(37, 309);
+            txtFaltanteCordobas.Location = new Point(37, 362);
             txtFaltanteCordobas.Margin = new Padding(3, 2, 3, 2);
             txtFaltanteCordobas.Name = "txtFaltanteCordobas";
             txtFaltanteCordobas.ReadOnly = true;
@@ -326,7 +330,7 @@
             label5.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft Sans Serif", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(34, -31);
+            label5.Location = new Point(34, -14);
             label5.Name = "label5";
             label5.Size = new Size(100, 17);
             label5.TabIndex = 8;
@@ -335,7 +339,7 @@
             // txtTotalCajaCordobas
             // 
             txtTotalCajaCordobas.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtTotalCajaCordobas.Location = new Point(37, 260);
+            txtTotalCajaCordobas.Location = new Point(37, 313);
             txtTotalCajaCordobas.Margin = new Padding(3, 2, 3, 2);
             txtTotalCajaCordobas.Name = "txtTotalCajaCordobas";
             txtTotalCajaCordobas.ReadOnly = true;
@@ -346,7 +350,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label8.Location = new Point(34, 289);
+            label8.Location = new Point(34, 342);
             label8.Name = "label8";
             label8.Size = new Size(161, 20);
             label8.TabIndex = 11;
@@ -355,7 +359,7 @@
             // txtTotalEgresosCordobas
             // 
             txtTotalEgresosCordobas.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            txtTotalEgresosCordobas.Location = new Point(37, 163);
+            txtTotalEgresosCordobas.Location = new Point(37, 216);
             txtTotalEgresosCordobas.Margin = new Padding(3, 2, 3, 2);
             txtTotalEgresosCordobas.Name = "txtTotalEgresosCordobas";
             txtTotalEgresosCordobas.ReadOnly = true;
@@ -386,7 +390,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label7.Location = new Point(33, 241);
+            label7.Location = new Point(33, 294);
             label7.Name = "label7";
             label7.Size = new Size(145, 20);
             label7.TabIndex = 10;
@@ -406,7 +410,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
-            label9.Location = new Point(34, 142);
+            label9.Location = new Point(34, 195);
             label9.Name = "label9";
             label9.Size = new Size(178, 20);
             label9.TabIndex = 12;
@@ -1325,6 +1329,24 @@
             txtCienDolares.Size = new Size(83, 27);
             txtCienDolares.TabIndex = 74;
             // 
+            // txtTotalAbono
+            // 
+            txtTotalAbono.Location = new Point(37, 163);
+            txtTotalAbono.Name = "txtTotalAbono";
+            txtTotalAbono.ReadOnly = true;
+            txtTotalAbono.Size = new Size(171, 23);
+            txtTotalAbono.TabIndex = 28;
+            // 
+            // label44
+            // 
+            label44.AutoSize = true;
+            label44.Font = new Font("Calisto MT", 10F, FontStyle.Bold);
+            label44.Location = new Point(37, 140);
+            label44.Name = "label44";
+            label44.Size = new Size(99, 20);
+            label44.TabIndex = 29;
+            label44.Text = "Total abono";
+            // 
             // Arqueo_Caja
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1473,5 +1495,7 @@
         private Label label41;
         private Label label40;
         private Label label43;
+        private Label label44;
+        private TextBox txtTotalAbono;
     }
 }

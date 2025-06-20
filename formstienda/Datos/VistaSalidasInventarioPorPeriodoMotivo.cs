@@ -5,21 +5,25 @@ namespace formstienda.Datos;
 
 public partial class VistaSalidasInventarioPorPeriodoMotivo
 {
-    public int IdInventario { get; set; }
+    public int IdSalida { get; set; }
 
-    public string CodigoProducto { get; set; } = null!;
+    public string CódigoProducto { get; set; } = null!;
 
     public string Producto { get; set; } = null!;
 
-    public string Categoria { get; set; } = null!;
+    public string Categoría { get; set; } = null!;
 
     public string Marca { get; set; } = null!;
 
-    public int CantidadSalir { get; set; }
+    public int Cantidad { get; set; }
 
-    public string MotivoSalida { get; set; } = null!;
+    public string Motivo { get; set; } = null!;
 
-    public string DescripcionSalida { get; set; } = null!;
+    public string Descripción { get; set; } = null!;
 
     public DateOnly FechaSalida { get; set; }
+
+    public float PrecioUnitario { get; set; }
+
+    public float? ValorTotal { get; set; }
 }
