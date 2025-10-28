@@ -125,12 +125,9 @@ namespace formstienda.capa_de_presentación
                     if (facturaDb.NuevoSaldo <= 0.01f)
                     {
                         facturaDb.EstadoCredito = "Inactivo";
-                        facturaDb.NuevoSaldo = 0; // fuerza a cero exacto
+                        facturaDb.NuevoSaldo = 0; 
                         MessageBox.Show("Crédito completamente saldado. Estado: Inactivo.", "Crédito Finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
-
-
 
 
                     context.SaveChanges();

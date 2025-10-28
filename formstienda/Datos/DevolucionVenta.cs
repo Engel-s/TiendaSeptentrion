@@ -16,8 +16,4 @@ public partial class DevolucionVenta
     public string DescripcionDevolucion { get; set; } = null!;
 
     public DateOnly FechaDevolucion { get; set; }
-
-    public virtual ICollection<DetalleDevolucion> DetalleDevolucions { get; set; } = new List<DetalleDevolucion>();
-
-    public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }

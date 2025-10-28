@@ -17,5 +17,5 @@ public partial class DetalleDevolucion
 
     public DateOnly FechaDevolucion { get; set; }
 
-    public virtual DevolucionVenta IdDevolucionNavigation { get; set; } = null!;
+    public string CambiosDevolucion { get; set; } = null!;
 }

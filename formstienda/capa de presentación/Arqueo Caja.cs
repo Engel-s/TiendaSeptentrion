@@ -2,12 +2,13 @@
 using formstienda.capa_de_presentación;
 using formstienda.Datos;
 using formstienda.Servicios;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using static formstienda.Login;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using static formstienda.Login;
 
 namespace formstienda
 {
@@ -303,6 +304,20 @@ namespace formstienda
                         venta.CambiosFactura = "Tomada en Arqueo";
                     }
 
+                    try
+                    {
+                        int afectadas = contexto.Database.ExecuteSqlRaw(@"
+                            UPDATE d
+                            SET d.CambiosDevolucion = 'Tomada en Arqueo'
+                            FROM [dbo].[DetalleDevolucion] d
+                            WHERE (d.CambiosDevolucion IS NULL OR LTRIM(RTRIM(d.CambiosDevolucion)) = '')
+                              AND CONVERT(date, d.FechaDevolucion) = CONVERT(date, GETDATE());
+                        ");
+                    }
+                    catch (Exception exDevs)
+                    {
+
+                    }
 
 
                     var abonosParaActualizar = contexto.DetalleCreditos
@@ -331,6 +346,7 @@ namespace formstienda
                         }
                     }
 
+                    Arqueo_Caja_Load(null, null);
 
                     contexto.SaveChanges();
                 }

@@ -146,99 +146,96 @@ namespace formstienda.Servicios
 
             return arqueo;
         }
-        
+
         public decimal ObtenerTotalCajaCordobas(DateOnly fecha)
         {
-            // Obtener la lista de ventas para la fecha, filtrando las que no han sido tomadas en arqueo y que tengan PagoCordobas
-            var ventasDelDia = ListarTotalVenta(fecha)
-                .Where(v => v.PagoCordobas.HasValue && v.CambiosFactura == null);
+            // Ventas contado del día (activas) en C$
+            var ventasDiaCordobas = ListarTotalVenta(fecha)
+                .Where(v => v.PagoCordobas.HasValue);
 
-            decimal totalVentas = ventasDelDia.Sum(v =>
-            (decimal)v.PagoCordobas.Value - (decimal)(v.CambioVenta ?? 0));
+            decimal totalVentasCordobas = ventasDiaCordobas.Sum(v =>
+                (decimal)v.PagoCordobas!.Value - (decimal)(v.CambioVenta ?? 0));
 
-
-            // Obtener totales de crédito SOLO "Sin tomar en arqueo"
+            // Abonos de crédito (tu lógica actual)
             var (totalCordobasCredito, _) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
 
-            // Suma de devoluciones
-            decimal totalDevoluciones = (decimal)Listardetallesdevolucion(fecha)
-                .Sum(d => d.MontoDevuelto);
+            decimal totalDevolucionesCordobas =
+                (from d in _contexto.DetalleDevolucions
+                 join dv in _contexto.DevolucionVentas on d.IdDevolucion equals dv.IdDevolucion
+                 join v in _contexto.Venta on dv.IdVenta equals v.IdVenta
+                 where d.FechaDevolucion == fecha
+                       && string.IsNullOrEmpty(d.CambiosDevolucion)  
+                       && string.IsNullOrEmpty(v.CambiosFactura)    
+                 select (decimal?)d.MontoDevuelto
+                ).Sum() ?? 0m;
 
-            // Obtener la última apertura abierta
-            var ultimaAperturaAbierta = _contexto.AperturaCajas
-                .Where(a => a.EstadoApertura == "Abierta")
-                .OrderByDescending(a => a.FechaApertura)
-                .FirstOrDefault();
+            // Monto de apertura del día (apertura no cerrada del mismo día)
+            decimal montoApertura =
+                _contexto.AperturaCajas
+                    .Where(a => a.FechaApertura == fecha && a.EstadoApertura != "Cerrada")
+                    .OrderByDescending(a => a.IdApertura)
+                    .Select(a => (decimal)a.MontoApertura)
+                    .FirstOrDefault();
 
-            decimal montoApertura = 0;
-
-            if (ultimaAperturaAbierta != null)
-            {
-                montoApertura = (decimal)ultimaAperturaAbierta.MontoApertura;
-            }
-
-            // Total final: monto apertura + ventas + créditos - devoluciones
-            return montoApertura + totalVentas + totalCordobasCredito - totalDevoluciones;
+            return montoApertura + totalVentasCordobas + totalCordobasCredito - totalDevolucionesCordobas;
         }
+
 
         public decimal ObtenerTotalCajaDolares(DateOnly fecha)
         {
-            decimal totalVentas = (decimal)ListarTotalVenta(fecha)
-                .Where(v => v.PagoDolares.HasValue && v.CambiosFactura == null)
-                .Sum(v => v.PagoDolares.Value);
+            decimal totalVentasDolares = ListarTotalVenta(fecha)
+                .Where(v => v.PagoDolares.HasValue)
+                .Sum(v => (decimal)v.PagoDolares!.Value);
 
             var (_, totalDolaresCredito) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
 
-            return totalVentas + totalDolaresCredito;
+            return totalVentasDolares + totalDolaresCredito;
         }
+
 
         public decimal ObtenerTotalBrutoCordobas(DateOnly fecha)
         {
-            // Obtener la lista de ventas para la fecha, filtrando las que no han sido tomadas en arqueo y que tengan PagoCordobas
-            var ventasDelDia = ListarTotalVenta(fecha)
-                .Where(v => v.PagoCordobas.HasValue && v.CambiosFactura == null);
+            // Ventas contado del día (activas) en C$
+            var ventasDiaCordobas = ListarTotalVenta(fecha)
+                .Where(v => v.PagoCordobas.HasValue);
 
-            decimal totalVentas = ventasDelDia.Sum(v =>
-            (decimal)v.PagoCordobas.Value - (decimal)(v.CambioVenta ?? 0));
+            decimal totalVentasCordobas = ventasDiaCordobas.Sum(v =>
+                (decimal)v.PagoCordobas!.Value - (decimal)(v.CambioVenta ?? 0));
 
-
-            // Obtener totales de crédito SOLO "Sin tomar en arqueo"
+            // Abonos de crédito
             var (totalCordobasCredito, _) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
 
-            // Suma de devoluciones
-            decimal totalDevoluciones = (decimal)Listardetallesdevolucion(fecha)
-                .Sum(d => d.MontoDevuelto);
+            decimal totalDevolucionesCordobas =
+                (from d in _contexto.DetalleDevolucions
+                 join dv in _contexto.DevolucionVentas on d.IdDevolucion equals dv.IdDevolucion
+                 join v in _contexto.Venta on dv.IdVenta equals v.IdVenta
+                 where d.FechaDevolucion == fecha
+                       && string.IsNullOrEmpty(d.CambiosDevolucion)
+                       && string.IsNullOrEmpty(v.CambiosFactura)
+                 select (decimal?)d.MontoDevuelto
+                ).Sum() ?? 0m;
 
-            // Obtener la última apertura abierta
-            var ultimaAperturaAbierta = _contexto.AperturaCajas
-                .Where(a => a.EstadoApertura == "Abierta")
-                .OrderByDescending(a => a.FechaApertura)
-                .FirstOrDefault();
+            // Monto de apertura del día 
+            decimal montoApertura =
+                _contexto.AperturaCajas
+                    .Where(a => a.FechaApertura == fecha && a.EstadoApertura != "Cerrada")
+                    .OrderByDescending(a => a.IdApertura)
+                    .Select(a => (decimal)a.MontoApertura)
+                    .FirstOrDefault();
 
-            decimal montoApertura = 0;
-
-            if (ultimaAperturaAbierta != null)
-            {
-                montoApertura = (decimal)ultimaAperturaAbierta.MontoApertura;
-            }
-
-            // Total final: monto apertura + ventas + créditos - devoluciones
-            return montoApertura + totalVentas + totalCordobasCredito - totalDevoluciones;
+            return montoApertura + totalVentasCordobas + totalCordobasCredito - totalDevolucionesCordobas;
         }
 
 
         public decimal ObtenerTotalBrutoDolares(DateOnly fecha)
         {
-            // Suma de ventas en dólares que no han sido tomadas en arqueo
-            decimal totalVentas = (decimal)ListarTotalVenta(fecha)
-                .Where(v => v.PagoDolares.HasValue && v.CambiosFactura == null)
-                .Sum(v => v.PagoDolares.Value);
+            decimal totalVentasDolares = ListarTotalVenta(fecha)
+                .Where(v => v.PagoDolares.HasValue)
+                .Sum(v => (decimal)v.PagoDolares!.Value);
 
-            // Obtener los totales de crédito que aún no se han tomado en arqueo
             var (_, totalDolaresCredito) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
 
-            // Total final en dólares
-            return totalVentas + totalDolaresCredito;
+            return totalVentasDolares + totalDolaresCredito;
         }
 
 
@@ -297,10 +294,15 @@ namespace formstienda.Servicios
         public List<Ventum> ListarTotalVenta(DateOnly fechaActual)
         {
             return _contexto.Venta
-                .Where(a => a.FechaVenta == fechaActual && a.TipoPago == "Contado" && a.CambiosFactura == null)
+                .Where(v =>
+                    v.FechaVenta == fechaActual &&
+                    v.TipoPago == "Contado" &&
+                    string.IsNullOrEmpty(v.CambiosFactura)   // no tomada / no afectada
+                )
                 .AsNoTracking()
                 .ToList();
         }
+
 
         public float ObtenerCambioVentas(DateOnly fecha)
         {
@@ -311,21 +313,14 @@ namespace formstienda.Servicios
         }
 
 
-        public List<DetalleDevolucion> ListarDevolucion(DateOnly fechaActual)
+        public List<DetalleDevolucion> Listardetallesdevolucion(DateOnly fechaActual)
         {
             return _contexto.DetalleDevolucions
-                .Where(a => a.FechaDevolucion == fechaActual)
+                .Where(d => d.FechaDevolucion == fechaActual
+                            && (d.CambiosDevolucion == null || d.CambiosDevolucion.Trim() == ""))
                 .AsNoTracking()
                 .ToList();
         }
 
-        
-        public List<DetalleDevolucion> Listardetallesdevolucion(DateOnly fechaActual)
-        {
-            return _contexto.DetalleDevolucions
-                .Where(d => d.FechaDevolucion == fechaActual)
-                .AsNoTracking()
-                .ToList();
-        }
     }
 }

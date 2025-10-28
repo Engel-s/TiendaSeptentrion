@@ -231,7 +231,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.InteresPagado).HasColumnName("Interes_Pagado");
             entity.Property(e => e.NumeroCuota).HasColumnName("Numero_Cuota");
             entity.Property(e => e.Observaciones)
-                .HasMaxLength(50)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.TotalCordobas).HasColumnName("Total_Cordobas");
             entity.Property(e => e.TotalDolares).HasColumnName("Total_Dolares");
@@ -288,15 +288,14 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
             entity.ToTable("DetalleDevolucion");
 
+            entity.Property(e => e.CambiosDevolucion)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("");
             entity.Property(e => e.InformacionProducto)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.MontoDevuelto).HasColumnType("decimal(10, 2)");
-
-            entity.HasOne(d => d.IdDevolucionNavigation).WithMany(p => p.DetalleDevolucions)
-                .HasForeignKey(d => d.IdDevolucion)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__DetalleDe__IdDev__7849DB76");
         });
 
         modelBuilder.Entity<DevolucionVenta>(entity =>
@@ -310,11 +309,6 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.MotivoDevolucion)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.IdVentaNavigation).WithMany(p => p.DevolucionVenta)
-                .HasForeignKey(d => d.IdVenta)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Devolucio__IdVen__756D6ECB");
         });
 
         modelBuilder.Entity<Egreso>(entity =>

@@ -27,7 +27,5 @@ public partial class Ventum
 
     public virtual ICollection<DetalleDeVentum> DetalleDeVenta { get; set; } = new List<DetalleDeVentum>();
 
-    public virtual ICollection<DevolucionVenta> DevolucionVenta { get; set; } = new List<DevolucionVenta>();
-
     public virtual ICollection<FacturaCredito> FacturaCreditos { get; set; } = new List<FacturaCredito>();
 }
