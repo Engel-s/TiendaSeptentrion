@@ -81,13 +81,11 @@ namespace formstienda
 
             string proveedorSeleccionado = (cmbproveedor.SelectedValue as string)?.Trim();
 
-            // Generar ruta temporal para el PDF
             string rutaTemporal = Path.Combine(
                 Path.GetTempPath(),
                 $"ReporteCompras_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
             );
 
-            //Aqui se busca la instancia del formulario de menu
             var menuForm = this.MdiParent as menu;
             if (menuForm == null)
             {
@@ -96,11 +94,9 @@ namespace formstienda
 
             if (menuForm != null)
             {
-                // con esto se abre el reporte dentro del panel del formulario de menu
                 menuForm.AbrirformInPanel(new FormReportesCompras(fechaInicio, fechaFin, rutaTemporal, proveedorSeleccionado));
             }
 
-            // para cerrar el formulario de informes
             this.Close();
 
 
@@ -110,7 +106,6 @@ namespace formstienda
         {
             try
             {
-                // Obtener todos los usuarios activos desde la base de datos
                 using (var context = new DbTiendaSeptentrionContext())
                 {
                     var usuarios = context.Usuarios
@@ -122,7 +117,6 @@ namespace formstienda
                     cmbUsuarioReporte.Items.Clear();
                     cmbUsuarioReporte.Items.Add("");
 
-                    // Añadir los nombres completos de los usuarios
                     foreach (var usuario in usuarios)
                     {
                         cmbUsuarioReporte.Items.Add($"{usuario.NombreUsuario} {usuario.ApellidoUsuario}");
@@ -182,8 +176,6 @@ namespace formstienda
                     menuForm.AbrirformInPanel(new ReporteDeInventario());
                 }
 
-                MessageBox.Show("Reporte generado", "Éxito",
-                              MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -211,10 +203,6 @@ namespace formstienda
                     menuForm.AbrirformInPanel(new ReporteStocks());
                 }
 
-                MessageBox.Show("Reporte de productos próximos a agotarse generado con éxito",
-                                  "Éxito",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -264,8 +252,6 @@ namespace formstienda
 
                 }
 
-                MessageBox.Show("Reporte de arqueo generado con éxito", "Éxito",
-                              MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 this.Close();
             }
@@ -288,7 +274,6 @@ namespace formstienda
                 return;
             }
 
-            // Generar ruta temporal para el PDF
             string rutaTemporal = Path.Combine(
                 Path.GetTempPath(),
                 $"ReporteVentas_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
@@ -311,11 +296,9 @@ namespace formstienda
 
             if (menuForm != null)
             {
-                // Abrir el reporte dentro del panel del formulario de menu
                 menuForm.AbrirformInPanel(new reporteventas(fechaInicio, fechaFin, rutaTemporal));
             }
 
-            // Cerrar el formulario actual de informes
             this.Close();
         }
 
@@ -329,7 +312,7 @@ namespace formstienda
                 using (var context = new DbTiendaSeptentrionContext())
                 {
                     var motivos = context.VistaSalidasInventarioPorPeriodoMotivos
-                        .Select(s => s.Motivo)
+                        .Select(s => s.MotivoSalida)
                         .Distinct()
                         .OrderBy(m => m)
                         .ToList();
@@ -362,13 +345,11 @@ namespace formstienda
                 return;
             }
 
-            // Generar ruta temporal para el PDF
             string rutaTemporal = Path.Combine(
                 Path.GetTempPath(),
                 $"ReporteDevoluciones_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
             );
 
-            // Buscar la instancia del formulario de menu
             var menuForm = this.MdiParent as menu;
             if (menuForm == null)
             {
@@ -377,11 +358,9 @@ namespace formstienda
 
             if (menuForm != null)
             {
-                // Abrir el reporte dentro del panel del formulario de menu
                 menuForm.AbrirformInPanel(new reportedevoluciones(fechainicio, fechafin, rutaTemporal));
             }
 
-            // Cerrar el formulario actual
             this.Close();
 
 
@@ -391,7 +370,6 @@ namespace formstienda
         {
             try
             {
-                // Validar fechas  
                 if (dateTimePickerFechaInicialMotivo.Value > dateTimePickerFechaFinalMotivo.Value)
                 {
                     MessageBox.Show("La fecha inicial no puede ser mayor que la fecha final", "Error",
@@ -428,7 +406,6 @@ namespace formstienda
         {
             try
             {
-                // Validar fechas
                 if (FechaCreditoInicial.Value > FechaCreditoFinal.Value)
                 {
                     MessageBox.Show("La fecha inicial no puede ser mayor que la fecha final", "Error",
@@ -443,11 +420,8 @@ namespace formstienda
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
-                // Obtener el cliente seleccionado
                 string clienteSeleccionado = string.IsNullOrWhiteSpace(cmbCliente.Text) ? null : cmbCliente.Text.Trim();
 
-                // Obtener el formulario principal
                 var menuForm = this.MdiParent as menu ?? Application.OpenForms.OfType<menu>().FirstOrDefault();
 
                 if (menuForm != null)
@@ -474,13 +448,11 @@ namespace formstienda
         private void btngenerarreportemora_Click(object sender, EventArgs e)
         {
 
-            // Generar ruta temporal para el PDF
             string rutaTemporal = Path.Combine(
                 Path.GetTempPath(),
                 $"ReporteClientesMorosos_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid()}.pdf"
             );
 
-            //Aqui se busca la instancia del formulario de menu
             var menuForm = this.MdiParent as menu;
             if (menuForm == null)
             {
@@ -489,11 +461,9 @@ namespace formstienda
 
             if (menuForm != null)
             {
-                // con esto se abre el reporte dentro del panel del formulario de menu
                 menuForm.AbrirformInPanel(new FormClientesMorosos(rutaTemporal));
             }
 
-            // para cerrar el formulario de informes
             this.Close();
         }
     }

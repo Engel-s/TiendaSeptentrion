@@ -86,7 +86,7 @@ namespace formstienda.capa_de_presentación
                 // Agregar logo
                 try
                 {
-                    System.Drawing.Image img = formstienda.Properties.Resources.logo_actualizado_removebg_preview;
+                    System.Drawing.Image img = formstienda.Properties.Resources.LOGOVERSIONCORREGIDAJUDC;
                     byte[] imgBytes;
                     using (MemoryStream ms = new MemoryStream())
                     {
@@ -96,7 +96,7 @@ namespace formstienda.capa_de_presentación
 
                     iText.Layout.Element.Image logo = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(imgBytes))
                         .SetWidth(215)
-                        .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 200, pdf.GetDefaultPageSize().GetTop() - 150)
+                        .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 200, pdf.GetDefaultPageSize().GetTop() - 180)
                         .SetMarginTop(0);
 
                     document.Add(logo);
@@ -183,7 +183,7 @@ namespace formstienda.capa_de_presentación
                         .SetBorder(new SolidBorder(1)));
                 }
 
-                // Datos de la tabla (sin Subtotal)
+                // Datos de la tabla 
                 foreach (var item in listaCreditos)
                 {
                     // Factura
@@ -292,7 +292,6 @@ namespace formstienda.capa_de_presentación
                     .SetPadding(5)
                     .SetBorder(new SolidBorder(1)));
 
-                // Celdas vacías intermedias
                 for (int i = 1; i < colspan - 1; i++)
                 {
                     table.AddCell(new Cell()
@@ -321,13 +320,13 @@ namespace formstienda.capa_de_presentación
 
                 document.Add(table);
 
-                // Marca de agua
+                // Mostrar logo como marca de agua
                 try
                 {
                     byte[] watermarkImgBytes;
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        formstienda.Properties.Resources.logo_actualizado_removebg_preview.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        formstienda.Properties.Resources.LOGOVERSIONCORREGIDAJUDC.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                         watermarkImgBytes = ms.ToArray();
                     }
 
@@ -356,7 +355,7 @@ namespace formstienda.capa_de_presentación
                 }
                 catch (Exception ex)
                 {
-                  
+                    Console.WriteLine("Error al crear marca de agua: " + ex.Message);
                 }
 
                 document.Close();

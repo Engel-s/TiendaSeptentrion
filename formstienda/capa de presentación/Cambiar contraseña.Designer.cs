@@ -46,7 +46,7 @@
             btnCambiar_Contraseña.BackColor = Color.White;
             btnCambiar_Contraseña.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
             btnCambiar_Contraseña.Location = new Point(456, 329);
-            btnCambiar_Contraseña.Margin = new Padding(2, 2, 2, 2);
+            btnCambiar_Contraseña.Margin = new Padding(2);
             btnCambiar_Contraseña.Name = "btnCambiar_Contraseña";
             btnCambiar_Contraseña.Size = new Size(143, 35);
             btnCambiar_Contraseña.TabIndex = 0;
@@ -69,7 +69,7 @@
             // 
             txtCambiarContraseña.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
             txtCambiarContraseña.Location = new Point(402, 81);
-            txtCambiarContraseña.Margin = new Padding(2, 2, 2, 2);
+            txtCambiarContraseña.Margin = new Padding(2);
             txtCambiarContraseña.Name = "txtCambiarContraseña";
             txtCambiarContraseña.Size = new Size(244, 30);
             txtCambiarContraseña.TabIndex = 2;
@@ -78,7 +78,7 @@
             // 
             txtContraseñaNueva.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
             txtContraseñaNueva.Location = new Point(402, 171);
-            txtContraseñaNueva.Margin = new Padding(2, 2, 2, 2);
+            txtContraseñaNueva.Margin = new Padding(2);
             txtContraseñaNueva.Name = "txtContraseñaNueva";
             txtContraseñaNueva.Size = new Size(244, 30);
             txtContraseñaNueva.TabIndex = 3;
@@ -126,10 +126,10 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.logo_actualizado_removebg_preview;
-            pictureBox1.Location = new Point(-98, -64);
+            pictureBox1.Image = Properties.Resources.LOGOVERSIONCORREGIDAJUDC;
+            pictureBox1.Location = new Point(-56, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(466, 528);
+            pictureBox1.Size = new Size(378, 341);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -148,7 +148,7 @@
             Controls.Add(label1);
             Controls.Add(btnCambiar_Contraseña);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             MaximumSize = new Size(749, 401);
             MinimumSize = new Size(749, 401);
             Name = "Cambiar_contraseña";

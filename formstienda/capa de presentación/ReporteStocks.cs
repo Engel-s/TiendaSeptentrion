@@ -72,7 +72,7 @@ namespace formstienda.capa_de_presentación
             // Agregar el logo
             try
             {
-                System.Drawing.Image img = formstienda.Properties.Resources.logo_actualizado_removebg_preview;
+                System.Drawing.Image img = formstienda.Properties.Resources.LOGOVERSIONCORREGIDAJUDC;
                 byte[] imgBytes;
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -82,7 +82,7 @@ namespace formstienda.capa_de_presentación
 
                 iText.Layout.Element.Image logo = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(imgBytes))
                     .SetWidth(215)
-                    .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 200, pdf.GetDefaultPageSize().GetTop() - 150)
+                    .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 200, pdf.GetDefaultPageSize().GetTop() - 180)
                     .SetMarginTop(0);
 
                 document.Add(logo);
@@ -192,13 +192,13 @@ namespace formstienda.capa_de_presentación
 
             document.Add(table);
 
-            // Marca de agua
+            // Mostrar logo como marca de agua
             try
             {
                 byte[] watermarkImgBytes;
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    formstienda.Properties.Resources.logo_actualizado_removebg_preview.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    formstienda.Properties.Resources.LOGOVERSIONCORREGIDAJUDC.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                     watermarkImgBytes = ms.ToArray();
                 }
 

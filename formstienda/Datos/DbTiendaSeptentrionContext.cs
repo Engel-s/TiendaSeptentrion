@@ -65,7 +65,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DEngels;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-I4VC35H;Database=DB_Tienda_Septentrion;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -231,7 +231,7 @@ public partial class DbTiendaSeptentrionContext : DbContext
             entity.Property(e => e.InteresPagado).HasColumnName("Interes_Pagado");
             entity.Property(e => e.NumeroCuota).HasColumnName("Numero_Cuota");
             entity.Property(e => e.Observaciones)
-                .HasMaxLength(500)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.TotalCordobas).HasColumnName("Total_Cordobas");
             entity.Property(e => e.TotalDolares).HasColumnName("Total_Dolares");
@@ -659,29 +659,30 @@ public partial class DbTiendaSeptentrionContext : DbContext
                 .HasNoKey()
                 .ToView("Vista_Salidas_Inventario_Por_Periodo_Motivo");
 
-            entity.Property(e => e.Categoría)
+            entity.Property(e => e.CantidadSalir).HasColumnName("Cantidad_Salir");
+            entity.Property(e => e.Categoria)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.CódigoProducto)
+            entity.Property(e => e.CodigoProducto)
                 .HasMaxLength(100)
                 .IsUnicode(false)
-                .HasColumnName("Código Producto");
-            entity.Property(e => e.Descripción)
+                .HasColumnName("Codigo_Producto");
+            entity.Property(e => e.DescripcionSalida)
                 .HasMaxLength(500)
-                .IsUnicode(false);
-            entity.Property(e => e.FechaSalida).HasColumnName("Fecha Salida");
-            entity.Property(e => e.IdSalida).HasColumnName("ID Salida");
+                .IsUnicode(false)
+                .HasColumnName("Descripcion_Salida");
+            entity.Property(e => e.FechaSalida).HasColumnName("Fecha_Salida");
+            entity.Property(e => e.IdInventario).HasColumnName("Id_Inventario");
             entity.Property(e => e.Marca)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Motivo)
+            entity.Property(e => e.MotivoSalida)
                 .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.PrecioUnitario).HasColumnName("Precio Unitario");
+                .IsUnicode(false)
+                .HasColumnName("Motivo_Salida");
             entity.Property(e => e.Producto)
                 .HasMaxLength(200)
                 .IsUnicode(false);
-            entity.Property(e => e.ValorTotal).HasColumnName("Valor Total");
         });
 
         modelBuilder.Entity<VistaStockProximoAgotarse>(entity =>

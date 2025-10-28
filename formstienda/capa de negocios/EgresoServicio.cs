@@ -149,42 +149,47 @@ namespace formstienda.Servicios
         
         public decimal ObtenerTotalCajaCordobas(DateOnly fecha)
         {
-            var apertura = ListarAperturaCaja(fecha).FirstOrDefault();
-            decimal montoApertura = (decimal)(apertura?.MontoApertura ?? 0);
+            // Obtener la lista de ventas para la fecha, filtrando las que no han sido tomadas en arqueo y que tengan PagoCordobas
+            var ventasDelDia = ListarTotalVenta(fecha)
+                .Where(v => v.PagoCordobas.HasValue && v.CambiosFactura == null);
 
-            decimal totalVentas = (decimal)ListarTotalVenta(fecha)
-                .Where(v => v.PagoCordobas.HasValue)
-                .Sum(v => v.PagoCordobas.Value);
+            decimal totalVentas = ventasDelDia.Sum(v =>
+            (decimal)v.PagoCordobas.Value - (decimal)(v.CambioVenta ?? 0));
 
-            var (_, totalCordobasCredito) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
 
+            // Obtener totales de crédito SOLO "Sin tomar en arqueo"
+            var (totalCordobasCredito, _) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
+
+            // Suma de devoluciones
             decimal totalDevoluciones = (decimal)Listardetallesdevolucion(fecha)
                 .Sum(d => d.MontoDevuelto);
 
-            decimal totalEgresos = (decimal)_contexto.Egresos
-                .Where(e => e.FechaEgreso == fecha)
-                .Sum(e => e.CantidadEgresadaCordoba);
+            // Obtener la última apertura abierta
+            var ultimaAperturaAbierta = _contexto.AperturaCajas
+                .Where(a => a.EstadoApertura == "Abierta")
+                .OrderByDescending(a => a.FechaApertura)
+                .FirstOrDefault();
 
-            return montoApertura + totalVentas + totalCordobasCredito - totalDevoluciones - totalEgresos;
+            decimal montoApertura = 0;
+
+            if (ultimaAperturaAbierta != null)
+            {
+                montoApertura = (decimal)ultimaAperturaAbierta.MontoApertura;
+            }
+
+            // Total final: monto apertura + ventas + créditos - devoluciones
+            return montoApertura + totalVentas + totalCordobasCredito - totalDevoluciones;
         }
 
         public decimal ObtenerTotalCajaDolares(DateOnly fecha)
         {
-            // 1. Suma de ventas en dólares
             decimal totalVentas = (decimal)ListarTotalVenta(fecha)
-                .Where(v => v.PagoDolares.HasValue)
+                .Where(v => v.PagoDolares.HasValue && v.CambiosFactura == null)
                 .Sum(v => v.PagoDolares.Value);
 
-            // 2. Obtener créditos en dólares
             var (_, totalDolaresCredito) = ObtenerTotalesCreditoPorFechaDesdeObservaciones(fecha);
 
-            // 3. Suma de egresos en dólares
-            decimal totalEgresos = (decimal)_contexto.Egresos
-                .Where(e => e.FechaEgreso == fecha)
-                .Sum(e => e.CantidadEgresadaDolar);
-
-            // Cálculo final: Ventas + Créditos - Egresos
-            return totalVentas + totalDolaresCredito - totalEgresos;
+            return totalVentas + totalDolaresCredito;
         }
 
         public decimal ObtenerTotalBrutoCordobas(DateOnly fecha)
@@ -220,8 +225,6 @@ namespace formstienda.Servicios
             // Total final: monto apertura + ventas + créditos - devoluciones
             return montoApertura + totalVentas + totalCordobasCredito - totalDevoluciones;
         }
-
-
 
 
         public decimal ObtenerTotalBrutoDolares(DateOnly fecha)
@@ -298,14 +301,13 @@ namespace formstienda.Servicios
                 .AsNoTracking()
                 .ToList();
         }
-        public float ObtenerTotalVentasDelDia(DateOnly fecha)
+
+        public float ObtenerCambioVentas(DateOnly fecha)
         {
             var ventas = ListarTotalVenta(fecha);
-
-            float totalVentas = ventas.Sum(v => v.TotalVenta);
             float totalCambioDevuelto = ventas.Sum(v => v.CambioVenta ?? 0);
 
-            return totalVentas - totalCambioDevuelto;
+            return totalCambioDevuelto;
         }
 
 

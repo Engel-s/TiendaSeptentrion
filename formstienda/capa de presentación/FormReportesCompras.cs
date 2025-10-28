@@ -1,31 +1,32 @@
-﻿using System;
+﻿using formstienda.capa_de_negocios;
+using formstienda.Datos;
+using iText.IO.Font;
+using iText.IO.Font.Constants;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
+using iText.Layout;
+using iText.Layout.Borders;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using Microsoft.Web.WebView2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using iText.Kernel.Pdf;
-using iText.Kernel.Geom;
-using iText.Kernel.Colors;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.Layout.Properties;
-using iText.IO.Font.Constants;
-using iText.IO.Font;
-using Microsoft.Web.WebView2.WinForms;
-using formstienda.capa_de_negocios;
-using iText.Kernel.Font;
-using Microsoft.EntityFrameworkCore.Storage.Json;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using formstienda.Datos;
-using System.Drawing.Text;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using System.Diagnostics;
-using iText.Layout.Borders;
-using System.Globalization;
 
 namespace formstienda.capa_de_presentación
 {
@@ -93,7 +94,7 @@ namespace formstienda.capa_de_presentación
 
 
                     //ruta imagen
-                    string rutaImagen = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources\logo_actualizado-removebg-preview.png");
+                    string rutaImagen = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources\LOGOVERSIONCORREGIDAJUDC.png");
 
                     // Verifica que la imagen exista
                     if (File.Exists(rutaImagen))
@@ -101,10 +102,10 @@ namespace formstienda.capa_de_presentación
                         // Cargar imagen
                         var imgData = iText.IO.Image.ImageDataFactory.Create(rutaImagen);
                         var imagen = new iText.Layout.Element.Image(imgData)
-                                        .SetWidth(350)
+                                        .SetWidth(215)
                                         .SetHeight(200)
-                                        .SetFixedPosition(pdfDoc.GetDefaultPageSize().GetWidth() - 280, // X desde la derecha
-                                      pdfDoc.GetDefaultPageSize().GetHeight() - 200); // Y desde arriba
+                                        .SetFixedPosition(pdfDoc.GetDefaultPageSize().GetWidth() - 200, // X desde la derecha
+                                      pdfDoc.GetDefaultPageSize().GetHeight() - 180); // Y desde arriba
 
                         // Texto del título
                         var titulo = new Paragraph("Tienda El Septentrión")
@@ -204,6 +205,45 @@ namespace formstienda.capa_de_presentación
                         .SetTextAlignment(TextAlignment.RIGHT)
                         .SetMarginTop(10);
 
+
+                    // Mostrar logo como marca de agua
+                    try
+                    {
+                        byte[] watermarkImgBytes;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            formstienda.Properties.Resources.LOGOVERSIONCORREGIDAJUDC.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            watermarkImgBytes = ms.ToArray();
+                        }
+
+                        float baseSize = 350;
+                        float widthScale = 1.8f;
+                        float watermarkWidth = baseSize * widthScale;
+                        float watermarkHeight = baseSize;
+
+                        iText.Layout.Element.Image watermark = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(watermarkImgBytes))
+                            .SetOpacity(0.1f)
+                            .SetWidth(watermarkWidth)
+                            .SetHeight(watermarkHeight)
+                            .SetFixedPosition(
+                                pdfDoc.GetDefaultPageSize().GetWidth() / 2 - (watermarkWidth / 2),
+                                pdfDoc.GetDefaultPageSize().GetHeight() / 2 - (watermarkHeight / 2),
+                                watermarkWidth);
+
+                        for (int i = 1; i <= pdfDoc.GetNumberOfPages(); i++)
+                        {
+                            PdfPage page = pdfDoc.GetPage(i);
+                            PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
+                            new Canvas(canvas, page.GetPageSize())
+                                .Add(watermark)
+                                .Close();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error al crear marca de agua: " + ex.Message);
+                    }
+
                     document.Add(totalGeneralParrafo);
 
                     document.Close();
@@ -223,7 +263,7 @@ namespace formstienda.capa_de_presentación
         {
             try
             {
-                if (!File.Exists(rutaPdf)) // Para no generar si ya existe
+                if (!File.Exists(rutaPdf)) 
                 {
                     GenerarReporte(_fechaInicio, _fechaFin, rutaPdf, _rucProveedor);
                 }
@@ -266,6 +306,15 @@ namespace formstienda.capa_de_presentación
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Informes());
+            }
         }
 
         // METODO PARA LIMPIAR EL ARCHIVO TEMPORAL AL CERRAR EL FORMULARIO

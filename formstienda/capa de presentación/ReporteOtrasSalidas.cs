@@ -61,7 +61,7 @@ namespace formstienda.capa_de_presentación
                 if (!string.IsNullOrEmpty(_motivoSeleccionado))
                 {
                     listaSalidas = listaSalidas
-                        .Where(s => s.Motivo == _motivoSeleccionado)
+                        .Where(s => s.MotivoSalida == _motivoSeleccionado)
                         .ToList();
                 }
 
@@ -69,7 +69,7 @@ namespace formstienda.capa_de_presentación
                 listaSalidas = listaSalidas.OrderBy(s => s.FechaSalida).ToList();
 
                 // Calcular totales
-                decimal totalCantidad = listaSalidas.Sum(s => s.Cantidad);
+                decimal totalCantidad = listaSalidas.Sum(s => s.CantidadSalir);
 
                 // Crear PDF
                 PdfWriter writer = new PdfWriter(filePath);
@@ -83,7 +83,7 @@ namespace formstienda.capa_de_presentación
                 // Agregar logo
                 try
                 {
-                    System.Drawing.Image img = formstienda.Properties.Resources.logo_actualizado_removebg_preview;
+                    System.Drawing.Image img = formstienda.Properties.Resources.LOGOVERSIONCORREGIDAJUDC;
                     byte[] imgBytes;
                     using (MemoryStream ms = new MemoryStream())
                     {
@@ -93,7 +93,7 @@ namespace formstienda.capa_de_presentación
 
                     iText.Layout.Element.Image logo = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(imgBytes))
                         .SetWidth(215)
-                        .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 200, pdf.GetDefaultPageSize().GetTop() - 150)
+                        .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 200, pdf.GetDefaultPageSize().GetTop() - 180)
                         .SetMarginTop(0);
 
                     document.Add(logo);
@@ -206,7 +206,7 @@ namespace formstienda.capa_de_presentación
 
                     // 5. CATEGORÍA
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.Categoría)
+                        .Add(new Paragraph(item.Categoria)
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.LEFT)
@@ -215,7 +215,7 @@ namespace formstienda.capa_de_presentación
 
                     // 6. MOTIVO
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.Motivo)
+                        .Add(new Paragraph(item.MotivoSalida)
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.LEFT)
@@ -224,7 +224,7 @@ namespace formstienda.capa_de_presentación
 
                     // 7. CANTIDAD
                     table.AddCell(new Cell()
-                        .Add(new Paragraph(item.Cantidad.ToString())
+                        .Add(new Paragraph(item.CantidadSalir.ToString())
                         .SetFont(font)
                         .SetFontSize(9))
                         .SetTextAlignment(TextAlignment.RIGHT)
@@ -233,13 +233,13 @@ namespace formstienda.capa_de_presentación
                 }
                 document.Add(table);
 
-                // Marca de agua
+                // Mostrar logo como marca de agua
                 try
                 {
                     byte[] watermarkImgBytes;
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        formstienda.Properties.Resources.logo_actualizado_removebg_preview.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        formstienda.Properties.Resources.LOGOVERSIONCORREGIDAJUDC.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                         watermarkImgBytes = ms.ToArray();
                     }
 

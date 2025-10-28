@@ -1,30 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
+﻿using formstienda.Datos;
 using iText.IO.Font.Constants;
 using iText.Kernel.Colors;
 using iText.Kernel.Font;
 using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
 using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-using formstienda.Datos;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System;
+using System.Collections.Generic;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data;
+using System.Drawing;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace formstienda.capa_de_presentación
 {
@@ -78,16 +79,16 @@ namespace formstienda.capa_de_presentación
                 var fontNormal = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
                 // ===== ENCABEZADO CON LOGO =====
-                string rutaImagen = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources\logo_actualizado-removebg-preview.png");
+                string rutaImagen = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Resources\LOGOVERSIONCORREGIDAJUDC.png");
 
                 if (File.Exists(rutaImagen))
                 {
                     var imgData = iText.IO.Image.ImageDataFactory.Create(rutaImagen);
                     var imagen = new iText.Layout.Element.Image(imgData)
-                        .SetWidth(300)
+                        .SetWidth(215)
                         .SetHeight(200)
-                          .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 250, // X desde la derecha
-                  pdf.GetDefaultPageSize().GetHeight() - 200); // Y desde arriba
+                          .SetFixedPosition(pdf.GetDefaultPageSize().GetWidth() - 200, // X desde la derecha
+                  pdf.GetDefaultPageSize().GetHeight() - 180); // Y desde arriba
 
                     var titulo = new Paragraph("Tienda El Septentrión")
                         .SetFont(fontBold)
@@ -126,14 +127,14 @@ namespace formstienda.capa_de_presentación
                 doc.Add(new Paragraph("\n"));
 
                 // ===== TABLA DE DATOS =====
-                // ===== TABLA DE DATOS =====
-                var columnas = new float[] { 1.2f, 1.2f, 2f, 2.5f, 1.5f, 1.5f, 2f, 2f, 1.5f, 1.2f, 1.5f }; // 👈 11 columnas
+                var columnas = new float[] { 1.2f, 1.2f, 2f, 2.5f, 1.5f, 1.5f, 2f, 2f, 1.5f, 1.2f, 1.5f }; 
                 var tabla = new Table(columnas).UseAllAvailableWidth();
 
-                string[] headers = {
-    "Fecha", "Factura", "Cliente", "Producto", "Categoría", "Marca",
-    "Motivo", "Descripción", "Precio", "Cantidad", "Subtotal" // 👈 sin "Total devolución"
-};
+                string[] headers = 
+                {
+                    "Fecha", "Factura", "Cliente", "Producto", "Categoría", "Marca",
+                    "Motivo", "Descripción", "Precio", "Cantidad", "Subtotal" 
+                };
 
                 foreach (var h in headers)
                 {
@@ -177,7 +178,45 @@ namespace formstienda.capa_de_presentación
                 doc.Add(new Paragraph($"Total general de devoluciones: {totalGeneral.ToString("C", cultura)}")
                     .SetFont(fontBold)
                     .SetFontSize(12)
-                    .SetTextAlignment(TextAlignment.RIGHT)); // 👈 alineado a la derecha
+                    .SetTextAlignment(TextAlignment.RIGHT));
+
+                // Mostrar logo como marca de agua
+                try
+                {
+                    byte[] watermarkImgBytes;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        formstienda.Properties.Resources.LOGOVERSIONCORREGIDAJUDC.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        watermarkImgBytes = ms.ToArray();
+                    }
+
+                    float baseSize = 350;
+                    float widthScale = 1.8f;
+                    float watermarkWidth = baseSize * widthScale;
+                    float watermarkHeight = baseSize;
+
+                    iText.Layout.Element.Image watermark = new iText.Layout.Element.Image(iText.IO.Image.ImageDataFactory.Create(watermarkImgBytes))
+                        .SetOpacity(0.1f)
+                        .SetWidth(watermarkWidth)
+                        .SetHeight(watermarkHeight)
+                        .SetFixedPosition(
+                            pdf.GetDefaultPageSize().GetWidth() / 2 - (watermarkWidth / 2),
+                            pdf.GetDefaultPageSize().GetHeight() / 2 - (watermarkHeight / 2),
+                            watermarkWidth);
+
+                    for (int i = 1; i <= pdf.GetNumberOfPages(); i++)
+                    {
+                        PdfPage page = pdf.GetPage(i);
+                        PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdf);
+                        new Canvas(canvas, page.GetPageSize())
+                            .Add(watermark)
+                            .Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error al crear marca de agua: " + ex.Message);
+                }
 
                 doc.Close();
 
@@ -223,6 +262,15 @@ namespace formstienda.capa_de_presentación
         private void btnsalir_Click_1(object sender, EventArgs e)
         {
             this.Close();
+            var menuForm = this.MdiParent as menu;
+            if (menuForm == null)
+            {
+                menuForm = Application.OpenForms.OfType<menu>().FirstOrDefault();
+            }
+            if (menuForm != null)
+            {
+                menuForm.AbrirformInPanel(new Informes());
+            }
         }
     }
 }

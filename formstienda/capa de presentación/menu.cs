@@ -93,16 +93,16 @@ namespace formstienda.capa_de_presentación
         {
           
             if (PanelContenedor.Controls.Count > 0)
-                PanelContenedor.Controls.RemoveAt(0); // Elimina el formulario previo
+                PanelContenedor.Controls.RemoveAt(0); 
 
-            formHijo.TopLevel = false; // Permite que se embeba dentro del panel
-            formHijo.FormBorderStyle = FormBorderStyle.None; // Quita los bordes
-            formHijo.Dock = DockStyle.Fill; // Hace que el formulario se expanda en el panel
+            formHijo.TopLevel = false; 
+            formHijo.FormBorderStyle = FormBorderStyle.None; 
+            formHijo.Dock = DockStyle.Fill; 
 
             PanelContenedor.Controls.Add(formHijo);
             PanelContenedor.Tag = formHijo;
 
-            formHijo.Show(); // Muestra el formulario
+            formHijo.Show(); 
 
         }
 

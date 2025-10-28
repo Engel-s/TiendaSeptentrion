@@ -27,6 +27,7 @@ namespace formstienda
         public Arqueo_Caja()
         {
             InitializeComponent();
+            EtiquetarCamposParaLimpieza();   
             ConfigurarEventosTextChanged();
             CargarTotalVentasDelDia();
 
@@ -71,7 +72,7 @@ namespace formstienda
             {
                 var servicio = new ArqueoDeCajaServicio(contexto);
                 float totalVentas = servicio.ObtenerTotalVentasDelDia();
-                txtTotalVentas.Text = totalVentas.ToString("N2"); // Formato con 2 decimales
+                txtTotalVentas.Text = totalVentas.ToString("N2"); 
             }
         }
 
@@ -264,7 +265,7 @@ namespace formstienda
                     var servicio = new ArqueoDeCajaServicio(contexto);
 
                     servicio.ActualizarArqueoCaja(
-                        totalEfectivoCordoba: float.Parse(txtTotalCajaCordobas.Text), // Corregido
+                        totalEfectivoCordoba: float.Parse(txtTotalCajaCordobas.Text), 
                         totalEfectivoDolar: float.Parse(txtTotalCajaDolares.Text),
                         faltanteCordoba: string.IsNullOrEmpty(txtFaltanteCordobas.Text) ? null : float.Parse(txtFaltanteCordobas.Text),
                         faltanteDolar: string.IsNullOrEmpty(txtFaltanteDolares.Text) ? null : float.Parse(txtFaltanteDolares.Text),
@@ -291,7 +292,7 @@ namespace formstienda
                         apertura.EstadoApertura = "Cerrada";
                     }
 
-                    // 🔽 Agregado: Marcar ventas del día con EstadoFactura NULL
+                    // Marcar ventas del día con EstadoFactura NULL
                     DateOnly hoy = DateOnly.FromDateTime(DateTime.Today);
                     var ventasSinEstado = contexto.Venta
                         .Where(v => v.FechaVenta == hoy && v.CambiosFactura == null)
@@ -314,7 +315,6 @@ namespace formstienda
 
                     foreach (var abono in abonosParaActualizar)
                     {
-                        // Regex para extraer la fecha y hora del formato: "Pago realizado el dd/MM/yyyy HH:mm"
                         var match = Regex.Match(abono.Observaciones, @"Pago realizado el (\d{2}/\d{2}/\d{4} \d{2}:\d{2})");
 
                         if (match.Success)
@@ -325,7 +325,6 @@ namespace formstienda
                             {
                                 if (DateOnly.FromDateTime(fechaPago.Date) == hoy)
                                 {
-                                    // Si la fecha extraída es hoy, cambiar el texto
                                     abono.Observaciones = abono.Observaciones.Replace("Sin tomar en arqueo", "Tomado en arqueo");
                                 }
                             }
@@ -333,13 +332,11 @@ namespace formstienda
                     }
 
 
-
-
                     contexto.SaveChanges();
-                    Arqueo_Caja_Load(null, null);
                 }
-                MessageBox.Show("Datos guardados correctamente.");
+                MessageBox.Show("Datos guardados correctamente.", "Caja cerrada, no se pueden realizar más operaciones.");
                 BloquearBotones();
+                RecargarFormulario();
             }
             catch (Exception ex)
             {
@@ -350,7 +347,6 @@ namespace formstienda
         private void BloquearBotones()
         {
             btnCerrarCaja.Enabled = false;
-            MessageBox.Show("Caja cerrada, no se pueden realizar más operaciones.");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -427,11 +423,9 @@ namespace formstienda
 
                 if (Math.Abs(diferenciaCordobas - faltanteSobranteCordobas) > 0.01m)
                 {
-                    MessageBox.Show("Los cálculos en córdobas no coinciden");
-                    return false;
+
                 }
 
-                // Repetir validación para dólares
                 return true;
             }
             catch
@@ -543,5 +537,120 @@ namespace formstienda
                 menuForm.AbrirformInPanel(new ControldeEgresos());
             }
         }
+
+        private void RecargarFormulario()
+        {
+            if (this.IsDisposed) return;
+
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(new Action(RecargarFormulario));
+                return;
+            }
+
+            CacheArqueo.Limpiar();       
+            LimpiarCamposVisuales();   
+
+            txtFechaActual.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            txtNomreUsuario.Text = Login.UsuarioActivo.ObtenerNombreCompletoUsuario();
+
+        }
+
+
+        private void EtiquetarCamposParaLimpieza()
+        {
+            // Cantidades y totales en Córdobas
+            txtMilCordobas.Tag = "clear";
+            txtQuinientosCordobas.Tag = "clear";
+            txtDocientosCordobas.Tag = "clear";
+            txtCienCordobas.Tag = "clear";
+            txtCincuentaCordobas.Tag = "clear";
+            txtVeinteCordobas.Tag = "clear";
+            txtDiezCordobas.Tag = "clear";
+            txtCincoCordobas.Tag = "clear";
+            txtUnCordobas.Tag = "clear";
+            txtCincuentaCentavosCordobas.Tag = "clear";
+            txtVeinticincoCentavosCordobas.Tag = "clear";
+
+            txtMilCordobasTotal.Tag = "total0";
+            txtQuinientosCordobasTotal.Tag = "total0";
+            txtDocientosCordobasTotal.Tag = "total0";
+            txtCienCordobasTotal.Tag = "total0";
+            txtCincuentaCordobasTotal.Tag = "total0";
+            txtVeinteCordobasTotal.Tag = "total0";
+            txtDiezCordobasTotal.Tag = "total0";
+            txtCincoCordobasTotal.Tag = "total0";
+            txtUnCordobasTotal.Tag = "total0";
+            txtCincuentaCentavosCordobasTotal.Tag = "total0";
+            txtVeinticincoCentavosCordobasTotal.Tag = "total0";
+
+            // Dólares
+            txtCienDolares.Tag = "clear";
+            txtCincuentaDolares.Tag = "clear";
+            txtVeinteDolares.Tag = "clear";
+            txtDiezDolares.Tag = "clear";
+            txtCincoDolares.Tag = "clear";
+            txtUnDolar.Tag = "clear";
+            txtCincuentaCentavosDolares.Tag = "clear";
+
+            txtCienDolaresTotal.Tag = "total0";
+            txtCincuentaDolaresTotal.Tag = "total0";
+            txtVeinteDolaresTotal.Tag = "total0";
+            txtDiezDolaresTotal.Tag = "total0";
+            txtCincoDolaresTotal.Tag = "total0";
+            txtUnDolarTotal.Tag = "total0";
+            txtCincuentaCentavosDolaresTotal.Tag = "total0";
+
+            // Totales y diferencias
+            txtTotalEfectivoCordobas.Tag = "total0";
+            txtDolaresTotalEfectivo.Tag = "total0";
+            txtFaltanteCordobas.Tag = "total0";
+            txtSobranteCordobas.Tag = "total0";
+            txtFaltanteDolares.Tag = "total0";
+            txtSobranteDolares.Tag = "total0";
+
+            // Si quieres también dejar en 0 los "calculados" del panel de detalles:
+            txtTotalCajaCordobas.Tag = "total0";
+            txtTotalCajaDolares.Tag = "total0";
+            txtTotalEgresosCordobas.Tag = "total0";
+            txtTotalEgresosDolares.Tag = "total0";
+            txtTotalAbono.Tag = "total0";
+        }
+
+        private void LimpiarCamposVisuales()
+        {
+            RecorrerTextBoxes(this, tb =>
+            {
+                if (tb.Tag as string == "clear")
+                    tb.Text = string.Empty;
+            });
+
+            RecorrerTextBoxes(this, tb =>
+            {
+                if (tb.Tag as string == "total0")
+                    tb.Text = "0.00";
+            });
+
+            CalcularTotales();
+
+            BloquearBotones();
+
+            this.Invalidate(true);
+            this.Update();
+        }
+
+        private void RecorrerTextBoxes(Control root, Action<TextBox> action)
+        {
+            foreach (Control c in root.Controls)
+            {
+                if (c is TextBox tb) action(tb);
+                if (c.HasChildren) RecorrerTextBoxes(c, action);
+            }
+        }
+
+
+
     }
+
+
 }
